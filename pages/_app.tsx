@@ -1,12 +1,21 @@
-import '@/styles/main.css'
+import Layout from '@/components/layouts/Layout'
+import { store } from '@/redux/store'
+import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { store } from "./../store/store";
-import { Provider } from 'react-redux';
+import Head from 'next/head'
+import { Provider } from 'react-redux'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-       <Component {...pageProps} />
+      <Head>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="canonical" href="https://akijtakaful.com" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Layout>
+        <Component {...pageProps}></Component>
+      </Layout>
     </Provider>
   )
 }
