@@ -10,7 +10,7 @@ export default function Navbar() {
                         </button>
                         <a href="" className="text-xl font-bold flex items-center lg:ml-2.5">
                             {/* <img src="/images/logo.svg" className="h-6 mr-2" alt="AF" /> */}
-                            <span className="self-center whitespace-nowrap">Akij Takaful</span>
+                            <span className="self-center whitespace-nowrap text-gray-900">Akij Takaful</span>
                         </a>
                         <form action="#" method="GET" className="hidden lg:block lg:pl-32">
                             <label htmlFor="topbar-search" className="sr-only">Search</label>

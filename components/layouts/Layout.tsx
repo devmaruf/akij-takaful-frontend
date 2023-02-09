@@ -15,7 +15,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
             <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
                 <main>
                     <div className=""></div>
-                    <div style={{ minHeight: "40vh" }}>
+                    <div style={{ minHeight: "75vh" }}>
                         {children}
                     </div>
                 </main>

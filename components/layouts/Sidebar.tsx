@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Sidebar() {
     return (
         <div>
-            <aside id="sidebar" className="fixed hidden z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
+            <aside id="sidebar" className="fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
                 <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
                     <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                         <div className="flex-1 px-3 bg-white divide-y space-y-1">
@@ -45,17 +45,17 @@ export default function Sidebar() {
                                     </button>
                                     <ul id="dropdown-ecommerce" className="py-1.5">
                                         <li className="w-full">
-                                            <Link href='/settings/projects' className="block transition hover:bg-gray-100 font-normal text-sm p-2 rounded flex-1 w-full">
+                                            <Link href='/settings/projects' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
                                                 <span>Projects</span>
                                             </Link>
                                         </li>
                                         <li className="w-full">
-                                            <Link href='/settings/service-cells' className="block transition hover:bg-gray-100 font-normal text-sm p-2 rounded flex-1 w-full">
+                                            <Link href='/settings/service-cells' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
                                                 <span>Service Cells</span>
                                             </Link>
                                         </li>
                                         <li className="w-full">
-                                            <Link href='/settings/branches' className="block transition hover:bg-gray-100 font-normal text-sm p-2 rounded flex-1 w-full">
+                                            <Link href='/settings/branches' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
                                                 <span>Branches</span>
                                             </Link>
                                         </li>
