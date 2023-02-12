@@ -3,12 +3,12 @@ import React from "react";
 import { Button, Modal } from "flowbite-react";
 
 interface propsType {
-    title: string,
-    children: React.ReactNode,
+    title        : string,
+    children     : React.ReactNode,
     isDismissible: any,
-    show: boolean,
-    size: string,
-    handleClose: any,
+    show         : boolean,
+    size         : string,
+    handleClose  : any,
 }
 
 /**
