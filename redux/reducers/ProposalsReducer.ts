@@ -62,7 +62,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 return {
                     ...state,
                     isSubmitting: action.payload.isLoading,
-                    teamMemberInput: initialState.proposalInput
+                    proposalInput: initialState.proposalInput
                 };
             } else {
                 return {
