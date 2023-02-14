@@ -1,20 +1,32 @@
+import { useEffect } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
 import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { handleChangeProposalInput } from '@/redux/actions/proposalsAction';
+import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/ProposalsAction';
+import SelectInput from '@/components/select';
+import { Button } from '@/components/button';
+import ToolTip from '@/components/tooltip';
 
 export default function Create() {
 
     const dispatch = useDispatch();
-    const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
+    const { proposalInput, planList, isSubmitting } = useSelector((state: RootState) => state.proposal);
 
-    const handleChangeTextInput = (name, value) => {
+    useEffect(() => {
+        dispatch(getPlanList())
+    }, [dispatch])
+
+    
+    const handleChangeTextInput = (name: string, value: any) => {
         dispatch(handleChangeProposalInput(name, value));
     };
 
-    console.log("proposalInput", proposalInput)
+    const handleSubmitProposal = (e) => {
+        dispatch(submitProposal(proposalInput));
+        e.preventDefault();
+    }
 
     return (
         <div>
@@ -27,63 +39,74 @@ export default function Create() {
                     </div>
 
                     <div className="mt-2">
-                        <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border border-gray-200 p-2.5 rounded-md shadow-md">
-                            <Input
-                                label="Proposal No"
-                                name="proposal_no"
-                                placeholder='Proposal No'
-                                value={proposalInput.proposal_no}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="Proposal Name"
-                                name="proposer_name"
-                                placeholder='Proposal Name'
-                                value={proposalInput.proposer_name}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="Plan"
-                                name="plan_id"
-                                placeholder='Plan'
-                                value={proposalInput.plan_id}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="FA Code"
-                                name="fa_code"
-                                placeholder='FA Code'
-                                value={proposalInput.fa_code}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="Initial Sum Assured"
-                                name="initial_sum_assured"
-                                placeholder='Initial Sum Assured'
-                                value={proposalInput.initial_sum_assured}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="Initial Premium"
-                                name="initial_premium"
-                                placeholder='Initial Premium'
-                                value={proposalInput.initial_premium}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
-                            <Input
-                                label="Mobile No"
-                                name="mobile_no"
-                                placeholder='Mobile No'
-                                value={proposalInput.mobile_no}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
+                        <div className='border border-gray-200 p-2.5 rounded-md shadow-md'>
+                            <form
+                                method="post"
+                                autoComplete="off"
+                                encType="multipart/form-data"
+                            >
+                                <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
+                                    <Input
+                                        label="Proposal No"
+                                        name="proposal_no"
+                                        placeholder='Proposal No'
+                                        value={proposalInput.proposal_no}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    />
+                                    <Input
+                                        label="Proposal Name"
+                                        name="proposer_name"
+                                        placeholder='Proposal Name'
+                                        value={proposalInput.proposer_name}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    />
+                                    <SelectInput
+                                        options={planList}
+                                        isSearchable={true}
+                                        name="plan_id"
+                                        label="Plan"
+                                        defaultValue=""
+                                        placeholder='Select Plan...'
+                                        handleChangeValue={handleChangeTextInput}
+                                    />
+                                    <Input
+                                        label="FA Code"
+                                        name="fa_code"
+                                        placeholder='FA Code'
+                                        value={proposalInput.fa_code}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    />
+                                    <Input
+                                        label="Initial Sum Assured"
+                                        name="initial_sum_assured"
+                                        placeholder='Initial Sum Assured'
+                                        value={proposalInput.initial_sum_assured}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    />
+                                    <Input
+                                        label="Initial Premium"
+                                        name="initial_premium"
+                                        placeholder='Initial Premium'
+                                        value={proposalInput.initial_premium}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    />
+                                    {/* <Input
+                                        label="Mobile No"
+                                        name="mobile_no"
+                                        placeholder='Mobile No'
+                                        value={proposalInput.mobile_no}
+                                        isRequired={true}
+                                        inputChange={handleChangeTextInput}
+                                    /> */}
+                                </div>
+
+                                <Button title='Submit Proposal' onClick={(e) => handleSubmitProposal(e)} loading={isSubmitting} />
+                            </form>
                         </div>
                     </div>
                 </div>

@@ -16,13 +16,17 @@ interface InitialState {
     isLoading: boolean;
     isSubmitting: boolean;
     proposalInput: ProposalInputType | any;
-    teamMemberList: any[];
+    proposalList: any[];
+    planList: any[];
     data: any;
 }
 
 const initialState: InitialState = {
     isLoading: false,
     isSubmitting: false,
+    proposalList: [],
+    planList: [],
+    data: null,
     proposalInput: {
         project_id: 1,
         service_cell_id: 1,
@@ -32,10 +36,10 @@ const initialState: InitialState = {
         plan_id: 0,
         fa_code: "",
         initial_sum_assured: 0,
-        initial_premium: 0
+        initial_premium: 0,
+        //  mobile_no          : 0
     },
-    teamMemberList: [],
-    data: null
+
 };
 
 
@@ -48,68 +52,47 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 proposalInput,
             };
-        // case Types.ADD_SOCIAL_LINK:
-        //     const prev_social_links = { ...state.teamMemberInput };
-        //     prev_social_links.title = "";
-        //     prev_social_links.link = "";
-        //     prev_social_links.icon = "";
-        //     prev_social_links.social_links = [action.payload, ...prev_social_links.social_links];
-        //     return {
-        //         ...state,
-        //         teamMemberInput: prev_social_links,
-        //     };
-        // case Types.REMOVE_SOCIAL_LINK:
-        //     const getPrevInputData = { ...state.teamMemberInput };
-        //     getPrevInputData.social_links.splice(action.payload, 1);
-        //     return {
-        //         ...state,
-        //         teamMemberInput: getPrevInputData,
-        //     };
-        // case Types.STORE_TEAM_MEMBER:
-        //     if (action.payload.status === true) {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //             teamMemberInput: initialState.teamMemberInput
-        //         };
-        //     } else {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //         };
-        //     }
-        // case Types.GET_TEAM_PROFILE_LIST:
-        //     return {
-        //         ...state,
-        //         isLoading: action.payload.isLoading,
-        //         teamMemberList: action.payload.data,
-        //     }
-        //     break;
-        // case Types.GET_TEAM_MEMBER_DETAILS:
-        //     return {
-        //         ...state,
-        //         isLoading: action.payload.isLoading,
-        //         data: action.payload.data,
-        //         teamMemberInput: action.payload.data
-        //     }
-        //     break;
+        case Types.GET_PLAN_LIST:
+            return {
+                ...state,
+                planList: getPlanList(action.payload),
+            };
+        case Types.SUBMIT_PROPOSAL:
+            if (action.payload.status === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    teamMemberInput: initialState.proposalInput
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
 
-        // case Types.UPDATE_TEAM_MEMBER:
-        //     if (action.payload.status === true) {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //             teamMemberInput: initialState.teamMemberInput
-        //         };
-        //     } else {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //         };
-        //     }
         default:
             break;
     }
     return state;
 }
 export default ProposalsReducer;
+
+/**
+ * Plan list 
+ * @param data array
+ * @returns options
+ */
+const getPlanList = (data: any[]) => {
+    let options: any[] = [];
+    if (data) {
+        data.forEach((item) => {
+            let itemData = {
+                value: item.id,
+                label: item.name,
+            };
+            options.push(itemData);
+        });
+    }
+    return options;
+};

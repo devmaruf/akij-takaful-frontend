@@ -270,3 +270,7 @@ input:checked + .toggle-bg {
 .fc .fc-daygrid-day-frame {
   @apply hover:bg-gray-50 cursor-pointer !important;
 }
+
+.select__control.css-13cymwt-control {
+  @apply shadow-sm bg-gray-50 border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-cyan-600 focus:border-cyan-600;
+}

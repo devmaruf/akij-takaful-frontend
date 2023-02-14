@@ -13,13 +13,13 @@ interface propsType {
 
 /**
  * 
- * @param string title - Modal Header Title
- * @param React.ReactNode children - Rendering content
- * @param boolean isDismissible - nullable
- * @param boolean show - True or False
- * @param string  size - Default size is "md".  Ex: "sm", "md", "lg", "xl", "2xl", "3xl"
- * @param function handleClose - close function
- * @returns 
+ * @param title - String -- Modal Header Title
+ * @param children - React.ReactNode -- Rendering content
+ * @param isDismissible - Boolean -- nullable
+ * @param show - Boolean -- True or False
+ * @param  size - String -- Default size is "md".  Ex: "sm", "md", "lg", "xl", "2xl", "3xl"
+ * @param handleClose - Function -- close function
+ * @returns MyModal
  */
 export default function MyModal({ title, children, isDismissible = false, show, size = "md", handleClose }: propsType) {
 

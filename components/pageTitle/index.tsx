@@ -6,7 +6,7 @@ interface propsType {
 
 /**
  * Page Title Component
- * @param string title - Page Title
+ * @param title - String -- Page Title
  * @returns PageTitle Component
  */
 
