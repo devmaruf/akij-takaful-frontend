@@ -105,7 +105,7 @@ export default function Create() {
                                     /> */}
                                 </div>
 
-                                <Button title='Submit Proposal' onClick={(e) => handleSubmitProposal(e)} loading={isSubmitting} />
+                                <Button title='Submit Proposal' loadingTitle="Submitting..." onClick={(e) => handleSubmitProposal(e)} loading={isSubmitting} />
                             </form>
                         </div>
                     </div>

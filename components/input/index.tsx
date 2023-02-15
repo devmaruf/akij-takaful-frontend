@@ -1,6 +1,5 @@
 
 import React from "react";
-
 interface propsType {
     name?       : string;
     value?      : any;

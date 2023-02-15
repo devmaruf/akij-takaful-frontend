@@ -3,12 +3,12 @@ import { Pagination } from "flowbite-react";
 import React from "react";
 
 interface propsType {
-    column?: any[];
-    children?: React.ReactNode;
-    currentPage?: number;
+    column?        : any[];
+    children?      : React.ReactNode;
+    currentPage?   : number;
     setCurrentPage?: any;
-    dataLimit?: number;
-    totalData?: number;
+    dataLimit?     : number;
+    totalData?     : number;
 }
 
 /**
@@ -49,7 +49,9 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
                     }
                 </tbody>
             </table>
-            <div className="text-center py-3">
+            {
+                totalData > dataLimit && 
+                <div className="text-center py-3">
                 <Pagination
                     currentPage={currentPage}
                     layout="pagination"
@@ -61,6 +63,8 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
                     className="custom-pagination"
                 />
             </div>
+            }
+          
         </div>
     )
 }
