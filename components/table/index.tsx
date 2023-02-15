@@ -30,7 +30,7 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
     }
 
     return (
-        <div className="relative overflow-x-auto w-full shadow-md sm:rounded-lg">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 table-fixed min-w-full divide-y divide-gray-200">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
                     <tr className=''>

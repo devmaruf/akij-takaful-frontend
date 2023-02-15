@@ -35,7 +35,6 @@ export const Button = ({ title, loadingTitle = "Loading...", onClick, disabled =
                         className={`text-white bg-cyan-600 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm text-center animate-pulse leading-none ${customClass}`}
                         type="submit"
                         disabled={true}
-
                     >
                         {loadingTitle}
                     </button> :

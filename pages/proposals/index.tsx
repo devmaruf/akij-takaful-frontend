@@ -13,25 +13,15 @@ import Loading from '@/components/loading';
 
 export default function Proposals() {
 
-    const [showModal, setShowModal] = React.useState(false);
-    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-    const [proposalID, setProposal] = React.useState(null);
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [dataLimit, setDataLimit] = React.useState(5);
-
     const dispatch = useDispatch();
+
+    const [showModal, setShowModal] = React.useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
+    const [proposalID, setProposal] = React.useState<number | null>(null);
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [dataLimit, setDataLimit] = React.useState<number>(5);
+
     const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.proposal);
-
-
-    const columnData: any[] = [
-        { title: "Proposal No", id: "01" },
-        { title: "Proposal Name", id: "02" },
-        { title: "Plan", id: "03" },
-        { title: "FA Code", id: "04" },
-        { title: "Initial Sum Assured", id: "05" },
-        { title: "Initial Premium", id: "06" },
-        { title: "Action", id: "07" },
-    ]
 
     React.useEffect(() => {
         dispatch(getProposalList(currentPage, dataLimit))
@@ -42,10 +32,20 @@ export default function Proposals() {
         dispatch(getProposalDetails(id))
     }
 
-    const handleDeleteProposal = (id) => {
+    const handleDeleteProposal = (id: number) => {
         setShowDeleteModal(true);
         setProposal(id)
     }
+
+    const columnData: any[] = [
+        { title: "Proposal No", id: "01" },
+        { title: "Proposal Name", id: "02" },
+        { title: "Plan", id: "03" },
+        { title: "FA Code", id: "04" },
+        { title: "Initial Sum Assured", id: "05" },
+        { title: "Initial Premium", id: "06" },
+        { title: "Action", id: "07" },
+    ]
 
     return (
         <div>
@@ -115,7 +115,7 @@ export default function Proposals() {
                                             {data.proposer_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {data.plan_id}
+                                            {data.plan_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.fa_code}

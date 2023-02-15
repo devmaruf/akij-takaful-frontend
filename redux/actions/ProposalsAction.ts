@@ -4,7 +4,6 @@ import { Toaster } from "@/components/toaster";
 
 const BASE_URL = process.env.BASE_URL;
 
-
 interface proposalInputType {
     proposal_no        : string;
     proposer_name      : string;
@@ -14,9 +13,15 @@ interface proposalInputType {
     premium            : string;
 }
 
-export const handleChangeProposalInput = (name: string, value: string) => (dispatch: any) => {
+/**
+ * 
+ * @param name String
+ * @param value Any
+ * @returns data
+ */
+export const handleChangeProposalInput = (name: string, value: any) => (dispatch: any) => {
     let data = {
-        name: name,
+        name : name,
         value: value,
     }
     dispatch({ type: Types.CHANGE_PROPOSALS_INPUT, payload: data });
@@ -37,7 +42,7 @@ export const getPlanList = () => (dispatch: any) => {
 
 
 /**
- * 
+ * Submit Proposal Data
  * @param proposalInput object
  */
 export const submitProposal = (proposalInput: proposalInputType) => (dispatch: any) => {
@@ -171,7 +176,6 @@ export const getProposalDetails = (id: number | string) => async (dispatch) => {
  * @param proposalInput object
  */
 export const updateProposal = (proposalInput: proposalInputType, id: number) => (dispatch: any) => {
-    console.log("proposalInput", proposalInput);
     if (proposalInput.proposal_no === "") {
         Toaster("error", "Proposal No can't be blank!");
         return false;
@@ -198,8 +202,8 @@ export const updateProposal = (proposalInput: proposalInputType, id: number) => 
     }
 
     let responseData = {
-        status: false,
-        message: "",
+        status   : false,
+        message  : "",
         isLoading: true,
     };
     dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });

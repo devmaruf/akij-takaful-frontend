@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -16,22 +16,20 @@ export default function Edit() {
   const dispatch = useDispatch();
   const { proposalInput, planList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getPlanList())
   }, [dispatch])
-
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(handleChangeProposalInput(name, value));
   };
 
   const handleUpdateProposal = (e) => {
-    
     dispatch(updateProposal(proposalInput, id));
     e.preventDefault();
   }
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getProposalDetails(id))
   }, [id, dispatch]);
 
