@@ -19,6 +19,8 @@ interface InitialState {
     proposalList: any[];
     planList: any[];
     data: any;
+    proposalsList: any[];
+    paginationData: any[];
 }
 
 const initialState: InitialState = {
@@ -27,6 +29,8 @@ const initialState: InitialState = {
     proposalList: [],
     planList: [],
     data: null,
+    proposalsList: [],
+    paginationData: [],
     proposalInput: {
         project_id: 1,
         service_cell_id: 1,
@@ -70,6 +74,14 @@ function ProposalsReducer(state = initialState, action: any) {
                     isSubmitting: action.payload.isLoading,
                 };
             }
+
+        case Types.GET_PROPOSAL_LIST:
+            return {
+                ...state,
+                proposalsList: action.payload.data,
+                paginationData: action.payload.paginationData,
+                isLoading: action.payload.isLoading,
+            };
 
         default:
             break;

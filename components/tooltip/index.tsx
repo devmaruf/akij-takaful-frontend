@@ -5,8 +5,8 @@ import { Tooltip } from "flowbite-react";
 
 /**
  * 
- * @param content - string 
- * @param children - Node Element 
+ * @param content - string -- Text of tooltip
+ * @param children - React.ReactNode - Rendering content
  * @returns ToolTip
  */
 export default function ToolTip({ content = "Tooltip content", children }: { content: string, children: React.ReactNode }) {

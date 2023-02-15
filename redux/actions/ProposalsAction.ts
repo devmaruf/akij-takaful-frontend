@@ -83,3 +83,72 @@ export const submitProposal = (proposalInput: object) => (dispatch: any) => {
             }
         })
 }
+
+
+
+
+// export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
+
+//     let responseData = {
+//         status: false,
+//         data: [],
+//         isLoading: true,
+//         pagination: null
+//     };
+//     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: responseData });
+
+//     Axios.get(`${BASE_URL}/proposals?perPage=${dataLimit}&currentPage=${currentPage}`)
+//         .then(res => {
+//             if (res.status === 200) {
+//                 responseData.status = true;
+//                 responseData.data = res.data.data;
+//                 responseData.message = res.data.message;
+//                 responseData.pagination = res.data.pagination;
+//                 responseData.isLoading = false;
+//                 dispatch({ type: Types.GET_PROPOSAL_LIST, payload: responseData });
+//             }
+
+//         }).catch((error) => {
+//             let responseLog = error.response;
+//             responseData.isLoading = false;
+//             if (typeof responseLog !== 'undefined') {
+//                 const { request, ...errorObject } = responseLog;
+//                 Toaster('error', responseLog.data.message);
+//                 dispatch({ type: Types.GET_PROPOSAL_LIST, payload: responseData })
+//             }
+//         })
+// }
+
+
+
+/**
+ * Get Proposals List.
+ *
+ * @param currentPage Number -- Default 1
+ * @param dataLimit Number -- Default 10
+ * @returns void Dispatch `GET_PROPOSAL_LIST` action
+ */
+export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => async (dispatch) => {
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: [],
+        paginationData: [],
+    };
+    dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
+    try {
+        const res = await Axios.get(`${BASE_URL}/proposals?perPage=${dataLimit}&currentPage=${currentPage}`);
+        if (res.status === 200) {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.data.message;
+            response.data = res.data.data.data;
+            response.paginationData = res.data.data;
+            dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
+        }
+    } catch (error) {
+        response.isLoading = false;
+        dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
+    }
+}
