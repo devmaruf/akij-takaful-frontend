@@ -104,7 +104,7 @@ export const submitProposal = (proposalInput: proposalInputType) => (dispatch: a
  * @param dataLimit Number -- Default 10
  * @returns void Dispatch `GET_PROPOSAL_LIST` action
  */
-export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => async (dispatch) => {
+export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
     let response = {
         status        : false,
         message       : "",
@@ -114,7 +114,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10)
     };
     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
     try {
-        const res = await Axios.get(`${BASE_URL}/proposals?perPage=${dataLimit}&currentPage=${currentPage}`);
+        const res = Axios.get(`${BASE_URL}/proposals?perPage=${dataLimit}&currentPage=${currentPage}`);
         if (res.status === 200) {
             response.isLoading = false;
             response.status = true;
@@ -135,7 +135,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10)
  * @param id Number -- Proposal id
  * @returns void Dispatch `GET_PROPOSAL_DETAILS` action
  */
-export const getProposalDetails = (id: number | string) => async (dispatch) => {
+export const getProposalDetails = (id: number | string) => (dispatch) => {
     let response = {
         status   : false,
         message  : "",
@@ -145,7 +145,7 @@ export const getProposalDetails = (id: number | string) => async (dispatch) => {
     };
     dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
     try {
-        const res = await Axios.get(`${BASE_URL}/proposals/${id}`);
+        const res = Axios.get(`${BASE_URL}/proposals/${id}`);
         if (res.status === 200) {
             response.isLoading = false;
             response.status = true;
@@ -233,7 +233,7 @@ export const updateProposal = (proposalInput: proposalInputType, id: number) => 
  * @param id Number -- Proposal id
  * @returns void Dispatch `GET_PROPOSAL_DETAILS` action
  */
-export const deleteProposal = (id, setShowDeleteModal) => async (dispatch) => {
+export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
     let responseData = {
         status   : false,
         message  : "",
@@ -241,7 +241,7 @@ export const deleteProposal = (id, setShowDeleteModal) => async (dispatch) => {
     };
     dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData });
     try {
-        const res = await Axios.delete(`${BASE_URL}/proposals/${id}`);
+        const res = Axios.delete(`${BASE_URL}/proposals/${id}`);
         if (res.status === 200) {
             responseData.isLoading = false;
             responseData.status = true;

@@ -7,8 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux'
 
-
-
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>

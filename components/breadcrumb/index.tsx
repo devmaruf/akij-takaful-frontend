@@ -1,18 +1,14 @@
 
 import React from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
-/**
- * Custom Breadcrumb
- * @returns Breadcrumb
- */
-export default function Breadcrumb() {
+export default function IBreadcrumb() {
 
     const router    = useRouter();
     const path      = router.pathname; // To Get Current Path From URL
-    const arrayList = path.split("/");
-    arrayList.shift();
-    const lastIndexOfArray = arrayList.length - 1;
+    const paths = path.split("/");
+    paths.shift();
+    const lastIndexOfArray = paths.length - 1;
 
     return (
         <nav className="flex mb-5" aria-label="Breadcrumb">
@@ -24,8 +20,8 @@ export default function Breadcrumb() {
                     </a>
                 </li>
                 {
-                    arrayList.length > 0 && arrayList.length > 1 ? (
-                        arrayList.map((item, index) => (
+                    paths.length > 0 && paths.length > 1 ? (
+                        paths.map((item, index) => (
                             <li key={index + 1}>
                                 <div className="flex items-center">
                                     <svg className="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
@@ -33,7 +29,7 @@ export default function Breadcrumb() {
                                 </div>
                             </li>
                         ))
-                    ) : arrayList.map((item, index) => (
+                    ) : paths.map((item, index) => (
                         <>
                             <li key={index + 10000}>
                                 <div className="flex items-center">

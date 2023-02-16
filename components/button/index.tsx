@@ -1,5 +1,3 @@
-import React from "react";
-
 interface propsType {
     title?       : string;
     loadingTitle?: string;
@@ -12,20 +10,7 @@ interface propsType {
     children?    : React.ReactNode;
 }
 
-/**
- * @param title - String | Nullable -- Button Title
- * @param loadingTitle - String | Nullable -- Loading Title
- * @param disabled - Boolean | Nullable -- True or False
- * @param isLoading - Boolean | Nullable -- True or False
- * @param position - String | | Nullable Nullable -- Button position Ex: text-left or text-right
- * @param type - Boolean | Nullable -- Button type
- * @param customClass - String | Nullable -- custom ClassName
- * @param onClick - Function -- Clickable function
- * @param children - React.ReactNode | Nullable -- Button type
- * @returns Button Component
- */
-
-export const Button = ({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass="px-5 py-2.5" }: propsType) => {
+export default function IButton({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass = "px-5 py-2.5" }: propsType) {
 
     return (
         <div className={position}>
