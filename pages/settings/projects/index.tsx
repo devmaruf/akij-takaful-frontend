@@ -1,4 +1,4 @@
-import MyModal from '@/components/modal';
+import Modal from '@/components/modal';
 import { useState } from 'react';
 
 export default function Projects() {
@@ -175,7 +175,7 @@ export default function Projects() {
                 </div>
             </div> */}
 
-            <MyModal title="Add Project" size="lg" show={showModal} handleClose={handleClose} isDismissible={false}>
+            <Modal title="Add Project" size="lg" show={showModal} handleClose={handleClose} isDismissible={false}>
                 <form action="#">
                     <div className="col-span-6 sm:col-span-3">
                         <label htmlFor="first-name" className="text-sm font-medium text-gray-900 block mb-2">Project Name</label>
@@ -190,7 +190,7 @@ export default function Projects() {
                     </div>
 
                 </form>
-            </MyModal>
+            </Modal>
 
         </div>
     )

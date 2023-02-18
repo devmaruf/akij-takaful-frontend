@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
+import AuthReducer from '../reducers/AuthReducer';
 import ProposalsReducer from './../reducers/ProposalsReducer';
 
 export const store = configureStore({
     reducer: {
         proposal: ProposalsReducer,
+        Auth: AuthReducer,
     },
 })
 

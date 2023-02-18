@@ -1,4 +1,4 @@
-interface propsType {
+interface IButton {
     title?       : string;
     loadingTitle?: string;
     onClick      : React.SyntheticEvent | any;
@@ -10,7 +10,7 @@ interface propsType {
     children?    : React.ReactNode;
 }
 
-export default function IButton({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass = "px-5 py-2.5" }: propsType) {
+export default function Button({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass = "px-5 py-2.5" }: IButton) {
 
     return (
         <div className={position}>

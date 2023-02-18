@@ -1,6 +1,6 @@
-import Select from 'react-select'
+import ReactSelect from 'react-select'
 import styled from "styled-components";
-interface propsType {
+interface ISelect {
     name?          : string;
     value?         : any;
     placeholder?   : string;
@@ -31,11 +31,11 @@ const Option = styled.div`
         props.isSelected ? "#fff" : "#000"};
 `;
 
-export default function ISelect({ isClearable, isSearchable, isDisabled = false, isLoading = false, name, label = "Label", value = "", options = [], defaultValue, handleChangeValue, placeholder = "Select..." }: propsType) {
+export default function Select({ isClearable, isSearchable, isDisabled = false, isLoading = false, name, label = "Label", value = "", options = [], defaultValue, handleChangeValue, placeholder = "Select..." }: ISelect) {
     return (
         <div className="">
             <label htmlFor={name} className="text-sm font-medium text-gray-900 block mb-2">{label}</label>
-            <Select
+            <ReactSelect
                 classNamePrefix="select"
                 isDisabled={isDisabled}
                 isLoading={isLoading}

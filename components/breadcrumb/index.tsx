@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from 'next/router';
 
-export default function IBreadcrumb() {
+export default function Breadcrumb() {
 
     const router    = useRouter();
     const path      = router.pathname; // To Get Current Path From URL

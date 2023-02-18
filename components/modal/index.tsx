@@ -1,5 +1,5 @@
-import { Modal } from "flowbite-react";
-interface propsType {
+import { Modal as FlowbiteModal } from "flowbite-react";
+interface IModal {
     title        : string,
     children     : React.ReactNode,
     isDismissible: any,
@@ -9,10 +9,10 @@ interface propsType {
     isShowHeader?:  boolean,
 }
 
-export default function IModal({ title, children, isDismissible = false, show, size = "md", handleClose, isShowHeader = true }: propsType) {
+export default function Modal({ title, children, isDismissible = false, show, size = "md", handleClose, isShowHeader = true }: IModal) {
 
     return (
-        <Modal
+        <FlowbiteModal
             show={show}
             size={size}
             position="center"
@@ -20,13 +20,13 @@ export default function IModal({ title, children, isDismissible = false, show, s
             dismissible={isDismissible ? isDismissible : false}
         >
             {isShowHeader &&
-                <Modal.Header>
+                <FlowbiteModal.Header>
                     {title}
-                </Modal.Header>
+                </FlowbiteModal.Header>
             }
-            <Modal.Body>
+            <FlowbiteModal.Body>
                 {children}
-            </Modal.Body>
-        </Modal>
+            </FlowbiteModal.Body>
+        </FlowbiteModal>
     )
 }

@@ -2,13 +2,13 @@ import React from 'react';
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import IBreadcrumb from '@/components/breadcrumb';
-import IPageTitle from '@/components/pageTitle';
-import IInput from '@/components/input';
+import Breadcrumb from '@/components/breadcrumb';
+import PageTitle from '@/components/pageTitle';
+import Input from '@/components/input';
 import { getPlanList, handleChangeProposalInput, updateProposal, getProposalDetails } from '@/redux/actions/ProposalsAction';
-import ISelect from '@/components/select';
-import IButton from '@/components/button';
-import ILoading from '@/components/loading';
+import Select from '@/components/select';
+import Button from '@/components/button';
+import Loading from '@/components/loading';
 
 export default function Edit() {
   const router = useRouter()
@@ -39,8 +39,8 @@ export default function Edit() {
       <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
         <div className="mb-1 w-full">
           <div className="mb-4">
-            <IBreadcrumb />
-            <IPageTitle title="Edit proposal" />
+            <Breadcrumb />
+            <PageTitle title="Edit proposal" />
           </div>
 
           <div className="mt-2">
@@ -48,7 +48,7 @@ export default function Edit() {
               {
                 loadingDetails === false ?
                   <div className="text-center">
-                    <ILoading loadingTitle="Proposal data" />
+                    <Loading loadingTitle="Proposal data" />
                   </div> :
                   <form
                     method="post"
@@ -56,7 +56,7 @@ export default function Edit() {
                     encType="multipart/form-data"
                   >
                     <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-                      <IInput
+                      <Input
                         label="Proposal No"
                         name="proposal_no"
                         placeholder='Proposal No'
@@ -64,7 +64,7 @@ export default function Edit() {
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />
-                      <IInput
+                      <Input
                         label="Proposal Name"
                         name="proposer_name"
                         placeholder='Proposal Name'
@@ -72,7 +72,7 @@ export default function Edit() {
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />
-                      <ISelect
+                      <Select
                         options={planList}
                         isSearchable={true}
                         name="plan_id"
@@ -81,7 +81,7 @@ export default function Edit() {
                         placeholder='Select Plan...'
                         handleChangeValue={handleChangeTextInput}
                       />
-                      <IInput
+                      <Input
                         label="FA Code"
                         name="fa_code"
                         placeholder='FA Code'
@@ -89,7 +89,7 @@ export default function Edit() {
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />
-                      <IInput
+                      <Input
                         label="Initial Sum Assured"
                         name="initial_sum_assured"
                         placeholder='Initial Sum Assured'
@@ -97,7 +97,7 @@ export default function Edit() {
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />
-                      <IInput
+                      <Input
                         label="Initial Premium"
                         name="initial_premium"
                         placeholder='Initial Premium'
@@ -105,7 +105,7 @@ export default function Edit() {
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />
-                      {/* <IInput
+                      {/* <Input
                       label="Mobile No"
                       name="mobile_no"
                       placeholder='Mobile No'
@@ -115,7 +115,7 @@ export default function Edit() {
                   /> */}
                     </div>
 
-                    <IButton title='Update Proposal' onClick={(e) => handleUpdateProposal(e)} loadingTitle="Updating..." loading={isSubmitting} />
+                    <Button title='Update Proposal' onClick={(e) => handleUpdateProposal(e)} loadingTitle="Updating..." loading={isSubmitting} />
                   </form>
               }
 

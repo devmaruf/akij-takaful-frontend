@@ -1,0 +1,2 @@
+export const CHANGE_INPUT_VALUE = "CHANGE_INPUT_VALUE ";
+export const SUBMIT_LOGIN       = "SUBMIT_LOGIN ";

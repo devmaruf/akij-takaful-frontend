@@ -1,7 +1,7 @@
 
 import { Pagination } from "flowbite-react";
 
-interface propsType {
+interface ITable {
     column?        : any[];
     children?      : React.ReactNode;
     currentPage?   : number;
@@ -10,7 +10,7 @@ interface propsType {
     totalData?     : number;
 }
 
-export default function ITable({ column, children, currentPage = 1, setCurrentPage, dataLimit = 10, totalData }: propsType) {
+export default function Table({ column, children, currentPage = 1, setCurrentPage, dataLimit = 10, totalData }: ITable) {
 
     let totalPages = 1;
 

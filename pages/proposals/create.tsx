@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import IBreadcrumb from '@/components/breadcrumb';
-import IPageTitle from '@/components/pageTitle';
-import IInput from '@/components/input';
+import PageTitle from '@/components/pageTitle';
+import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/ProposalsAction';
-import ISelect from '@/components/select';
-import IButton from '@/components/button';
+import Select from '@/components/select';
+import Button from '@/components/button';
 
 export default function Create() {
 
@@ -34,7 +34,7 @@ export default function Create() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <IBreadcrumb />
-                        <IPageTitle title="create proposals" />
+                        <PageTitle title="create proposals" />
                     </div>
 
                     <div className="mt-2">
@@ -45,7 +45,7 @@ export default function Create() {
                                 encType="multipart/form-data"
                             >
                                 <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-                                    <IInput
+                                    <Input
                                         label="Proposal No"
                                         name="proposal_no"
                                         placeholder='Proposal No'
@@ -53,7 +53,7 @@ export default function Create() {
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
-                                    <IInput
+                                    <Input
                                         label="Proposal Name"
                                         name="proposer_name"
                                         placeholder='Proposal Name'
@@ -61,7 +61,7 @@ export default function Create() {
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
-                                    <ISelect
+                                    <Select
                                         options={planList}
                                         isSearchable={true}
                                         name="plan_id"
@@ -70,7 +70,7 @@ export default function Create() {
                                         placeholder='Select Plan...'
                                         handleChangeValue={handleChangeTextInput}
                                     />
-                                    <IInput
+                                    <Input
                                         label="FA Code"
                                         name="fa_code"
                                         placeholder='FA Code'
@@ -78,7 +78,7 @@ export default function Create() {
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
-                                    <IInput
+                                    <Input
                                         label="Initial Sum Assured"
                                         name="initial_sum_assured"
                                         placeholder='Initial Sum Assured'
@@ -86,7 +86,7 @@ export default function Create() {
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
-                                    <IInput
+                                    <Input
                                         label="Initial Premium"
                                         name="initial_premium"
                                         placeholder='Initial Premium'
@@ -94,7 +94,7 @@ export default function Create() {
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
-                                    {/* <IInput
+                                    {/* <Input
                                         label="Mobile No"
                                         name="mobile_no"
                                         placeholder='Mobile No'
@@ -104,7 +104,7 @@ export default function Create() {
                                     /> */}
                                 </div>
 
-                                <IButton title='Submit Proposal' loadingTitle="Submitting..." onClick={(e) => handleSubmitProposal(e)} loading={isSubmitting} />
+                                <Button title='Submit Proposal' loadingTitle="Submitting..." onClick={(e) => handleSubmitProposal(e)} loading={isSubmitting} />
                             </form>
                         </div>
                     </div>

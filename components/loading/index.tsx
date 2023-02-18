@@ -1,11 +1,11 @@
 import { Spinner } from "flowbite-react";
-interface propsType {
+interface ILoading {
     loadingTitle?: string;
     size?        : string;
     color?       : string;
 }
 
-export default function ILoading({ loadingTitle = "content", size = "md" }: propsType) {
+export default function Loading({ loadingTitle = "content", size = "md" }: ILoading) {
 
     return (
         <div>
