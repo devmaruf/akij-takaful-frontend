@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from './Sidebar';
+import SidebarMenu from './Sidebar';
 import Footer from './Footer';
 import Navbar from './Navbar';
 
@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent<ILayoutProps> = ({ children }) => {
     return <>
         <Navbar />
         <div className="flex overflow-hidden bg-white pt-16">
-            <Sidebar />
+            <SidebarMenu />
             <div id="main-content" className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
                 <main>
                     <div className=""></div>
