@@ -71,12 +71,14 @@ export const getAuthData = () => {
     const getToken = localStorage.getItem('access_token');
     const getUserData = localStorage.getItem('user_data');
 
-    if(typeof getToken !== "undefined" && getToken !== null){
-        const accessToken = JSON.parse(getToken);
-        return accessToken;
+    const authData = {
+        accessToken: "",
+        userData: null
     }
-    if(typeof getUserData !== "undefined" && getUserData !== null){
-        const userData = JSON.parse(getUserData);
-        return userData;
+
+    if ((typeof getToken !== "undefined" && getToken !== null) && (typeof getUserData !== "undefined" && getUserData !== null)) {
+        authData.accessToken = JSON.parse(getToken);
+        authData.userData = JSON.parse(getUserData);
     }
+    return authData;
 }

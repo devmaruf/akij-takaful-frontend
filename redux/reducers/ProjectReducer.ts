@@ -1,3 +1,4 @@
+import { getDropdownList } from "@/components/_utlities/dropdown";
 import { IProject } from "../interfaces";
 import * as Types from "./../types/ProjectType";
 
@@ -6,6 +7,7 @@ const initialState: IProject = {
     isDeleting           : false,
     isLoadingDetails     : false,
     isSubmitting         : false,
+    projectOptionList    : [],
     projectList          : [],
     projectPaginationData: [],
     projectDetails       : null,
@@ -45,6 +47,7 @@ function ProjectReducer(state = initialState, action: any) {
                 isLoading: action.payload.isLoading,
                 projectList: action.payload.data,
                 projectPaginationData: action.payload.paginationData,
+                projectOptionList: getDropdownList(action.payload.data),
             };
 
         case Types.GET_PROJECT_DETAILS:

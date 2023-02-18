@@ -33,7 +33,7 @@ const Option = styled.div`
 
 export default function Select({ isClearable, isSearchable, isDisabled = false, isLoading = false, name, label = "Label", value = "", options = [], defaultValue, handleChangeValue, placeholder = "Select..." }: ISelect) {
     return (
-        <div className="">
+        <div className="my-1.5">
             <label htmlFor={name} className="text-sm font-medium text-gray-900 block mb-2">{label}</label>
             <ReactSelect
                 classNamePrefix="select"
