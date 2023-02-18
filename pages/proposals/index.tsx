@@ -21,7 +21,7 @@ export default function Proposals() {
     const [currentPage, setCurrentPage]         = React.useState<number>(1);
     const [dataLimit, setDataLimit]             = React.useState<number>(5);
 
-    const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.proposal);
+    const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.Proposal);
 
     React.useEffect(() => {
         dispatch(getProposalList(currentPage, dataLimit))

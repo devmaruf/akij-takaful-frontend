@@ -11,7 +11,7 @@ import Button from '@/components/button';
 export default function Create() {
 
     const dispatch = useDispatch();
-    const { proposalInput, planList, isSubmitting } = useSelector((state: RootState) => state.proposal);
+    const { proposalInput, planList, isSubmitting } = useSelector((state: RootState) => state.Proposal);
 
     useEffect(() => {
         dispatch(getPlanList())

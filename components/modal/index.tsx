@@ -1,4 +1,4 @@
-import { Modal as FlowbiteModal } from "flowbite-react";
+import { Modal as ModalComponent } from "flowbite-react";
 interface IModal {
     title        : string,
     children     : React.ReactNode,
@@ -12,7 +12,7 @@ interface IModal {
 export default function Modal({ title, children, isDismissible = false, show, size = "md", handleClose, isShowHeader = true }: IModal) {
 
     return (
-        <FlowbiteModal
+        <ModalComponent
             show={show}
             size={size}
             position="center"
@@ -20,13 +20,13 @@ export default function Modal({ title, children, isDismissible = false, show, si
             dismissible={isDismissible ? isDismissible : false}
         >
             {isShowHeader &&
-                <FlowbiteModal.Header>
+                <ModalComponent.Header>
                     {title}
-                </FlowbiteModal.Header>
+                </ModalComponent.Header>
             }
-            <FlowbiteModal.Body>
+            <ModalComponent.Body>
                 {children}
-            </FlowbiteModal.Body>
-        </FlowbiteModal>
+            </ModalComponent.Body>
+        </ModalComponent>
     )
 }

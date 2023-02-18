@@ -14,7 +14,7 @@ export default function Edit() {
   const router = useRouter()
   const { id } = router.query
   const dispatch = useDispatch();
-  const { proposalInput, planList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, planList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.Proposal);
 
   React.useEffect(() => {
     dispatch(getPlanList())

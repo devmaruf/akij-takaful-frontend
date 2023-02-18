@@ -67,3 +67,16 @@ export const handleLogin = (loginInput) => (dispatch: any) => {
 }
 
 
+export const getAuthData = () => {
+    const getToken = localStorage.getItem('access_token');
+    const getUserData = localStorage.getItem('user_data');
+
+    if(typeof getToken !== "undefined" && getToken !== null){
+        const accessToken = JSON.parse(getToken);
+        return accessToken;
+    }
+    if(typeof getUserData !== "undefined" && getUserData !== null){
+        const userData = JSON.parse(getUserData);
+        return userData;
+    }
+}
