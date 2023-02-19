@@ -1,40 +1,53 @@
-import Layout from '@/components/layouts/Layout'
-import { store } from '@/redux/store'
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import Head from 'next/head'
-import { ToastContainer, toast } from 'react-toastify';
+import {useEffect} from "react";
+import {Provider} from 'react-redux';
+import type {AppProps} from 'next/app';
+import {useRouter} from 'next/router';
+import Head from 'next/head';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Provider } from 'react-redux'
+
+import Layout from '@/components/layouts/Layout';
+import {store} from '@/redux/store';
+import '@/styles/globals.css';
 import Login from './login';
-import ResetPassword from './forget-password'
+import ResetPassword from './forget-password';
+import {isAuthenticated} from "@/utils/auth";
 
+export default function App({Component, pageProps}: AppProps) {
+    const router = useRouter();
+    const isLoginPage = Component === Login;
+    const isResetPage = Component === ResetPassword;
 
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            console.log('isAuthenticated', isAuthenticated());
+            if (isLoginPage || isResetPage) {
+                // SKIP and proceed with normal flow.
+            } else if (!isAuthenticated()) {
+                router.push('/login');
+            }
+        }
+    }, [isLoginPage, isResetPage]);
 
-export default function App({ Component, pageProps }: AppProps) {
+    return (
+        <Provider store={store}>
+            <Head>
+                <link rel="shortcut icon" href="/favicon.ico"/>
+                <link rel="canonical" href="https://akijtakaful.com"/>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+                <title>{process.env.APP_NAME}</title>
+            </Head>
 
-  // Check if the current page is the login page or forget password page
-  const isLoginPage = Component === Login;
-  const isResetPage = Component === ResetPassword;
-
-
-  return (
-    <Provider store={store}>
-      <Head>
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="canonical" href="https://akijtakaful.com" />
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      {
-        isLoginPage || isResetPage ?
-          <>
-            <Component {...pageProps} />
-          </> :
-          <Layout>
-            <Component {...pageProps}></Component>
-          </Layout>
-      }
-      <ToastContainer />
-    </Provider>
-  )
+            {
+                isLoginPage || isResetPage ?
+                    <>
+                        <Component {...pageProps} />
+                    </> :
+                    <Layout>
+                        <Component {...pageProps}></Component>
+                    </Layout>
+            }
+            <ToastContainer/>
+        </Provider>
+    )
 }

@@ -14,11 +14,10 @@ export default function Login() {
         dispatch(changeInputValue(name, value));
     };
 
-    const onSubmit = (e) => {
-        dispatch(handleLogin(loginInput));
+    const onSubmit = (e: any) => {
+            dispatch(handleLogin(loginInput));
         e.preventDefault();
     }
-
 
     return (
         <section className="md:h-screen py-4 px-6 md:px-10 bg-white text-gray-900 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
@@ -27,7 +26,7 @@ export default function Login() {
                     <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                         className="w-[90%]"
-                        alt="Sample image"
+                        alt=""
                     />
                 </div>
                 <div className="basis-1 md:basis-1/2">
@@ -81,7 +80,7 @@ export default function Login() {
                                 position="text-left"
                                 loading={isSubmitting}
                             />
-                           
+
                         </div>
                     </form>
                 </div>
