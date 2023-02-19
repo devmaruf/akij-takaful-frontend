@@ -14,11 +14,28 @@ export interface IProject {
     isDeleting           : boolean;
     isLoadingDetails     : boolean;
     isSubmitting         : boolean;
+    projectOptionList    : any[];
     projectList          : any[];
     projectPaginationData: any[];
     projectDetails       : any;
     projectInput         : {
         name             : string;
         code             : string;
+    }
+}
+
+export interface IBranch {
+    isLoading           : boolean;
+    isDeleting          : boolean;
+    isLoadingDetails    : boolean;
+    isSubmitting        : boolean;
+    branchList          : any[];
+    branchPaginationData: any[];
+    branchDetails       : any;
+    branchInput         : {
+        project_id      : number;
+        service_cell_id : number;
+        name            : string;
+        code            : string;
     }
 }
