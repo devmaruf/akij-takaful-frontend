@@ -20,11 +20,14 @@ export default function App({Component, pageProps}: AppProps) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            if (!isLoginPage || !isResetPage || !isAuthenticated()) {
+            console.log('isAuthenticated', isAuthenticated());
+            if (isLoginPage || isResetPage) {
+                // SKIP and proceed with normal flow.
+            } else if (!isAuthenticated()) {
                 router.push('/login');
             }
         }
-    }, []);
+    }, [isLoginPage, isResetPage]);
 
     return (
         <Provider store={store}>

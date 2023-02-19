@@ -14,8 +14,8 @@ export default function Login() {
         dispatch(changeInputValue(name, value));
     };
 
-    const onSubmit = (e) => {
-        dispatch(handleLogin(loginInput));
+    const onSubmit = (e: any) => {
+            dispatch(handleLogin(loginInput));
         e.preventDefault();
     }
 

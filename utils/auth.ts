@@ -1,11 +1,9 @@
 import {KEY_ACCESS_TOKEN} from "@/utils/keys";
 
 export const isAuthenticated = () => {
-    const accessToken =  localStorage.getItem(KEY_ACCESS_TOKEN);
+    const accessToken = localStorage.getItem(KEY_ACCESS_TOKEN);
 
-    if (accessToken === undefined || accessToken == null) {
-        return false;
-    }
+    return accessToken !== undefined && accessToken !== null;
 }
 
 export const logout = () => {
