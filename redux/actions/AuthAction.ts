@@ -1,11 +1,7 @@
-
-import Axios from "axios";
-
 import * as Types from "./../types/AuthTypes";
 import { Toaster } from "@/components/toaster";
 import {KEY_ACCESS_TOKEN, KEY_USER_DATA} from "@/utils/keys";
-
-const BASE_URL = process.env.BASE_URL;
+import axios from "@/utils/axios";
 
 export const changeInputValue = (name: string, value: any) => (dispatch: any) => {
     let data = {
@@ -34,7 +30,7 @@ export const handleLogin = (loginInput) => (dispatch: any) => {
     };
     dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData });
 
-    Axios.post(`${BASE_URL}/login`, loginInput)
+    axios.post(`/login`, loginInput)
         .then(res => {
             if (res.status === 200) {
                 responseData.status = true;
