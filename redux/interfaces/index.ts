@@ -9,6 +9,11 @@ export interface IAuthReducer {
     }
 }
 
+export interface ISelect2Item {
+    label: string;
+    value: number | string;
+}
+
 export interface IProject {
     isLoading            : boolean;
     isDeleting           : boolean;
@@ -21,7 +26,8 @@ export interface IProject {
     projectInput         : {
         name             : string;
         code             : string;
-    }
+    },
+    projectDropdownList: Array<ISelect2Item>
 }
 
 export interface IBranch {
@@ -34,7 +40,6 @@ export interface IBranch {
     branchDetails       : any;
     branchInput         : {
         project_id      : number;
-        service_cell_id : number;
         name            : string;
         code            : string;
     }

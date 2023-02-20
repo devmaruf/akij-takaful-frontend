@@ -14,7 +14,8 @@ const initialState: IProject = {
     projectInput         : {
         name             : "",
         code             : ""
-    }
+    },
+    projectDropdownList: [],
 };
 
 
@@ -50,6 +51,12 @@ function ProjectReducer(state = initialState, action: any) {
                 projectOptionList: getDropdownList(action.payload.data),
             };
 
+        case Types.GET_PROJECT_DROPDOWN:
+            return {
+                ...state,
+                projectDropdownList: getDropdownList(action.payload),
+            };
+
         case Types.GET_PROJECT_DETAILS:
             console.log(action.payload)
             return {
@@ -68,5 +75,5 @@ function ProjectReducer(state = initialState, action: any) {
     }
     return state;
 }
-export default ProjectReducer;
 
+export default ProjectReducer;

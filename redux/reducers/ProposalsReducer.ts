@@ -2,7 +2,6 @@ import * as Types from "./../types/ProposalsType";
 
 interface ProposalInputType {
     project_id         : number;
-    service_cell_id    : number;
     branch_id          : number;
     proposal_no        : string;
     proposer_name      : string;
@@ -37,7 +36,6 @@ const initialState: InitialState = {
     paginationData : [],
     proposalInput: {
         project_id         : 1,
-        service_cell_id    : 1,
         branch_id          : 1,
         proposal_no        : "",
         proposer_name      : "",

@@ -11,7 +11,6 @@ const initialState: IBranch = {
     branchDetails       : null,
     branchInput         : {
         project_id      : 1,
-        service_cell_id : 1,
         name            : "",
         code            : "",
     }

@@ -1,4 +1,4 @@
-import { getAuthData } from "@/redux/actions/AuthAction";
+import { getAuthData } from "@/redux/actions/auth-action";
 import Axios from "axios";
 
 interface IAxiosCall {

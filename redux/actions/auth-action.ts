@@ -1,6 +1,6 @@
-import * as Types from "./../types/AuthTypes";
+import * as Types from "../types/AuthTypes";
 import { Toaster } from "@/components/toaster";
-import {KEY_ACCESS_TOKEN, KEY_USER_DATA} from "@/utils/keys";
+import { KEY_ACCESS_TOKEN, KEY_USER_DATA } from "@/utils/keys";
 import axios from "@/utils/axios";
 
 export const changeInputValue = (name: string, value: any) => (dispatch: any) => {
@@ -31,27 +31,20 @@ export const handleLogin = (loginInput) => (dispatch: any) => {
     dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData });
 
     axios.post(`/login`, loginInput)
-        .then(res => {
-            if (res.status === 200) {
-                responseData.status = true;
-                responseData.isLoading = false;
-                responseData.message = res.data.message;
-                responseData.accessToken = res.data.data.access_token;
-                responseData.userData = res.data.data.user;
-                Toaster('success', responseData.message);
-                localStorage.setItem(KEY_ACCESS_TOKEN, JSON.stringify(responseData.accessToken));
-                localStorage.setItem(KEY_USER_DATA, JSON.stringify(responseData.userData));
-                dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData });
-                window.location.href = '/';
-            }
-        }).catch((error) => {
-            let responseLog = error.response;
+        .then((res: any) => {
+            responseData.status = true;
             responseData.isLoading = false;
-            if (typeof responseLog !== 'undefined') {
-                const { request, ...errorObject } = responseLog;
-                Toaster('error', responseLog.data.message);
-                dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData })
-            }
+            responseData.message = res.message;
+            responseData.accessToken = res.data.access_token;
+            responseData.userData = res.data.user;
+            Toaster('success', responseData.message);
+            localStorage.setItem(KEY_ACCESS_TOKEN, JSON.stringify(responseData.accessToken));
+            localStorage.setItem(KEY_USER_DATA, JSON.stringify(responseData.userData));
+            dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData });
+            window.location.href = '/';
+        }).catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData })
         });
 }
 

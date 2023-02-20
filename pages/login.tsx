@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Link from 'next/link';
-import { changeInputValue, handleLogin } from '@/redux/actions/AuthAction';
+import { changeInputValue, handleLogin } from '@/redux/actions/auth-action';
 
 export default function Login() {
 

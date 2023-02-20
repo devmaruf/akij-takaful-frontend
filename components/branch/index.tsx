@@ -9,43 +9,49 @@ import Button from '@/components/button';
 import Tooltip from '@/components/tooltip';
 import Loading from '@/components/loading';
 import Input from '@/components/input';
+import Select from '@/components/select';
+import { getProjectListDropdown } from '@/redux/actions/project-action';
+import { changeInputValue, submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch } from '@/redux/actions/branch-action';
 
-import { getProjectList, changeInputValue, handleSubmitProject, getProjectDetails, handleUpdateProject, deleteProject } from '@/redux/actions/project-action';
-
-export default function Proposals() {
-
+export default function Branches() {
     const dispatch = useDispatch();
-    const [showModal, setShowModal]               = React.useState<boolean>(false);
-    const [showDetailsModal, setShowDetailsModal] = React.useState<boolean>(false);
-    const [showUpdateModal, setShowUpdateModal]   = React.useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal]   = React.useState<boolean>(false);
-    const [projectID, setProjectID]               = React.useState<number | null>(null);
-    const [currentPage, setCurrentPage]           = React.useState<number>(1);
-    const [dataLimit, setDataLimit]               = React.useState<number>(5);
 
-    const { projectInput, projectList, projectPaginationData, isLoading, isSubmitting, projectDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Project);
+    const [showModal, setShowModal] = React.useState<boolean>(false);
+    const [showDetailsModal, setShowDetailsModal] = React.useState<boolean>(false);
+    const [showUpdateModal, setShowUpdateModal] = React.useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
+    const [branchID, setBranchID] = React.useState<number | null>(null);
+    const [currentPage, setCurrentPage] = React.useState<number>(1);
+    const [dataLimit, setDataLimit] = React.useState<number>(5);
+
+    const { branchInput, branchList, branchPaginationData, isLoading, isSubmitting, branchDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Branch);
+    const { projectDropdownList } = useSelector((state: RootState) => state.Project);
 
     const columnData: any[] = [
-        { title: "Project Name", id: "01" },
-        { title: "Project Codes", id: "02" },
-        { title: "Action", id: "03" },
+        { title: "Branch Name", id: "01" },
+        { title: "Project", id: "02" },
+        { title: "Code", id: "03" },
+        { title: "Action", id: "04" },
     ]
 
     React.useEffect(() => {
-        dispatch(getProjectList(currentPage, dataLimit))
-    }, [currentPage, dataLimit])
+        dispatch(getBranchList(currentPage, dataLimit));
+    }, [currentPage, dataLimit]);
 
+    React.useEffect(() => {
+        dispatch(getProjectListDropdown());
+    }, []);
 
     const handleOpenModal = (id: number, type: string) => {
         if (type === "view") {
             setShowDetailsModal(true);
-            dispatch(getProjectDetails(id));
+            dispatch(getBranchDetails(id));
         } else if (type === "edit") {
             setShowUpdateModal(true);
-            dispatch(getProjectDetails(id));
+            dispatch(getBranchDetails(id));
         } else {
             setShowDeleteModal(true);
-            setProjectID(id);
+            setBranchID(id);
         }
     }
 
@@ -53,12 +59,11 @@ export default function Proposals() {
         dispatch(changeInputValue(name, value));
     };
 
-    // Submit Project Data
     const onSubmit = (e: any, type: string) => {
         if (type === "edit") {
-            dispatch(handleUpdateProject(projectInput, setShowUpdateModal));
+            dispatch(updateBranch(branchInput, setShowUpdateModal));
         } else {
-            dispatch(handleSubmitProject(projectInput, setShowModal));
+            dispatch(submitBranch(branchInput, setShowModal));
         }
         e.preventDefault();
     }
@@ -69,7 +74,7 @@ export default function Proposals() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <Breadcrumb />
-                        <PageTitle title='all projects' />
+                        <PageTitle title='All branches' />
                     </div>
                     <div className="sm:flex">
                         <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
@@ -100,11 +105,11 @@ export default function Proposals() {
                                 customClass="flex"
                             >
                                 <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                                Add New Project
+                                Add New Branch
                             </Button>
                             <a href="#" className="w-1/2 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
                                 <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" /></svg>
-                                Export Project
+                                Export Branch List
                             </a>
                         </div>
                     </div>
@@ -115,7 +120,7 @@ export default function Proposals() {
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Projects" />
+                            <Loading loadingTitle="Branchs" />
                         </div> :
 
                         <Table
@@ -123,13 +128,16 @@ export default function Proposals() {
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             dataLimit={dataLimit}
-                            totalData={projectPaginationData.total}
+                            totalData={branchPaginationData.length > 0 && branchPaginationData.total}
                         >
-                            {projectList && projectList.length > 0 && projectList.map((data, index) => (
+                            {branchList && branchList.length > 0 && branchList.map((data, index) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.name}
                                     </th>
+                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        {data.project_name}
+                                    </td>
                                     <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.code}
                                     </td>
@@ -170,62 +178,80 @@ export default function Proposals() {
                 }
             </div>
 
-            {/** Add Project Modal */}
-            <Modal title={`Add Project`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
+            <Modal title={`New Branch`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
                 <form
                     method="post"
                     autoComplete="off"
                     encType="multipart/form-data"
                 >
                     <Input
-                        label="Project Name"
+                        label="Branch Name"
                         name="name"
-                        placeholder='Project Name'
-                        value={projectInput.name}
+                        placeholder='Branch Name'
+                        value={branchInput.name}
                         isRequired={true}
                         inputChange={changeTextInput}
                     />
                     <Input
-                        label="Project Code"
+                        label="Branch Code"
                         name="code"
-                        placeholder='Project Code'
-                        value={projectInput.code}
+                        placeholder='Branch Code'
+                        value={branchInput.code}
                         isRequired={true}
                         inputChange={changeTextInput}
                     />
 
-                    <Button
-                        title="Submit Project"
-                        onClick={(e) => onSubmit(e, "add")}
-                        position="text-left"
-                        loadingTitle="Submitting..."
-                        loading={isSubmitting}
+                    <Select
+                        options={projectDropdownList}
+                        isSearchable={true}
+                        name="project_id"
+                        label="Project"
+                        defaultValue=""
+                        placeholder='Select Project...'
+                        handleChangeValue={changeTextInput}
                     />
-                </form>
 
+                    <div className="mt-2">
+                        <Button
+                            title="Save"
+                            onClick={(e) => onSubmit(e, "add")}
+                            position="text-left"
+                            loadingTitle="Saving..."
+                            loading={isSubmitting}
+                        />
+                    </div>
+                </form>
             </Modal>
 
-
-            <Modal title={`Project Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
+            <Modal title={`Branch Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
-                            <Loading loadingTitle="Project Details" />
+                            <Loading loadingTitle="Branch Details" />
                         </div> :
                         <div className="text-gray-900">
                             {
-                                (typeof projectDetails !== "undefined" && projectDetails !== null) ? (
+                                (typeof branchDetails !== "undefined" && branchDetails !== null) ? (
                                     <div className="grid gap-2 grid-cols-2">
                                         <div className='flex justify-between'>
-                                            <h6>Project Name</h6>
+                                            <h6>Branch Name</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{projectDetails.name}</h6>
+                                        <h6>{branchDetails.name}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>Project Code</h6>
+                                            <h6>Project ID</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{projectDetails.code}</h6>
+                                        <h6>{branchDetails.project_id}</h6>
+                                        <div className='flex justify-between'>
+                                            <h6>Code</h6>
+                                            <h6>:</h6>
+                                        </div>
+                                        <div className='flex justify-between'>
+                                            <h6>Status</h6>
+                                            <h6>:</h6>
+                                        </div>
+                                        <h6>{branchDetails.status}</h6>
                                     </div>
                                 ) : (
                                     <div>Something Went wrong!</div>
@@ -235,46 +261,57 @@ export default function Proposals() {
                 }
             </Modal>
 
-
             {/** Edit Project Modal */}
-            <Modal title={`Update Project`} size="md" show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} isDismissible={false}>
+            <Modal title={`Update Branch`} size="md" show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
-                            <Loading loadingTitle="Project Details" />
+                            <Loading loadingTitle="Branch Details" />
                         </div> :
                         <div className="text-gray-900">
                             {
-                                (typeof projectInput !== "undefined" && projectInput !== null) ? (
+                                (typeof branchInput !== "undefined" && branchInput !== null) ? (
                                     <form
                                         method="post"
                                         autoComplete="off"
                                         encType="multipart/form-data"
                                     >
                                         <Input
-                                            label="Project Name"
+                                            label="Branch Name"
                                             name="name"
-                                            placeholder='Project Name'
-                                            value={projectInput.name}
+                                            placeholder='Branch Name'
+                                            value={branchInput.name}
                                             isRequired={true}
                                             inputChange={changeTextInput}
                                         />
                                         <Input
-                                            label="Project Code"
+                                            label="Branch Code"
                                             name="code"
-                                            placeholder='Project Code'
-                                            value={projectInput.code}
+                                            placeholder='Branch Code'
+                                            value={branchInput.code}
                                             isRequired={true}
                                             inputChange={changeTextInput}
                                         />
 
-                                        <Button
-                                            title="Update Project"
-                                            onClick={(e) => onSubmit(e, "edit")}
-                                            position="text-left"
-                                            loadingTitle="Updating..."
-                                            loading={isSubmitting}
+                                        <Select
+                                            options={projectDropdownList}
+                                            isSearchable={true}
+                                            name="project_id"
+                                            label="Project"
+                                            defaultValue=""
+                                            placeholder='Select Project...'
+                                            handleChangeValue={changeTextInput}
                                         />
+
+                                        <div className="mt-2">
+                                            <Button
+                                                title="Save"
+                                                onClick={(e) => onSubmit(e, "edit")}
+                                                position="text-left"
+                                                loadingTitle="Saving..."
+                                                loading={isSubmitting}
+                                            />
+                                        </div>
                                     </form>
                                 ) : (
                                     <div>Something Went wrong!</div>
@@ -283,7 +320,6 @@ export default function Proposals() {
                         </div>
                 }
             </Modal>
-
 
             <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
                 <div className="text-gray-900 text-center flex flex-col justify-center items-center">
@@ -300,8 +336,8 @@ export default function Proposals() {
                         title="Yes"
                         customClass="inline py-2 px-3 rounded-md"
                         loading={isDeleting}
-                        loadingTitle="Deleting Project..."
-                        onClick={() => dispatch(deleteProject(projectID, setShowDeleteModal))} />
+                        loadingTitle="Deleting Branch..."
+                        onClick={() => dispatch(deleteBranch(branchID, setShowDeleteModal))} />
                     <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
                 </div>
             </Modal>

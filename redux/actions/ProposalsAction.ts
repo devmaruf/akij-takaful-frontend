@@ -153,7 +153,6 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
             response.data = res.data.data;
             // Optional Data,
             response.inputData.project_id = 1;
-            response.inputData.service_cell_id = 1;
             response.inputData.branch_id = 1;
             response.inputData.proposal_no = res.data.data.proposal_no;
             response.inputData.proposer_name = res.data.data.proposer_name;
