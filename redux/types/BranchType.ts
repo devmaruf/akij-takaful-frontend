@@ -1,5 +1,6 @@
 export const CHANGE_INPUT_VALUE  = "CHANGE_INPUT_VALUE";
-export const SUBMIT_BRANCH      = "SUBMIT_BRANCH";
-export const GET_BRANCH_LIST    = "GET_BRANCH_LIST";
-export const GET_BRANCH_DETAILS = "GET_BRANCH_DETAILS";
-export const DELETE_BRANCH      = "DELETE_BRANCH";
+export const SUBMIT_BRANCH       = "SUBMIT_BRANCH";
+export const GET_BRANCH_LIST     = "GET_BRANCH_LIST";
+export const GET_BRANCH_DETAILS  = "GET_BRANCH_DETAILS";
+export const DELETE_BRANCH       = "DELETE_BRANCH";
+export const GET_BRANCH_DROPDOWN = "GET_BRANCH_DROPDOWN";

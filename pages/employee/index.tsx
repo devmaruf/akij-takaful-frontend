@@ -49,7 +49,7 @@ export default function Proposals() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <Breadcrumb />
-                        <PageTitle title='all proposals' />
+                        <PageTitle title='all employees' />
                     </div>
                     <div className="sm:flex">
                         <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">

@@ -10,10 +10,13 @@ const initialState: IEmployee = {
     employeePaginationData: [],
     employeeDetails       : {},
     employeeInput         : {
-        first_name        : 0,
+        first_name        : '',
         last_name         : '',
         email             : '',
         designation_id    : 0,
+        role_id           : 1,
+        project_id        : 0,
+        branch_ids        : [],
         phone             : '',
         avatar            : '',
         password          : '',
@@ -31,19 +34,19 @@ function employeeReducer(state = initialState, action: any) {
                 ...state,
                 employeeInput,
             };
-        // case Types.SUBMIT_BRANCH:
-        //     if (action.payload.status === true) {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //             employeeInput: initialState.employeeInput,
-        //         };
-        //     } else {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //         };
-        //     }
+        case Types.CREATE_EMPLOYEE:
+            if (action.payload.status === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    employeeInput: initialState.employeeInput,
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
 
         case Types.GET_EMPLOYEE_LIST:
             return {
@@ -53,14 +56,13 @@ function employeeReducer(state = initialState, action: any) {
                 employeePaginationData: action.payload.paginationData,
             };
 
-        // case Types.GET_BRANCH_DETAILS:
-        //     console.log(action.payload)
-        //     return {
-        //         ...state,
-        //         isLoadingDetails: action.payload.isLoading,
-        //         branchDetails: action.payload.data,
-        //         employeeInput: action.payload.data,
-        //     };
+        case Types.GET_EMPLOYEE_DETAILS:
+            return {
+                ...state,
+                isLoadingDetails: action.payload.isLoading,
+                employeeDetails: action.payload.data,
+                employeeInput: action.payload.data,
+            };
         // case Types.DELETE_BRANCH:
         //     return {
         //         ...state,

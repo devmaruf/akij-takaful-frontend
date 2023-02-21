@@ -1,18 +1,20 @@
+import { generateDropdownList } from "@/utils/dropdown";
 import { IBranch } from "../interfaces";
 import * as Types from "./../types/BranchType";
 
 const initialState: IBranch = {
-    isLoading           : false,
-    isDeleting          : false,
-    isLoadingDetails    : false,
-    isSubmitting        : false,
-    branchList          : [],
+    isLoading: false,
+    isDeleting: false,
+    isLoadingDetails: false,
+    isSubmitting: false,
+    branchList: [],
     branchPaginationData: [],
-    branchDetails       : null,
-    branchInput         : {
-        project_id      : 1,
-        name            : "",
-        code            : "",
+    branchDetails: null,
+    branchDropdownList: [],
+    branchInput: {
+        project_id: 1,
+        name: "",
+        code: "",
     }
 };
 
@@ -61,6 +63,12 @@ function BranchReducer(state = initialState, action: any) {
                 ...state,
                 isDeleting: action.payload.isLoading,
             };
+        case Types.GET_BRANCH_DROPDOWN:
+            return {
+                ...state,
+                branchDropdownList: generateDropdownList(action.payload),
+            };
+
         default:
             break;
     }

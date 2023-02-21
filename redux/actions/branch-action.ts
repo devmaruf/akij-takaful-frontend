@@ -174,3 +174,10 @@ export const deleteBranch = (id, setShowDeleteModal) => (dispatch) => {
 
 
 
+
+export const getBranchDropdownList = () => (dispatch) => {
+    axios.get(`/branches/dropdown/list`)
+        .then((res) => {
+            dispatch({ type: Types.GET_BRANCH_DROPDOWN, payload: res.data });
+        })
+}

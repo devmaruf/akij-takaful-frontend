@@ -38,6 +38,7 @@ export interface IBranch {
     branchList          : any[];
     branchPaginationData: any[];
     branchDetails       : any;
+    branchDropdownList  : Array<ISelect2Item>
     branchInput         : {
         project_id      : number;
         name            : string;
@@ -55,14 +56,25 @@ export interface IEmployee {
     employeePaginationData: any[];
     employeeDetails       : any;
     employeeInput         : {
-        first_name        : number;
+        first_name        : string;
         last_name         : string;
         email             : string;
         designation_id    : number;
+        role_id           : number;
+        project_id        : number;
+        branch_ids        : Array<Number>;
         phone             : string;
         avatar            : string;
         password          : string;
         confirm_password  : string;
     }
+}
+
+export interface IDesignation {
+    isLoading            : boolean;
+    isDeleting           : boolean;
+    isLoadingDetails     : boolean;
+    isSubmitting         : boolean;
+    designationDropdownList: Array<ISelect2Item>
 }
 

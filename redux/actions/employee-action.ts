@@ -10,42 +10,63 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 };
 
-// export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: any) => {
-//     if (projectInput.name === "") {
-//         Toaster("error", "Project name can't be blank!");
-//         return false;
-//     }
-//     if (projectInput.code === "") {
-//         Toaster("error", "Project code can't be blank!");
-//         return false;
-//     }
 
-//     let responseData = {
-//         status: false,
-//         message: "",
-//         isLoading: true,
-//     };
-//     dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
+export const createEmployee = (employeeInput, router) => (dispatch: any) => {
+    if (employeeInput.first_name === "") {
+        Toaster("error", "First name can't be blank!");
+        return false;
+    }
+    if (employeeInput.last_name === "") {
+        Toaster("error", "Last name can't be blank!");
+        return false;
+    }
+    if (employeeInput.email === "") {
+        Toaster("error", "Employee email can't be blank!");
+        return false;
+    }
+    if (employeeInput.phone === "") {
+        Toaster("error", "Employee phone number can't be blank!");
+        return false;
+    }
+    if (employeeInput.designation_id === "") {
+        Toaster("error", "Employee designation can't be blank!");
+        return false;
+    }
+    if (employeeInput.project_id === "") {
+        Toaster("error", "Project can't be blank!");
+        return false;
+    }
+    if (employeeInput.branch_ids && employeeInput.branch_ids.length < 1) {
+        Toaster("error", "Minimum select one branch!");
+        return false;
+    }
 
-//     axios.post(`/projects`, {
-//         name: projectInput.name,
-//         code: projectInput.code
-//     })
-//         .then(res => {
-//             if (res.status === 200) {
-//                 responseData.status = true;
-//                 responseData.isLoading = false;
-//                 responseData.message = res.data.message;
-//                 Toaster('success', responseData.message);
-//                 setShowModal(false);
-//                 dispatch(getProjectList(1, 5));
-//                 dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
-//             }
-//         }).catch((error) => {
-//             responseData.isLoading = false;
-//             dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData })
-//         })
-// }
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+    };
+    dispatch({ type: Types.CREATE_EMPLOYEE, payload: response });
+
+    axios({
+        method: 'POST',
+        url: `/employees`,
+        data: employeeInput
+    })
+        .then((res) => {
+            response.status = true;
+            response.isLoading = false;
+            response.message = res.message;
+            Toaster('success', response.message);
+            router.push('/employee')
+            dispatch({ type: Types.CREATE_EMPLOYEE, payload: response });
+        })
+        .catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.CREATE_EMPLOYEE, payload: response });
+        });
+}
+
 
 export const getEmployeeList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
     let response = {
@@ -72,33 +93,28 @@ export const getEmployeeList = (currentPage: number = 1, dataLimit: number = 10)
 
 }
 
-// export const getProjectDetails = (id: number | string) => (dispatch) => {
-//     let response = {
-//         status: false,
-//         message: "",
-//         isLoading: true,
-//         data: {},
-//         inputData: {
-//             name: "",
-//             code: ""
-//         }
-//     };
-//     dispatch({ type: Types.GET_PROJECT_DETAILS, payload: response });
+export const getEmployeeDetails = (id: number | string) => (dispatch) => {
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: {},
+    };
+    dispatch({ type: Types.GET_EMPLOYEE_DETAILS, payload: response });
 
-//     axios.get(`/projects/${id}`)
-//         .then((res) => {
-//             if (res.status === 200) {
-//                 response.isLoading = false;
-//                 response.status = true;
-//                 response.message = res.data.message;
-//                 response.data = res.data.data;
-//                 dispatch({ type: Types.GET_PROJECT_DETAILS, payload: response });
-//             }
-//         }).catch((error) => {
-//             response.isLoading = false;
-//             dispatch({ type: Types.GET_PROJECT_LIST, payload: response })
-//         })
-// }
+    axios(`/employees/${id}`)
+        .then((res) => {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data;
+            dispatch({ type: Types.GET_EMPLOYEE_DETAILS, payload: response });
+        })
+        .catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_EMPLOYEE_DETAILS, payload: response });
+        });
+}
 
 // export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: any) => {
 //     if (projectInput.name === "") {
