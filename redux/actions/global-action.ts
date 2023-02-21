@@ -8,11 +8,13 @@ export const handleSidebar = (isToggle: boolean = false) => (dispatch) => {
 export const getSidebarMenuList = () => (dispatch) => {
     const menuList = [
         {
+            id: 'menu01',
             title: 'HR Management',
             icon: 'fa-solid fa-list-check',
             url: '',
             subMenu: [
                 {
+                    id: 'subMenu01.1',
                     title: 'Employee',
                     url: '',
                     subSubMenu: [
@@ -23,16 +25,19 @@ export const getSidebarMenuList = () => (dispatch) => {
             ]
         },
         {
+            id: 'menu02',
             title: 'Proposals',
             icon: 'fa-brands fa-buffer',
             url: '',
             subMenu: [
                 {
+                    id: 'subMenu02.1',
                     title: 'Proposal List',
                     url: '/proposals',
                     subSubMenu: []
                 },
                 {
+                    id: 'subMenu02.2',
                     title: 'Create Proposal',
                     url: '/proposals/create',
                     subSubMenu: []
@@ -42,11 +47,13 @@ export const getSidebarMenuList = () => (dispatch) => {
         },
 
         {
+            id: 'menu03',
             title: 'Settings',
             icon: 'fa-solid fa-screwdriver-wrench',
             url: '',
             subMenu: [
                 {
+                    id: 'subMenu03.1',
                     title: 'Project',
                     url: '',
                     subSubMenu: [
@@ -54,6 +61,7 @@ export const getSidebarMenuList = () => (dispatch) => {
                     ]
                 },
                 {
+                    id: 'subMenu03.2',
                     title: 'Branch',
                     url: '',
                     subSubMenu: [

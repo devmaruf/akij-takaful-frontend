@@ -50,18 +50,31 @@ export default function Sidebar() {
 
 
 const SubMenuUI = ({ menu }) => {
+    const [toggleSubMenu, setToggleSubMenu] = useState(false);
+    const { sideMenuList } = useSelector((state: RootState) => state.global);
+    const [menuID, setMenuID] = useState(sideMenuList[0].id);
 
-    const [toggleSubMenu, setToggleSubMenu] = useState(false)
+    const handleToggle = (key) =>{
+        console.log("key", key)
+        setToggleSubMenu(!toggleSubMenu);
+        setMenuID(key.id);
+    }
 
     return (
         <li>
-            <button onClick={()=>setToggleSubMenu(!toggleSubMenu)} type="button" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100 w-full" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
+            <button onClick={()=> handleToggle(menu)} type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full ${(menuID === menu.id && toggleSubMenu === true) ? 'bg-gray-100' : 'bg-white'}`}>
                 <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"></path></svg>
                 <span className="text-left ml-3 whitespace-nowrap w-full">{menu.title}</span>
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+
+              {
+                !toggleSubMenu ? 
+                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>  :
+                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"/></svg>
+
+              } 
             </button>
             {
-                <ul className={`py-1.5 ${toggleSubMenu ? 'block' : 'hidden'}`}>
+                <ul className={`text-base text-gray-900 font-normal rounded-lg p-2 group w-full ml-2 ${(toggleSubMenu === true && menuID === menu.id) ? 'block' : 'hidden'}`}>
                     {
                         menu.subMenu.map((subMenu, subMenuIndex) => (
 
@@ -93,7 +106,7 @@ const SubSubMenuUI = ({ subMenu }) => {
                 {
                     subMenu.subSubMenu.map((subSubMenu, subSubMenuIndex) => (
                         <li className="w-full" key={subSubMenuIndex + 1}>
-                            <Link href={subSubMenu.url} className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1">
+                            <Link href={subSubMenu.url} className="ml-3 block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1">
                                 <span>{subSubMenu.title}</span>
                             </Link>
                         </li>
