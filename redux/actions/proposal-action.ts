@@ -26,7 +26,7 @@ export const handleChangeProposalInput = (name: string, value: any) => (dispatch
 export const getPlanList = () => (dispatch: any) => {
     axios.get(`/plans/dropdown/list`)
         .then((res) => {
-            dispatch({ type: Types.GET_PLAN_LIST, payload: res.data.data });
+            dispatch({ type: Types.GET_PLAN_LIST, payload: res.data });
         });
 };
 
