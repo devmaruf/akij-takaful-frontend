@@ -138,7 +138,7 @@ export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any)
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
-            setShowModal(false);
+            setShowUpdateModal(false);
             dispatch(getBranchList(1, 5));
             dispatch({ type: Types.UPDATE_BRANCH, payload: response });
         })
