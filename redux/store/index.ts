@@ -3,13 +3,15 @@ import AuthReducer from '../reducers/AuthReducer';
 import ProjectReducer from '../reducers/ProjectReducer';
 import ProposalsReducer from './../reducers/ProposalsReducer';
 import BranchReducer from './../reducers/BranchReducer';
+import employeeReducer from '../reducers/employee-reducer';
 
 export const store = configureStore({
     reducer: {
         Proposal: ProposalsReducer,
-        Auth: AuthReducer,
-        Project: ProjectReducer,
-        Branch: BranchReducer,
+        Auth    : AuthReducer,
+        Project : ProjectReducer,
+        Branch  : BranchReducer,
+        employee: employeeReducer,
     },
 })
 

@@ -44,3 +44,25 @@ export interface IBranch {
         code            : string;
     }
 }
+
+
+export interface IEmployee {
+    isLoading             : boolean;
+    isDeleting            : boolean;
+    isLoadingDetails      : boolean;
+    isSubmitting          : boolean;
+    employeeList          : any[];
+    employeePaginationData: any[];
+    employeeDetails       : any;
+    employeeInput         : {
+        first_name        : number;
+        last_name         : string;
+        email             : string;
+        designation_id    : number;
+        phone             : string;
+        avatar            : string;
+        password          : string;
+        confirm_password  : string;
+    }
+}
+
