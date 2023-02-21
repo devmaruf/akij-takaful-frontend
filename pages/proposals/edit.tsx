@@ -12,7 +12,7 @@ import Loading from '@/components/loading';
 
 export default function Edit() {
   const router = useRouter()
-  const { id } = router.query
+  const { id } = router.query;
   const dispatch = useDispatch();
   const { proposalInput, planList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.Proposal);
 
