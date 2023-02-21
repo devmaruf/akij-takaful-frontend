@@ -7,8 +7,6 @@ export default function Navbar() {
     const dispatch = useDispatch();
     const { isOpenSidebar } = useSelector((state: RootState) => state.global);
 
-    console.log('isOpenSidebar :>> ', isOpenSidebar);
-
     return (
         <div className="bg-white border-b border-gray-200 fixed z-30 w-full">
             <div className="px-3 py-3 lg:px-5 lg:pl-3">

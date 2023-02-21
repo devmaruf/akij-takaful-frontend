@@ -80,4 +80,5 @@ export interface IDesignation {
 
 export interface IGlobal {
     isOpenSidebar: boolean;
+    sideMenuList : any[];
 }

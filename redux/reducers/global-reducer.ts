@@ -3,6 +3,7 @@ import * as Types from "./../types/global-type";
 
 const initialState: IGlobal = {
     isOpenSidebar: false,
+    sideMenuList: []
 };
 
 function globalReducer(state = initialState, action: any) {
@@ -11,6 +12,11 @@ function globalReducer(state = initialState, action: any) {
             return {
                 ...state,
                 isOpenSidebar: action.payload,
+            };
+        case Types.SIDEBAR_MENU_LIST:
+            return {
+                ...state,
+                sideMenuList: action.payload,
             };
         default:
             break;
