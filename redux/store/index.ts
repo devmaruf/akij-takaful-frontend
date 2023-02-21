@@ -5,6 +5,7 @@ import ProposalsReducer from './../reducers/ProposalsReducer';
 import BranchReducer from './../reducers/BranchReducer';
 import employeeReducer from '../reducers/employee-reducer';
 import designationReducer from '../reducers/designation-reducer';
+import globalReducer from '../reducers/global-reducer';
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         Branch     : BranchReducer,
         employee   : employeeReducer,
         designation: designationReducer,
+        global     : globalReducer,
     },
 })
 

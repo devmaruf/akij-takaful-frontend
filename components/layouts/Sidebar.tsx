@@ -1,9 +1,24 @@
+import { RootState } from "@/redux/store";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function Sidebar() {
+
+    const { isOpenSidebar } = useSelector((state: RootState) => state.global);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
-        <aside id="sidebar" className="fixed hidden z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75" aria-label="Sidebar">
-            <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
+        <aside id="sidebar" className={`fixed z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col transition-width ease-in-out duration-300 ${isOpenSidebar || windowWidth > 1023 ? "w-64" : "w-0"}`} aria-label="Sidebar">
+            <div className="relative flex-1 flex flex-col h-full min-h-0 border-r border-gray-200 bg-white pt-0">
                 <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div className="flex-1 px-3 bg-white divide-y space-y-1">
                         <ul className="space-y-2 pb-2">
@@ -16,7 +31,7 @@ export default function Sidebar() {
                                         </div>
                                         <input type="text" name="email" id="mobile-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search" />
                                     </div>
-                                </form>
+                                </form> 
                             </li>
                             <li>
                                 <Link href="/" className="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">

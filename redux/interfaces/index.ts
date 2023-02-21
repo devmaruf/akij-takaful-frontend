@@ -78,3 +78,6 @@ export interface IDesignation {
     designationDropdownList: Array<ISelect2Item>
 }
 
+export interface IGlobal {
+    isOpenSidebar: boolean;
+}
