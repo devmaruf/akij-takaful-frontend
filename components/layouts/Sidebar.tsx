@@ -19,10 +19,23 @@ export default function Sidebar() {
                                 </form>
                             </li>
                             <li>
-                                <Link href="/" className="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
-                                    <svg className="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>
-                                    <span className="ml-3">Dashboards</span>
-                                </Link>
+                                <button type="button" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100 w-full" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
+                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>
+                                    <span className="text-left ml-3 whitespace-nowrap w-full">Dashboards</span>
+                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                                </button>
+                                <ul id="dropdown-ecommerce" className="py-1.5">
+                                    <li className="w-full">
+                                        <Link href='/' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
+                                            <span>Dashboard</span>
+                                        </Link>
+                                    </li>
+                                    <li className="w-full">
+                                        <Link href='/dashboard/financial-dashboard' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
+                                            <span>Financial Dashboard</span>
+                                        </Link>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <Link href="/proposals" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
