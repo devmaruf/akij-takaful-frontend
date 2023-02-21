@@ -69,6 +69,20 @@ function BranchReducer(state = initialState, action: any) {
                 branchDropdownList: generateDropdownList(action.payload),
             };
 
+            case Types.UPDATE_BRANCH:
+                if (action.payload.status === true) {
+                    return {
+                        ...state,
+                        isSubmitting: action.payload.isLoading,
+                        branchInput: initialState.branchInput,
+                    };
+                } else {
+                    return {
+                        ...state,
+                        isSubmitting: action.payload.isLoading,
+                    };
+                }
+
         default:
             break;
     }

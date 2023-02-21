@@ -39,7 +39,7 @@ export const submitBranch = (branchInput, setShowModal) => (dispatch: any) => {
         .then((res) => {
             response.status = true;
             response.isLoading = false;
-            response.message = res.data.message;
+            response.message = res.message;
             Toaster('success', response.message);
             setShowModal(false);
             dispatch(getBranchList(1, 5));
@@ -96,7 +96,7 @@ export const getBranchDetails = (id: number | string) => (dispatch) => {
         .then((res) => {
             response.isLoading = false;
             response.status = true;
-            response.message = res.data.message;
+            response.message = res.message;
             response.data = res.data;
             dispatch({ type: Types.GET_BRANCH_DETAILS, payload: response });
         })
@@ -125,7 +125,7 @@ export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any)
         message: "",
         isLoading: true,
     };
-    dispatch({ type: Types.SUBMIT_BRANCH, payload: response });
+    dispatch({ type: Types.UPDATE_BRANCH, payload: response });
 
     axios.put(`/branches/${branchInput.id}`, {
         id: branchInput.id,
@@ -136,15 +136,15 @@ export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any)
         .then((res) => {
             response.status = true;
             response.isLoading = false;
-            response.message = res.data.message;
+            response.message = res.message;
             Toaster('success', response.message);
             setShowModal(false);
             dispatch(getBranchList(1, 5));
-            dispatch({ type: Types.SUBMIT_BRANCH, payload: response });
+            dispatch({ type: Types.UPDATE_BRANCH, payload: response });
         })
         .catch((error) => {
             response.isLoading = false;
-            dispatch({ type: Types.SUBMIT_BRANCH, payload: response })
+            dispatch({ type: Types.UPDATE_BRANCH, payload: response })
         });
 }
 
@@ -160,7 +160,7 @@ export const deleteBranch = (id, setShowDeleteModal) => (dispatch) => {
         .then((res) => {
             responseData.isLoading = false;
             responseData.status = true;
-            responseData.message = res.data.message;
+            responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
             dispatch(getBranchList(1, 5));
