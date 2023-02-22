@@ -1,6 +1,7 @@
 import { getSidebarMenuList } from "@/redux/actions/global-action";
 import { RootState } from "@/redux/store";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -42,21 +43,50 @@ export default function Sidebar() {
 }
 
 const SubMenuUI = ({ menu }) => {
+    const router = useRouter();
     const [toggleSubMenu, setToggleSubMenu] = useState(false);
     const { sideMenuList } = useSelector((state: RootState) => state.global);
     const [menuID, setMenuID] = useState(sideMenuList[0].id);
+    const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
     const handleToggle = (key) => {
         setToggleSubMenu(!toggleSubMenu);
         setMenuID(key.id);
+        setIsMenuOpen(!isMenuOpen);
     }
+
+    const getAllUrlsByMenu = (menu) => {
+        let urls = [];
+
+        // Get the URL of the main menu item, if there is one
+        if (menu.url) {
+            urls.push(menu.url);
+        }
+
+        // Get the URL of each sub-menu item, if there are any
+        if (menu.subMenu) {
+            for (let subMenu of menu.subMenu) {
+                urls = urls.concat(getAllUrlsByMenu(subMenu));
+            }
+        }
+
+        return urls;
+    }
+
+    useEffect(() => {
+        const subMenuUrls = getAllUrlsByMenu(menu);
+        if (subMenuUrls.includes(router.pathname)) {
+            setIsMenuOpen(true);
+        }
+    }, [router.pathname]);
+
+    // (toggleSubMenu && menuID === menu.id)
 
     return (
         <li>
             <button onClick={() => handleToggle(menu)} type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full ${(menuID === menu.id && toggleSubMenu === true) ? 'bg-gray-100' : 'bg-white'}`}>
                 <i className={menu.icon}></i>
                 <span className="text-left ml-3 whitespace-nowrap w-full">{menu.title}</span>
-
                 {
                     !toggleSubMenu ?
                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg> :
@@ -64,10 +94,10 @@ const SubMenuUI = ({ menu }) => {
                 }
             </button>
             {
-                <ul className={`text-base text-gray-900 font-normal rounded-lg p-2 group w-full ml-2 ${(toggleSubMenu === true && menuID === menu.id) ? 'block' : 'hidden'}`}>
+                <ul className={`text-base text-gray-900 font-normal rounded-lg p-2 group w-full ml-2 ${isMenuOpen ? 'block' : 'hidden'}`}>
                     {
                         menu.subMenu.map((subMenu, subMenuIndex) => (
-                            <>
+                            <div key={subMenuIndex}>
                                 {
                                     subMenu.subSubMenu.length === 0 ?
                                         <li className="w-full" key={subMenuIndex + 1}>
@@ -78,7 +108,7 @@ const SubMenuUI = ({ menu }) => {
                                         </li> :
                                         <SubSubMenuUI subMenu={subMenu} key={subMenuIndex + 1} />
                                 }
-                            </>
+                            </div>
                         )
                         )}
                 </ul>
