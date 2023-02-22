@@ -19,19 +19,19 @@ export function PersonalInformation({
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3">
+      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Personal Information
       </h3>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
         <Select
           options={[
             {
-              label: "Name 01",
-              value: "value-01",
+              label: "Nominee 01",
+              value: "nominee-01",
             },
             {
-              label: "Name 02",
-              value: "value-02",
+              label: "Nominee 02",
+              value: "nominee-02",
             },
           ]}
           isSearchable={true}
