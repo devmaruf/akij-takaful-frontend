@@ -30,8 +30,9 @@ export default function Branches() {
     const columnData: any[] = [
         { title: "Branch name", id: 1 },
         { title: "Branch code", id: 2 },
-        { title: "Bank name", id: 3 },
-        { title: "Action", id: 4 },
+        { title: "Branch status", id: 3 },
+        { title: "Bank name", id: 4 },
+        { title: "Action", id: 5 },
     ]
 
     React.useEffect(() => {
@@ -117,13 +118,15 @@ export default function Branches() {
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.name}
                                     </th>
+                                    <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        {data.code}
+                                    </th>
+                                    <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        {data.status}
+                                    </th>
                                     <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.project_name}
                                     </td>
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {data.code}
-                                    </td>
-
                                     <td className="px-2 py-3 flex gap-1">
                                         <Tooltip content={`View - ${data.name}`}>
                                             <Button
@@ -220,19 +223,20 @@ export default function Branches() {
                                         </div>
                                         <h6>{branchDetails.name}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>Bank name</h6>
-                                            <h6>:</h6>
-                                        </div>
-                                        <h6>{branchDetails.project_name}</h6>
-                                        <div className='flex justify-between'>
                                             <h6>Branch code</h6>
                                             <h6>:</h6>
                                         </div>
+                                        <h6>{branchDetails.code}</h6>
                                         <div className='flex justify-between'>
                                             <h6>Branch status</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{branchDetails.status}</h6>
+                                        <div className='flex justify-between'>
+                                            <h6>Bank name</h6>
+                                            <h6>:</h6>
+                                        </div>
+                                        <h6>{branchDetails.project_name}</h6>
                                     </div>
                                 ) : (
                                     <div>Something Went wrong!</div>
