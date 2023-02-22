@@ -164,7 +164,7 @@ export default function Banks(props: IBanksProps) {
 
             <NewBank
                showModal={showModal}
-               setShowModal={() => setShowModal(true)}
+               setShowModal={(value) => setShowModal(value)}
                changeTextInput={changeTextInput}
                onSubmit={(e) => onSubmit(e, "add")}
             />
