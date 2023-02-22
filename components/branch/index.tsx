@@ -103,7 +103,7 @@ export default function Branches() {
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Branchs" />
+                            <Loading loadingTitle="Branches" />
                         </div> :
 
                         <Table
