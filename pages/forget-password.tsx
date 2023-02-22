@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import IInput from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/ProposalsAction';
+import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/proposal-action';
 import IButton from '@/components/button';
 import Link from 'next/link';
 
@@ -32,7 +32,7 @@ export default function ResetPassword() {
     return (
         <section className="md:h-screen py-4 px-6 md:px-10 bg-white text-gray-900 block sm:flex items-center justify-between border-b lg:mt-1.5">
             <div className='block md:flex justify-center items-center w-full'>
-                
+
                 <div className="basis-1 md:basis-1/3 bg-white border border-gray-400 rounded-md p-4 shadow-md">
                     <form>
                         <div className="flex items-center mb-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
@@ -61,7 +61,7 @@ export default function ResetPassword() {
                             type="password"
                             inputChange={(e) => handleChange(e)}
                         />
-                     
+
                         <div className="text-center lg:text-left">
                             <IButton
                                 title="Submit"

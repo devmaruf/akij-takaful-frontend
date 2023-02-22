@@ -1,29 +1,27 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Breadcrumb from '@/components/breadcrumb';
 import Modal from '@/components/modal';
 import PageTitle from '@/components/pageTitle';
 import Table from '@/components/table';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProposalList, getProposalDetails, deleteProposal } from '@/redux/actions/ProposalsAction';
+import { getProposalList, getProposalDetails, deleteProposal } from '@/redux/actions/proposal-action';
 import { RootState } from '@/redux/store';
-import  Button from '@/components/button';
+import Button from '@/components/button';
 import Tooltip from '@/components/tooltip';
 import Loading from '@/components/loading';
 
 export default function Proposals() {
-
     const dispatch = useDispatch();
-
-    const [showModal, setShowModal]             = React.useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
-    const [proposalID, setProposal]             = React.useState<number | null>(null);
-    const [currentPage, setCurrentPage]         = React.useState<number>(1);
-    const [dataLimit, setDataLimit]             = React.useState<number>(5);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [proposalID, setProposal] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [dataLimit, setDataLimit] = useState<number>(10);
 
     const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.Proposal);
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getProposalList(currentPage, dataLimit))
     }, [currentPage, dataLimit])
 
@@ -38,13 +36,13 @@ export default function Proposals() {
     }
 
     const columnData: any[] = [
-        { title: "Proposal No", id: "01" },
-        { title: "Proposal Name", id: "02" },
-        { title: "Plan", id: "03" },
-        { title: "FA Code", id: "04" },
-        { title: "Initial Sum Assured", id: "05" },
-        { title: "Initial Premium", id: "06" },
-        { title: "Action", id: "07" },
+        { title: "Proposal No", id: 1 },
+        { title: "Plan", id: 2 },
+        { title: "FA Code", id: 3 },
+        { title: "Initial Sum Assured", id: 4 },
+        { title: "Initial Premium", id: 5 },
+        { title: "Status", id: 6 },
+        { title: "Action", id: 7 },
     ]
 
     return (
@@ -53,40 +51,22 @@ export default function Proposals() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <Breadcrumb />
-                        <PageTitle title='all proposals' />
+                        <PageTitle title='Proposals' />
                     </div>
                     <div className="sm:flex">
                         <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
                             <form className="lg:pr-3" action="#" method="GET">
                                 <label htmlFor="users-search" className="sr-only">Search</label>
                                 <div className="mt-1 relative lg:w-64 xl:w-96">
-                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for users" />
+                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for proposals" />
                                 </div>
                             </form>
-                            <div className="flex space-x-1 pl-0 sm:pl-2 mt-3 sm:mt-0">
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                                </a>
-                            </div>
                         </div>
                         <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
                             <Link href="/proposals/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
                                 <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                                Add New Project
+                                New Proposal
                             </Link>
-                            <a href="#" className="w-1/2 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
-                                <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" /></svg>
-                                Export Project
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -106,14 +86,12 @@ export default function Proposals() {
                             totalData={paginationData.total}
                         >
                             {
-                                proposalsList && proposalsList.length > 0 && proposalsList.map((data, index) => (
+                                proposalsList && proposalsList.length > 0
+                                && proposalsList.map((data, index) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.proposal_no}
                                         </th>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {data.proposer_name}
-                                        </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                             {data.plan_name}
                                         </td>
@@ -125,6 +103,9 @@ export default function Proposals() {
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.premium}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                            {data.status}
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
@@ -214,7 +195,6 @@ export default function Proposals() {
                 }
             </Modal>
 
-
             <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
                 <div className="text-gray-900 text-center flex flex-col justify-center items-center">
                     <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -230,8 +210,6 @@ export default function Proposals() {
                     <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
                 </div>
             </Modal>
-
-
         </div >
     )
 }

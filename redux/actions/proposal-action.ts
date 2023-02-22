@@ -1,27 +1,19 @@
 import * as Types from "./../types/ProposalsType";
-import Axios from "axios";
+import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 
-const BASE_URL = process.env.BASE_URL;
-
 interface proposalInputType {
-    proposal_no        : string;
-    proposer_name      : string;
-    plan_id            : number;
-    fa_code            : string;
+    proposal_no: string;
+    proposer_name: string;
+    plan_id: number;
+    fa_code: string;
     initial_sum_assured: string;
-    premium            : string;
+    premium: string;
 }
 
-/**
- * 
- * @param name String
- * @param value Any
- * @returns data
- */
 export const handleChangeProposalInput = (name: string, value: any) => (dispatch: any) => {
     let data = {
-        name : name,
+        name: name,
         value: value,
     }
     dispatch({ type: Types.CHANGE_PROPOSALS_INPUT, payload: data });
@@ -32,19 +24,12 @@ export const handleChangeProposalInput = (name: string, value: any) => (dispatch
  * @returns data
  */
 export const getPlanList = () => (dispatch: any) => {
-    Axios.get(`${BASE_URL}/plans/dropdown/list`)
+    axios.get(`/plans/dropdown/list`)
         .then((res) => {
-            if (res.status === 200) {
-                dispatch({ type: Types.GET_PLAN_LIST, payload: res.data.data });
-            }
+            dispatch({ type: Types.GET_PLAN_LIST, payload: res.data });
         });
 };
 
-
-/**
- * Submit Proposal Data
- * @param proposalInput object
- */
 export const submitProposal = (proposalInput: proposalInputType) => (dispatch: any) => {
     if (proposalInput.proposal_no === "") {
         Toaster("error", "Proposal No can't be blank!");
@@ -72,81 +57,63 @@ export const submitProposal = (proposalInput: proposalInputType) => (dispatch: a
     }
 
     let responseData = {
-        status   : false,
-        message  : "",
+        status: false,
+        message: "",
         isLoading: true,
     };
     dispatch({ type: Types.SUBMIT_PROPOSAL, payload: responseData });
 
-    Axios.post(`${BASE_URL}/proposals`, proposalInput)
+    axios.post(`/proposals`, proposalInput)
         .then(res => {
-            if (res.status === 200) {
-                responseData.status = true;
-                responseData.isLoading = false;
-                responseData.message = res.data.message;
-                Toaster('success', responseData.message);
-                dispatch({ type: Types.SUBMIT_PROPOSAL, payload: responseData });
-            }
-        }).catch((error) => {
-            let responseLog = error.response;
+            responseData.status = true;
             responseData.isLoading = false;
-            if (typeof responseLog !== 'undefined') {
-                const { request, ...errorObject } = responseLog;
-                Toaster('error', responseLog.data.message);
-                dispatch({ type: Types.SUBMIT_PROPOSAL, payload: responseData })
-            }
+            responseData.message = res.data.message;
+            Toaster('success', responseData.message);
+            dispatch({ type: Types.SUBMIT_PROPOSAL, payload: responseData });
+        }).catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.SUBMIT_PROPOSAL, payload: responseData })
         })
 }
 
-/**
- * Get Proposals List.
- * @param currentPage Number -- Default 1
- * @param dataLimit Number -- Default 10
- * @returns void Dispatch `GET_PROPOSAL_LIST` action
- */
 export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
     let response = {
-        status        : false,
-        message       : "",
-        isLoading     : true,
-        data          : [],
+        status: false,
+        message: "",
+        isLoading: true,
+        data: [],
         paginationData: [],
     };
+
     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-    try {
-        const res = Axios.get(`${BASE_URL}/proposals?perPage=${dataLimit}&currentPage=${currentPage}`);
-        if (res.status === 200) {
+
+    axios.get(`/proposals?perPage=${dataLimit}&currentPage=${currentPage}`)
+        .then(res => {
             response.isLoading = false;
             response.status = true;
             response.message = res.data.message;
-            response.data = res.data.data.data;
-            response.paginationData = res.data.data;
+            response.data = res.data.data;
+            response.paginationData = res.data;
             dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-        }
-    } catch (error) {
-        response.isLoading = false;
-        dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-    }
+        })
+        .catch(error => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
+        });
 }
 
-
-/**
- * Get Proposals Details.
- * @param id Number -- Proposal id
- * @returns void Dispatch `GET_PROPOSAL_DETAILS` action
- */
 export const getProposalDetails = (id: number | string) => (dispatch) => {
     let response = {
-        status   : false,
-        message  : "",
+        status: false,
+        message: "",
         isLoading: true,
-        data     : null,
+        data: null,
         inputData: {},
     };
     dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
-    try {
-        const res = Axios.get(`${BASE_URL}/proposals/${id}`);
-        if (res.status === 200) {
+
+    axios.get(`/proposals/${id}`)
+        .then(res => {
             response.isLoading = false;
             response.status = true;
             response.message = res.data.message;
@@ -161,19 +128,13 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
             response.inputData.initial_sum_assured = res.data.data.initial_sum_assured;
             response.inputData.initial_premium = res.data.data.initial_premium;
             dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
-        }
-    } catch (error) {
-        response.isLoading = false;
-        dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
-    }
+        })
+        .catch(error => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
+        });
 }
 
-
-
-/**
- * Update Proposals Data
- * @param proposalInput object
- */
 export const updateProposal = (proposalInput: proposalInputType, id: number) => (dispatch: any) => {
     if (proposalInput.proposal_no === "") {
         Toaster("error", "Proposal No can't be blank!");
@@ -201,47 +162,35 @@ export const updateProposal = (proposalInput: proposalInputType, id: number) => 
     }
 
     let responseData = {
-        status   : false,
-        message  : "",
+        status: false,
+        message: "",
         isLoading: true,
     };
     dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
 
-    Axios.put(`${BASE_URL}/proposals/${id}`, proposalInput)
+    axios.put(`/proposals/${id}`, proposalInput)
         .then(res => {
-            if (res.status === 200) {
-                responseData.status = true;
-                responseData.isLoading = false;
-                responseData.message = res.data.message;
-                Toaster('success', responseData.message);
-                dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
-            }
-        }).catch((error) => {
-            let responseLog = error.response;
+            responseData.status = true;
             responseData.isLoading = false;
-            if (typeof responseLog !== 'undefined') {
-                const { request, ...errorObject } = responseLog;
-                Toaster('error', responseLog.data.message);
-                dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
-            }
+            responseData.message = res.data.message;
+            Toaster('success', responseData.message);
+            dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
+        }).catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
         })
 }
 
-/**
- * Delete Proposals Details.
- * @param id Number -- Proposal id
- * @returns void Dispatch `GET_PROPOSAL_DETAILS` action
- */
 export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
     let responseData = {
-        status   : false,
-        message  : "",
+        status: false,
+        message: "",
         isLoading: true,
     };
     dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData });
-    try {
-        const res = Axios.delete(`${BASE_URL}/proposals/${id}`);
-        if (res.status === 200) {
+
+    axios.delete(`/proposals/${id}`)
+        .then(res => {
             responseData.isLoading = false;
             responseData.status = true;
             responseData.message = res.data.message;
@@ -249,14 +198,9 @@ export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
             setShowDeleteModal(false);
             dispatch(getProposalList());
             dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData });
-        }
-    } catch (error) {
-        let responseLog = error.response;
-        responseData.isLoading = false;
-        if (typeof responseLog !== 'undefined') {
-            const { request, ...errorObject } = responseLog;
-            Toaster('error', responseLog.data.message);
+        })
+        .catch(error => {
+            responseData.isLoading = false;
             dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData })
-        }
-    }
+        });
 }

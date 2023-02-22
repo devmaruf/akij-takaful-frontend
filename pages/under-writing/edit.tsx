@@ -5,14 +5,14 @@ import { RootState } from '@/redux/store';
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
 import Input from '@/components/input';
-import { getPlanList, handleChangeProposalInput, updateProposal, getProposalDetails } from '@/redux/actions/proposal-action';
+import { getPlanList, handleChangeProposalInput, updateProposal, getProposalDetails } from '@/redux/actions/ProposalsAction';
 import Select from '@/components/select';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
 
 export default function Edit() {
   const router = useRouter()
-  const { id } = router.query;
+  const { id } = router.query
   const dispatch = useDispatch();
   const { proposalInput, planList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.Proposal);
 
