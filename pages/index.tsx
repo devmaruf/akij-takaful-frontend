@@ -23,14 +23,14 @@ export default function Home() {
           <Card>
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
                   20
                 </span>
-                <h3 className="text-base font-normal text-gray-500">
+                <h3 className="text-base font-normal text-blue-500">
                   PAYMENT PENDING
                 </h3>
               </div>
-              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 12,301৳
               </div>
             </div>
@@ -38,14 +38,14 @@ export default function Home() {
           <Card>
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
                   5
                 </span>
-                <h3 className="text-base font-normal text-gray-500">
+                <h3 className="text-base font-normal text-blue-500">
                   PENDING UND APPROVAL
                 </h3>
               </div>
-              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 5,301৳
               </div>
             </div>
@@ -53,14 +53,14 @@ export default function Home() {
           <Card>
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
                   4
                 </span>
-                <h3 className="text-base font-normal text-gray-500">
+                <h3 className="text-base font-normal text-blue-500">
                   PENDING PROPOSAL
                 </h3>
               </div>
-              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 3,301৳
               </div>
             </div>
