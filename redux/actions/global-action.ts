@@ -10,18 +10,20 @@ export const getSidebarMenuList = () => (dispatch) => {
         {
             id: 'menu00',
             title: 'Dashboard',
-            icon: 'fa-solid fa-list-check',
+            icon: 'bi-speedometer2',
             url: '',
             subMenu: [
                 {
                     id: 'subMenu00.1',
                     title: 'Dashboard',
+                    icon: 'bi-speedometer2',
                     url: '/',
                     subSubMenu: [],
                 },
                 {
                     id: 'subMenu00.2',
                     title: 'Financial Dashboard',
+                    icon: 'bi-cash-coin',
                     url: '/dashboard/financial-dashboard',
                     subSubMenu: [],
                 }
@@ -30,18 +32,20 @@ export const getSidebarMenuList = () => (dispatch) => {
         {
             id: 'menu01',
             title: 'HR Management',
-            icon: 'fa-solid fa-list-check',
+            icon: 'bi-people',
             url: '',
             subMenu: [
                 {
                     id: 'subMenu01.1',
                     title: 'Manage Employees',
+                    icon: 'bi-person',
                     url: '/employee',
                     subSubMenu: [],
                 },
                 {
                     id: 'subMenu01.2',
                     title: 'New Employee',
+                    icon: 'bi-person-add',
                     url: '/employee/create',
                     subSubMenu: [],
                 }
@@ -50,18 +54,20 @@ export const getSidebarMenuList = () => (dispatch) => {
         {
             id: 'menu02',
             title: 'Proposals',
-            icon: 'fa-brands fa-buffer',
+            icon: 'bi-person-badge',
             url: '',
             subMenu: [
                 {
                     id: 'subMenu02.1',
                     title: 'Manage Proposals',
+                    icon: 'bi-person-fill',
                     url: '/proposals',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu02.2',
                     title: 'New Proposal',
+                    icon: 'bi-person-fill-add',
                     url: '/proposals/create',
                     subSubMenu: []
                 },
@@ -71,24 +77,27 @@ export const getSidebarMenuList = () => (dispatch) => {
         {
             id: 'menu03',
             title: 'Worksheets',
-            icon: 'fa-brands fa-buffer',
+            icon: 'bi-person-workspace',
             url: '',
             subMenu: [
                 {
                     id: 'subMenu03.1',
                     title: 'Manage Worksheets',
+                    icon: 'bi-person-workspace',
                     url: '/proposals',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu03.2',
                     title: 'New Worksheet',
+                    icon: 'bi-node-plus-fill',
                     url: '/proposals/create',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu03.3',
                     title: 'Underwriting',
+                    icon: 'bi-newspaper',
                     url: '/under-writing',
                     subSubMenu: []
                 },
@@ -97,18 +106,20 @@ export const getSidebarMenuList = () => (dispatch) => {
         {
             id: 'menu04',
             title: 'Configurations',
-            icon: 'fa-solid fa-screwdriver-wrench',
+            icon: 'bi-gear',
             url: '',
             subMenu: [
                 {
                     id: 'subMenu04.1',
                     title: 'Enlist bank',
+                    icon: 'bi-bank',
                     url: '/settings/banks',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu04.2',
                     title: 'Open branch',
+                    icon: 'bi-bank2',
                     url: '/settings/branches',
                     subSubMenu: []
                 },

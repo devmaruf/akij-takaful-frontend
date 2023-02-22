@@ -33,6 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <link rel="shortcut icon" href="/favicon.ico" />
                     <link rel="canonical" href="https://akijtakaful.com" />
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
                     <title>{process.env.APP_NAME}</title>
                 </Head>
                 <MasterLayout>
