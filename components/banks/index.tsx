@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Breadcrumb from '@/components/breadcrumb';
@@ -10,31 +9,42 @@ import Tooltip from '@/components/tooltip';
 import Loading from '@/components/loading';
 import Input from '@/components/input';
 
-import { getProjectList, changeInputValue, handleSubmitProject, getProjectDetails, handleUpdateProject, deleteProject } from '@/redux/actions/project-action';
+import {
+    getProjectList,
+    changeInputValue,
+    handleSubmitProject,
+    getProjectDetails,
+    handleUpdateProject,
+    deleteProject
+}
+    from '@/redux/actions/project-action';
+import { useEffect, useState } from 'react';
+import { NewBank } from './NewBank';
 
-export default function Proposals() {
+export interface IBanksProps {
+}
 
+export default function Banks(props: IBanksProps) {
     const dispatch = useDispatch();
-    const [showModal, setShowModal]               = React.useState<boolean>(false);
-    const [showDetailsModal, setShowDetailsModal] = React.useState<boolean>(false);
-    const [showUpdateModal, setShowUpdateModal]   = React.useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal]   = React.useState<boolean>(false);
-    const [projectID, setProjectID]               = React.useState<number | null>(null);
-    const [currentPage, setCurrentPage]           = React.useState<number>(1);
-    const [dataLimit, setDataLimit]               = React.useState<number>(5);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
+    const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [projectID, setProjectID] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [dataLimit, setDataLimit] = useState<number>(10);
 
     const { projectInput, projectList, projectPaginationData, isLoading, isSubmitting, projectDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Project);
 
     const columnData: any[] = [
-        { title: "Project Name", id: "01" },
-        { title: "Project Codes", id: "02" },
-        { title: "Action", id: "03" },
+        { title: "Bank name", id: 1 },
+        { title: "Bank code", id: 2 },
+        { title: "Action", id: 3 },
     ]
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getProjectList(currentPage, dataLimit))
     }, [currentPage, dataLimit])
-
 
     const handleOpenModal = (id: number, type: string) => {
         if (type === "view") {
@@ -69,30 +79,16 @@ export default function Proposals() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <Breadcrumb />
-                        <PageTitle title='all projects' />
+                        <PageTitle title='All Banks' />
                     </div>
                     <div className="sm:flex">
                         <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
                             <form className="lg:pr-3" action="#" method="GET">
                                 <label htmlFor="users-search" className="sr-only">Search</label>
                                 <div className="mt-1 relative lg:w-64 xl:w-96">
-                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for users" />
+                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for banks" />
                                 </div>
                             </form>
-                            <div className="flex space-x-1 pl-0 sm:pl-2 mt-3 sm:mt-0">
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>
-                                </a>
-                                <a href="#" className="text-gray-500 hover:text-gray-900 cursor-pointer p-1 hover:bg-gray-100 rounded inline-flex justify-center">
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" /></svg>
-                                </a>
-                            </div>
                         </div>
                         <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
                             <Button
@@ -100,12 +96,8 @@ export default function Proposals() {
                                 customClass="flex"
                             >
                                 <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                                Add New Project
+                                Enlist bank
                             </Button>
-                            <a href="#" className="w-1/2 text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
-                                <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" /></svg>
-                                Export Project
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -115,7 +107,7 @@ export default function Proposals() {
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Projects" />
+                            <Loading loadingTitle="Banks" />
                         </div> :
 
                         <Table
@@ -170,59 +162,30 @@ export default function Proposals() {
                 }
             </div>
 
-            {/** Add Project Modal */}
-            <Modal title={`Add Project`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
-                <form
-                    method="post"
-                    autoComplete="off"
-                    encType="multipart/form-data"
-                >
-                    <Input
-                        label="Project Name"
-                        name="name"
-                        placeholder='Project Name'
-                        value={projectInput.name}
-                        isRequired={true}
-                        inputChange={changeTextInput}
-                    />
-                    <Input
-                        label="Project Code"
-                        name="code"
-                        placeholder='Project Code'
-                        value={projectInput.code}
-                        isRequired={true}
-                        inputChange={changeTextInput}
-                    />
+            <NewBank
+               showModal={showModal}
+               setShowModal={() => setShowModal(true)}
+               changeTextInput={changeTextInput}
+               onSubmit={(e) => onSubmit(e, "add")}
+            />
 
-                    <Button
-                        title="Submit Project"
-                        onClick={(e) => onSubmit(e, "add")}
-                        position="text-left"
-                        loadingTitle="Submitting..."
-                        loading={isSubmitting}
-                    />
-                </form>
-
-            </Modal>
-
-
-            <Modal title={`Project Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
+            <Modal title={`Bank Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
-                            <Loading loadingTitle="Project Details" />
+                            <Loading loadingTitle="Bank Details" />
                         </div> :
                         <div className="text-gray-900">
                             {
                                 (typeof projectDetails !== "undefined" && projectDetails !== null) ? (
                                     <div className="grid gap-2 grid-cols-2">
                                         <div className='flex justify-between'>
-                                            <h6>Project Name</h6>
+                                            <h6>Bank name</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{projectDetails.name}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>Project Code</h6>
+                                            <h6>Bank code</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{projectDetails.code}</h6>
@@ -235,13 +198,11 @@ export default function Proposals() {
                 }
             </Modal>
 
-
-            {/** Edit Project Modal */}
-            <Modal title={`Update Project`} size="md" show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} isDismissible={false}>
+            <Modal title={`Update Bank`} size="md" show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
-                            <Loading loadingTitle="Project Details" />
+                            <Loading loadingTitle="Bank Details" />
                         </div> :
                         <div className="text-gray-900">
                             {
@@ -252,27 +213,27 @@ export default function Proposals() {
                                         encType="multipart/form-data"
                                     >
                                         <Input
-                                            label="Project Name"
+                                            label="Bank name"
                                             name="name"
-                                            placeholder='Project Name'
+                                            placeholder='Bank name'
                                             value={projectInput.name}
                                             isRequired={true}
                                             inputChange={changeTextInput}
                                         />
                                         <Input
-                                            label="Project Code"
+                                            label="Bank code"
                                             name="code"
-                                            placeholder='Project Code'
+                                            placeholder='Bank code'
                                             value={projectInput.code}
                                             isRequired={true}
                                             inputChange={changeTextInput}
                                         />
 
                                         <Button
-                                            title="Update Project"
+                                            title="Save"
                                             onClick={(e) => onSubmit(e, "edit")}
                                             position="text-left"
-                                            loadingTitle="Updating..."
+                                            loadingTitle="Saving..."
                                             loading={isSubmitting}
                                         />
                                     </form>
@@ -284,8 +245,7 @@ export default function Proposals() {
                 }
             </Modal>
 
-
-            <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
+            <Modal title="Delete a bank" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
                 <div className="text-gray-900 text-center flex flex-col justify-center items-center">
                     <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 5.5C12.5523 5.5 13 5.94772 13 6.5L13 13.5C13 14.0523 12.5523 14.5 12 14.5C11.4477 14.5 11 14.0523 11 13.5L11 6.5C11 5.94772 11.4477 5.5 12 5.5Z" fill="red" />
@@ -293,14 +253,13 @@ export default function Proposals() {
                         <path fillRule="evenodd" clipRule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" fill="red" />
                     </svg>
                     <h2 className='text-2xl font-bold mt-2'> Are You Sure To Delete? </h2>
-
                 </div>
                 <div className='text-right flex justify-end gap-2'>
                     <Button
                         title="Yes"
                         customClass="inline py-2 px-3 rounded-md"
                         loading={isDeleting}
-                        loadingTitle="Deleting Project..."
+                        loadingTitle="Deleting Bank..."
                         onClick={() => dispatch(deleteProject(projectID, setShowDeleteModal))} />
                     <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
                 </div>
