@@ -36,12 +36,13 @@ export default function Proposals() {
     }
 
     const columnData: any[] = [
-        { title: "Proposal No", id: "01" },
-        { title: "Plan", id: "03" },
-        { title: "FA Code", id: "04" },
-        { title: "Initial Sum Assured", id: "05" },
-        { title: "Initial Premium", id: "06" },
-        { title: "Action", id: "07" },
+        { title: "Proposal No", id: 1 },
+        { title: "Plan", id: 2 },
+        { title: "FA Code", id: 3 },
+        { title: "Initial Sum Assured", id: 4 },
+        { title: "Initial Premium", id: 5 },
+        { title: "Status", id: 6 },
+        { title: "Action", id: 7 },
     ]
 
     return (
@@ -50,7 +51,7 @@ export default function Proposals() {
                 <div className="mb-1 w-full">
                     <div className="mb-4">
                         <Breadcrumb />
-                        <PageTitle title='all proposals' />
+                        <PageTitle title='Proposals' />
                     </div>
                     <div className="sm:flex">
                         <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
@@ -102,6 +103,9 @@ export default function Proposals() {
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.premium}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                            {data.status}
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
@@ -191,7 +195,6 @@ export default function Proposals() {
                 }
             </Modal>
 
-
             <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
                 <div className="text-gray-900 text-center flex flex-col justify-center items-center">
                     <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,8 +210,6 @@ export default function Proposals() {
                     <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
                 </div>
             </Modal>
-
-
         </div >
     )
 }
