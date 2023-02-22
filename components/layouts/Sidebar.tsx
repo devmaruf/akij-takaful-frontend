@@ -28,87 +28,11 @@ export default function Sidebar() {
                 <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                     <div className="flex-1 px-3 bg-white divide-y space-y-1">
                         <ul className="space-y-2 pb-2">
-
-                            <li>
-                                <button type="button" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100 w-full" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" /><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" /></svg>
-                                    <span className="text-left ml-3 whitespace-nowrap w-full">Dashboards</span>
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                                </button>
-                                <ul id="dropdown-ecommerce" className="py-1.5">
-                                    <li className="w-full">
-                                        <Link href='/' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Dashboard</span>
-                                        </Link>
-                                    </li>
-                                    <li className="w-full">
-                                        <Link href='/dashboard/financial-dashboard' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Financial Dashboard</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
                             {
                                 sideMenuList && sideMenuList.length > 0 && sideMenuList.map((menu, menuIndex) => (
                                     <SubMenuUI menu={menu} key={menuIndex + 1} />
                                 ))
                             }
-                            <li>
-                                <Link href="/proposals" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd" /></svg>
-                                    <span className="ml-3 flex-1 whitespace-nowrap">Proposals</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/policy-holders" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                                    <span className="ml-3 flex-1 whitespace-nowrap">Policy Holders</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/employee" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>
-                                    <span className="ml-3 flex-1 whitespace-nowrap">Employee</span>
-                                </Link>
-                            </li>
-                            <li>
-                                <button type="button" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100 w-full" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"></path></svg>
-                                    <span className="text-left ml-3 whitespace-nowrap w-full">Worksheets</span>
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                                </button>
-                                <ul id="dropdown-ecommerce" className="py-1.5">
-                                    <li className="w-full">
-                                        <Link href='/settings/banks' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Worksheets</span>
-                                        </Link>
-                                    </li>
-                                    <li className="w-full">
-                                        <Link href='/under-writing' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Underwriting</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <button type="button" className="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100 w-full" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
-                                    <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"></path></svg>
-                                    <span className="text-left ml-3 whitespace-nowrap w-full">Configurations</span>
-                                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                                </button>
-                                <ul id="dropdown-ecommerce" className="py-1.5">
-                                    <li className="w-full">
-                                        <Link href='/settings/banks' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Banks</span>
-                                        </Link>
-                                    </li>
-                                    <li className="w-full">
-                                        <Link href='/settings/branches' className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 w-full">
-                                            <span>Branches</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
                 </div>
@@ -117,36 +41,32 @@ export default function Sidebar() {
     )
 }
 
-
 const SubMenuUI = ({ menu }) => {
     const [toggleSubMenu, setToggleSubMenu] = useState(false);
     const { sideMenuList } = useSelector((state: RootState) => state.global);
     const [menuID, setMenuID] = useState(sideMenuList[0].id);
 
-    const handleToggle = (key) =>{
-        console.log("key", key)
+    const handleToggle = (key) => {
         setToggleSubMenu(!toggleSubMenu);
         setMenuID(key.id);
     }
 
     return (
         <li>
-            <button onClick={()=> handleToggle(menu)} type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full ${(menuID === menu.id && toggleSubMenu === true) ? 'bg-gray-100' : 'bg-white'}`}>
+            <button onClick={() => handleToggle(menu)} type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full ${(menuID === menu.id && toggleSubMenu === true) ? 'bg-gray-100' : 'bg-white'}`}>
                 <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"></path></svg>
                 <span className="text-left ml-3 whitespace-nowrap w-full">{menu.title}</span>
 
-              {
-                !toggleSubMenu ? 
-                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>  :
-                <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z"/></svg>
-
-              } 
+                {
+                    !toggleSubMenu ?
+                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg> :
+                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
+                }
             </button>
             {
                 <ul className={`text-base text-gray-900 font-normal rounded-lg p-2 group w-full ml-2 ${(toggleSubMenu === true && menuID === menu.id) ? 'block' : 'hidden'}`}>
                     {
                         menu.subMenu.map((subMenu, subMenuIndex) => (
-
                             <>
                                 {
                                     subMenu.subSubMenu.length === 0 ?
@@ -170,7 +90,7 @@ const SubSubMenuUI = ({ subMenu }) => {
     const [isToggleSubSubMenu, setIsToggleSubSubMenu] = useState(false)
     return (
         <li className="w-full">
-            <span className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1" onClick={()=>setIsToggleSubSubMenu(!isToggleSubSubMenu)}>{subMenu.title}</span>
+            <span className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1" onClick={() => setIsToggleSubSubMenu(!isToggleSubSubMenu)}>{subMenu.title}</span>
             <ul className={isToggleSubSubMenu ? 'block' : 'hidden'} >
                 {
                     subMenu.subSubMenu.map((subSubMenu, subSubMenuIndex) => (
