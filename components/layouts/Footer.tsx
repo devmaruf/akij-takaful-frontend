@@ -38,7 +38,11 @@ export default function Footer() {
                 </div>
             </footer>
             <p className="text-center text-sm text-gray-500 my-10">
-                © 2023 <a href="https://themesberg.com" className="hover:underline" target="_blank">WorkFortBD</a>.
+                © 2023 &nbsp;
+                <a href="https://themesberg.com" className="hover:underline" target="_blank"
+                    rel="noreferrer">
+                    WorkFortBD
+                </a>.
                 All rights reserved.
             </p>
         </div>

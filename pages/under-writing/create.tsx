@@ -4,7 +4,7 @@ import PageTitle from '@/components/pageTitle';
 import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/ProposalsAction';
+import { getPlanList, handleChangeProposalInput, submitProposal } from '@/redux/actions/proposal-action';
 import Select from '@/components/select';
 import Button from '@/components/button';
 

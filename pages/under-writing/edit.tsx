@@ -5,7 +5,7 @@ import { RootState } from '@/redux/store';
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
 import Input from '@/components/input';
-import { getPlanList, handleChangeProposalInput, updateProposal, getProposalDetails } from '@/redux/actions/ProposalsAction';
+import { getPlanList, handleChangeProposalInput, updateProposal, getProposalDetails } from '@/redux/actions/proposal-action';
 import Select from '@/components/select';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
