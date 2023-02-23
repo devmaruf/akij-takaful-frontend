@@ -31,7 +31,7 @@ export const getSidebarMenuList = () => (dispatch) => {
         },
         {
             id: 'menu01',
-            title: 'HR Management',
+            title: 'Agent Management',
             icon: 'bi-people',
             url: '',
             subMenu: [
