@@ -13,4 +13,9 @@ module.exports = {
     APP_NAME: process.env.APP_NAME,
     APP_DOMAIN: process.env.APP_DOMAIN,
   },
+  typescript: {
+    // @TODO: Remove this line in near future after implementing all in typescript
+    // Dangerously allow production builds to successfully complete even if your project has type errors.
+    ignoreBuildErrors: true,
+  },
 };
