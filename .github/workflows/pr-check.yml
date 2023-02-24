@@ -30,10 +30,5 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            This PR is {{ job.status }}. 
-            {% if job.status == 'success' %}
-            It is deployable!
-            {% else %}
-            Something went wrong while running `npm run build` command, please try running on your local check, if found
-            any issue on that, please fix.
-            {% endif %}
+            You should see check mark(ok/not-ok), If Something went wrong while running `npm run build` command,
+            please try running on your local check, if found any issue on that, please fix.
