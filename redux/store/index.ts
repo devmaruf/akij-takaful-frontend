@@ -6,7 +6,7 @@ import BranchReducer from "./../reducers/BranchReducer";
 import employeeReducer from "../reducers/employee-reducer";
 import designationReducer from "../reducers/designation-reducer";
 import UnderwritingReducer from "../reducers/underwriting-reducer";
-import DashboardReducer from "../reducers/dashboard-reducer";
+import DashboardReducer from "../reducers/proposal-dashboard-reducer";
 import globalReducer from "../reducers/global-reducer";
 
 export const store = configureStore({

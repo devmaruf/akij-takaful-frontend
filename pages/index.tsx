@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDashboardApiFetchAction } from "@/redux/actions/dashboard-action";
+import { getProposalDashboardCountingAction } from "@/redux/actions/proposal-dashboard-action";
 import { RootState } from "@/redux/store";
 import Card from "@/components/card";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { isLoading, dashboardFetchApi } = useSelector(
+  const { isLoading, proposalDashboardCountingApi } = useSelector(
     (state: RootState) => state.dashboard
   );
 
   useEffect(() => {
-    dispatch(getDashboardApiFetchAction());
+    dispatch(getProposalDashboardCountingAction());
   }, []);
 
   return (
@@ -22,29 +22,17 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  {dashboardFetchApi.total_no_of_submitted_proposal}
+                  {proposalDashboardCountingApi.total_no_of_submitted_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   PROPOSAL SUBMITTED
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                {dashboardFetchApi.total_amount_of_submitted_proposal} ৳
-              </div>
-            </div>
-          </Card>
-          <Card>
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
-                  {dashboardFetchApi.total_no_of_pending_payment_proposal}
-                </span>
-                <h3 className="text-base font-normal text-blue-500">
-                  PAYMENT PENDING
-                </h3>
-              </div>
-              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                {dashboardFetchApi.total_no_of_pending_payment_proposal}৳
+                {
+                  proposalDashboardCountingApi.total_amount_of_submitted_proposal
+                }{" "}
+                ৳
               </div>
             </div>
           </Card>
@@ -53,16 +41,16 @@ export default function Home() {
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
                   {
-                    dashboardFetchApi.total_no_of_pending_proposal_approval_from_und
+                    proposalDashboardCountingApi.total_no_of_pending_payment_proposal
                   }
                 </span>
                 <h3 className="text-base font-normal text-blue-500">
-                  PENDING UND APPROVAL
+                  PAYMENT PENDING
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 {
-                  dashboardFetchApi.total_no_of_pending_proposal_approval_from_und
+                  proposalDashboardCountingApi.total_no_of_pending_payment_proposal
                 }
                 ৳
               </div>
@@ -72,14 +60,34 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
-                  {dashboardFetchApi.total_no_of_pending_proposal}
+                  {
+                    proposalDashboardCountingApi.total_no_of_pending_proposal_approval_from_und
+                  }
+                </span>
+                <h3 className="text-base font-normal text-blue-500">
+                  PENDING UND APPROVAL
+                </h3>
+              </div>
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
+                {
+                  proposalDashboardCountingApi.total_no_of_pending_proposal_approval_from_und
+                }
+                ৳
+              </div>
+            </div>
+          </Card>
+          <Card>
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
+                  {proposalDashboardCountingApi.total_no_of_pending_proposal}
                 </span>
                 <h3 className="text-base font-normal text-blue-500">
                   PENDING PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                {dashboardFetchApi.total_amount_of_pending_proposal}৳
+                {proposalDashboardCountingApi.total_amount_of_pending_proposal}৳
               </div>
             </div>
           </Card>
@@ -87,14 +95,15 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  {dashboardFetchApi.total_no_of_approved_proposal}
+                  {proposalDashboardCountingApi.total_no_of_approved_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   APPROVED PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                {dashboardFetchApi.total_amount_of_approved_proposal}৳
+                {proposalDashboardCountingApi.total_amount_of_approved_proposal}
+                ৳
               </div>
             </div>
           </Card>
@@ -102,14 +111,14 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-red-900">
-                  {dashboardFetchApi.total_no_of_expired_proposal}
+                  {proposalDashboardCountingApi.total_no_of_expired_proposal}
                 </span>
                 <h3 className="text-base font-normal text-red-500">
                   EXPIRED PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-                {dashboardFetchApi.total_amount_of_expired_proposal}৳
+                {proposalDashboardCountingApi.total_amount_of_expired_proposal}৳
               </div>
             </div>
           </Card>
@@ -117,14 +126,17 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  {dashboardFetchApi.total_no_of_completed_proposal}
+                  {proposalDashboardCountingApi.total_no_of_completed_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   COMPLETED POLICY
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                {dashboardFetchApi.total_amount_of_completed_proposal}৳
+                {
+                  proposalDashboardCountingApi.total_amount_of_completed_proposal
+                }
+                ৳
               </div>
             </div>
           </Card>
