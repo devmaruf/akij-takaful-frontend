@@ -27,7 +27,7 @@ jobs:
           fi
 
       - name: Comment on PR
-        uses: unsplash/comment-on-pr@v1
+        uses: unsplash/comment-on-pr@v2
         with:
           message: |
             This PR is {{ job.status }}. 
