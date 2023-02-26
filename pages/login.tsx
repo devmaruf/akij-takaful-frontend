@@ -78,6 +78,7 @@ export default function Login() {
                                 title="Login"
                                 onClick={(e) => onSubmit(e)}
                                 position="text-left"
+                                loadingTitle="Logging"
                                 loading={isSubmitting}
                             />
 

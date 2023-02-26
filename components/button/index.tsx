@@ -21,7 +21,7 @@ export default function Button({ title, loadingTitle = "Loading...", onClick, di
                         type="submit"
                         disabled={true}
                     >
-                        {loadingTitle}
+                        {loadingTitle}...
                     </button> :
                     <button
                         className={`text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm text-center px-3 py-2 ${customClass}`}
