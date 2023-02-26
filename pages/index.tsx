@@ -1,6 +1,19 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProposalDashboardCountingAction } from "@/redux/actions/proposal-dashboard-action";
+import { RootState } from "@/redux/store";
 import Card from "@/components/card";
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const { isLoading, proposalDashboardCountingApi } = useSelector(
+    (state: RootState) => state.dashboard
+  );
+
+  useEffect(() => {
+    dispatch(getProposalDashboardCountingAction());
+  }, []);
+
   return (
     <>
       <div className="pt-6 px-4">
@@ -9,14 +22,17 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  282
+                  {proposalDashboardCountingApi.total_no_of_submitted_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   PROPOSAL SUBMITTED
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                39,301৳
+                {
+                  proposalDashboardCountingApi.total_amount_of_submitted_proposal
+                }{" "}
+                ৳
               </div>
             </div>
           </Card>
@@ -24,14 +40,19 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
-                  20
+                  {
+                    proposalDashboardCountingApi.total_no_of_pending_payment_proposal
+                  }
                 </span>
                 <h3 className="text-base font-normal text-blue-500">
                   PAYMENT PENDING
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                12,301৳
+                {
+                  proposalDashboardCountingApi.total_no_of_pending_payment_proposal
+                }
+                ৳
               </div>
             </div>
           </Card>
@@ -39,14 +60,19 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
-                  5
+                  {
+                    proposalDashboardCountingApi.total_no_of_pending_proposal_approval_from_und
+                  }
                 </span>
                 <h3 className="text-base font-normal text-blue-500">
                   PENDING UND APPROVAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                5,301৳
+                {
+                  proposalDashboardCountingApi.total_no_of_pending_proposal_approval_from_und
+                }
+                ৳
               </div>
             </div>
           </Card>
@@ -54,14 +80,14 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
-                  4
+                  {proposalDashboardCountingApi.total_no_of_pending_proposal}
                 </span>
                 <h3 className="text-base font-normal text-blue-500">
                   PENDING PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                3,301৳
+                {proposalDashboardCountingApi.total_amount_of_pending_proposal}৳
               </div>
             </div>
           </Card>
@@ -69,14 +95,15 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  100
+                  {proposalDashboardCountingApi.total_no_of_approved_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   APPROVED PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                63,301৳
+                {proposalDashboardCountingApi.total_amount_of_approved_proposal}
+                ৳
               </div>
             </div>
           </Card>
@@ -84,14 +111,14 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-red-900">
-                  2
+                  {proposalDashboardCountingApi.total_no_of_expired_proposal}
                 </span>
                 <h3 className="text-base font-normal text-red-500">
                   EXPIRED PROPOSAL
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-                2,301৳
+                {proposalDashboardCountingApi.total_amount_of_expired_proposal}৳
               </div>
             </div>
           </Card>
@@ -99,14 +126,17 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
-                  130
+                  {proposalDashboardCountingApi.total_no_of_completed_proposal}
                 </span>
                 <h3 className="text-base font-normal text-gray-500">
                   COMPLETED POLICY
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                90,301৳
+                {
+                  proposalDashboardCountingApi.total_amount_of_completed_proposal
+                }
+                ৳
               </div>
             </div>
           </Card>
