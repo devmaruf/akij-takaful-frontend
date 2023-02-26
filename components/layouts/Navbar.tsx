@@ -39,7 +39,7 @@ export default function Navbar() {
 
                     {
                         typeof userData !== "undefined" && userData !== null &&
-                        <Dropdown label={userData.first_name + ' ' + userData.last_name} className="bg-cyan-600 text-white" style={{ backgroundColor: "#0891B2" }}>
+                        <Dropdown label={userData.first_name + ' ' + userData.last_name} style={{ backgroundColor: "#0891B2" }}>
                             <Dropdown.Header className="border-gray-300 py-2 text-center">
                                 {
                                     userData.avatar === null ?
@@ -50,23 +50,23 @@ export default function Navbar() {
                                     {userData.email}
                                 </span>
                             </Dropdown.Header>
-                            <Dropdown.Item className="hover:bg-cyan-600 hover:text-white py-2 px-4">
+                            <Dropdown.Item className="py-2 px-4">
                                 <Link href={'/'}>
                                     <i className="bi bi-person-bounding-box"></i> &nbsp;&nbsp; Profile
                                 </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item className="hover:bg-cyan-600 hover:text-white py-2 px-4">
+                            <Dropdown.Item className="py-2 px-4">
                                 <Link href={'/'}>
                                     <i className="bi bi-speedometer2"></i> &nbsp;&nbsp; Dashboard
                                 </Link>
                             </Dropdown.Item>
-                            <Dropdown.Item className="hover:bg-cyan-600 hover:text-white py-2 px-4">
+                            <Dropdown.Item className="py-2 px-4">
                                 <Link href={'/'}>
                                     <i className="bi bi-gear"></i> &nbsp;&nbsp; Settings
                                 </Link>
                             </Dropdown.Item>
-                            <Dropdown.Divider className="border-t border-gray-300" />
-                            <Dropdown.Item className="hover:bg-cyan-600 hover:text-white px-4" onClick={() => logout()}>
+                            {/* <Dropdown.Divider className="" /> */}
+                            <Dropdown.Item className="px-4" onClick={() => logout()}>
                                 <i className="bi bi-box-arrow-right"></i> &nbsp;&nbsp; Sign out
                             </Dropdown.Item>
                         </Dropdown>

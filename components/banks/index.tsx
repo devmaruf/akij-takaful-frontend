@@ -33,6 +33,8 @@ export default function Banks(props: IBanksProps) {
     const [projectID, setProjectID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
+    const [searchText, setSearchText] = useState<string>('');
+
 
     const { projectInput, projectList, projectPaginationData, isLoading, isSubmitting, projectDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Project);
 
@@ -43,8 +45,8 @@ export default function Banks(props: IBanksProps) {
     ]
 
     useEffect(() => {
-        dispatch(getProjectList(currentPage, dataLimit))
-    }, [currentPage, dataLimit])
+        dispatch(getProjectList(currentPage, dataLimit, searchText))
+    }, [currentPage, dataLimit, searchText])
 
     const handleOpenModal = (id: number, type: string) => {
         if (type === "view") {
@@ -86,7 +88,7 @@ export default function Banks(props: IBanksProps) {
                             <form className="lg:pr-3" action="#" method="GET">
                                 <label htmlFor="users-search" className="sr-only">Search</label>
                                 <div className="mt-1 relative lg:w-64 xl:w-96">
-                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for banks" />
+                                    <input type="text" name="bank" id="bank-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for banks" onChange={(e)=> setSearchText(e.target.value)} />
                                 </div>
                             </form>
                         </div>

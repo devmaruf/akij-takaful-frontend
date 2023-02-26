@@ -32,20 +32,30 @@ export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: an
         code: projectInput.code
     })
         .then(res => {
-                responseData.status = true;
-                responseData.isLoading = false;
-                responseData.message = res.message;
-                Toaster('success', responseData.message);
-                setShowModal(false);
-                dispatch(getProjectList(1, 5));
-                dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
+            responseData.status = true;
+            responseData.isLoading = false;
+            responseData.message = res.message;
+            Toaster('success', responseData.message);
+            setShowModal(false);
+            dispatch(getProjectList(1, 5));
+            dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData })
         })
 }
 
-export const getProjectList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
+export const getProjectList = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch) => {
+
+    let bankURL = 'projects'
+
+    if (dataLimit) {
+        bankURL += `?perPage=${dataLimit}`;
+    }
+    if(searchText !== ''){
+        bankURL += `&search=${searchText}`;
+    }
+
     let response = {
         status: false,
         message: "",
@@ -55,14 +65,14 @@ export const getProjectList = (currentPage: number = 1, dataLimit: number = 10) 
     };
     dispatch({ type: Types.GET_PROJECT_LIST, payload: response });
 
-    axios.get(`/projects?perPage=${dataLimit}&currentPage=${currentPage}`)
+    axios.get(bankURL)
         .then((res) => {
-                response.isLoading = false;
-                response.status = true;
-                response.message = res.message;
-                response.data = res.data.data;
-                response.paginationData = res.data;
-                dispatch({ type: Types.GET_PROJECT_LIST, payload: response });
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data.data;
+            response.paginationData = res.data;
+            dispatch({ type: Types.GET_PROJECT_LIST, payload: response });
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.GET_PROJECT_LIST, payload: response })
@@ -85,11 +95,11 @@ export const getProjectDetails = (id: number | string) => (dispatch) => {
 
     axios.get(`/projects/${id}`)
         .then((res) => {
-                response.isLoading = false;
-                response.status = true;
-                response.message = res.message;
-                response.data = res.data;
-                dispatch({ type: Types.GET_PROJECT_DETAILS, payload: response });
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data;
+            dispatch({ type: Types.GET_PROJECT_DETAILS, payload: response });
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.GET_PROJECT_LIST, payload: response })
