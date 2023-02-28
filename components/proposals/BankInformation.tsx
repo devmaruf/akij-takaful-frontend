@@ -1,18 +1,16 @@
 import * as React from "react";
 import Input from "@/components/input";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 
 export interface IBankInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
+  handleChangeTextInput: (name: string, value: any) => void
 }
 
 export function BankInformation({ handleChangeTextInput }: IBankInformation) {
-  const dispatch = useDispatch();
-  const { proposalInput, planList, isSubmitting } = useSelector(
-    (state: RootState) => state.Proposal
-  );
+
+  const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -24,15 +22,16 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           options={[
             {
               label: "Nominee 01",
-              value: "nominee-01",
+              value: 1,
             },
             {
               label: "Nominee 02",
-              value: "nominee-02",
+              value: 2,
             },
           ]}
           isSearchable={true}
           name="proposal_nominee_id"
+          value={proposalInput.proposer_bank_information.proposal_nominee_id}
           label="Proposal Nominee"
           defaultValue=""
           placeholder="Nominee Name"
@@ -43,7 +42,7 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={proposalInput.bank_name}
+          value={proposalInput.proposer_bank_information.bank_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -61,6 +60,7 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           ]}
           isSearchable={true}
           name="bank_branch_name"
+          value={proposalInput.proposer_bank_information.bank_branch_name}
           label="Branch Name"
           defaultValue=""
           placeholder="Branch Name"
@@ -69,9 +69,10 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
 
         <Input
           label="Account No"
+          type="number"
           name="bank_account_no"
           placeholder="Account No"
-          value={proposalInput.bank_account_no}
+          value={proposalInput.proposer_bank_information.bank_account_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -80,7 +81,7 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={proposalInput.bank_account_holder_name}
+          value={proposalInput.proposer_bank_information.bank_account_holder_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
