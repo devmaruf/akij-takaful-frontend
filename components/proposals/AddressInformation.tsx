@@ -1,6 +1,6 @@
 import * as React from "react";
 import Input from "@/components/input";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 
@@ -8,13 +8,41 @@ export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function AddressInformation({
-  handleChangeTextInput,
-}: IAddressInformation) {
-  const dispatch = useDispatch();
-  const { proposalInput, planList, isSubmitting } = useSelector(
-    (state: RootState) => state.Proposal
-  );
+export function AddressInformation({ changePresentAddress, changePermanentAddress }: IAddressInformation) {
+
+  const { proposalInput } = useSelector((state: RootState) => state.proposal);
+
+  const divisionList = [
+    { label: "Barishal", value: "barishal" },
+    { label: "Chattogram", value: "chattogram" },
+    { label: "Dhaka ", value: "dhaka " },
+    { label: "Khulna ", value: "khulna " },
+    { label: "Rajshahi", value: "rajshahi" },
+    { label: "Rangpur", value: "rangpur" },
+    { label: "Sylhet", value: "sylhet" },
+  ]
+
+  const districtList = [
+    { label: "Chattogram", value: "chattogram" },
+    { label: "Dhaka", value: "dhaka" },
+    { label: "Rangamati", value: "rangamati" },
+    { label: "Faridpur", value: "raridpur" },
+    { label: "Nowakhali", value: "nowakhali" },
+  ]
+
+  const areaList = [
+    { label: "Karnaphuli", value: "karnaphuli" },
+    { label: "Patiya", value: "patiya" },
+    { label: "Mohakhali", value: "mohakhali" },
+    { label: "Jatrabari", value: "jatrabari" },
+  ]
+
+  const nomineeList = [
+    { label: "Mr. Rahim", value: 1 },
+    { label: "Mr. Karim", value: 2 },
+    { label: "Mr. Abul Kalam", value: 3 },
+    { label: "Mr. Zihad", value: 4 }
+  ]
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -25,286 +53,134 @@ export function AddressInformation({
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
         <Select
-          options={[
-            {
-              label: "Nominee 01",
-              value: "nominee-01",
-            },
-            {
-              label: "Nominee 02",
-              value: "nominee-02",
-            },
-          ]}
+          options={nomineeList}
           isSearchable={true}
           name="proposal_nominee_id"
+          value={proposalInput.proposer_permanent_address.proposal_nominee_id}
           label="Proposal Nominee"
           defaultValue=""
           placeholder="Nominee Name"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={changePermanentAddress}
         />
 
-        <Input
-          label="Street address"
-          name="name"
-          placeholder="Street address"
-          value={proposalInput.proposal_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
+        <Select
+          options={divisionList}
+          isSearchable={true}
+          name="division_id"
+          value={proposalInput.proposer_permanent_address.division_id}
+          label="Division"
+          defaultValue=""
+          placeholder="Select Division..."
+          handleChangeValue={changePermanentAddress}
+        />
+
+        <Select
+          options={districtList}
+          isSearchable={true}
+          name="district_id"
+          label="District"
+          value={proposalInput.proposer_permanent_address.district_id}
+          defaultValue=""
+          placeholder="Select District..."
+          handleChangeValue={changePermanentAddress}
+        />
+        <Select
+          options={areaList}
+          isSearchable={true}
+          name="area_id"
+          value={proposalInput.proposer_permanent_address.area_id}
+          label="Area"
+          defaultValue=""
+          placeholder="Select Area..."
+          handleChangeValue={changePermanentAddress}
         />
 
         <Input
           label="Post Office Name"
           name="post_office_name"
           placeholder="Post Office Name"
-          value={proposalInput.post_office_name}
+          value={proposalInput.proposer_permanent_address.post_office_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "Area-01",
-              value: "area-01",
-            },
-            {
-              label: "Area-02",
-              value: "area-02",
-            },
-          ]}
-          isSearchable={true}
-          name="area_id"
-          label="Area"
-          defaultValue=""
-          placeholder="Select Area..."
-          handleChangeValue={handleChangeTextInput}
+          inputChange={changePermanentAddress}
         />
 
         <Input
-          label="Area Name"
-          name="area_name"
-          placeholder="Area Name"
-          value={proposalInput.area_name}
+          label="Street address"
+          name="street_address"
+          placeholder="Street address"
+          value={proposalInput.proposer_permanent_address.street_address}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changePermanentAddress}
         />
 
-        <Select
-          options={[
-            {
-              label: "District-01",
-              value: "district-01",
-            },
-            {
-              label: "District-02",
-              value: "district-02",
-            },
-          ]}
-          isSearchable={true}
-          name="district_id"
-          label="District"
-          defaultValue=""
-          placeholder="Select District..."
-          handleChangeValue={handleChangeTextInput}
-        />
+        <div className="flex items-center mb-4">
+          <input id="same_as_parmanent" type="checkbox" value="" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2" />
+          <label htmlFor="same_as_parmanent" className="ml-2 text-sm font-medium text-gray-900">Is Same Address</label>
+        </div>
 
-        <Input
-          label="District Name"
-          name="district_name"
-          placeholder="District Name"
-          value={proposalInput.district_name}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "Division-01",
-              value: "division-01",
-            },
-            {
-              label: "Division-02",
-              value: "division-02",
-            },
-          ]}
-          isSearchable={true}
-          name="division_id"
-          label="Division"
-          defaultValue=""
-          placeholder="Select Division..."
-          handleChangeValue={handleChangeTextInput}
-        />
-
-        <Input
-          label="Division Name"
-          name="division_name"
-          placeholder="Division Name"
-          value={proposalInput.division_name}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "Yes",
-              value: "yes",
-            },
-            {
-              label: "No",
-              value: "no",
-            },
-          ]}
-          isSearchable={true}
-          name="is_same_address"
-          label="Is Same Address"
-          defaultValue=""
-          placeholder="Select Address Type..."
-          handleChangeValue={handleChangeTextInput}
-        />
       </div>
-
       <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
         <Select
-          options={[
-            {
-              label: "Nominee 01",
-              value: "nominee-01",
-            },
-            {
-              label: "Nominee 02",
-              value: "nominee-02",
-            },
-          ]}
+          options={nomineeList}
           isSearchable={true}
           name="proposal_nominee_id"
           label="Proposal Nominee"
           defaultValue=""
+          value={proposalInput.proposer_present_address.proposal_nominee_id}
           placeholder="Nominee Name"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={changePresentAddress}
         />
 
-        <Input
-          label="Street address"
-          name="name"
-          placeholder="Street address"
-          value={proposalInput.proposal_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
+        <Select
+          options={divisionList}
+          isSearchable={true}
+          name="division_id"
+          label="Division"
+          value={proposalInput.proposer_present_address.division_id}
+          defaultValue=""
+          placeholder="Select Division..."
+          handleChangeValue={changePresentAddress}
+        />
+
+        <Select
+          options={districtList}
+          isSearchable={true}
+          name="district_id"
+          label="District"
+          value={proposalInput.proposer_present_address.district_id}
+          defaultValue=""
+          placeholder="Select District..."
+          handleChangeValue={changePresentAddress}
+        />
+
+        <Select
+          options={areaList}
+          isSearchable={true}
+          name="area_id"
+          label="Area"
+          value={proposalInput.proposer_present_address.area_id}
+          defaultValue=""
+          placeholder="Select Area..."
+          handleChangeValue={changePresentAddress}
         />
 
         <Input
           label="Post Office Name"
           name="post_office_name"
           placeholder="Post Office Name"
-          value={proposalInput.post_office_name}
+          
+          value={proposalInput.proposer_present_address.post_office_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changePresentAddress}
         />
-
-        <Select
-          options={[
-            {
-              label: "Area-01",
-              value: "area-01",
-            },
-            {
-              label: "Area-02",
-              value: "area-02",
-            },
-          ]}
-          isSearchable={true}
-          name="area_id"
-          label="Area"
-          defaultValue=""
-          placeholder="Select Area..."
-          handleChangeValue={handleChangeTextInput}
-        />
-
         <Input
-          label="Area Name"
-          name="area_name"
-          placeholder="Area Name"
-          value={proposalInput.area_name}
+          label="Street address"
+          name="street_address"
+          placeholder="Street address"
+          value={proposalInput.proposer_present_address.street_address}
           isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "District-01",
-              value: "district-01",
-            },
-            {
-              label: "District-02",
-              value: "district-02",
-            },
-          ]}
-          isSearchable={true}
-          name="district_id"
-          label="District"
-          defaultValue=""
-          placeholder="Select District..."
-          handleChangeValue={handleChangeTextInput}
-        />
-
-        <Input
-          label="District Name"
-          name="district_name"
-          placeholder="District Name"
-          value={proposalInput.district_name}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "Division-01",
-              value: "division-01",
-            },
-            {
-              label: "Division-02",
-              value: "division-02",
-            },
-          ]}
-          isSearchable={true}
-          name="division_id"
-          label="Division"
-          defaultValue=""
-          placeholder="Select Division..."
-          handleChangeValue={handleChangeTextInput}
-        />
-
-        <Input
-          label="Division Name"
-          name="division_name"
-          placeholder="Division Name"
-          value={proposalInput.division_name}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <Select
-          options={[
-            {
-              label: "Yes",
-              value: "yes",
-            },
-            {
-              label: "No",
-              value: "no",
-            },
-          ]}
-          isSearchable={true}
-          name="is_same_address"
-          label="Is Same Address"
-          defaultValue=""
-          placeholder="Select Address Type..."
-          handleChangeValue={handleChangeTextInput}
+          inputChange={changePresentAddress}
         />
       </div>
     </div>

@@ -1,21 +1,18 @@
 import * as React from "react";
 import Input from "@/components/input";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import Button from "@/components/button";
+import { getReligions } from "@/utils/religions";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function PersonalInformation({
-  handleChangeTextInput,
-}: IPersonalInformation) {
-  const dispatch = useDispatch();
-  const { proposalInput, planList, isSubmitting } = useSelector(
-    (state: RootState) => state.Proposal
-  );
+export function PersonalInformation({ handleChangeTextInput }: IPersonalInformation) {
+
+  const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const religionsList = getReligions()
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md">
@@ -27,15 +24,16 @@ export function PersonalInformation({
           options={[
             {
               label: "Nominee 01",
-              value: "nominee-01",
+              value: 1,
             },
             {
               label: "Nominee 02",
-              value: "nominee-02",
+              value: 2,
             },
           ]}
           isSearchable={true}
           name="proposal_nominee_id"
+          value={proposalInput.proposal_personal_information.proposal_nominee_id}
           label="Proposal Nominee"
           defaultValue=""
           placeholder="Nominee Name"
@@ -46,7 +44,7 @@ export function PersonalInformation({
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={proposalInput.full_name}
+          value={proposalInput.proposal_personal_information.full_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -55,7 +53,7 @@ export function PersonalInformation({
           label="Father Name"
           name="father_name"
           placeholder="Father Name"
-          value={proposalInput.father_name}
+          value={proposalInput.proposal_personal_information.father_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -64,7 +62,7 @@ export function PersonalInformation({
           label="Mother Name"
           name="mother_name"
           placeholder="Mother Name"
-          value={proposalInput.mother_name}
+          value={proposalInput.proposal_personal_information.mother_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -73,7 +71,7 @@ export function PersonalInformation({
           label="Spouse Name"
           name="spouse_name"
           placeholder="Spouse Name"
-          value={proposalInput.spouse_name}
+          value={proposalInput.proposal_personal_information.spouse_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -82,7 +80,7 @@ export function PersonalInformation({
           label="Email Address"
           name="email"
           placeholder="Email Address"
-          value={proposalInput.email}
+          value={proposalInput.proposal_personal_information.email}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -91,7 +89,7 @@ export function PersonalInformation({
           label="Mobile No"
           name="mobile_no"
           placeholder="Mobile No"
-          value={proposalInput.mobile_no}
+          value={proposalInput.proposal_personal_information.mobile_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -99,8 +97,8 @@ export function PersonalInformation({
         <Select
           options={[
             {
-              label: "Marred",
-              value: "marred",
+              label: "Married",
+              value: "married",
             },
             {
               label: "Unmarried",
@@ -126,6 +124,7 @@ export function PersonalInformation({
           isSearchable={true}
           name="marital_status"
           label="Marital Status"
+          value={proposalInput.proposal_personal_information.marital_status}
           defaultValue=""
           placeholder="Marital Status"
           handleChangeValue={handleChangeTextInput}
@@ -148,6 +147,7 @@ export function PersonalInformation({
           ]}
           isSearchable={true}
           name="identity_type"
+          value={proposalInput.proposal_personal_information.identity_type}
           label="Identity Type"
           defaultValue=""
           placeholder="Identity Type"
@@ -172,6 +172,7 @@ export function PersonalInformation({
           isSearchable={true}
           name="gender"
           label="Gender"
+          value={proposalInput.proposal_personal_information.gender}
           defaultValue=""
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
@@ -181,7 +182,7 @@ export function PersonalInformation({
           label="ID No"
           name="id_no"
           placeholder="ID No"
-          value={proposalInput.id_no}
+          value={proposalInput.proposal_personal_information.id_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -190,7 +191,8 @@ export function PersonalInformation({
           label="Date of Birth"
           name="dob"
           placeholder="Date of Birth"
-          value={proposalInput.dob}
+          type="date"
+          value={proposalInput.proposal_personal_information.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -199,25 +201,34 @@ export function PersonalInformation({
           label="Occupation"
           name="occupation"
           placeholder="Occupation"
-          value={proposalInput.occupation}
+          value={proposalInput.proposal_personal_information.occupation}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
 
-        <Input
+        {/* <Input
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput.relation}
+          value={proposalInput.proposal_personal_information.relation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+        /> */}
+         <Select
+          options={religionsList}
+          isSearchable={true}
+          name="religion"
+          label="Religion"
+          defaultValue=""
+          placeholder="Select Religion"
+          handleChangeValue={handleChangeTextInput}
         />
 
         <Input
           label="Height"
           name="height"
           placeholder="Height"
-          value={proposalInput.height}
+          value={proposalInput.proposal_personal_information.height}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -235,6 +246,7 @@ export function PersonalInformation({
           ]}
           isSearchable={true}
           name="height_unit"
+          value={proposalInput.proposal_personal_information.height_unit}
           label="Height Unit"
           defaultValue=""
           placeholder="Height Unit"
@@ -245,7 +257,7 @@ export function PersonalInformation({
           label="Weight"
           name="weight"
           placeholder="Weight"
-          value={proposalInput.weight}
+          value={proposalInput.proposal_personal_information.weight}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -264,6 +276,7 @@ export function PersonalInformation({
           isSearchable={true}
           name="weight_unit"
           label="Weight Unit"
+          value={proposalInput.proposal_personal_information.weight_unit}
           defaultValue=""
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
@@ -273,7 +286,7 @@ export function PersonalInformation({
           label="Allocation"
           name="allocation"
           placeholder="Allocation"
-          value={proposalInput.allocation}
+          value={proposalInput.proposal_personal_information.allocation}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />

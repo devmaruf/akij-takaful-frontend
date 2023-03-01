@@ -26,8 +26,8 @@ export interface IProject {
     projectInput         : {
         name             : string;
         code             : string;
-    },
-    projectDropdownList: Array<ISelect2Item>
+    };
+    projectDropdownList  : Array<ISelect2Item>
 }
 
 export interface IBranch {
@@ -71,10 +71,10 @@ export interface IEmployee {
 }
 
 export interface IDesignation {
-    isLoading            : boolean;
-    isDeleting           : boolean;
-    isLoadingDetails     : boolean;
-    isSubmitting         : boolean;
+    isLoading              : boolean;
+    isDeleting             : boolean;
+    isLoadingDetails       : boolean;
+    isSubmitting           : boolean;
     designationDropdownList: Array<ISelect2Item>
 }
 
@@ -82,3 +82,92 @@ export interface IGlobal {
     isOpenSidebar: boolean;
     sideMenuList : any[];
 }
+
+
+export interface IProposal {
+    isLoading                    : boolean;
+    isDeleting                   : boolean;
+    isSubmitting                 : boolean;
+    planDropdownList             : any[];
+    proposalList                 : any[];
+    proposalPaginationData       : any[];
+    proposalDetails              : any;
+    proposalInput                : {
+        project_id               : number;
+        branch_id                : number;
+        proposal_no              : string;
+        plan_id                  : number;
+        fa_code                  : string;
+        initial_sum_assured      : number;
+        initial_premium          : number;
+        proposal_personal_information:any;
+        proposer_present_address:any;
+        proposer_permanent_address:any;
+        proposer_bank_information:any;
+        proposer_guardian:any;
+    };
+    proposal_personal_information: {
+        proposal_nominee_id      : number;
+        full_name                : string;
+        father_name              : string;
+        mother_name              : string;
+        spouse_name              : string;
+        email                    : string;
+        mobile_no                : string;
+        marital_status           : string;
+        identity_type            : string;
+        gender                   : string;
+        id_no                    : string;
+        dob                      : string;
+        occupation               : string;
+        relation                 : string;
+        height                   : number;
+        height_unit              : string;
+        weight                   : number;
+        weight_unit              : string;
+        allocation               : string;
+    };
+    proposer_present_address     : {
+        proposal_nominee_id      : number;
+        street_address           : string;
+        post_office_name         : string;
+        address_type             : string;
+        area_id                  : number;
+        area_name                : string;
+        district_id              : number;
+        district_name            : string;
+        division_id              : number;
+        division_name            : string;
+        is_same_address          : boolean;
+    };
+    proposer_permanent_address   : {
+        proposal_nominee_id      : number;
+        street_address           : string;
+        post_office_name         : string;
+        address_type             : string;
+        area_id                  : number;
+        area_name                : string;
+        district_id              : number;
+        district_name            : string;
+        division_id              : number;
+        division_name            : string;
+        is_same_address          : boolean;
+    };
+    proposer_bank_information    : {
+        proposal_nominee_id      : number;
+        bank_name                : string;
+        bank_branch_name         : string;
+        bank_account_no          : string;
+        bank_account_holder_name : string;
+    };
+  
+    proposer_guardian            : {
+        proposal_nominee_id      : number;
+        name                     : string;
+        phone_no                 : string;
+        dob                      : string;
+        id_no                    : string;
+        relation                 : string;
+    }
+}
+
