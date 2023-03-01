@@ -53,8 +53,19 @@ export const submitBranch = (branchInput, setShowModal) => (dispatch: any) => {
 
 export const getBranchList = (
     currentPage: number = 1,
-    dataLimit: number = 10
+    dataLimit: number = 10,
+    searchText: string = ''
 ) => (dispatch) => {
+
+    let branchURL = 'branches'
+
+    if (dataLimit) {
+        branchURL += `?perPage=${dataLimit}`;
+    }
+    if(searchText !== ''){
+        branchURL += `&search=${searchText}`;
+    }
+
     let response = {
         status: false,
         message: "",
@@ -64,7 +75,7 @@ export const getBranchList = (
     };
     dispatch({ type: Types.GET_BRANCH_LIST, payload: response });
 
-    axios(`/branches?perPage=${dataLimit}&currentPage=${currentPage}`)
+    axios(branchURL)
         .then((res: any) => {
             response.isLoading = false;
             response.status = true;

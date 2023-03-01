@@ -12,6 +12,7 @@ import Input from '@/components/input';
 import Select from '@/components/select';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { changeInputValue, submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch } from '@/redux/actions/branch-action';
+import Create from './create';
 
 export default function Branches() {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function Branches() {
     const [branchID, setBranchID] = React.useState<number | null>(null);
     const [currentPage, setCurrentPage] = React.useState<number>(1);
     const [dataLimit, setDataLimit] = React.useState<number>(5);
+    const [searchText, setSearchText] = React.useState<string>('');
 
     const { branchInput, branchList, branchPaginationData, isLoading, isSubmitting, branchDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Branch);
     const { projectDropdownList } = useSelector((state: RootState) => state.Project);
@@ -36,8 +38,8 @@ export default function Branches() {
     ]
 
     React.useEffect(() => {
-        dispatch(getBranchList(currentPage, dataLimit));
-    }, [currentPage, dataLimit]);
+        dispatch(getBranchList(currentPage, dataLimit, searchText));
+    }, [currentPage, dataLimit, searchText]);
 
     React.useEffect(() => {
         dispatch(getProjectListDropdown());
@@ -82,8 +84,8 @@ export default function Branches() {
                             <form className="lg:pr-3" action="#" method="GET">
                                 <label htmlFor="users-search" className="sr-only">Search</label>
                                 <div className="mt-1 relative lg:w-64 xl:w-96">
-                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for branches" />
-                                </div>
+                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for branches"  onChange={(e)=> setSearchText(e.target.value)} />
+                                </div>z
                             </form>
                         </div>
                         <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
@@ -164,47 +166,7 @@ export default function Branches() {
             </div>
 
             <Modal title={`Open a branch`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
-                <form
-                    method="post"
-                    autoComplete="off"
-                >
-                    <Input
-                        label="Branch name"
-                        name="name"
-                        placeholder='Branch name'
-                        value={branchInput.name}
-                        isRequired={true}
-                        inputChange={changeTextInput}
-                    />
-                    <Input
-                        label="Branch code"
-                        name="code"
-                        placeholder='Branch code'
-                        value={branchInput.code}
-                        isRequired={true}
-                        inputChange={changeTextInput}
-                    />
-
-                    <Select
-                        options={projectDropdownList}
-                        isSearchable={true}
-                        name="project_id"
-                        label="Bank"
-                        defaultValue=""
-                        placeholder='Select Bank...'
-                        handleChangeValue={changeTextInput}
-                    />
-
-                    <div className="mt-2">
-                        <Button
-                            title="Save"
-                            onClick={(e) => onSubmit(e, "add")}
-                            position="text-left"
-                            loadingTitle="Saving..."
-                            loading={isSubmitting}
-                        />
-                    </div>
-                </form>
+               <Create setShowModal={setShowModal} />
             </Modal>
 
             <Modal title={`Branch Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
