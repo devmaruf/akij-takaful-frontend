@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {Toaster} from "@/components/toaster";
-import { getAuthToken } from './auth';
+import { getAuthToken, logout } from './auth';
 
 axios.defaults.baseURL = process.env.BASE_URL;
 
@@ -23,9 +23,15 @@ axios.interceptors.response.use(
         return Promise.resolve(response.data);
     },
     (error) => {
-        const responseLog = error.response;
-        Toaster('error', responseLog?.data?.message);
-        return Promise.reject(error);
+        // Redirect to login page and logout, if unauthenticated response found.
+        if (error?.response?.status === 401) {
+            Toaster('error', 'Please login again to continue...');
+            logout();
+        } else {
+            const responseLog = error.response;
+            Toaster('error', responseLog?.data?.message);
+            return Promise.reject(error);
+        }
     }
 );
 
