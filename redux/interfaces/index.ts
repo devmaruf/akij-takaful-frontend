@@ -89,8 +89,9 @@ export interface IProposal {
     isDeleting                   : boolean;
     isSubmitting                 : boolean;
     planDropdownList             : any[];
-    proposalList                 : any[];
-    proposalPaginationData       : any[];
+    proposalsList                : any[];
+    loadingDetails               : boolean; 
+    paginationData               : any[];
     proposalDetails              : any;
     proposalInput                : {
         project_id               : number;
@@ -160,7 +161,6 @@ export interface IProposal {
         bank_account_no          : string;
         bank_account_holder_name : string;
     };
-  
     proposer_guardian            : {
         proposal_nominee_id      : number;
         name                     : string;

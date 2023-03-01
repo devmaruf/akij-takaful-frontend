@@ -6,8 +6,9 @@ const initialState: IProposal = {
     isLoading: false,
     isDeleting: false,
     isSubmitting: false,
-    proposalList: [],
-    proposalPaginationData: [],
+    proposalsList: [],
+    paginationData : [],
+    loadingDetails: false,
     planDropdownList: [],
     proposalDetails: {},
     proposalInput: {
@@ -86,7 +87,6 @@ const initialState: IProposal = {
         id_no: '',
         relation: '',
     }
-
 };
 
 
@@ -103,7 +103,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposal_personal_information[action.payload.data.name] = action.payload.data.value;
                 proposalInput.proposal_personal_information = proposal_personal_information;
             }
-             else if (action.payload.key === 'proposer_present_address') {
+            else if (action.payload.key === 'proposer_present_address') {
                 proposer_present_address[action.payload.data.name] = action.payload.data.value;
                 proposalInput.proposer_present_address = proposer_present_address;
             } else if (action.payload.key === 'proposer_permanent_address') {
@@ -116,7 +116,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposer_guardian[action.payload.data.name] = action.payload.data.value;
                 proposalInput.proposer_guardian = proposer_guardian;
             }
-             else {
+            else {
                 proposalInput[action.payload.data.name] = action.payload.data.value;
             }
 
@@ -136,11 +136,11 @@ function ProposalsReducer(state = initialState, action: any) {
                 planDropdownList: generateDropdownList(action.payload),
             };
 
-        // case Types.GET_PLAN_LIST:
-        //     return {
-        //         ...state,
-        //         planList: getPlanList(action.payload),
-        //     };
+        case Types.GET_PLAN_LIST:
+            return {
+                ...state,
+                planList: getPlanList(action.payload),
+            };
         case Types.SUBMIT_PROPOSAL:
             if (action.payload.status === true) {
                 return {
@@ -155,41 +155,56 @@ function ProposalsReducer(state = initialState, action: any) {
                 };
             }
 
-        // case Types.GET_PROPOSAL_LIST:
-        //     return {
-        //         ...state,
-        //         proposalsList: action.payload.data,
-        //         paginationData: action.payload.paginationData,
-        //         isLoading: action.payload.isLoading,
-        //     };
-        // case Types.GET_PROPOSAL_DETAILS:
-        //     return {
-        //         ...state,
-        //         loadingDetails: action.payload.isLoading,
-        //         proposalInput: action.payload.inputData,
-        //         proposalDetails: action.payload.data,
-        //     };
-        // case Types.UPDATE_PROPOSAL:
-        //     if (action.payload.status === true) {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //             proposalInput: initialState.proposalInput
-        //         };
-        //     } else {
-        //         return {
-        //             ...state,
-        //             isSubmitting: action.payload.isLoading,
-        //         };
-        //     }
-        // case Types.DELETE_PROPOSAL:
-        //     return {
-        //         ...state,
-        //         isDeleting: action.payload.isLoading,
-        //     };
+        case Types.GET_PROPOSAL_LIST:
+            return {
+                ...state,
+                proposalsList: action.payload.data,
+                paginationData: action.payload.paginationData,
+                isLoading: action.payload.isLoading,
+            };
+        case Types.GET_PROPOSAL_DETAILS:
+            return {
+                ...state,
+                loadingDetails: action.payload.isLoading,
+                proposalInput: action.payload.inputData,
+                proposalDetails: action.payload.data,
+            };
+        case Types.UPDATE_PROPOSAL:
+            if (action.payload.status === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    proposalInput: initialState.proposalInput
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+        case Types.DELETE_PROPOSAL:
+            return {
+                ...state,
+                isDeleting: action.payload.isLoading,
+            };
         default:
             break;
     }
     return state;
 }
+
+const getPlanList = (data: any[]) => {
+    let options: any[] = [];
+    if (data) {
+        data.forEach((item) => {
+            let itemData = {
+                value: item.id,
+                label: item.name,
+            };
+            options.push(itemData);
+        });
+    }
+    return options;
+};
+
 export default ProposalsReducer;

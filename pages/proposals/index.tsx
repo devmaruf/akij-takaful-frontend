@@ -19,7 +19,7 @@ export default function Proposals() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
 
-    const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.Proposal);
+    const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.proposal);
 
     useEffect(() => {
         dispatch(getProposalList(currentPage, dataLimit))
