@@ -5,11 +5,10 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 
 export interface IBankInformation {
-  handleChangeTextInput: (name: string, value: any) => void
+  handleChangeTextInput: (name: string, value: any) => void;
 }
 
 export function BankInformation({ handleChangeTextInput }: IBankInformation) {
-
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
   return (
@@ -18,26 +17,6 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
         Bank Information
       </h3>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-        <Select
-          options={[
-            {
-              label: "Nominee 01",
-              value: 1,
-            },
-            {
-              label: "Nominee 02",
-              value: 2,
-            },
-          ]}
-          isSearchable={true}
-          name="proposal_nominee_id"
-          value={proposalInput.proposer_bank_information.proposal_nominee_id}
-          label="Proposal Nominee"
-          defaultValue=""
-          placeholder="Nominee Name"
-          handleChangeValue={handleChangeTextInput}
-        />
-
         <Input
           label="Bank Name"
           name="bank_name"
@@ -81,7 +60,9 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={proposalInput.proposer_bank_information.bank_account_holder_name}
+          value={
+            proposalInput.proposer_bank_information.bank_account_holder_name
+          }
           isRequired={true}
           inputChange={handleChangeTextInput}
         />

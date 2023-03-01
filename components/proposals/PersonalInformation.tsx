@@ -9,37 +9,18 @@ export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function PersonalInformation({ handleChangeTextInput }: IPersonalInformation) {
-
+export function PersonalInformation({
+  handleChangeTextInput,
+}: IPersonalInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const religionsList = getReligions()
+  const religionsList = getReligions();
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Personal Information
       </h3>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-        <Select
-          options={[
-            {
-              label: "Nominee 01",
-              value: 1,
-            },
-            {
-              label: "Nominee 02",
-              value: 2,
-            },
-          ]}
-          isSearchable={true}
-          name="proposal_nominee_id"
-          value={proposalInput.proposal_personal_information.proposal_nominee_id}
-          label="Proposal Nominee"
-          defaultValue=""
-          placeholder="Nominee Name"
-          handleChangeValue={handleChangeTextInput}
-        />
-
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
         <Input
           label="Full Name"
           name="full_name"
@@ -48,7 +29,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Father Name"
           name="father_name"
@@ -57,7 +37,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Mother Name"
           name="mother_name"
@@ -66,7 +45,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Spouse Name"
           name="spouse_name"
@@ -75,7 +53,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Email Address"
           name="email"
@@ -84,7 +61,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Mobile No"
           name="mobile_no"
@@ -93,7 +69,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Select
           options={[
             {
@@ -122,8 +97,9 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
             },
           ]}
           isSearchable={true}
-          name="marital_status"
+          isRequired={true}
           label="Marital Status"
+          name="marital_status"
           value={proposalInput.proposal_personal_information.marital_status}
           defaultValue=""
           placeholder="Marital Status"
@@ -153,7 +129,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
         />
-
         <Select
           options={[
             {
@@ -170,6 +145,7 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
             },
           ]}
           isSearchable={true}
+          isRequired={true}
           name="gender"
           label="Gender"
           value={proposalInput.proposal_personal_information.gender}
@@ -177,7 +153,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
         />
-
         <Input
           label="ID No"
           name="id_no"
@@ -186,7 +161,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Date of Birth"
           name="dob"
@@ -196,7 +170,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Input
           label="Occupation"
           name="occupation"
@@ -205,7 +178,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         {/* <Input
           label="Relation"
           name="relation"
@@ -214,7 +186,7 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         /> */}
-         <Select
+        <Select
           options={religionsList}
           isSearchable={true}
           name="religion"
@@ -223,7 +195,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           placeholder="Select Religion"
           handleChangeValue={handleChangeTextInput}
         />
-
         <Input
           label="Height"
           name="height"
@@ -232,7 +203,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Select
           options={[
             {
@@ -252,7 +222,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           placeholder="Height Unit"
           handleChangeValue={handleChangeTextInput}
         />
-
         <Input
           label="Weight"
           name="weight"
@@ -261,7 +230,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
-
         <Select
           options={[
             {
@@ -281,7 +249,6 @@ export function PersonalInformation({ handleChangeTextInput }: IPersonalInformat
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
         />
-
         <Input
           label="Allocation"
           name="allocation"

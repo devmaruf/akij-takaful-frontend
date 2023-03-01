@@ -8,12 +8,19 @@ export interface IPremiumInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function PremiumInformation({ handleChangeTextInput }: IPremiumInformation) {
-  
-  const { projectDropdownList }     = useSelector((state: RootState) => state.Project);
-  const { branchDropdownList }      = useSelector((state: RootState) => state.Branch);
-  const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
-  
+export function PremiumInformation({
+  handleChangeTextInput,
+}: IPremiumInformation) {
+  const { projectDropdownList } = useSelector(
+    (state: RootState) => state.Project
+  );
+  const { branchDropdownList } = useSelector(
+    (state: RootState) => state.Branch
+  );
+  const { proposalInput, planDropdownList } = useSelector(
+    (state: RootState) => state.proposal
+  );
+
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
@@ -25,14 +32,6 @@ export function PremiumInformation({ handleChangeTextInput }: IPremiumInformatio
           name="proposal_no"
           placeholder="Proposal No - ATIL-xx"
           value={proposalInput.proposal_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-        <Input
-          label="Proposal Name"
-          name="proposer_name"
-          placeholder="Proposal Name"
-          value={proposalInput.proposer_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -49,9 +48,9 @@ export function PremiumInformation({ handleChangeTextInput }: IPremiumInformatio
           options={projectDropdownList}
           isSearchable={true}
           name="project_id"
-          label="Project"
+          label="Bank"
           defaultValue=""
-          placeholder='Select Project...'
+          placeholder="Select Bank..."
           handleChangeValue={handleChangeTextInput}
         />
         <Select
@@ -60,7 +59,7 @@ export function PremiumInformation({ handleChangeTextInput }: IPremiumInformatio
           name="branch_id"
           label="Branch"
           defaultValue=""
-          placeholder='Select Branch...'
+          placeholder="Select Branch..."
           handleChangeValue={handleChangeTextInput}
         />
         <Input

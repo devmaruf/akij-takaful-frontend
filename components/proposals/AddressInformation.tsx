@@ -8,8 +8,10 @@ export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function AddressInformation({ changePresentAddress, changePermanentAddress }: IAddressInformation) {
-
+export function AddressInformation({
+  changePresentAddress,
+  changePermanentAddress,
+}: IAddressInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
   const divisionList = [
@@ -20,7 +22,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
     { label: "Rajshahi", value: "rajshahi" },
     { label: "Rangpur", value: "rangpur" },
     { label: "Sylhet", value: "sylhet" },
-  ]
+  ];
 
   const districtList = [
     { label: "Chattogram", value: "chattogram" },
@@ -28,21 +30,21 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
     { label: "Rangamati", value: "rangamati" },
     { label: "Faridpur", value: "raridpur" },
     { label: "Nowakhali", value: "nowakhali" },
-  ]
+  ];
 
   const areaList = [
     { label: "Karnaphuli", value: "karnaphuli" },
     { label: "Patiya", value: "patiya" },
     { label: "Mohakhali", value: "mohakhali" },
     { label: "Jatrabari", value: "jatrabari" },
-  ]
+  ];
 
   const nomineeList = [
     { label: "Mr. Rahim", value: 1 },
     { label: "Mr. Karim", value: 2 },
     { label: "Mr. Abul Kalam", value: 3 },
-    { label: "Mr. Zihad", value: 4 }
-  ]
+    { label: "Mr. Zihad", value: 4 },
+  ];
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -52,17 +54,6 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
-        <Select
-          options={nomineeList}
-          isSearchable={true}
-          name="proposal_nominee_id"
-          value={proposalInput.proposer_permanent_address.proposal_nominee_id}
-          label="Proposal Nominee"
-          defaultValue=""
-          placeholder="Nominee Name"
-          handleChangeValue={changePermanentAddress}
-        />
-
         <Select
           options={divisionList}
           isSearchable={true}
@@ -114,10 +105,19 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
         />
 
         <div className="flex items-center mb-4">
-          <input id="same_as_parmanent" type="checkbox" value="" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2" />
-          <label htmlFor="same_as_parmanent" className="ml-2 text-sm font-medium text-gray-900">Is Same Address</label>
+          <input
+            id="same_as_parmanent"
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
+          />
+          <label
+            htmlFor="same_as_parmanent"
+            className="ml-2 text-sm font-medium text-gray-900"
+          >
+            Is Same Address
+          </label>
         </div>
-
       </div>
       <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
@@ -169,7 +169,6 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           label="Post Office Name"
           name="post_office_name"
           placeholder="Post Office Name"
-          
           value={proposalInput.proposer_present_address.post_office_name}
           isRequired={true}
           inputChange={changePresentAddress}
