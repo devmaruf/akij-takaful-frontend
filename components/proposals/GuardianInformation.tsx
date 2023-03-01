@@ -7,16 +7,16 @@ export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
 
-export function GuardianInformation({ handleChangeTextInput }: IGuardianInformation) {
-
+export function GuardianInformation({
+  handleChangeTextInput,
+}: IGuardianInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
   const nomineeList = [
     { label: "Mr. Rahim", value: 1 },
     { label: "Mr. Karim", value: 2 },
     { label: "Mr. Abul Kalam", value: 3 },
-    { label: "Mr. Zihad", value: 4 }
-  ]
-
+    { label: "Mr. Zihad", value: 4 },
+  ];
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -24,17 +24,6 @@ export function GuardianInformation({ handleChangeTextInput }: IGuardianInformat
         Guardian Information
       </h3>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-        <Select
-          options={nomineeList}
-          isSearchable={true}
-          name="proposal_nominee_id"
-          value={proposalInput.proposer_guardian.proposal_nominee_id}
-          label="Proposal Nominee"
-          defaultValue=""
-          placeholder="Nominee Name"
-          handleChangeValue={handleChangeTextInput}
-        />
-
         <Input
           label="Guardian Name"
           name="name"

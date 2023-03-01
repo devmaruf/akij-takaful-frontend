@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import IBreadcrumb from "@/components/breadcrumb";
 import PageTitle from "@/components/pageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { getPlanDropdownList, changeInputValue, submitProposal } from "@/redux/actions/proposal-action";
+import {
+  getPlanDropdownList,
+  changeInputValue,
+  submitProposal,
+} from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
 import { PremiumInformation } from "@/components/proposals/PremiumInformation";
@@ -15,35 +19,39 @@ import { getBranchDropdownList } from "@/redux/actions/branch-action";
 
 export default function Create() {
   const dispatch = useDispatch();
-  const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
-  const [key, setKey] = useState('');
+  const { proposalInput, isSubmitting } = useSelector(
+    (state: RootState) => state.proposal
+  );
+  const [key, setKey] = useState("");
   useEffect(() => {
     dispatch(getPlanDropdownList());
-    dispatch(getProjectListDropdown())
-    dispatch(getBranchDropdownList())
+    dispatch(getProjectListDropdown());
+    dispatch(getBranchDropdownList());
   }, []);
 
   const handleChangeTextInput = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, ''));
+    dispatch(changeInputValue(name, value, ""));
   };
 
   const handleChangePersonalInfo = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, 'proposal_personal_information'));
-  }
+    dispatch(changeInputValue(name, value, "proposal_personal_information"));
+  };
   const handleChangePresentAddressInfo = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, 'proposer_present_address'));
-  }
+    dispatch(changeInputValue(name, value, "proposer_present_address"));
+  };
   const handleChangePermanentAddressInfo = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, 'proposer_permanent_address'));
-  }
+    dispatch(changeInputValue(name, value, "proposer_permanent_address"));
+  };
   const handleChangeBankInfo = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, 'proposer_bank_information'));
-  }
+    dispatch(changeInputValue(name, value, "proposer_bank_information"));
+  };
   const handleChangeGuardianInfo = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value, 'proposer_guardian'));
-  }
+    dispatch(changeInputValue(name, value, "proposer_guardian"));
+  };
 
   const handleSubmitProposal = (e) => {
+    console.log(e);
+
     dispatch(submitProposal(proposalInput));
     e.preventDefault();
   };
