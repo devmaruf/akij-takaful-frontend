@@ -13,31 +13,35 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
 
 export const createEmployee = (employeeInput, router) => (dispatch: any) => {
     if (employeeInput.first_name === "") {
-        Toaster("error", "First name can't be blank!");
+        Toaster("error", "Please give first name.");
         return false;
     }
     if (employeeInput.last_name === "") {
-        Toaster("error", "Last name can't be blank!");
+        Toaster("error", "Please give last name.");
         return false;
     }
     if (employeeInput.email === "") {
-        Toaster("error", "Employee email can't be blank!");
+        Toaster("error", "Please give employee email.");
         return false;
     }
     if (employeeInput.phone === "") {
-        Toaster("error", "Employee phone number can't be blank!");
+        Toaster("error", "Please give employee phone no.");
         return false;
     }
     if (employeeInput.designation_id === "") {
-        Toaster("error", "Employee designation can't be blank!");
+        Toaster("error", "Please select a designation.");
         return false;
     }
     if (employeeInput.project_id === "") {
-        Toaster("error", "Project can't be blank!");
+        Toaster("error", "Please select a bank");
+        return false;
+    }
+    if (employeeInput.role_id === 0) {
+        Toaster("error", "Please select a role.");
         return false;
     }
     if (employeeInput.branch_ids && employeeInput.branch_ids.length < 1) {
-        Toaster("error", "Minimum select one branch!");
+        Toaster("error", "Please select minimum one branch.");
         return false;
     }
 
@@ -174,9 +178,66 @@ export const getEmployeeDetails = (id: number | string) => (dispatch) => {
 //         })
 // }
 
-// export const getProjectListDropdown = () => (dispatch) => {
-//     axios.get(`/projects/dropdown/list`)
-//         .then((res) => {
-//             dispatch({ type: Types.GET_PROJECT_DROPDOWN, payload: res.data });
-//         })
-// }
+
+export const updateEmployee = (employeeInput, router) => (dispatch: any) => {
+    if (employeeInput.first_name === "") {
+        Toaster("error", "Please give first name.");
+        return false;
+    }
+    if (employeeInput.last_name === "") {
+        Toaster("error", "Please give last name.");
+        return false;
+    }
+    if (employeeInput.email === "") {
+        Toaster("error", "Please give employee email.");
+        return false;
+    }
+    if (employeeInput.phone === "") {
+        Toaster("error", "Please give employee phone no.");
+        return false;
+    }
+    if (employeeInput.designation_id === "") {
+        Toaster("error", "Please select a designation.");
+        return false;
+    }
+    if (employeeInput.project_id === "") {
+        Toaster("error", "Please select a bank");
+        return false;
+    }
+    if (employeeInput.role_id === 0) {
+        Toaster("error", "Please select a role.");
+        return false;
+    }
+    if (employeeInput.branch_ids && employeeInput.branch_ids.length < 1) {
+        Toaster("error", "Please select minimum one branch.");
+        return false;
+    }
+
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+    };
+    dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
+
+    axios.put(`/employees/${employeeInput.id}`, employeeInput)
+        .then((res) => {
+            response.status = true;
+            response.isLoading = false;
+            response.message = res.message;
+            Toaster('success', response.message);
+            router.push('/employee')
+            dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
+        })
+        .catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
+        });
+}
+
+export const getEmployeeRolesDropdownList = () => (dispatch) => {
+    axios.get(`/roles/dropdown/list`)
+        .then((res) => {
+            dispatch({ type: Types.GET_EMPLOYEE_ROLES, payload: res.data });
+        })
+}

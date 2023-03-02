@@ -1,26 +1,28 @@
+import { generateDropdownList } from "@/utils/dropdown";
 import { IEmployee } from "../interfaces";
 import * as Types from "./../types/employee-type";
 
 const initialState: IEmployee = {
-    isLoading             : false,
-    isDeleting            : false,
-    isLoadingDetails      : false,
-    isSubmitting          : false,
-    employeeList          : [],
+    isLoading: false,
+    isDeleting: false,
+    isLoadingDetails: false,
+    isSubmitting: false,
+    employeeList: [],
     employeePaginationData: [],
-    employeeDetails       : {},
-    employeeInput         : {
-        first_name        : '',
-        last_name         : '',
-        email             : '',
-        designation_id    : 0,
-        role_id           : 1,
-        project_id        : 0,
-        branch_ids        : [],
-        phone             : '',
-        avatar            : '',
-        password          : '',
-        confirm_password  : '',
+    employeeDetails: {},
+    rolesDropdownList: [],
+    employeeInput: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        designation_id: 0,
+        role_id: 0,
+        project_id: 0,
+        branch_ids: [],
+        phone: '',
+        avatar: null,
+        password: '',
+        confirm_password: '',
     }
 };
 
@@ -36,6 +38,20 @@ function employeeReducer(state = initialState, action: any) {
             };
         case Types.CREATE_EMPLOYEE:
             if (action.payload.status === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    employeeInput: initialState.employeeInput,
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+
+        case Types.UPDATE_EMPLOYEE:
+            if (action.payload.status) {
                 return {
                     ...state,
                     isSubmitting: action.payload.isLoading,
@@ -68,6 +84,11 @@ function employeeReducer(state = initialState, action: any) {
         //         ...state,
         //         isDeleting: action.payload.isLoading,
         //     };
+        case Types.GET_EMPLOYEE_ROLES:
+            return {
+                ...state,
+                rolesDropdownList: generateDropdownList(action.payload),
+            };
         default:
             break;
     }

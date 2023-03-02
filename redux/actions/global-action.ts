@@ -1,34 +1,50 @@
 
+import { hasPermission } from "@/utils/permission";
 import * as Types from "../types/global-type";
 
 export const handleSidebar = (isToggle: boolean = false) => (dispatch) => {
     dispatch({ type: Types.OPEN_SIDEBAR, payload: !isToggle });
 }
 
+const getDashboardMenus = () => {
+    const menu = {
+        id: 'menu00',
+        title: 'Dashboard',
+        icon: 'bi-speedometer2',
+        url: '',
+        subMenu: []
+    };
+
+    if (hasPermission('dashboard.view') || hasPermission('financial_dashboard')) {
+        if (hasPermission('dashboard.view')) {
+            menu.subMenu.push({
+                id: 'subMenu00.1',
+                title: 'Dashboard',
+                icon: 'bi-speedometer2',
+                url: '/',
+                subSubMenu: [],
+            });
+        }
+
+        if (hasPermission('dashboard.view')) {
+            menu.subMenu.push({
+                id: 'subMenu00.2',
+                title: 'Financial Dashboard',
+                icon: 'bi-cash-coin',
+                url: '/dashboard/financial-dashboard',
+                subSubMenu: [],
+            });
+        }
+
+        return menu;
+    }
+
+    return null;
+}
+
 export const getSidebarMenuList = () => (dispatch) => {
     const menuList = [
-        {
-            id: 'menu00',
-            title: 'Dashboard',
-            icon: 'bi-speedometer2',
-            url: '',
-            subMenu: [
-                {
-                    id: 'subMenu00.1',
-                    title: 'Dashboard',
-                    icon: 'bi-speedometer2',
-                    url: '/',
-                    subSubMenu: [],
-                },
-                {
-                    id: 'subMenu00.2',
-                    title: 'Financial Dashboard',
-                    icon: 'bi-cash-coin',
-                    url: '/dashboard/financial-dashboard',
-                    subSubMenu: [],
-                }
-            ]
-        },
+        getDashboardMenus(),
         {
             id: 'menu01',
             title: 'Agent Management',
@@ -129,5 +145,4 @@ export const getSidebarMenuList = () => (dispatch) => {
 
 
     dispatch({ type: Types.SIDEBAR_MENU_LIST, payload: menuList });
-
 }

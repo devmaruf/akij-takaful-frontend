@@ -1,8 +1,10 @@
-import * as React from "react";
 import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
+import { format } from 'date-fns';
+import { useEffect, useState } from "react";
+
 
 export interface IPremiumInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -21,6 +23,13 @@ export function PremiumInformation({
     (state: RootState) => state.proposal
   );
 
+  const [placeHolderProposalNo, setplaceHolderProposalNo] = useState('');
+  useEffect(() => {
+    const formattedDate = format(new Date(), 'yyyyMMdd');
+    const randomNumber = Math.floor(10000 + Math.random() * 90000);
+    setplaceHolderProposalNo(`ATLI-${formattedDate}-${randomNumber}`);
+  }, []);
+
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
@@ -30,8 +39,8 @@ export function PremiumInformation({
         <Input
           label="Proposal No"
           name="proposal_no"
-          placeholder="Proposal No - ATIL-xx"
-          value={proposalInput.proposal_no}
+          placeholder={`Proposal No - ${placeHolderProposalNo}`}
+          value={proposalInput.proposal_no || placeHolderProposalNo}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -42,6 +51,7 @@ export function PremiumInformation({
           label="Plan"
           defaultValue=""
           placeholder="Select Plan..."
+          isRequired={true}
           handleChangeValue={handleChangeTextInput}
         />
         <Select
@@ -51,6 +61,7 @@ export function PremiumInformation({
           label="Bank"
           defaultValue=""
           placeholder="Select Bank..."
+          isRequired={true}
           handleChangeValue={handleChangeTextInput}
         />
         <Select
@@ -60,6 +71,7 @@ export function PremiumInformation({
           label="Branch"
           defaultValue=""
           placeholder="Select Branch..."
+          isRequired={true}
           handleChangeValue={handleChangeTextInput}
         />
         <Input

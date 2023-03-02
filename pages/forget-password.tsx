@@ -26,7 +26,7 @@ export default function ResetPassword() {
     // }
 
     const handleChange = (e) => {
-        console.log('e :>> ', e);
+        //
     }
 
     return (

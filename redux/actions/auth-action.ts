@@ -8,16 +8,17 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
         name: name,
         value: value,
     }
-    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+
+    dispatch({ type: Types.CHANGE_AUTH_INPUT_VALUE, payload: data });
 };
 
 export const handleLogin = (loginInput) => (dispatch: any) => {
     if (loginInput.email === "") {
-        Toaster("error", "Email can't be blank!");
+        Toaster("error", "Please give email.");
         return false;
     }
     if (loginInput.password === "") {
-        Toaster("error", "Password can't be blank!");
+        Toaster("error", "Please give password.");
         return false;
     }
 

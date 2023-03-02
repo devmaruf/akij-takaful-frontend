@@ -58,7 +58,6 @@ function ProjectReducer(state = initialState, action: any) {
             };
 
         case Types.GET_PROJECT_DETAILS:
-            console.log(action.payload)
             return {
                 ...state,
                 isLoadingDetails: action.payload.isLoading,

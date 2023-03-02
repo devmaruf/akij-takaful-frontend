@@ -16,7 +16,7 @@ export default function Proposals() {
     const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
     const [employeeID, setEmployeeID]           = React.useState<number | null>(null);
     const [currentPage, setCurrentPage]         = React.useState<number>(1);
-    const [dataLimit, setDataLimit]             = React.useState<number>(5);
+    const [dataLimit, setDataLimit]             = React.useState<number>(10);
     const { employeeList, employeePaginationData, isLoading, } = useSelector((state: RootState) => state.employee);
 
     const columnData: any[] = [
