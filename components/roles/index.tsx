@@ -26,14 +26,13 @@ export default function Roles() {
     const [dataLimit, setDataLimit] = React.useState<number>(5);
     const [searchText, setSearchText] = React.useState<string>('');
 
-    const { isLoading, roleList } = useSelector((state: RootState) => state.role);
+    const { isLoading, roleListAll } = useSelector((state: RootState) => state.role);
 
 
     React.useEffect(() => {
         dispatch(getRoleList(currentPage, dataLimit, searchText));
     }, [currentPage, dataLimit, searchText, dispatch]);
 
-    console.log('roleList :>> ', roleList);
     // const changePage = (data) => {
     //   setCurrentPage(data.page);
     //   dispatch(getRoleListByPagination(data.page));
@@ -72,7 +71,7 @@ export default function Roles() {
                             totalData={5}
                         >
                             {
-                                roleList && roleList.length > 0 && roleList.map((data, index) => (
+                                roleListAll && roleListAll.length > 0 && roleListAll.map((data, index) => (
                                     <tr className="bg-white border-b hover:bg-gray-50" key={index + 1}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {index + 1}
