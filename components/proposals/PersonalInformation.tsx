@@ -129,6 +129,7 @@ export function PersonalInformation({
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
         />
+        
         <Select
           options={[
             {

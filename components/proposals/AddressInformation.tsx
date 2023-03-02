@@ -15,28 +15,28 @@ export function AddressInformation({
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
   const divisionList = [
-    { label: "Barishal", value: "barishal" },
-    { label: "Chattogram", value: "chattogram" },
-    { label: "Dhaka ", value: "dhaka " },
-    { label: "Khulna ", value: "khulna " },
-    { label: "Rajshahi", value: "rajshahi" },
-    { label: "Rangpur", value: "rangpur" },
-    { label: "Sylhet", value: "sylhet" },
+    { label: "Barishal", value: 1 },
+    { label: "Chattogram", value: 2 },
+    { label: "Dhaka ", value: 3 },
+    { label: "Khulna ", value: 4 },
+    { label: "Rajshahi", value: 5 },
+    { label: "Rangpur", value: 6 },
+    { label: "Sylhet", value: 7 },
   ];
 
   const districtList = [
-    { label: "Chattogram", value: "chattogram" },
-    { label: "Dhaka", value: "dhaka" },
-    { label: "Rangamati", value: "rangamati" },
-    { label: "Faridpur", value: "raridpur" },
-    { label: "Nowakhali", value: "nowakhali" },
+    { label: "Chattogram", value: 1 },
+    { label: "Dhaka", value: 2 },
+    { label: "Rangamati", value: 3 },
+    { label: "Faridpur", value: 4 },
+    { label: "Nowakhali", value: 5 },
   ];
 
   const areaList = [
-    { label: "Karnaphuli", value: "karnaphuli" },
-    { label: "Patiya", value: "patiya" },
-    { label: "Mohakhali", value: "mohakhali" },
-    { label: "Jatrabari", value: "jatrabari" },
+    { label: "Karnaphuli", value: 1 },
+    { label: "Patiya", value: 2 },
+    { label: "Mohakhali", value: 3 },
+    { label: "Jatrabari", value: 4 },
   ];
 
   const nomineeList = [
@@ -54,6 +54,22 @@ export function AddressInformation({
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
+        <Select
+          options={[
+            {
+              label: "Permanent",
+              value: "permanent",
+            },
+          ]}
+          isSearchable={true}
+          name="address_type"
+          value={proposalInput.proposer_permanent_address.address_type}
+          label="Address Type"
+          defaultValue="permanent"
+          placeholder="Address Type"
+          handleChangeValue={changePermanentAddress}
+        />
+
         <Select
           options={divisionList}
           isSearchable={true}
@@ -122,13 +138,18 @@ export function AddressInformation({
       <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
         <Select
-          options={nomineeList}
+          options={[
+            {
+              label: "Present",
+              value: "present",
+            },
+          ]}
           isSearchable={true}
-          name="proposal_nominee_id"
-          label="Proposal Nominee"
-          defaultValue=""
-          value={proposalInput.proposer_present_address.proposal_nominee_id}
-          placeholder="Nominee Name"
+          name="address_type"
+          value={proposalInput.proposer_present_address.address_type}
+          label="Address Type"
+          defaultValue="present"
+          placeholder="Address Type"
           handleChangeValue={changePresentAddress}
         />
 
