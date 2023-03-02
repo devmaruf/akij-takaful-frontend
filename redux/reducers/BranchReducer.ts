@@ -51,7 +51,6 @@ function BranchReducer(state = initialState, action: any) {
             };
 
         case Types.GET_BRANCH_DETAILS:
-            console.log(action.payload)
             return {
                 ...state,
                 isLoadingDetails: action.payload.isLoading,
@@ -69,19 +68,19 @@ function BranchReducer(state = initialState, action: any) {
                 branchDropdownList: generateDropdownList(action.payload),
             };
 
-            case Types.UPDATE_BRANCH:
-                if (action.payload.status === true) {
-                    return {
-                        ...state,
-                        isSubmitting: action.payload.isLoading,
-                        branchInput: initialState.branchInput,
-                    };
-                } else {
-                    return {
-                        ...state,
-                        isSubmitting: action.payload.isLoading,
-                    };
-                }
+        case Types.UPDATE_BRANCH:
+            if (action.payload.status === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    branchInput: initialState.branchInput,
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
 
         default:
             break;

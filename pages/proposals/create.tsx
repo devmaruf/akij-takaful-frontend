@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 import IBreadcrumb from "@/components/breadcrumb";
 import PageTitle from "@/components/pageTitle";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,10 +20,10 @@ import { getBranchDropdownList } from "@/redux/actions/branch-action";
 
 export default function Create() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { proposalInput, isSubmitting } = useSelector(
     (state: RootState) => state.proposal
   );
-  const [key, setKey] = useState("");
   useEffect(() => {
     dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
@@ -50,9 +51,7 @@ export default function Create() {
   };
 
   const handleSubmitProposal = (e) => {
-    console.log(e);
-
-    dispatch(submitProposal(proposalInput));
+    dispatch(submitProposal(proposalInput, router));
     e.preventDefault();
   };
 

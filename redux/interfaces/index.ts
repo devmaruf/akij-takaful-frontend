@@ -55,6 +55,7 @@ export interface IEmployee {
     employeeList          : any[];
     employeePaginationData: any[];
     employeeDetails       : any;
+    rolesDropdownList     : Array<ISelect2Item>
     employeeInput         : {
         first_name        : string;
         last_name         : string;
@@ -64,7 +65,7 @@ export interface IEmployee {
         project_id        : number;
         branch_ids        : Array<Number>;
         phone             : string;
-        avatar            : string;
+        avatar            : string | null;
         password          : string;
         confirm_password  : string;
     }

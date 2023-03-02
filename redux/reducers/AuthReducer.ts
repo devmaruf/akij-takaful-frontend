@@ -13,7 +13,7 @@ const initialState: IAuthReducer = {
 
 function AuthReducer(state = initialState, action: any) {
     switch (action.type) {
-        case Types.CHANGE_INPUT_VALUE:
+        case Types.CHANGE_AUTH_INPUT_VALUE:
             const loginInput = { ...state.loginInput };
             // @ts-ignore
             loginInput[action.payload.name] = action.payload.value;

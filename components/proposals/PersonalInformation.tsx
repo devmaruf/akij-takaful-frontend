@@ -16,7 +16,7 @@ export function PersonalInformation({
   const religionsList = getReligions();
 
   return (
-    <div className="border border-gray-200 p-2.5 rounded-md shadow-md">
+    <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Personal Information
       </h3>

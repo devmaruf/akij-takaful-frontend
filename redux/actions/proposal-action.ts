@@ -12,7 +12,7 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
 };
 
 
-export const submitProposal = (proposalInput: IProposal) => (dispatch: any) => {
+export const submitProposal = (proposalInput: IProposal, router: any) => (dispatch: any) => {
     // if (proposalInput.proposal_no === "") {
     //     Toaster("error", "Proposal No can't be blank!");
     //     return false;
@@ -53,6 +53,8 @@ export const submitProposal = (proposalInput: IProposal) => (dispatch: any) => {
             response.message = res.message;
             Toaster('success', response.message);
             // dispatch(getBranchList(1, 5));
+
+            router.push('/proposals');
             dispatch({ type: Types.SUBMIT_PROPOSAL, payload: response });
         })
         .catch((error) => {
