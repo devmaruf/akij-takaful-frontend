@@ -20,13 +20,13 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
     }
 
     return (
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 table-fixed min-w-full divide-y divide-gray-200">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700">
+        <div className="overflow-x-auto shadow-md sm:rounded-lg">
+            <table className="w-full text-sm text-gray-500 divide-y divide-gray-200 table-auto">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr className=''>
                         {
                             column && column.length > 0 && column.map((data, index) => (
-                                <th scope="col" className="px-2 py-3 min-w-[200px]" key={index + 1}>
+                                <th scope="col" className="px-2 py-3" key={index + 1}>
                                     {data.title}
                                 </th>
                             ))

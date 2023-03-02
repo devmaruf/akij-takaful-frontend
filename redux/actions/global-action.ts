@@ -123,6 +123,13 @@ export const getSidebarMenuList = () => (dispatch) => {
                     url: '/settings/branches',
                     subSubMenu: []
                 },
+                {
+                    id: 'subMenu04.3',
+                    title: 'Manage Roles',
+                    icon: 'bi-shield-check',
+                    url: '/settings/roles',
+                    subSubMenu: []
+                },
             ]
         }
     ]
