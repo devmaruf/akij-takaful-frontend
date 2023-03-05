@@ -1,4 +1,4 @@
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Breadcrumb from '@/components/breadcrumb';
 import Button from '@/components/button';
@@ -18,9 +18,9 @@ const RolePermissionCreate = () => {
         dispatch(getPermissionGroups());
     }, [])
 
-    const roleCheck = ( e,   parentRole,    item,  indexChild, indexparentRole ) => {
-        let checkboxStatus = e.target.checked
-        dispatch(roleCheckboxSelect(checkboxStatus, parentRole, item, indexChild, indexparentRole));
+    const roleCheck = (e, parentRole, item, indexChild, indexParentRole) => {
+        let checkboxStatus = e.target.checked;
+        dispatch(roleCheckboxSelect(checkboxStatus, parentRole, item, indexChild, indexParentRole));
     }
 
     const checkPermissionGroup = (e, index, checkboxStatus) => {
@@ -32,19 +32,10 @@ const RolePermissionCreate = () => {
         dispatch(allCheckboxSelected(checkStausCheck));
     }
 
-    useEffect(() => {
-        if (isRoleCreated) {
-            dispatch(emptyRoleStatusMessage());
-            // history.push('/role-permission/list');
-        }
-    }, [isRoleCreated, roleCreateMessage]);
-
-
     const addRolePermission = (name: string, value: any) => {
         dispatch(AddRolePermissionInput(name, value));
     }
 
-    
     // const onSubmit = () => {
     // 	dispatch(storeRoleAction(roleInput));
     // }
@@ -85,48 +76,43 @@ const RolePermissionCreate = () => {
                                 </div>
 
                                 <div>
-                                    {inputData.groupList && inputData.groupList.map((parentRole: any, indexParentRole: any) => (
-                                        <div className='flex' key={indexParentRole}>
-                                            <div className="basis-full md:basis-2/12">
-                                                <div className="flex items-center my-3">
-                                                    <input
-                                                        id={`group-${indexParentRole}`}
-                                                        checked={parentRole.indexParentRole}
-                                                        type="checkbox"
-                                                        // onClick={(e) => checkPermissionGroup(e, indexParentRole, parentRole.isChecked ? false : true)}
-                                                        className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
-                                                    />
-                                                    <label htmlFor={`group-${indexParentRole}`} className="text-sm font-medium text-gray-900">{parentRole.name}</label>
+                                    {
+                                        inputData.groupList.length > 0 && inputData.groupList.map((parentRole: any, indexParentRole: any) => (
+                                            <div className='flex' key={indexParentRole}>
+                                                <div className="basis-full md:basis-2/12">
+                                                    <div className="flex items-center my-3">
+                                                        <input
+                                                            id={`group-${indexParentRole}`}
+                                                            // checked={parentRole.isChecked}
+                                                            type="checkbox"
+                                                            onClick={(e) => checkPermissionGroup(e, indexParentRole, parentRole.isChecked ? false : true)}
+                                                            className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
+                                                        />
+                                                        <label htmlFor={`group-${indexParentRole}`} className="text-sm font-medium text-gray-900">{parentRole.name}</label>
+                                                    </div>
+                                                </div>
+                                                <div className="basis-full md:basis-10/12 grid gap-2 grid-cols-1 md:grid-cols-4 border-b py-2">
+                                                    {
+                                                        parentRole && parentRole.permissions.length  > 0 && parentRole.permissions.map((item: any, indexChild: any) => (
+                                                            <div className="flex items-center my-2" key={indexChild}>
+                                                                <input
+                                                                    id={`group-child-${item.name}`}
+                                                                    // checked={item.isChecked}
+                                                                    type="checkbox"
+                                                                    className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
+                                                                    onClick={(e) => roleCheck(e, parentRole, item, indexChild, indexParentRole)}
+                                                                />
+                                                                <label htmlFor={`group-child-${item.name}`} className="text-sm font-medium text-gray-900">{item.printName}</label>
+                                                            </div>
+                                                        ))
+                                                    }
                                                 </div>
                                             </div>
-                                            <div className="basis-full md:basis-10/12 grid gap-2 grid-cols-1 md:grid-cols-4 border-b py-2">
-                                                {parentRole && parentRole.permissions.map((item: any, indexChild: any) => (
-                                                    <div className="flex items-center my-2" key={indexChild}>
-                                                        <input
-                                                            id={`group-${indexChild}`}
-                                                            checked={item.isChecked}
-                                                            type="checkbox"
-                                                            className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
-                                                            // onClick={(e) =>
-                                                            //     roleCheck(
-                                                            //         e,
-                                                            //         parentRole,
-                                                            //         item,
-                                                            //         indexChild,
-                                                            //         indexParentRole
-                                                            //     )
-                                                            // }
-                                                        />
-                                                        <label htmlFor={`group-${indexChild}`} className="text-sm font-medium text-gray-900">{item.printName}</label>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
 
-                                    ))}
+                                        ))}
                                 </div>
 
-                                <Button title='Save Permission' loadingTitle="Saving..." loading={false} />
+                                {/* <Button title='Save Permission' loadingTitle="Saving..." loading={false} /> */}
                             </form>
                         </div>
                     </div>

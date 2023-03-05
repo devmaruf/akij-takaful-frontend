@@ -15,6 +15,7 @@ const initialState: IRole = {
     inputData: {
         id: '',
         role: '',
+        isLoading: false,
         groupList: []
     },
 };
@@ -56,11 +57,11 @@ function roleReducer(state = initialState, action: any) {
                 isLoading: false,
                 inputData: initialState.inputData
             };
-            case Types.GET_ROLE_LIST_DROPDOWN:
-                return {
-                    ...state,
-                    roleList: generateDropdownList(action.payload)
-                };
+        case Types.GET_ROLE_LIST_DROPDOWN:
+            return {
+                ...state,
+                roleList: generateDropdownList(action.payload)
+            };
 
         case Types.ROLE_CHECKED:
             const { indexParentRole, indexChild, checkboxStatus } = action.payload;
@@ -97,35 +98,35 @@ function roleReducer(state = initialState, action: any) {
                 ...state,
                 inputData: {
                     ...state.inputData,
-                    //roleList
+                    roleList
                 }
             };
 
-            case Types.ROLE_ALL_CHECKED:
-                let CheckroleList = state.inputData.groupList.slice();
-                for (let i = 0; i < CheckroleList.length; i++) {
+        case Types.ROLE_ALL_CHECKED:
+            let CheckroleList = state.groupList.slice();
+            for (let i = 0; i < CheckroleList.length; i++) {
+                if (action.payload == true) {
+                    CheckroleList[i].isChecked = true;
+                } else {
+                    CheckroleList[i].isChecked = false;
+                }
+                for (let c = 0; c < CheckroleList[i].permissions.length; c++) {
+                    const element = CheckroleList[i].permissions[c];
                     if (action.payload == true) {
-                        CheckroleList[i].isChecked = true;
+                        CheckroleList[i].permissions[c].isChecked = true;
                     } else {
-                        CheckroleList[i].isChecked = false;
-                    }
-                    for (let c = 0; c < CheckroleList[i].permissions.length; c++) {
-                        const element = CheckroleList[i].permissions[c];
-                        if (action.payload == true) {
-                            CheckroleList[i].permissions[c].isChecked = true;
-                        } else {
-                            CheckroleList[i].permissions[c].isChecked = false;
-                        }
+                        CheckroleList[i].permissions[c].isChecked = false;
                     }
                 }
-    
-                return {
-                    ...state,
-                    inputData: {
-                        ...state.inputData,
-                        roleList
-                    }
-                };
+            }
+
+            return {
+                ...state,
+                inputData: {
+                    ...state.inputData,
+                    roleList
+                }
+            };
         default:
             break;
     }
@@ -133,3 +134,19 @@ function roleReducer(state = initialState, action: any) {
 }
 
 export default roleReducer;
+
+
+const checkedByGroup = (index: number, isCheckedStatus: boolean, roleInput: any) => {
+   const roleList = roleInput.groupList;
+    for (let i = 0; i < roleList.length; i++) {
+        if (i == index) {
+            roleList[i].isChecked = isCheckedStatus;
+            for (let j = 0; j < roleList[i].permissions.length; j++) {
+                const permissionItem = roleList[i].permissions[j];
+                permissionItem.isChecked = isCheckedStatus;
+                roleList[i].permissions[j] = permissionItem;
+            }
+        }
+    }
+    return roleInput;
+}

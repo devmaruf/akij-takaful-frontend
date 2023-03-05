@@ -126,11 +126,6 @@ export const getPermissionGroups = () => (dispatch) => {
       response.data = res.data;
       dispatch({ type: Types.GET_ROLE_PERMISSION_GROUPS, payload: response });
     });
-  // Axios
-  //   .get(`${baseUrl}roles/permissions`)
-  //   .then((res) => {
-  //     dispatch({ type: Types.GET_USER_PERMISSION_GROUPS, payload: res.data.data });
-  //   });
 };
 
 export const roleCheckboxSelect = (checkboxStatus, parentRole, item, indexChild, indexParentRole) => (dispatch) => {
@@ -161,7 +156,8 @@ export const allCheckboxSelected = (status) => (dispatch) => {
 
 export const checkPermissionGroupAction = (index, isGroupChecked) => (dispatch) => {
   dispatch({
-    type: Types.ROLE_CHECKED_GROUP, payload: {
+    type: Types.ROLE_CHECKED_GROUP, 
+    payload: {
       index: index,
       isGroupChecked: isGroupChecked
     }

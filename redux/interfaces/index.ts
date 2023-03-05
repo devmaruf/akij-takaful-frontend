@@ -183,6 +183,7 @@ export interface IRole {
     inputData         : {
         id            : number | string;
         role          : string,
+        isLoading     : boolean,
         groupList     : []
     },
 }
