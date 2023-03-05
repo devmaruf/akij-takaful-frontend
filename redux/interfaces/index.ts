@@ -172,3 +172,19 @@ export interface IProposal {
     }
 }
 
+export interface IRole {
+    isLoading         : boolean;
+    isDeleting        : boolean;
+    isSubmitting      : boolean;
+    roleList          : any[];
+    roleListAll          : any[];
+    rolesListPaginated: any[];
+    isRoleCreated     : boolean,
+    roleCreateMessage : string,
+    inputData         : {
+        id            : number | string;
+        role          : string,
+        isLoading     : boolean,
+        groupList     : []
+    },
+}
