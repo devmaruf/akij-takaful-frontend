@@ -3,6 +3,7 @@ import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
+import { relationList } from "@/utils/proposal-dropdowns";
 export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any) => void;
 }
@@ -61,13 +62,23 @@ export function GuardianInformation({
           inputChange={handleChangeTextInput}
         />
 
-        <Input
+        {/* <Input
           label="Relation"
           name="relation"
           placeholder="Relation"
           value={proposalInput.proposer_guardian.relation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+        /> */}
+          <Select
+          options={relationList}
+          isSearchable={true}
+          name="relation"
+          label="Relation"
+          defaultValue=""
+          isRequired={true}
+          placeholder="Select Relation"
+          handleChangeValue={handleChangeTextInput}
         />
       </div>
     </div>

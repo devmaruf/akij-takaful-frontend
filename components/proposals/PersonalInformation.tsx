@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { getReligions } from "@/utils/religions";
+import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -13,7 +14,6 @@ export function PersonalInformation({
   handleChangeTextInput,
 }: IPersonalInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const religionsList = getReligions();
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -70,32 +70,7 @@ export function PersonalInformation({
           inputChange={handleChangeTextInput}
         />
         <Select
-          options={[
-            {
-              label: "Married",
-              value: "married",
-            },
-            {
-              label: "Unmarried",
-              value: "unmarried",
-            },
-            {
-              label: "Widower",
-              value: "widower",
-            },
-            {
-              label: "Widow",
-              value: "widow",
-            },
-            {
-              label: "Divorced",
-              value: "divorced",
-            },
-            {
-              label: "Separated",
-              value: "separated",
-            },
-          ]}
+          options={MaritalStatusList}
           isSearchable={true}
           isRequired={true}
           label="Marital Status"
@@ -107,20 +82,7 @@ export function PersonalInformation({
         />
 
         <Select
-          options={[
-            {
-              label: "NID",
-              value: "nid",
-            },
-            {
-              label: "BRC",
-              value: "brc",
-            },
-            {
-              label: "PASSPORT",
-              value: "passport",
-            },
-          ]}
+          options={identityTypeList}
           isSearchable={true}
           name="identity_type"
           value={proposalInput.proposal_personal_information.identity_type}
@@ -131,20 +93,7 @@ export function PersonalInformation({
         />
         
         <Select
-          options={[
-            {
-              label: "Male",
-              value: "male",
-            },
-            {
-              label: "Female",
-              value: "female",
-            },
-            {
-              label: "Others",
-              value: "others",
-            },
-          ]}
+          options={GenderList}
           isSearchable={true}
           isRequired={true}
           name="gender"
@@ -188,7 +137,7 @@ export function PersonalInformation({
           inputChange={handleChangeTextInput}
         /> */}
         <Select
-          options={religionsList}
+          options={religionList}
           isSearchable={true}
           name="religion"
           label="Religion"

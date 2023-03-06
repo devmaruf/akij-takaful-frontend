@@ -143,75 +143,79 @@ export function AddressInformation({
           </label>
         </div>
       </div>
-      <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
-        <Select
-          options={[
-            {
-              label: "Present",
-              value: "present",
-            },
-          ]}
-          isSearchable={true}
-          name="address_type"
-          value={proposalInput.proposer_present_address.address_type}
-          label="Address Type"
-          defaultValue="present"
-          placeholder="Address Type"
-          handleChangeValue={changePresentAddress}
-        />
+      <div
+      // className={isSameAddress ? 'block' : 'hidden'}
+      >
+        <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
+        <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+          <Select
+            options={[
+              {
+                label: "Present",
+                value: "present",
+              },
+            ]}
+            isSearchable={true}
+            name="address_type"
+            value={proposalInput.proposer_present_address.address_type}
+            label="Address Type"
+            defaultValue="present"
+            placeholder="Address Type"
+            handleChangeValue={changePresentAddress}
+          />
 
-        <Select
-          options={divisionList}
-          isSearchable={true}
-          name="division_id"
-          label="Division"
-          value={proposalInput.proposer_present_address.division_id}
-          defaultValue=""
-          placeholder="Select Division..."
-          handleChangeValue={changePresentAddress}
-        />
+          <Select
+            options={divisionList}
+            isSearchable={true}
+            name="division_id"
+            label="Division"
+            value={proposalInput.proposer_present_address.division_id}
+            defaultValue=""
+            placeholder="Select Division..."
+            handleChangeValue={changePresentAddress}
+          />
 
-        <Select
-          options={districtList}
-          isSearchable={true}
-          name="district_id"
-          label="District"
-          value={proposalInput.proposer_present_address.district_id}
-          defaultValue=""
-          placeholder="Select District..."
-          handleChangeValue={changePresentAddress}
-        />
+          <Select
+            options={districtList}
+            isSearchable={true}
+            name="district_id"
+            label="District"
+            value={proposalInput.proposer_present_address.district_id}
+            defaultValue=""
+            placeholder="Select District..."
+            handleChangeValue={changePresentAddress}
+          />
 
-        <Select
-          options={areaList}
-          isSearchable={true}
-          name="area_id"
-          label="Area"
-          value={proposalInput.proposer_present_address.area_id}
-          defaultValue=""
-          placeholder="Select Area..."
-          handleChangeValue={changePresentAddress}
-        />
+          <Select
+            options={areaList}
+            isSearchable={true}
+            name="area_id"
+            label="Area"
+            value={proposalInput.proposer_present_address.area_id}
+            defaultValue=""
+            placeholder="Select Area..."
+            handleChangeValue={changePresentAddress}
+          />
 
-        <Input
-          label="Post Office Name"
-          name="post_office_name"
-          placeholder="Post Office Name"
-          value={proposalInput.proposer_present_address.post_office_name}
-          isRequired={true}
-          isDisabled={isSameAddress}
-          inputChange={changePresentAddress}
-        />
-        <Input
-          label="Street address"
-          name="street_address"
-          placeholder="Street address"
-          value={proposalInput.proposer_present_address.street_address}
-          isRequired={true}
-          isDisabled={isSameAddress}
-          inputChange={changePresentAddress}
-        />
+          <Input
+            label="Post Office Name"
+            name="post_office_name"
+            placeholder="Post Office Name"
+            value={proposalInput.proposer_present_address.post_office_name}
+            isRequired={true}
+            isDisabled={isSameAddress}
+            inputChange={changePresentAddress}
+          />
+          <Input
+            label="Street address"
+            name="street_address"
+            placeholder="Street address"
+            value={proposalInput.proposer_present_address.street_address}
+            isRequired={true}
+            isDisabled={isSameAddress}
+            inputChange={changePresentAddress}
+          />
+        </div>
       </div>
     </div>
   );
