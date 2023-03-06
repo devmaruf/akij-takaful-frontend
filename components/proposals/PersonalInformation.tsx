@@ -3,17 +3,19 @@ import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { getReligions } from "@/utils/religions";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import { useState } from 'react';
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  identityLabel: any;
+  identityValidationMessage: any;
+  disabledField: boolean;
 }
 
-export function PersonalInformation({
-  handleChangeTextInput,
-}: IPersonalInformation) {
+export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField }: IPersonalInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -83,15 +85,27 @@ export function PersonalInformation({
 
         <Select
           options={identityTypeList}
+          // defaultValue={identityTypeList[0]}
           isSearchable={true}
           name="identity_type"
           value={proposalInput.proposal_personal_information.identity_type}
           label="Identity Type"
-          defaultValue=""
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
         />
-        
+
+        <div>
+          <Input
+            label={identityLabel}
+            name="id_no"
+            placeholder={identityLabel}
+            isDisabled={disabledField}
+            value={proposalInput.proposal_personal_information.id_no}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+          />
+          <p className="text-xs text-red-600 ">{identityValidationMessage}</p>
+        </div>
         <Select
           options={GenderList}
           isSearchable={true}
@@ -103,14 +117,7 @@ export function PersonalInformation({
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
         />
-        <Input
-          label="ID No"
-          name="id_no"
-          placeholder="ID No"
-          value={proposalInput.proposal_personal_information.id_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
+
         <Input
           label="Date of Birth"
           name="dob"

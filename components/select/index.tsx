@@ -62,6 +62,7 @@ export default function Select({
         isSearchable={isSearchable}
         name={name}
         isMulti={isMulti}
+        defaultValue={defaultValue && defaultValue}
         //value={value}
         onChange={
           handleChangeValue &&
