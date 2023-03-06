@@ -7,10 +7,11 @@ const initialState: IProposal = {
     isDeleting: false,
     isSubmitting: false,
     proposalsList: [],
-    paginationData : [],
+    paginationData: [],
     loadingDetails: false,
     planDropdownList: [],
     proposalDetails: {},
+    isSameAddress: false,
     proposalInput: {
         project_id: 0,
         branch_id: 0,
@@ -129,7 +130,21 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposer_bank_information,
                 proposer_guardian
             };
-
+        case Types.IS_SAME_ADDRESS_STATUS:
+            const prevProposalInput = { ...state.proposalInput };
+            const permanentAddress = { ...state.proposer_permanent_address };
+            let presentAddress = { ...state.proposer_present_address };
+            if(action.payload === true){
+                prevProposalInput.proposer_present_address = permanentAddress
+            }else{
+                prevProposalInput.proposer_present_address = initialState.proposer_present_address
+            }
+            return {
+                ...state,
+                proposalInput: prevProposalInput,
+                proposer_present_address: presentAddress,
+                isSameAddress: action.payload
+            };
         case Types.GET_PLAN_DROPDOWN:
             return {
                 ...state,

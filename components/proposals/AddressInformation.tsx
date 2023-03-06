@@ -1,8 +1,9 @@
 import * as React from "react";
 import Input from "@/components/input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
+import { isSameAddressCheck } from "@/redux/actions/proposal-action";
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -12,8 +13,9 @@ export function AddressInformation({
   changePresentAddress,
   changePermanentAddress,
 }: IAddressInformation) {
-  const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
 
+  const dispatch = useDispatch();
   const divisionList = [
     { label: "Barishal", value: 1 },
     { label: "Chattogram", value: 2 },
@@ -45,6 +47,11 @@ export function AddressInformation({
     { label: "Mr. Abul Kalam", value: 3 },
     { label: "Mr. Zihad", value: 4 },
   ];
+
+  const handleCheckedSameAddress = (event) => {
+    const isChecked = event.target.checked;
+    dispatch(isSameAddressCheck(isChecked))
+  }
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -125,6 +132,7 @@ export function AddressInformation({
             id="same_as_parmanent"
             type="checkbox"
             value=""
+            onChange={(e) => handleCheckedSameAddress(e)}
             className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
           />
           <label
@@ -192,6 +200,7 @@ export function AddressInformation({
           placeholder="Post Office Name"
           value={proposalInput.proposer_present_address.post_office_name}
           isRequired={true}
+          isDisabled={isSameAddress}
           inputChange={changePresentAddress}
         />
         <Input
@@ -200,6 +209,7 @@ export function AddressInformation({
           placeholder="Street address"
           value={proposalInput.proposer_present_address.street_address}
           isRequired={true}
+          isDisabled={isSameAddress}
           inputChange={changePresentAddress}
         />
       </div>

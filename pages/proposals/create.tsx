@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import IBreadcrumb from "@/components/breadcrumb";
 import PageTitle from "@/components/pageTitle";
@@ -17,13 +17,15 @@ import { GuardianInformation } from "@/components/proposals/GuardianInformation"
 import { BankInformation } from "@/components/proposals/BankInformation";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
+import FormValidation from "./../../utils/formValidation";
 
 export default function Create() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { proposalInput, isSubmitting } = useSelector(
-    (state: RootState) => state.proposal
-  );
+  const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
+
+
+
   useEffect(() => {
     dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
@@ -32,10 +34,13 @@ export default function Create() {
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, ""));
+    // const isValid = validateForm(name, "test message")
+
   };
 
   const handleChangePersonalInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposal_personal_information"));
+    FormValidation(value);
   };
   const handleChangePresentAddressInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposer_present_address"));
@@ -50,8 +55,15 @@ export default function Create() {
     dispatch(changeInputValue(name, value, "proposer_guardian"));
   };
 
-  const handleSubmitProposal = (e) => {
-    dispatch(submitProposal(proposalInput, router));
+  // const { errors, validateEmail, validateNumber, validatePassword } =
+  // FormValidation();
+
+  const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
+    
+    // if (!isValid) {
+    //   return false
+    // }
+    //dispatch(submitProposal(proposalInput, router));
     e.preventDefault();
   };
 
@@ -72,6 +84,7 @@ export default function Create() {
             >
               <PremiumInformation
                 handleChangeTextInput={handleChangeTextInput}
+                handleBlur={FormValidation()}
               />
               <PersonalInformation
                 handleChangeTextInput={handleChangePersonalInfo}

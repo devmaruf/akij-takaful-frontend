@@ -8,27 +8,22 @@ import { useEffect, useState } from "react";
 
 export interface IPremiumInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  handleBlur: (name: string, value: any) => void;
 }
 
-export function PremiumInformation({
-  handleChangeTextInput,
-}: IPremiumInformation) {
-  const { projectDropdownList } = useSelector(
-    (state: RootState) => state.Project
-  );
-  const { branchDropdownList } = useSelector(
-    (state: RootState) => state.Branch
-  );
-  const { proposalInput, planDropdownList } = useSelector(
-    (state: RootState) => state.proposal
-  );
+export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremiumInformation) {
+
+  const { projectDropdownList } = useSelector((state: RootState) => state.Project);
+  const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
+  const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
 
   const [placeHolderProposalNo, setplaceHolderProposalNo] = useState('');
-  useEffect(() => {
-    const formattedDate = format(new Date(), 'yyyyMMdd');
-    const randomNumber = Math.floor(10000 + Math.random() * 90000);
-    setplaceHolderProposalNo(`ATLI-${formattedDate}-${randomNumber}`);
-  }, []);
+
+  // useEffect(() => {
+  //   const formattedDate = format(new Date(), 'yyyyMMdd');
+  //   const randomNumber = Math.floor(10000 + Math.random() * 90000);
+  //   setplaceHolderProposalNo(`ATLI-${formattedDate}-${randomNumber}`);
+  // }, []);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -43,6 +38,7 @@ export function PremiumInformation({
           value={proposalInput.proposal_no || placeHolderProposalNo}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          handleBlur={handleBlur}
         />
         <Select
           options={planDropdownList}
@@ -81,6 +77,7 @@ export function PremiumInformation({
           value={proposalInput.fa_code}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          handleBlur={handleBlur}
         />
         <Input
           label="Initial Sum Assured"
