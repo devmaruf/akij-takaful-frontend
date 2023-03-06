@@ -3,17 +3,19 @@ import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { getReligions } from "@/utils/religions";
+import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import { useState } from 'react';
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  identityLabel: any;
+  identityValidationMessage: any;
+  disabledField: boolean;
 }
 
-export function PersonalInformation({
-  handleChangeTextInput,
-}: IPersonalInformation) {
+export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField }: IPersonalInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const religionsList = getReligions();
+
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -70,32 +72,7 @@ export function PersonalInformation({
           inputChange={handleChangeTextInput}
         />
         <Select
-          options={[
-            {
-              label: "Married",
-              value: "married",
-            },
-            {
-              label: "Unmarried",
-              value: "unmarried",
-            },
-            {
-              label: "Widower",
-              value: "widower",
-            },
-            {
-              label: "Widow",
-              value: "widow",
-            },
-            {
-              label: "Divorced",
-              value: "divorced",
-            },
-            {
-              label: "Separated",
-              value: "separated",
-            },
-          ]}
+          options={MaritalStatusList}
           isSearchable={true}
           isRequired={true}
           label="Marital Status"
@@ -107,44 +84,30 @@ export function PersonalInformation({
         />
 
         <Select
-          options={[
-            {
-              label: "NID",
-              value: "nid",
-            },
-            {
-              label: "BRC",
-              value: "brc",
-            },
-            {
-              label: "PASSPORT",
-              value: "passport",
-            },
-          ]}
+          options={identityTypeList}
+          // defaultValue={identityTypeList[0]}
           isSearchable={true}
           name="identity_type"
           value={proposalInput.proposal_personal_information.identity_type}
           label="Identity Type"
-          defaultValue=""
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
         />
-        
+
+        <div>
+          <Input
+            label={identityLabel}
+            name="id_no"
+            placeholder={identityLabel}
+            isDisabled={disabledField}
+            value={proposalInput.proposal_personal_information.id_no}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+          />
+          <p className="text-xs text-red-600 ">{identityValidationMessage}</p>
+        </div>
         <Select
-          options={[
-            {
-              label: "Male",
-              value: "male",
-            },
-            {
-              label: "Female",
-              value: "female",
-            },
-            {
-              label: "Others",
-              value: "others",
-            },
-          ]}
+          options={GenderList}
           isSearchable={true}
           isRequired={true}
           name="gender"
@@ -154,14 +117,7 @@ export function PersonalInformation({
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
         />
-        <Input
-          label="ID No"
-          name="id_no"
-          placeholder="ID No"
-          value={proposalInput.proposal_personal_information.id_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
+
         <Input
           label="Date of Birth"
           name="dob"
@@ -188,7 +144,7 @@ export function PersonalInformation({
           inputChange={handleChangeTextInput}
         /> */}
         <Select
-          options={religionsList}
+          options={religionList}
           isSearchable={true}
           name="religion"
           label="Religion"

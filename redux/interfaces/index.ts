@@ -92,6 +92,7 @@ export interface IProposal {
     planDropdownList             : any[];
     proposalsList                : any[];
     loadingDetails               : boolean; 
+    isSameAddress                : boolean; 
     paginationData               : any[];
     proposalDetails              : any;
     proposalInput                : {

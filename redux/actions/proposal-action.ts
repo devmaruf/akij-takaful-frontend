@@ -198,3 +198,8 @@ export const getPlanDropdownList = () => (dispatch: any) => {
             dispatch({ type: Types.GET_PLAN_DROPDOWN, payload: res.data });
         });
 };
+
+
+export const isSameAddressCheck = (status)=> (dispatch)=>{
+    dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: status});
+}
