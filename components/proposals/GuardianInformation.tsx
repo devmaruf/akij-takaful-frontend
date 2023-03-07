@@ -6,11 +6,10 @@ import Select from "@/components/select";
 import { relationList } from "@/utils/proposal-dropdowns";
 export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  errors?: any;
 }
 
-export function GuardianInformation({
-  handleChangeTextInput,
-}: IGuardianInformation) {
+export function GuardianInformation({ handleChangeTextInput, errors}: IGuardianInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
   const nomineeList = [
     { label: "Mr. Rahim", value: 1 },
@@ -32,6 +31,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -41,6 +41,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.phone_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -51,6 +52,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -60,6 +62,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.id_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         {/* <Input

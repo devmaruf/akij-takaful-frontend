@@ -7,12 +7,10 @@ import { isSameAddressCheck } from "@/redux/actions/proposal-action";
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  errors?: any;
 }
 
-export function AddressInformation({
-  changePresentAddress,
-  changePermanentAddress,
-}: IAddressInformation) {
+export function AddressInformation({  changePresentAddress, changePermanentAddress, errors}: IAddressInformation) {
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
 
   const dispatch = useDispatch();
@@ -61,21 +59,7 @@ export function AddressInformation({
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
-        <Select
-          options={[
-            {
-              label: "Permanent",
-              value: "permanent",
-            },
-          ]}
-          isSearchable={true}
-          name="address_type"
-          value={proposalInput.proposer_permanent_address.address_type}
-          label="Address Type"
-          defaultValue="permanent"
-          placeholder="Address Type"
-          handleChangeValue={changePermanentAddress}
-        />
+        
 
         <Select
           options={divisionList}
@@ -116,6 +100,7 @@ export function AddressInformation({
           value={proposalInput.proposer_permanent_address.post_office_name}
           isRequired={true}
           inputChange={changePermanentAddress}
+          errors={errors}
         />
 
         <Input
@@ -125,6 +110,7 @@ export function AddressInformation({
           value={proposalInput.proposer_permanent_address.street_address}
           isRequired={true}
           inputChange={changePermanentAddress}
+          errors={errors}
         />
 
         <div className="flex items-center mb-4">
@@ -205,6 +191,7 @@ export function AddressInformation({
             isRequired={true}
             isDisabled={isSameAddress}
             inputChange={changePresentAddress}
+            errors={errors}
           />
           <Input
             label="Street address"
@@ -214,6 +201,7 @@ export function AddressInformation({
             isRequired={true}
             isDisabled={isSameAddress}
             inputChange={changePresentAddress}
+            errors={errors}
           />
         </div>
       </div>

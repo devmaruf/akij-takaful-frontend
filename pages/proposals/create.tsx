@@ -17,7 +17,7 @@ import { GuardianInformation } from "@/components/proposals/GuardianInformation"
 import { BankInformation } from "@/components/proposals/BankInformation";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
-import FormValidation from "./../../utils/formValidation";
+import { formValidation } from "./../../utils/formValidation";
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ export default function Create() {
   const [identityLabel, setIdentityLabel] = React.useState("ID No")
   const [identityValidationMessage, setIdentityValidationMessage] = React.useState("Please select identity type first")
   const [disabledField, setDisabledField] = React.useState(true)
+  const [errors, setErrors] = React.useState({})
 
   useEffect(() => {
     dispatch(getPlanDropdownList());
@@ -36,8 +37,6 @@ export default function Create() {
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, ""));
-    // const isValid = validateForm(name, "test message")
-
   };
 
   const handleChangePersonalInfo = (name: string, value: any) => {
@@ -59,15 +58,12 @@ export default function Create() {
     dispatch(changeInputValue(name, value, "proposer_guardian"));
   };
 
-  // const { errors, validateEmail, validateNumber, validatePassword } =
-  // FormValidation();
-
   const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-    // if (!isValid) {
-    //   return false
-    // }
-    //dispatch(submitProposal(proposalInput, router));
+    const { errors, isValid } = formValidation(e);
+    setErrors(errors);
+    if (isValid) {
+      dispatch(submitProposal(proposalInput, router));
+    }
     e.preventDefault();
   };
 
@@ -105,29 +101,34 @@ export default function Create() {
               method="post"
               autoComplete="off"
               encType="multipart/form-data"
+              onSubmit={(e) => handleSubmitProposal(e)}
+              noValidate
             >
               <PremiumInformation
                 handleChangeTextInput={handleChangeTextInput}
+                errors={errors}
               />
               <PersonalInformation
                 handleChangeTextInput={handleChangePersonalInfo}
                 identityLabel={identityLabel}
                 disabledField={disabledField}
+                errors={errors}
                 identityValidationMessage={identityValidationMessage}
               />
               <AddressInformation
                 changePresentAddress={handleChangePresentAddressInfo}
                 changePermanentAddress={handleChangePermanentAddressInfo}
+                errors={errors}
               />
               <GuardianInformation
                 handleChangeTextInput={handleChangeGuardianInfo}
+                errors={errors}
               />
-              <BankInformation handleChangeTextInput={handleChangeBankInfo} />
+              <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
 
               <Button
                 title="Save"
                 loadingTitle="Saving..."
-                onClick={(e) => handleSubmitProposal(e)}
                 loading={isSubmitting}
                 customClass="mt-4"
               />

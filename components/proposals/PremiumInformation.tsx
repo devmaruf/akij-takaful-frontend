@@ -8,10 +8,10 @@ import { useEffect, useState } from "react";
 
 export interface IPremiumInformation {
   handleChangeTextInput: (name: string, value: any) => void;
-  handleBlur: (name: string, value: any) => void;
+  errors?: any;
 }
 
-export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremiumInformation) {
+export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumInformation) {
 
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
@@ -38,7 +38,7 @@ export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremi
           value={proposalInput.proposal_no || placeHolderProposalNo}
           isRequired={true}
           inputChange={handleChangeTextInput}
-          handleBlur={handleBlur}
+          errors={errors}
         />
         <Select
           options={planDropdownList}
@@ -77,7 +77,7 @@ export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremi
           value={proposalInput.fa_code}
           isRequired={true}
           inputChange={handleChangeTextInput}
-          handleBlur={handleBlur}
+          errors={errors}
         />
         <Input
           label="Initial Sum Assured"
@@ -86,6 +86,7 @@ export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremi
           value={proposalInput.initial_sum_assured}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Initial Premium"
@@ -94,6 +95,7 @@ export function PremiumInformation({ handleChangeTextInput, handleBlur }: IPremi
           value={proposalInput.initial_premium}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
       </div>
     </div>

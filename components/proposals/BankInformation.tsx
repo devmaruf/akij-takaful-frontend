@@ -6,9 +6,10 @@ import Select from "@/components/select";
 
 export interface IBankInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  errors?: any;
 }
 
-export function BankInformation({ handleChangeTextInput }: IBankInformation) {
+export function BankInformation({ handleChangeTextInput, errors }: IBankInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
   return (
@@ -24,6 +25,7 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           value={proposalInput.proposer_bank_information.bank_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Select
@@ -54,17 +56,17 @@ export function BankInformation({ handleChangeTextInput }: IBankInformation) {
           value={proposalInput.proposer_bank_information.bank_account_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={
-            proposalInput.proposer_bank_information.bank_account_holder_name
-          }
+          value={proposalInput.proposer_bank_information.bank_account_holder_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
       </div>
     </div>

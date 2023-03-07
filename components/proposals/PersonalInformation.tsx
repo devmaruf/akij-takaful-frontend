@@ -11,9 +11,10 @@ export interface IPersonalInformation {
   identityLabel: any;
   identityValidationMessage: any;
   disabledField: boolean;
+  errors?: any;
 }
 
-export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField }: IPersonalInformation) {
+export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField, errors }: IPersonalInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
 
 
@@ -30,6 +31,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.full_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Father Name"
@@ -38,6 +40,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.father_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Mother Name"
@@ -46,6 +49,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.mother_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Spouse Name"
@@ -54,6 +58,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.spouse_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Email Address"
@@ -62,6 +67,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.email}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Mobile No"
@@ -70,6 +76,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.mobile_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Select
           options={MaritalStatusList}
@@ -103,8 +110,9 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
             value={proposalInput.proposal_personal_information.id_no}
             isRequired={true}
             inputChange={handleChangeTextInput}
+            errors={errors}
           />
-          <p className="text-xs text-red-600 ">{identityValidationMessage}</p>
+          <p className="text-xs text-red-600 italic">{identityValidationMessage}</p>
         </div>
         <Select
           options={GenderList}
@@ -126,6 +134,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Occupation"
@@ -134,6 +143,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.occupation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         {/* <Input
           label="Relation"
@@ -159,6 +169,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.height}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Select
           options={[
@@ -213,6 +224,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.allocation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
       </div>
     </div>

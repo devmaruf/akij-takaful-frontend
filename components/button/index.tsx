@@ -1,7 +1,7 @@
 interface IButton {
     title?       : string;
     loadingTitle?: string;
-    onClick      : React.SyntheticEvent | any;
+    onClick?     : React.SyntheticEvent | any;
     disabled?    : boolean;
     loading?     : boolean;
     position?    : string;
