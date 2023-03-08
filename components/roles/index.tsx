@@ -1,5 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
+import { Accordion, Alert } from 'flowbite-react';
+
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
 import Button from '@/components/button';
@@ -8,8 +11,6 @@ import { getRoleList } from '@/redux/actions/role-action';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import Tooltip from '@/components/tooltip';
-import Link from 'next/link';
-import { Accordion, Alert } from 'flowbite-react';
 
 export default function Roles() {
     const dispatch = useDispatch();
@@ -133,7 +134,6 @@ export default function Roles() {
                         </Table>
                 }
             </div>
-
 
 
             {/* <Modal title="Delete a bank" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
