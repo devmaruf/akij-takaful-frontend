@@ -9,13 +9,14 @@ import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import Tooltip from '@/components/tooltip';
 import Link from 'next/link';
+import { Accordion, Alert } from 'flowbite-react';
 
 export default function Roles() {
     const dispatch = useDispatch();
     const columnData = [
         { title: "SL", id: "01" },
         { title: "Role", id: "02" },
-        { title: "Total Permissions", id: "03" },
+        { title: "Permissions", id: "03" },
         { title: "Status", id: "04" },
         { title: "Action", id: "05" },
     ]
@@ -73,29 +74,48 @@ export default function Roles() {
                             {
                                 roleListAll && roleListAll.length > 0 && roleListAll.map((data, index) => (
                                     <tr className="bg-white border-b hover:bg-gray-50" key={index + 1}>
-                                        <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words w-6" >
                                             {index + 1}
                                         </th>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words w-40">
                                             {data.name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {
-                                                data.permissions && data.permissions.length > 0 && data.permissions.map((permission, permissionIndex) => (
-                                                    <span key={permissionIndex + 1} className="bg-blue-500 text-[10px] text-white py-0 px-[2px] rounded-md m-[2px] inline-flex">{permission.name}</span>
-                                                ))
-                                            }
-                                            {
-                                                data.permissions && data.permissions.length === 0 && <span className='tex-gray-900'>No Permissions Available</span>
-                                            }
+                                            <div className='max-w-[500px]'>
+                                                {
+                                                    data.permissions && data.permissions.length > 0 &&
+                                                    <Accordion collapseAll={true}>
+                                                        <Accordion.Panel>
+                                                            <Accordion.Title>
+                                                                {data.permissions.length ?? 0} Permissions
+                                                            </Accordion.Title>
+                                                            <Accordion.Content>
+                                                                {
+                                                                    data.permissions.map((permission, permissionIndex) => (
+                                                                        <span key={permissionIndex + 1} className="bg-blue-500 text-[10px] text-white py-0 px-[2px] rounded-md m-[2px] inline-flex">{permission.name}</span>
+                                                                    ))
+                                                                }
+                                                            </Accordion.Content>
+                                                        </Accordion.Panel>
+                                                    </Accordion>
+                                                }
+
+                                                {
+                                                    data.permissions && data.permissions.length === 0 &&
+                                                    <Alert
+                                                        color="failure"
+                                                    >
+                                                        No Permissions added.
+                                                    </Alert>
+                                                }
+                                            </div>
                                         </td>
 
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             <span className="bg-cyan-600 text-white px-1 py-2 rounded-md"> Active </span>
                                         </td>
 
-                                        <td className="px-2 py-3">
-
+                                        <td className="px-2 py-3 text-right">
                                             <Tooltip content={`Update - ${data.name}`}>
                                                 <Button
                                                     onClick={''}
