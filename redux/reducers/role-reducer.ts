@@ -64,18 +64,10 @@ function roleReducer(state = initialState, action: any) {
             };
 
         case Types.ROLE_CHECKED:
-            const { indexParentRole, indexChild, checkboxStatus } = action.payload;
-            let roleList = state.inputData.groupList.slice();
-            roleList[indexParentRole].permissions[indexChild].isChecked = checkboxStatus;
-            roleList[indexParentRole].isChecked = checkAllPermissionIsChecked(roleList, indexParentRole);
             return {
                 ...state,
-                inputData: {
-                    ...state.inputData,
-                    roleList
-                }
+                inputData: action.payload
             };
-
 
         case Types.ROLE_CHECKED_GROUP:
             return {

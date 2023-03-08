@@ -114,19 +114,7 @@ export const getPermissionGroups = () => (dispatch) => {
     });
 };
 
-export const roleCheckboxSelect = (checkboxStatus, parentRole, item, indexChild, indexParentRole) => (dispatch) => {
-  dispatch({
-    type: Types.ROLE_CHECKED, payload: {
-      checkboxStatus: checkboxStatus,
-      parentRole: parentRole,
-      item: item,
-      indexChild: indexChild,
-      indexParentRole: indexParentRole,
-    }
-  });
-};
-
-export const allCheckboxSelected = (status, inputData) => (dispatch, getState) => {
+export const allpermissionCheckboxSelectAction = (status, inputData) => (dispatch, getState) => {
   const { groupList } = inputData;
   const updatedGroupList = groupList.map(group => {
     const updatedPermissions = group.permissions.map(permission => ({
@@ -146,7 +134,7 @@ export const allCheckboxSelected = (status, inputData) => (dispatch, getState) =
   dispatch({ type: Types.ROLE_ALL_CHECKED, payload: updatedInputData });
 };
 
-export const checkPermissionGroupAction = (index, isGroupChecked, inputData) => (dispatch, getState) => {
+export const permissionGroupCheckboxSelectAction = (index, isGroupChecked, inputData) => (dispatch) => {
   const { groupList } = inputData;
   const selectedGroup = groupList[index];
   const updatedPermissions = selectedGroup.permissions.map(permission => ({
@@ -170,3 +158,41 @@ export const checkPermissionGroupAction = (index, isGroupChecked, inputData) => 
     }
   });
 }
+
+export const permissionCheckboxSelectAction = (checkboxStatus, indexChild, parentIndex, inputData) => (dispatch) => {
+  let { groupList } = inputData;
+  const updatedGroupList = groupList.map((group, groupIndex) => {
+    const updatedPermissions = group.permissions.map((permission, permissionIndex) => ({
+      ...permission,
+      isChecked: (permissionIndex === indexChild && parentIndex === groupIndex) ? checkboxStatus : permission.isChecked
+    }));
+    return {
+      ...group,
+      permissions: updatedPermissions
+    };
+  });
+
+  const updatedInputData = {
+    ...inputData,
+    groupList: updatedGroupList
+  };
+
+  dispatch({
+    type: Types.ROLE_CHECKED,
+    payload: updatedInputData
+  });
+};
+
+export const checkGroupPermissionIsChecked = (permissionGroup, permissionGroupIndex) => {
+  const getTotalPermissions = permissionGroup.permissions;
+  const getTotalCheckedPermissions = getTotalPermissions.filter(permission => permission.isChecked);
+  return getTotalPermissions.length === getTotalCheckedPermissions.length ? true : false;
+}
+
+export const checkAllPermissionIsChecked = (groupList) => {
+  return groupList.every(permissionGroup => {
+    const getTotalPermissions = permissionGroup.permissions;
+    const getTotalCheckedPermissions = getTotalPermissions.filter(permission => permission.isChecked);
+    return getTotalPermissions.length === getTotalCheckedPermissions.length;
+  });
+};

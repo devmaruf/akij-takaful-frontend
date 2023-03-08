@@ -7,7 +7,7 @@ import Loading from '@/components/loading';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import { RootState } from '@/redux/store';
-import { checkPermissionGroupAction, emptyRoleStatusMessage, getPermissionGroups, roleCheckboxSelect, allCheckboxSelected, changeRoleInputAction, storeRoleAction } from '@/redux/actions/role-action';
+import { permissionGroupCheckboxSelectAction, emptyRoleStatusMessage, getPermissionGroups, permissionCheckboxSelectAction, allpermissionCheckboxSelectAction, changeRoleInputAction, storeRoleAction, checkGroupPermissionIsChecked, checkAllPermissionIsChecked } from '@/redux/actions/role-action';
 
 const RolePermissionCreate = () => {
     const router = useRouter();
@@ -19,18 +19,18 @@ const RolePermissionCreate = () => {
         dispatch(getPermissionGroups());
     }, []);
 
-    const roleCheck = (e, permissionGroup, item, indexChild, permissionGroupIndex) => {
+    const roleCheck = (e, indexChild, permissionGroupIndex) => {
         let checkboxStatus = e.target.checked;
-        dispatch(roleCheckboxSelect(checkboxStatus, permissionGroup, item, indexChild, permissionGroupIndex));
+        dispatch(permissionCheckboxSelectAction(checkboxStatus, indexChild, permissionGroupIndex, inputData));
     }
 
     const checkPermissionGroup = (e, index, checkboxStatus) => {
-        dispatch(checkPermissionGroupAction(index, checkboxStatus, inputData));
+        dispatch(permissionGroupCheckboxSelectAction(index, checkboxStatus, inputData));
     }
 
     const allChecked = (e) => {
         let checkStausCheck = e.target.checked;
-        dispatch(allCheckboxSelected(checkStausCheck, inputData));
+        dispatch(allpermissionCheckboxSelectAction(checkStausCheck, inputData));
     }
 
     const changeRoleInput = (name: string, value: any) => {
@@ -67,7 +67,13 @@ const RolePermissionCreate = () => {
                                     inputData.groupList.length > 0 &&
                                     <div className="flex items-center my-3">
                                         <label className="text-sm font-medium text-gray-900 mr-8">Permissions</label>
-                                        <input id="all_permission_checked" onChange={allChecked} type="checkbox" value="" className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2" />
+                                        <input
+                                            id="all_permission_checked"
+                                            checked={checkAllPermissionIsChecked(inputData.groupList)}
+                                            onChange={allChecked}
+                                            type="checkbox"
+                                            className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
+                                        />
                                         <label htmlFor="all_permission_checked" className="text-sm font-medium text-gray-900">All</label>
                                     </div>
                                 }
@@ -80,7 +86,7 @@ const RolePermissionCreate = () => {
                                                 <div className="flex items-center my-3">
                                                     <input
                                                         id={`group-${permissionGroupIndex}`}
-                                                        checked={permissionGroup.isChecked}
+                                                        checked={checkGroupPermissionIsChecked(permissionGroup, permissionGroupIndex)}
                                                         type="checkbox"
                                                         onClick={(e) => checkPermissionGroup(e, permissionGroupIndex, permissionGroup.isChecked ? false : true)}
                                                         className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
@@ -97,7 +103,7 @@ const RolePermissionCreate = () => {
                                                                 checked={permission.isChecked}
                                                                 type="checkbox"
                                                                 className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2 mr-2"
-                                                                onClick={(e) => roleCheck(e, permissionGroup, permission, indexChild, permissionGroupIndex)}
+                                                                onClick={(e) => roleCheck(e, indexChild, permissionGroupIndex)}
                                                             />
                                                             <label htmlFor={`group-child-${permission.name}`} className="text-sm font-medium text-gray-900">{permission.printName}</label>
                                                         </div>
