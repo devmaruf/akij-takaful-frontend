@@ -181,7 +181,6 @@ export interface IRole {
     roleListAll          : any[];
     rolesListPaginated: any[];
     isRoleCreated     : boolean,
-    roleCreateMessage : string,
     inputData         : {
         id            : number | string;
         role          : string,

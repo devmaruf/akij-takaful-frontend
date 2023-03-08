@@ -2,15 +2,13 @@ import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 import * as Types from "./../types/role-type";
 
-
-export const AddRolePermissionInput = (name, value) => (dispatch) => {
+export const changeRoleInputAction = (name, value) => (dispatch) => {
   const formData = {
     name: name,
     value: value
   }
   dispatch({ type: Types.CHANGE_ROLE_INPUT, payload: formData })
 }
-
 
 export const getRoleList = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
 
@@ -74,40 +72,28 @@ export const emptyRoleStatusMessage = () => (dispatch) => {
   dispatch({ type: Types.EMPTY_ROLE_STATUS, payload: null });
 }
 
-// export const storeRoleAction = (roleInputData) => (dispatch) => {
-//   const responseList = {
-//     isLoading: true,
-//     status: false,
-//     message: '',
-//     data: null
-//   };
-//   dispatch({ type: Types.CREATE_ROLE, payload: responseList });
+export const storeRoleAction = (inputData: any, router: any) => (dispatch) => {
+  const response = {
+    isLoading: true,
+    status: false,
+    message: '',
+    data: null
+  };
+  dispatch({ type: Types.CREATE_ROLE, payload: response });
 
-//   Axios.post(`${baseUrl}roles/storePermission`, roleInputData)
-//     .then((res) => {
-//       const { data, status, message } = res.data;
-//       responseList.status = status;
-//       responseList.message = message;
-//       responseList.isLoading = false;
-//       responseList.data = data;
-//       Toaster('success', responseList.message);
-//       dispatch({ type: Types.CREATE_ROLE, payload: responseList });
-//     }).catch(err => {
-//       responseList.status = false;
-//       responseList.isLoading = false;
-//       responseList.message = 'Somethting went wrong, Please check inputs !';
-//       Toaster('error', responseList.message);
-//       dispatch({ type: Types.CREATE_ROLE, payload: responseList });
-//     });
-// };
-
-// export const getRoleList = () => (dispatch) => {
-//   Axios
-//     .get(`${baseUrl}roles/permissions`)
-//     .then((res) => {
-//       dispatch({ type: Types.GET_USER_ROLE_LIST, payload: res.data.data });
-//     });
-// };
+  axios.post(`/roles`, inputData)
+    .then((res) => {
+      response.status = true;
+      response.message = res.message;
+      response.isLoading = false;
+      Toaster('success', response.message);
+      dispatch({ type: Types.CREATE_ROLE, payload: response });
+      router.push('/settings/roles');
+    }).catch(err => {
+      response.isLoading = false;
+      dispatch({ type: Types.CREATE_ROLE, payload: response });
+    });
+};
 
 export const getPermissionGroups = () => (dispatch) => {
   const response = {
@@ -128,38 +114,85 @@ export const getPermissionGroups = () => (dispatch) => {
     });
 };
 
-export const roleCheckboxSelect = (checkboxStatus, parentRole, item, indexChild, indexParentRole) => (dispatch) => {
+export const allpermissionCheckboxSelectAction = (status, inputData) => (dispatch, getState) => {
+  const { groupList } = inputData;
+  const updatedGroupList = groupList.map(group => {
+    const updatedPermissions = group.permissions.map(permission => ({
+      ...permission,
+      isChecked: status
+    }));
+    return {
+      ...group,
+      isChecked: status,
+      permissions: updatedPermissions
+    };
+  });
+  const updatedInputData = {
+    ...inputData,
+    groupList: updatedGroupList
+  };
+  dispatch({ type: Types.ROLE_ALL_CHECKED, payload: updatedInputData });
+};
+
+export const permissionGroupCheckboxSelectAction = (index, isGroupChecked, inputData) => (dispatch) => {
+  const { groupList } = inputData;
+  const selectedGroup = groupList[index];
+  const updatedPermissions = selectedGroup.permissions.map(permission => ({
+    ...permission,
+    isChecked: isGroupChecked
+  }));
+  const updatedGroup = {
+    ...selectedGroup,
+    isChecked: isGroupChecked,
+    permissions: updatedPermissions
+  };
+
+  const updatedGroupList = [...groupList];
+  updatedGroupList[index] = updatedGroup;
+
   dispatch({
-    type: Types.ROLE_CHECKED, payload: {
-      checkboxStatus: checkboxStatus,
-      parentRole: parentRole,
-      item: item,
-      indexChild: indexChild,
-      indexParentRole: indexParentRole,
+    type: Types.ROLE_CHECKED_GROUP,
+    payload: {
+      ...inputData,
+      groupList: updatedGroupList
     }
   });
+}
 
-};
-// export const handleInputData = (name, value) => (dispatch) => {
+export const permissionCheckboxSelectAction = (checkboxStatus, indexChild, parentIndex, inputData) => (dispatch) => {
+  let { groupList } = inputData;
+  const updatedGroupList = groupList.map((group, groupIndex) => {
+    const updatedPermissions = group.permissions.map((permission, permissionIndex) => ({
+      ...permission,
+      isChecked: (permissionIndex === indexChild && parentIndex === groupIndex) ? checkboxStatus : permission.isChecked
+    }));
+    return {
+      ...group,
+      permissions: updatedPermissions
+    };
+  });
 
-//   let data = {
-//     name: name,
-//     value: value,
-//   }
-//   dispatch({ type: Types.USER_ROLE_HANDLE_CHANGE, payload: data });
+  const updatedInputData = {
+    ...inputData,
+    groupList: updatedGroupList
+  };
 
-// };
-
-export const allCheckboxSelected = (status) => (dispatch) => {
-  dispatch({ type: Types.ROLE_ALL_CHECKED, payload: status });
-};
-
-export const checkPermissionGroupAction = (index, isGroupChecked) => (dispatch) => {
   dispatch({
-    type: Types.ROLE_CHECKED_GROUP, 
-    payload: {
-      index: index,
-      isGroupChecked: isGroupChecked
-    }
+    type: Types.ROLE_CHECKED,
+    payload: updatedInputData
+  });
+};
+
+export const checkGroupPermissionIsChecked = (permissionGroup, permissionGroupIndex) => {
+  const getTotalPermissions = permissionGroup.permissions;
+  const getTotalCheckedPermissions = getTotalPermissions.filter(permission => permission.isChecked);
+  return getTotalPermissions.length === getTotalCheckedPermissions.length ? true : false;
+}
+
+export const checkAllPermissionIsChecked = (groupList) => {
+  return groupList.every(permissionGroup => {
+    const getTotalPermissions = permissionGroup.permissions;
+    const getTotalCheckedPermissions = getTotalPermissions.filter(permission => permission.isChecked);
+    return getTotalPermissions.length === getTotalCheckedPermissions.length;
   });
 };

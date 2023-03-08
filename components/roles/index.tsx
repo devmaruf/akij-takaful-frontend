@@ -1,5 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
+import { Accordion, Alert } from 'flowbite-react';
+
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
 import Button from '@/components/button';
@@ -8,14 +11,13 @@ import { getRoleList } from '@/redux/actions/role-action';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import Tooltip from '@/components/tooltip';
-import Link from 'next/link';
 
 export default function Roles() {
     const dispatch = useDispatch();
     const columnData = [
         { title: "SL", id: "01" },
         { title: "Role", id: "02" },
-        { title: "Total Permissions", id: "03" },
+        { title: "Permissions", id: "03" },
         { title: "Status", id: "04" },
         { title: "Action", id: "05" },
     ]
@@ -46,7 +48,7 @@ export default function Roles() {
                         <Breadcrumb />
                     </div>
                     <div className="sm:flex">
-                        <PageTitle title='All Roll' />
+                        <PageTitle title='Manage Roles' />
                         <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
                             <Link href="/settings/roles/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-2 py-1 text-center sm:w-auto">
                                 <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
@@ -73,34 +75,50 @@ export default function Roles() {
                             {
                                 roleListAll && roleListAll.length > 0 && roleListAll.map((data, index) => (
                                     <tr className="bg-white border-b hover:bg-gray-50" key={index + 1}>
-                                        <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words w-6" >
                                             {index + 1}
                                         </th>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words w-40">
                                             {data.name}
                                         </td>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {
-                                                data.permissions && data.permissions.length > 0 && data.permissions.map((permission, permissionIndex) => (
-                                                    <span key={permissionIndex + 1} className="bg-blue-500 text-[10px] text-white py-0 px-[2px] rounded-md m-[2px] inline-flex">{permission.name}</span>
-                                                ))
-                                            }
-                                            {
-                                                data.permissions && data.permissions.length === 0 && <span className='tex-gray-900'>No Permissions Available</span>
-                                            }
+                                        <td className="px-2 py-1 font-normal text-gray-900 break-words" >
+                                            <div className='max-w-[500px]'>
+                                                {
+                                                    data.permissions && data.permissions.length > 0 &&
+                                                    <Accordion collapseAll={true}>
+                                                        <Accordion.Panel>
+                                                            <Accordion.Title className='py-0 my-0'>
+                                                                {data.permissions.length ?? 0} Permissions
+                                                            </Accordion.Title>
+                                                            <Accordion.Content className='py-1 my-1'>
+                                                                {
+                                                                    data.permissions.map((permission, permissionIndex) => (
+                                                                        <span key={permissionIndex + 1} className="bg-blue-500 text-[10px] text-white py-0 m-0.5 px-0.5 rounded-md inline-flex">{permission.name}</span>
+                                                                    ))
+                                                                }
+                                                            </Accordion.Content>
+                                                        </Accordion.Panel>
+                                                    </Accordion>
+                                                }
+
+                                                {
+                                                    data.permissions && data.permissions.length === 0 &&
+                                                    <Alert
+                                                        color="failure"
+                                                    >
+                                                        No Permissions added.
+                                                    </Alert>
+                                                }
+                                            </div>
                                         </td>
 
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             <span className="bg-cyan-600 text-white px-1 py-2 rounded-md"> Active </span>
                                         </td>
 
-                                        <td className="px-2 py-3">
-
+                                        <td className="px-2 py-3 text-right">
                                             <Tooltip content={`Update - ${data.name}`}>
-                                                <Button
-                                                    onClick={''}
-                                                    customClass="p-1 rounded-md inline"
-                                                >
+                                                <Button customClass="p-1 rounded-md inline">
                                                     <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
                                                     {/* <Link href={`/employee/edit?id=${data.id}`}>
                                                     <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
@@ -116,7 +134,6 @@ export default function Roles() {
                         </Table>
                 }
             </div>
-
 
 
             {/* <Modal title="Delete a bank" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>

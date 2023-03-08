@@ -11,7 +11,6 @@ const initialState: IRole = {
     roleListAll: [],
     rolesListPaginated: [],
     isRoleCreated: false,
-    roleCreateMessage: '',
     inputData: {
         id: '',
         role: '',
@@ -23,11 +22,12 @@ const initialState: IRole = {
 function roleReducer(state = initialState, action: any) {
     switch (action.type) {
         case Types.CHANGE_ROLE_INPUT:
-            const roleInputData = { ...state.inputData };
-            roleInputData[action.payload.name] = action.payload.value;
             return {
                 ...state,
-                inputData: roleInputData
+                inputData: {
+                    ...state.inputData,
+                    [action.payload.name]: action.payload.value
+                }
             };
 
         case Types.GET_ROLE_LIST:
@@ -64,69 +64,30 @@ function roleReducer(state = initialState, action: any) {
             };
 
         case Types.ROLE_CHECKED:
-            const { indexParentRole, indexChild, checkboxStatus } = action.payload;
-            let roleList = state.inputData.groupList.slice();
-            roleList[indexParentRole].permissions[indexChild].isChecked = checkboxStatus;
-            roleList[indexParentRole].isChecked = checkAllPermissionIsChecked(roleList, indexParentRole);
             return {
                 ...state,
-                inputData: {
-                    ...state.inputData,
-                    roleList
-                }
+                inputData: action.payload
             };
 
-
         case Types.ROLE_CHECKED_GROUP:
-            const groupIndex = action.payload.index
-            const isGroupChecked = action.payload.isGroupChecked
-            const roles = state.inputData.groupList.slice();
-
-            // get all the permissions in this group 
-            // and make it checked or unchecked
-            for (let i = 0; i < roles.length; i++) {
-                if (i == groupIndex) {
-                    roles[i].isChecked = isGroupChecked;
-                    for (let j = 0; j < roles[i].permissions.length; j++) {
-                        const permissionItem = roles[i].permissions[j];
-                        permissionItem.isChecked = isGroupChecked;
-                        roles[i].permissions[j] = permissionItem;
-                    }
-                }
-            }
             return {
                 ...state,
-                inputData: {
-                    ...state.inputData,
-                    roleList
-                }
+                inputData: action.payload
             };
 
         case Types.ROLE_ALL_CHECKED:
-            let CheckroleList = state.groupList.slice();
-            for (let i = 0; i < CheckroleList.length; i++) {
-                if (action.payload == true) {
-                    CheckroleList[i].isChecked = true;
-                } else {
-                    CheckroleList[i].isChecked = false;
-                }
-                for (let c = 0; c < CheckroleList[i].permissions.length; c++) {
-                    const element = CheckroleList[i].permissions[c];
-                    if (action.payload == true) {
-                        CheckroleList[i].permissions[c].isChecked = true;
-                    } else {
-                        CheckroleList[i].permissions[c].isChecked = false;
-                    }
-                }
-            }
-
             return {
                 ...state,
-                inputData: {
-                    ...state.inputData,
-                    roleList
-                }
+                inputData: action.payload
             };
+
+
+        case Types.CREATE_ROLE:
+            return {
+                ...state,
+                isLoading: action.payload.isLoading,
+            };
+
         default:
             break;
     }
@@ -137,7 +98,7 @@ export default roleReducer;
 
 
 const checkedByGroup = (index: number, isCheckedStatus: boolean, roleInput: any) => {
-   const roleList = roleInput.groupList;
+    const roleList = roleInput.groupList;
     for (let i = 0; i < roleList.length; i++) {
         if (i == index) {
             roleList[i].isChecked = isCheckedStatus;

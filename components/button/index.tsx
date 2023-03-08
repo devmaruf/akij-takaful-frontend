@@ -1,16 +1,25 @@
 interface IButton {
-    title?       : string;
+    title?: string;
     loadingTitle?: string;
-    onClick      : React.SyntheticEvent | any;
-    disabled?    : boolean;
-    loading?     : boolean;
-    position?    : string;
-    type?        : string;
-    customClass? : string;
-    children?    : React.ReactNode;
+    onClick?: React.SyntheticEvent | any;
+    disabled?: boolean;
+    loading?: boolean;
+    position?: string;
+    type?: string;
+    customClass?: string;
+    children?: React.ReactNode;
 }
 
-export default function Button({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass = "" }: IButton) {
+export default function Button({
+    title,
+    loadingTitle = "Loading...",
+    onClick = () => { }, disabled = false,
+    loading = false,
+    type = "submit",
+    position = "text-right",
+    children,
+    customClass = ""
+}: IButton) {
 
     return (
         <div className={position}>
