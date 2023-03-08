@@ -2,15 +2,13 @@ import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 import * as Types from "./../types/role-type";
 
-
-export const AddRolePermissionInput = (name, value) => (dispatch) => {
+export const changeRoleInputAction = (name, value) => (dispatch) => {
   const formData = {
     name: name,
     value: value
   }
   dispatch({ type: Types.CHANGE_ROLE_INPUT, payload: formData })
 }
-
 
 export const getRoleList = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
 
@@ -74,40 +72,28 @@ export const emptyRoleStatusMessage = () => (dispatch) => {
   dispatch({ type: Types.EMPTY_ROLE_STATUS, payload: null });
 }
 
-// export const storeRoleAction = (roleInputData) => (dispatch) => {
-//   const responseList = {
-//     isLoading: true,
-//     status: false,
-//     message: '',
-//     data: null
-//   };
-//   dispatch({ type: Types.CREATE_ROLE, payload: responseList });
+export const storeRoleAction = (inputData: any, router: any) => (dispatch) => {
+  const response = {
+    isLoading: true,
+    status: false,
+    message: '',
+    data: null
+  };
+  dispatch({ type: Types.CREATE_ROLE, payload: response });
 
-//   Axios.post(`${baseUrl}roles/storePermission`, roleInputData)
-//     .then((res) => {
-//       const { data, status, message } = res.data;
-//       responseList.status = status;
-//       responseList.message = message;
-//       responseList.isLoading = false;
-//       responseList.data = data;
-//       Toaster('success', responseList.message);
-//       dispatch({ type: Types.CREATE_ROLE, payload: responseList });
-//     }).catch(err => {
-//       responseList.status = false;
-//       responseList.isLoading = false;
-//       responseList.message = 'Somethting went wrong, Please check inputs !';
-//       Toaster('error', responseList.message);
-//       dispatch({ type: Types.CREATE_ROLE, payload: responseList });
-//     });
-// };
-
-// export const getRoleList = () => (dispatch) => {
-//   Axios
-//     .get(`${baseUrl}roles/permissions`)
-//     .then((res) => {
-//       dispatch({ type: Types.GET_USER_ROLE_LIST, payload: res.data.data });
-//     });
-// };
+  axios.post(`/roles`, inputData)
+    .then((res) => {
+      response.status = true;
+      response.message = res.message;
+      response.isLoading = false;
+      Toaster('success', response.message);
+      dispatch({ type: Types.CREATE_ROLE, payload: response });
+      router.push('/settings/roles');
+    }).catch(err => {
+      response.isLoading = false;
+      dispatch({ type: Types.CREATE_ROLE, payload: response });
+    });
+};
 
 export const getPermissionGroups = () => (dispatch) => {
   const response = {
@@ -150,13 +136,29 @@ export const roleCheckboxSelect = (checkboxStatus, parentRole, item, indexChild,
 
 // };
 
-export const allCheckboxSelected = (status) => (dispatch) => {
-  dispatch({ type: Types.ROLE_ALL_CHECKED, payload: status });
+export const allCheckboxSelected = (status, inputData) => (dispatch, getState) => {
+  const { groupList } = inputData;
+  const updatedGroupList = groupList.map(group => {
+    const updatedPermissions = group.permissions.map(permission => ({
+      ...permission,
+      isChecked: status
+    }));
+    return {
+      ...group,
+      isChecked: status,
+      permissions: updatedPermissions
+    };
+  });
+  const updatedInputData = {
+    ...inputData,
+    groupList: updatedGroupList
+  };
+  dispatch({ type: Types.ROLE_ALL_CHECKED, payload: updatedInputData });
 };
 
 export const checkPermissionGroupAction = (index, isGroupChecked) => (dispatch) => {
   dispatch({
-    type: Types.ROLE_CHECKED_GROUP, 
+    type: Types.ROLE_CHECKED_GROUP,
     payload: {
       index: index,
       isGroupChecked: isGroupChecked
