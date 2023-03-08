@@ -124,17 +124,7 @@ export const roleCheckboxSelect = (checkboxStatus, parentRole, item, indexChild,
       indexParentRole: indexParentRole,
     }
   });
-
 };
-// export const handleInputData = (name, value) => (dispatch) => {
-
-//   let data = {
-//     name: name,
-//     value: value,
-//   }
-//   dispatch({ type: Types.USER_ROLE_HANDLE_CHANGE, payload: data });
-
-// };
 
 export const allCheckboxSelected = (status, inputData) => (dispatch, getState) => {
   const { groupList } = inputData;
@@ -156,12 +146,27 @@ export const allCheckboxSelected = (status, inputData) => (dispatch, getState) =
   dispatch({ type: Types.ROLE_ALL_CHECKED, payload: updatedInputData });
 };
 
-export const checkPermissionGroupAction = (index, isGroupChecked) => (dispatch) => {
+export const checkPermissionGroupAction = (index, isGroupChecked, inputData) => (dispatch, getState) => {
+  const { groupList } = inputData;
+  const selectedGroup = groupList[index];
+  const updatedPermissions = selectedGroup.permissions.map(permission => ({
+    ...permission,
+    isChecked: isGroupChecked
+  }));
+  const updatedGroup = {
+    ...selectedGroup,
+    isChecked: isGroupChecked,
+    permissions: updatedPermissions
+  };
+
+  const updatedGroupList = [...groupList];
+  updatedGroupList[index] = updatedGroup;
+
   dispatch({
     type: Types.ROLE_CHECKED_GROUP,
     payload: {
-      index: index,
-      isGroupChecked: isGroupChecked
+      ...inputData,
+      groupList: updatedGroupList
     }
   });
-};
+}

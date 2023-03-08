@@ -78,28 +78,9 @@ function roleReducer(state = initialState, action: any) {
 
 
         case Types.ROLE_CHECKED_GROUP:
-            const groupIndex = action.payload.index
-            const isGroupChecked = action.payload.isGroupChecked
-            const roles = state.inputData.groupList.slice();
-
-            // get all the permissions in this group 
-            // and make it checked or unchecked
-            for (let i = 0; i < roles.length; i++) {
-                if (i == groupIndex) {
-                    roles[i].isChecked = isGroupChecked;
-                    for (let j = 0; j < roles[i].permissions.length; j++) {
-                        const permissionItem = roles[i].permissions[j];
-                        permissionItem.isChecked = isGroupChecked;
-                        roles[i].permissions[j] = permissionItem;
-                    }
-                }
-            }
             return {
                 ...state,
-                inputData: {
-                    ...state.inputData,
-                    roleList
-                }
+                inputData: action.payload
             };
 
         case Types.ROLE_ALL_CHECKED:

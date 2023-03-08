@@ -25,7 +25,7 @@ const RolePermissionCreate = () => {
     }
 
     const checkPermissionGroup = (e, index, checkboxStatus) => {
-        dispatch(checkPermissionGroupAction(index, checkboxStatus));
+        dispatch(checkPermissionGroupAction(index, checkboxStatus, inputData));
     }
 
     const allChecked = (e) => {
