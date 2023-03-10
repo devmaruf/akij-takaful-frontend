@@ -178,7 +178,7 @@ export interface IRole {
     isDeleting: boolean;
     isSubmitting: boolean;
     roleList: any[];
-    roleListAll: any[];
+    roleList: any[];
     rolesListPaginated: any[];
     isRoleCreated: boolean,
     inputData: {

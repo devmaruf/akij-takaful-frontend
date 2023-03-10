@@ -2,15 +2,15 @@
 import { Pagination } from "flowbite-react";
 
 interface ITable {
-    column?        : any[];
-    children?      : React.ReactNode;
-    currentPage?   : number;
+    column?: any[];
+    children?: React.ReactNode;
+    currentPage?: number;
     setCurrentPage?: any;
-    dataLimit?     : number;
-    totalData?     : number;
+    dataLimit?: number;
+    totalData?: number;
 }
 
-export default function Table({ column, children, currentPage = 1, setCurrentPage, dataLimit = 10, totalData }: ITable) {
+export default function Table({ column, children, currentPage = 1, setCurrentPage, dataLimit = 10, totalData = 1 }: ITable) {
 
     let totalPages = 1;
 
@@ -26,7 +26,7 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
                     <tr className=''>
                         {
                             column && column.length > 0 && column.map((data, index) => (
-                                <th scope="col" className="px-2 py-3" key={index + 1}>
+                                <th scope="col" className="px-2 py-3 text-left" key={index + 1}>
                                     {data.title}
                                 </th>
                             ))
@@ -40,21 +40,20 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
                 </tbody>
             </table>
             {
-                totalData > dataLimit && 
+                totalData > dataLimit &&
                 <div className="text-center py-3">
-                <Pagination
-                    currentPage={currentPage}
-                    layout="pagination"
-                    showIcons={true}
-                    totalPages={totalPages}
-                    previousLabel="Previous"
-                    nextLabel="Next"
-                    onPageChange={(value) => setCurrentPage(value)}
-                    className="custom-pagination"
-                />
-            </div>
+                    <Pagination
+                        currentPage={currentPage}
+                        layout="pagination"
+                        showIcons={true}
+                        totalPages={totalPages}
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        onPageChange={(value) => setCurrentPage(value)}
+                        className="custom-pagination"
+                    />
+                </div>
             }
-          
         </div>
     )
 }

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import { RootState } from '@/redux/store';
 import { getStampListAction } from '@/redux/actions/stamp-action';
-import { PageHeader } from '@/components/layouts/PageHeader';
+import PageHeader from '@/components/layouts/PageHeader';
 import Button from '@/components/button';
 import Table from '@/components/table';
 import Tooltip from '@/components/tooltip';

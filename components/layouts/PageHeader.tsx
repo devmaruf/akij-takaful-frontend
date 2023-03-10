@@ -1,5 +1,7 @@
 import Breadcrumb from '@/components/breadcrumb';
 import PageTitle from '@/components/pageTitle';
+import { getAppName } from '@/utils/app-variables';
+import Head from 'next/head';
 
 export interface IPageHeaderProps {
     title: string;
@@ -8,22 +10,30 @@ export interface IPageHeaderProps {
     onSearchText?: (searchText: string) => void;
     searchPlaceholder?: string;
     headerRightSide?: React.ReactNode;
+    pageTitleRightSide?: React.ReactNode;
 }
 
-export function PageHeader({
+export default function PageHeader({
     title,
     hasSearch = true,
     searchText = '',
     searchPlaceholder = '',
     onSearchText = (searchText) => { },
-    headerRightSide = <></>
+    headerRightSide = <></>,
+    pageTitleRightSide = <></>
 }: IPageHeaderProps) {
     return (
         <div className="p-4 bg-white block sm:flex items-center justify-between lg:mt-1.5">
             <div className="mb-1 w-full">
-                <div className="mb-4">
+                <div>
                     <Breadcrumb />
-                    <PageTitle title={title} />
+                    <div className="flex justify-between">
+                        <PageTitle title={title} />
+                        {pageTitleRightSide}
+                    </div>
+                    <Head>
+                        <title>{title} | {getAppName()}</title>
+                    </Head>
                 </div>
                 <div className="sm:flex">
                     <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
