@@ -1,15 +1,16 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Alert } from 'flowbite-react';
 
 import Button from '@/components/button';
 import Table from '@/components/table';
-import { getRoleList } from '@/redux/actions/role-action';
+import { deleteRoleAction, getRoleListAction } from '@/redux/actions/role-action';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import Tooltip from '@/components/tooltip';
 import PageHeader from '@/components/layouts/PageHeader';
+import DeleteModal from '@/components/delete/DeleteModal';
 
 export default function Roles() {
     const dispatch = useDispatch();
@@ -20,16 +21,22 @@ export default function Roles() {
         { title: "Action", id: "05" },
     ]
 
-    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
-    const [currentPage, setCurrentPage] = React.useState<number>(1);
-    const [dataLimit, setDataLimit] = React.useState<number>(10);
-    const [searchText, setSearchText] = React.useState<string>('');
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [deleteId, setDeleteId] = useState<number>(0);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [dataLimit, setDataLimit] = useState<number>(10);
+    const [searchText, setSearchText] = useState<string>('');
 
     const { isLoading, roleList, rolesListPaginated } = useSelector((state: RootState) => state.role);
 
-    React.useEffect(() => {
-        dispatch(getRoleList(currentPage, dataLimit, searchText));
+    useEffect(() => {
+        dispatch(getRoleListAction(currentPage, dataLimit, searchText));
     }, [currentPage, dataLimit, searchText, dispatch]);
+
+    const onDelete = () => {
+        dispatch(deleteRoleAction(deleteId));
+        setShowDeleteModal(false);
+    }
 
     return (
         <div>
@@ -99,14 +106,29 @@ export default function Roles() {
                                             </div>
                                         </td>
 
-                                        <td className="px-2 py-3 text-right">
-                                            <Tooltip content={`Update - ${data.name}`}>
-                                                <Button customClass="p-1 rounded-md inline">
-                                                    <Link href={`/settings/roles/edit?id=${data.id}`}>
-                                                        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
-                                                    </Link>
-                                                </Button>
-                                            </Tooltip>
+                                        <td className="px-2 py-3 text-right min-w-[100px]">
+                                            <div className='flex'>
+                                                <Tooltip content={`Edit - ${data.name}`}>
+                                                    <Button customClass="p-1 rounded-md inline mr-2">
+                                                        <Link href={`/settings/roles/edit?id=${data.id}`}>
+                                                            <i className='bi bi-pencil'></i>
+                                                        </Link>
+                                                    </Button>
+                                                </Tooltip>
+
+                                                <Tooltip content={`Delete - ${data.name}`}>
+                                                    <Button
+                                                        variant='danger'
+                                                        customClass="p-1 rounded-md inline"
+                                                        onClick={() => {
+                                                            setShowDeleteModal(true);
+                                                            setDeleteId(data.id)
+                                                        }}
+                                                    >
+                                                        <i className='bi bi-trash'></i>
+                                                    </Button>
+                                                </Tooltip>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
@@ -115,25 +137,11 @@ export default function Roles() {
                 }
             </div>
 
-            {/* <Modal title="Delete a bank" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
-                <div className="text-gray-900 text-center flex flex-col justify-center items-center">
-                    <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 5.5C12.5523 5.5 13 5.94772 13 6.5L13 13.5C13 14.0523 12.5523 14.5 12 14.5C11.4477 14.5 11 14.0523 11 13.5L11 6.5C11 5.94772 11.4477 5.5 12 5.5Z" fill="red" />
-                        <path d="M12 18.5C12.8284 18.5 13.5 17.8284 13.5 17C13.5 16.1716 12.8284 15.5 12 15.5C11.1716 15.5 10.5 16.1716 10.5 17C10.5 17.8284 11.1716 18.5 12 18.5Z" fill="red" />
-                        <path fillRule="evenodd" clipRule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" fill="red" />
-                    </svg>
-                    <h2 className='text-2xl font-bold mt-2'> Are You Sure To Delete? </h2>
-                </div>
-                <div className='text-right flex justify-end gap-2'>
-                    <Button
-                        title="Yes"
-                        customClass="inline py-2 px-3 rounded-md"
-                        loading={isDeleting}
-                        loadingTitle="Deleting Bank..."
-                        onClick={() => dispatch(deleteProject(projectID, setShowDeleteModal))} />
-                    <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
-                </div>
-            </Modal> */}
+            <DeleteModal
+                showDeleteModal={showDeleteModal}
+                setShowDeleteModal={setShowDeleteModal}
+                onDelete={onDelete}
+            />
         </div >
     )
 }

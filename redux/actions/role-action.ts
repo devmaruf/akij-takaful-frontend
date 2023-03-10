@@ -10,7 +10,7 @@ export const changeRoleInputAction = (name, value) => (dispatch) => {
   dispatch({ type: Types.CHANGE_ROLE_INPUT, payload: formData })
 }
 
-export const getRoleList = (page: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
+export const getRoleListAction = (page: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
   let url = `roles?page=${page}&perPage=${dataLimit}`;
 
   if (searchText !== '') {
@@ -47,7 +47,6 @@ export const getRoleListDropdownAction = () => (dispatch) => {
     });
 };
 
-
 export const getRoleDetailsDataAction = (id) => (dispatch) => {
   const response = {
     isLoading: true,
@@ -64,6 +63,28 @@ export const getRoleDetailsDataAction = (id) => (dispatch) => {
     }).catch(err => {
       response.isLoading = false;
       dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: response });
+    })
+};
+
+
+export const deleteRoleAction = (id: number) => (dispatch) => {
+  const response = {
+    isLoading: true,
+    data: {}
+  };
+
+  dispatch({ type: Types.DELETE_ROLE, payload: response });
+
+  axios.delete(`/roles/${id}`)
+    .then((res) => {
+      response.isLoading = false;
+      response.data = res.data;
+      Toaster('success', res.message);
+      dispatch({ type: Types.DELETE_ROLE, payload: response });
+      dispatch(getRoleListAction(1, 10, ''));
+    }).catch(err => {
+      response.isLoading = false;
+      dispatch({ type: Types.DELETE_ROLE, payload: response });
     })
 };
 
