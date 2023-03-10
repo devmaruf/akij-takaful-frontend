@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/redux/store';
 import { changeStampInputValue } from '@/redux/actions/stamp-action';
-import { PageHeader } from '@/components/layouts/PageHeader';
+import PageHeader from '@/components/layouts/PageHeader';
 import Button from '@/components/button';
 import Input from '@/components/input';
 

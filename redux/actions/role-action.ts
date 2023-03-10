@@ -10,17 +10,12 @@ export const changeRoleInputAction = (name, value) => (dispatch) => {
   dispatch({ type: Types.CHANGE_ROLE_INPUT, payload: formData })
 }
 
-export const getRoleList = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
+export const getRoleList = (page: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
+  let url = `roles?page=${page}&perPage=${dataLimit}`;
 
-  let roleURL = 'roles'
-
-  if (dataLimit) {
-    roleURL += `?perPage=${dataLimit}`;
-  }
   if (searchText !== '') {
-    roleURL += `&search=${searchText}`;
+    url += `&search=${searchText}`;
   }
-
 
   const response = {
     isLoading: true,
@@ -30,7 +25,7 @@ export const getRoleList = (currentPage: number = 1, dataLimit: number = 10, sea
     rolesListPaginated: null,
   };
   dispatch({ type: Types.GET_ROLE_LIST, payload: response });
-  axios(roleURL)
+  axios(url)
     .then((res: any) => {
       response.isLoading = false;
       response.status = true;
@@ -53,20 +48,24 @@ export const getRoleListDropdownAction = () => (dispatch) => {
 };
 
 
-// export const getRoleDetailsData = (id) => (dispatch) => {
-//   const responseList = {
-//     isLoading: true,
-//     data: []
-//   };
+export const getRoleDetailsDataAction = (id) => (dispatch) => {
+  const response = {
+    isLoading: true,
+    data: {}
+  };
 
-//   dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: responseList });
+  dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: response });
 
-//   Axios
-//     .get(`${baseUrl}roles/${id}`)
-//     .then((res) => {
-//       dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: res.data.data });
-//     });
-// };
+  axios.get(`/roles/${id}`)
+    .then((res) => {
+      response.isLoading = false;
+      response.data = res.data;
+      dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: response });
+    }).catch(err => {
+      response.isLoading = false;
+      dispatch({ type: Types.GET_ROLE_DETAILS_DATA, payload: response });
+    })
+};
 
 export const emptyRoleStatusMessage = () => (dispatch) => {
   dispatch({ type: Types.EMPTY_ROLE_STATUS, payload: null });

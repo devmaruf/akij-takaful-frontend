@@ -1,9 +1,10 @@
-import Roles from "@/components/roles";
-import RolePermissionCreate from "@/components/roles/create";
+import RoleForm from "@/components/roles/RoleForm";
 
-
-export default function Create() {
+export default function CreatePage() {
     return (
-        <RolePermissionCreate />
+        <RoleForm
+            id={0}
+            pageType="create"
+        />
     )
 }

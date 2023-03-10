@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { RootState } from '@/redux/store';
-import { permissionGroupCheckboxSelectAction, emptyRoleStatusMessage, getPermissionGroups, permissionCheckboxSelectAction, allpermissionCheckboxSelectAction, changeRoleInputAction, storeRoleAction, checkGroupPermissionIsChecked, checkAllPermissionIsChecked } from '@/redux/actions/role-action';
+import { permissionGroupCheckboxSelectAction, emptyRoleStatusMessage, getPermissionGroups, permissionCheckboxSelectAction, allpermissionCheckboxSelectAction, changeRoleInputAction, storeRoleAction, checkGroupPermissionIsChecked, checkAllPermissionIsChecked, getRoleDetailsDataAction } from '@/redux/actions/role-action';
 import Loading from '@/components/loading';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 
-const RolePermissionCreate = () => {
+interface IRoleForm {
+    id: number;
+    pageType: 'create' | 'edit';
+}
+
+const RoleForm = ({ id, pageType }: IRoleForm) => {
     const router = useRouter();
     const dispatch = useDispatch();
     const { inputData, isLoading } = useSelector((state: RootState) => state.role);
@@ -38,16 +43,31 @@ const RolePermissionCreate = () => {
         dispatch(changeRoleInputAction(name, value));
     }
 
+useEffect(() => {
+        if(id > 0) {
+            dispatch(getRoleDetailsDataAction(id));
+        }
+    }, [id]);
+
     const onFormSubmit = (e: any) => {
         e.preventDefault();
         dispatch(storeRoleAction(inputData, router));
     }
 
+    const SubmitButton = <Button
+        onClick={onFormSubmit}
+        title='Save'
+        loadingTitle="Saving..."
+        loading={isLoading}
+        customClass='px-6'
+    />
+
     return (
         <div>
             <PageHeader
-                title='New Role'
+                title={pageType === 'create' ? 'New role' : 'Edit role'}
                 hasSearch={false}
+                pageTitleRightSide={SubmitButton}
             />
 
             <PageContent>
@@ -117,7 +137,9 @@ const RolePermissionCreate = () => {
                                 ))}
                         </div>
 
-                        <Button onClick={onFormSubmit} title='Save' loadingTitle="Saving..." loading={isLoading} customClass='my-3' />
+                        <div className="my-3">
+                            {SubmitButton}
+                        </div>
                     </form>
                 }
             </PageContent>
@@ -125,4 +147,4 @@ const RolePermissionCreate = () => {
     );
 };
 
-export default RolePermissionCreate;
+export default RoleForm;

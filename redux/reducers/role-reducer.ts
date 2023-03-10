@@ -1,5 +1,4 @@
 import { generateDropdownList } from "@/utils/dropdown";
-import { checkAllPermissionIsChecked } from "@/utils/permissionChecked";
 import { IRole } from "../interfaces";
 import * as Types from "../types/role-type";
 
@@ -8,7 +7,6 @@ const initialState: IRole = {
     isDeleting: false,
     isSubmitting: false,
     roleList: [],
-    roleListAll: [],
     rolesListPaginated: [],
     isRoleCreated: false,
     inputData: {
@@ -35,8 +33,7 @@ function roleReducer(state = initialState, action: any) {
                 ...state,
                 isLoading: action.payload.isLoading,
                 rolesListPaginated: action.payload.rolesListPaginated,
-                roleListAll: action.payload.rolesList,
-                // roleListOption: getUserRoleDropdown(action.payload.rolesList)
+                roleList: action.payload.rolesList,
             };
 
         case Types.GET_ROLE_PERMISSION_GROUPS:
@@ -88,6 +85,17 @@ function roleReducer(state = initialState, action: any) {
                 isLoading: action.payload.isLoading,
             };
 
+        case Types.GET_ROLE_DETAILS_DATA:
+            return {
+                ...state,
+                isLoading: action.payload.isLoading,
+                inputData: {
+                    id: action.payload.data?.role?.id ?? 0,
+                    role: action.payload.data?.role?.name ?? '',
+                    groupList: action.payload.data?.groups ?? [],
+                },
+            };
+
         default:
             break;
     }
@@ -95,19 +103,3 @@ function roleReducer(state = initialState, action: any) {
 }
 
 export default roleReducer;
-
-
-const checkedByGroup = (index: number, isCheckedStatus: boolean, roleInput: any) => {
-    const roleList = roleInput.groupList;
-    for (let i = 0; i < roleList.length; i++) {
-        if (i == index) {
-            roleList[i].isChecked = isCheckedStatus;
-            for (let j = 0; j < roleList[i].permissions.length; j++) {
-                const permissionItem = roleList[i].permissions[j];
-                permissionItem.isChecked = isCheckedStatus;
-                roleList[i].permissions[j] = permissionItem;
-            }
-        }
-    }
-    return roleInput;
-}
