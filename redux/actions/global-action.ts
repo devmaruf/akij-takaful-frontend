@@ -87,6 +87,13 @@ export const getSidebarMenuList = () => (dispatch) => {
                     url: '/proposals/create',
                     subSubMenu: []
                 },
+                {
+                    id: 'subMenu02.3',
+                    title: 'Print Proposal',
+                    icon: 'bi-person-fill-add',
+                    url: '/proposals/print',
+                    subSubMenu: []
+                },
 
             ]
         },
