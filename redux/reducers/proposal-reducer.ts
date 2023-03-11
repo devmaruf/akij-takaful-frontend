@@ -87,7 +87,7 @@ const initialState: IProposal = {
         dob: '',
         id_no: '',
         relation: '',
-    }
+    },
 };
 
 

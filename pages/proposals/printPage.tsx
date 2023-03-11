@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import IBreadcrumb from "@/components/breadcrumb";
 import PageTitle from "@/components/pageTitle";
@@ -7,21 +7,22 @@ import { RootState } from "@/redux/store";
 import {
   getPlanDropdownList,
   changeInputValue,
-  submitProposal,
+  submitPrintProposal,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { PrintInformation } from "@/components/proposals/PrintInformation";
+import FormValidation from "@/utils/formValidation";
 
 export default function Create() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
+  const { proposalPrintInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
 
   const [identityLabel, setIdentityLabel] = React.useState("ID No")
   const [identityValidationMessage, setIdentityValidationMessage] = React.useState("Please select identity type first")
-  const [disabledField, setDisabledField] = React.useState(true)
+  const [disabledField, setDisabledField] = useState(true);
 
   useEffect(() => {
     dispatch(getPlanDropdownList());
@@ -38,7 +39,7 @@ export default function Create() {
   // const { errors, validateEmail, validateNumber, validatePassword } =
   // FormValidation();
 
-  const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmitProposalPrint = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     // if (!isValid) {
     //   return false
@@ -53,21 +54,23 @@ export default function Create() {
         <div className="mb-1 w-full">
           <div className="mb-4">
             <IBreadcrumb />
-            <PageTitle title="New Proposal" />
+            <PageTitle title="Print Proposal" />
           </div>
 
           <div className="mt-2">
             <form
               method="post"
               autoComplete="off"
-              encType="multipart/form-data"
             >
-              <PrintInformation />
+
+              <PrintInformation
+                handleChangeTextInput={handleChangeTextInput}
+              />
 
               <Button
-                title="Save"
+                title="Preview"
                 loadingTitle="Saving..."
-                onClick={(e) => handleSubmitProposal(e)}
+                onClick={(e) => handleSubmitProposalPrint(e)}
                 loading={isSubmitting}
                 customClass="mt-4"
               />
