@@ -1,37 +1,56 @@
 interface IButton {
-    title?       : string;
+    title?: string;
     loadingTitle?: string;
-    onClick?     : React.SyntheticEvent | any;
-    disabled?    : boolean;
-    loading?     : boolean;
-    position?    : string;
-    type?        : string;
-    customClass? : string;
-    children?    : React.ReactNode;
+    onClick?: React.SyntheticEvent | any;
+    disabled?: boolean;
+    loading?: boolean;
+    position?: string;
+    type?: 'submit' | 'button' | 'reset';
+    customClass?: string;
+    children?: React.ReactNode;
+    variant?: 'primary' | 'default' | 'danger' | 'success'
 }
 
-export default function Button({ title, loadingTitle = "Loading...", onClick, disabled = false, loading = false, type = "submit", position = "text-right", children, customClass = "" }: IButton) {
+export default function Button({
+    title,
+    loadingTitle = "Loading...",
+    onClick = () => { },
+    disabled = false,
+    loading = false,
+    type = "submit",
+    position = "text-right",
+    children,
+    customClass = "",
+    variant = 'primary'
+}: IButton) {
 
     return (
         <div className={position}>
-            {
-                loading ?
-                    <button
-                        className={`text-white bg-cyan-600 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm text-center animate-pulse leading-none px-5 py-2.5 ${customClass}`}
-                        type="submit"
-                        disabled={true}
-                    >
-                        {loadingTitle}...
-                    </button> :
-                    <button
-                        className={`text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm text-center px-3 py-2 ${customClass}`}
-                        type="submit"
-                        onClick={onClick}
-                        disabled={disabled}
-                    >
-                        {(typeof title !== "undefined" && title !== null) ? title : children}
-                    </button>
-            }
+            <button
+                className={
+                    `text-white 
+                    transition 
+                    ${variant === 'primary' ? 'bg-cyan-600' : ''} 
+                    ${variant === 'danger' ? 'bg-red-600' : ''} 
+                    ${variant === 'default' ? 'bg-slate-200' : ''} 
+                    ${variant === 'success' ? 'bg-green-500' : ''} 
+                    focus:ring-4 
+                    focus:ring-cyan-200 
+                    font-medium rounded-lg text-sm text-center 
+                    ${loading ? 'animate-pulse' : ''} 
+                    leading-none 
+                    px-5 
+                    py-2.5 
+                    hover:opacity-80 
+                    ${customClass}`
+                }
+                type={type}
+                disabled={loading}
+                onClick={onClick}
+            >
+                {loading ? loadingTitle + '...' : ''}
+                {(!loading && typeof title !== "undefined" && title !== null) ? title : children}
+            </button>
         </div>
     );
 };
