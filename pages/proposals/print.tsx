@@ -10,14 +10,9 @@ import {
   submitProposal,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
-import { PersonalInformation } from "@/components/proposals/PersonalInformation";
-import { PremiumInformation } from "@/components/proposals/PremiumInformation";
-import { AddressInformation } from "@/components/proposals/AddressInformation";
-import { GuardianInformation } from "@/components/proposals/GuardianInformation";
-import { BankInformation } from "@/components/proposals/BankInformation";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
-import FormValidation from "../../utils/formValidation";
+import { PrintInformation } from "@/components/proposals/PrintInformation";
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -52,26 +47,6 @@ export default function Create() {
     e.preventDefault();
   };
 
-  const checkedIdentityType = (value: any) => {
-    if (value == 'nid') {
-      setIdentityLabel('NID No');
-      setIdentityValidationMessage("NID minimum length must of 17/13 digits or 10 digit for smart card");
-      setDisabledField(false);
-    } else if (value == 'passport') {
-      setIdentityLabel('Passport No');
-      setIdentityValidationMessage("Passport minimum length must be 17 digits");
-      setDisabledField(false);
-    } else if (value == 'brc') {
-      setIdentityLabel('Birth Certificate No');
-      setIdentityValidationMessage("Birth certificate minimum length must be 17 digits");
-      setDisabledField(false);
-    } else {
-      setIdentityLabel('ID No');
-      setIdentityValidationMessage("Please select identity type first");
-      setDisabledField(true);
-    }
-  }
-
   return (
     <div>
       <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
@@ -87,9 +62,7 @@ export default function Create() {
               autoComplete="off"
               encType="multipart/form-data"
             >
-              <PremiumInformation
-                handleChangeTextInput={handleChangeTextInput}
-              />
+              <PrintInformation />
 
               <Button
                 title="Save"
