@@ -58,7 +58,8 @@ export function PrintInformation({ handleChangeTextInput, handleBlur }: IPrintIn
           isRequired={true}
           handleChangeValue={handleChangeTextInput}
         />
-        <Input
+
+        {/* <Input
           label="Agent Name"
           name="agent_id"
           placeholder="Agent name"
@@ -84,7 +85,7 @@ export function PrintInformation({ handleChangeTextInput, handleBlur }: IPrintIn
                     <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Plan 02</label>
                 </div>
             </li>
-        </ul>
+        </ul> */}
 
       </div>
     </div>
