@@ -20,7 +20,6 @@ export function PrintForm() {
   const [projectId, setProjectId] = useState<number>(0);
   const [branchId, setBranchId] = useState<number>(0);
 
-
   useEffect(() => {
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
@@ -139,7 +138,7 @@ export function PrintForm() {
           {
             printProposalList.map((proposal: IProposalBasicInput, index: number) => (
               <div key={index}>
-                {proposal.proposal_no}
+                Proposal No: {proposal.proposal_no}
                 <hr />
               </div>
             ))
