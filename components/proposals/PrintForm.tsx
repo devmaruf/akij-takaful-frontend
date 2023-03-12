@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Input from "@/components/input";
@@ -56,6 +56,18 @@ export function PrintForm() {
     dispatch(printProposalAction(formData));
   }
 
+  const divRef = useRef(null);
+
+  const handlePrint = () => {
+    const printContents = divRef.current.innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
+
+
   return (
     <>
       <form action="" onSubmit={onFormSubmit}>
@@ -90,33 +102,6 @@ export function PrintForm() {
             value={branchId}
             handleChangeValue={onHandleInputChange}
           />
-          {/* <Input
-          label="Agent Name"
-          name="agent_id"
-          placeholder="Agent name"
-          value={proposalInput.agent_id}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-
-        <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-              <h2 className="ml-5">Select Plan</h2>
-              
-            </li>
-            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                <div className="flex items-center pl-3">
-                    <input id="vue-checkbox-list" type="checkbox" value="checkbox1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                    <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Plan 01</label>
-                </div>
-            </li>
-            <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                <div className="flex items-center pl-3">
-                    <input id="vue-checkbox-list" type="checkbox" value="checkbox2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                    <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Plan 02</label>
-                </div>
-            </li>
-        </ul> */}
         </div>
 
         <Button
@@ -128,135 +113,153 @@ export function PrintForm() {
         />
       </form>
 
+      <hr className="my-5" />
+
       {
         printProposalList !== undefined && printProposalList.length > 0 &&
-        <div>
+        <>
+          <div className="mt-2">
+            <Button variant="success" onClick={handlePrint}>
+              <i className="bi bi-printer"></i> Print
+            </Button>
+          </div>
+            
+          <div className="printDiv" ref={divRef}>
+              <div className="w-full">
+                <a href="#" className="text-xl font-bold lg:ml-2.5">
+                    <Image src={'/images/banner.png'} alt={''} className="my-0 mx-auto py-5" height={80} width={400} unoptimized/>
+                </a>
+              </div>
+
+              {
+              printProposalList.map((proposal: IProposalBasicInput, index: number) => (
+                <div key={index}>
+
+                  <div className="pl-10"> 
+                    <div className="flex my-5">
+                        <div className="w-1/2">
+                          <div className="flex">
+                            <div className="w-1/6">
+                                Proposal No: 
+                            </div>
+                            <div className="w-5/6">
+                                    {proposal.proposal_no}  
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div className="w-1/2">
+                          <ul className="items-center w-1/2 text-sm font-medium text-gray-900 bg-white sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <li className="w-full border-b sm:border-b-0 sm:border-r dark:border-gray-600">
+                              <h2 className="ml-5 text-left">Plan</h2>
+                              
+                            </li>
+                            <li className="w-full border-b sm:border-b-0 sm:border-r dark:border-gray-600">
+                                <div className="flex items-center pl-3">
+                                    <input id="vue-checkbox-list" type="checkbox" value="checkbox1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                    <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medical</label>
+                                </div>
+                            </li>
+                            <li className="w-full border-b sm:border-b-0 sm:border-r dark:border-gray-600">
+                                <div className="flex items-center pl-3">
+                                    <input id="vue-checkbox-list" type="checkbox" value="checkbox2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                    <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Non-Medical</label>
+                                </div>
+                            </li>
+                          </ul>
+                        </div>
+                    </div>
+                    
+                    <div className="flex my-5">
+                        <div className="w-1/2">
+                          <div className="flex">
+                            <div className="w-1/6">
+                                Proposer Name : 
+                            </div>
+                            <div className="w-5/6">
+                              ______________________________________   
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="w-1/2">
+                              <div className="flex">
+                                <div className="w-1/6">
+                                    Phone No: 
+                                </div>
+                                <div className="w-5/6">
+                                ______________________________________   
+                                </div>
+                              </div>
+                          </div>
+                    </div>
+
+                    <div className="flex my-5">
+                          <div className="w-1/2">
+                            <div className="flex">
+                              <div className="w-1/6">
+                                  Premium : 
+                              </div>
+                              <div className="w-5/6">
+                                ______________________________________   
+                              </div>
+                            </div>
+                          </div> 
+                        
+
+                        <div className="w-1/2">
+                          <div className="flex">
+                            <div className="w-1/6">
+                                Initial Premium : 
+                            </div>
+                            <div className="w-5/6">
+                              ______________________________________   
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                  
+                    <div className="flex my-5">
+                      <div className="w-1/2">
+                          <div className="flex">
+                            <div className="w-1/6">
+                            Initial Sum Assured:
+                            </div>
+                            <div className="w-5/6">
+                                ______________________________________   
+                            </div>
+                          </div>
+                      </div> 
+
+                      <div className="w-1/2">
+                        <div className="flex">
+                          <div className="w-1/6">
+                              Agent Name : 
+                          </div>
+                          <div className="w-5/6">
+                                ______________________________________   
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <hr className="my-10"/>
+                  </div>
+                
+                </div>
+              ))
+              }
+          </div>
+            
+          <hr className="my-10"/>
           <div className="mt-2">
             <Button variant="success">
               <i className="bi bi-printer"></i> Print
             </Button>
           </div>
-          {
-            printProposalList.map((proposal: IProposalBasicInput, index: number) => (
-              <div key={index}>
-                Proposal No: {proposal.proposal_no}
-                <hr />
-              </div>
-            ))
-          }
-        </div>
+        </>
       }
-      
-      <div>
-        <div className="w-full">
-          <a href="#" className="text-xl font-bold lg:ml-2.5">
-              <Image src={'/images/banner.png'} alt={''} className="my-0 mx-auto py-5" height={80} width={300} unoptimized/>
-          </a>
-        </div>
-
-        {/* Print Loop Start From Here */}
-        <div> 
-            <div className="flex my-5">
-              <div className="w-1/2">
-                <div className="flex">
-                  <div className="w-1/6">
-                      Proposal No: 
-                  </div>
-                  <div className="w-5/6">
-                          1234  
-                  </div>
-                </div>
-              </div>
-            
-              <div className="w-1/2">
-                <ul className="items-center w-1/2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                    <h2 className="ml-5">Select Plan</h2>
-                    
-                  </li>
-                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                      <div className="flex items-center pl-3">
-                          <input id="vue-checkbox-list" type="checkbox" value="checkbox1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                          <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Plan 01</label>
-                      </div>
-                  </li>
-                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                      <div className="flex items-center pl-3">
-                          <input id="vue-checkbox-list" type="checkbox" value="checkbox2" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
-                          <label className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Plan 02</label>
-                      </div>
-                  </li>
-                </ul>
-              </div>
-          </div>
-          
-          <div className="flex my-5">
-              <div className="w-1/2">
-                <div className="flex">
-                  <div className="w-1/6">
-                      Agent Name : 
-                  </div>
-                  <div className="w-5/6">
-                          _________________________________________________________________________________   
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-1/2">
-                    <div className="flex">
-                      <div className="w-1/6">
-                          Phone No: 
-                      </div>
-                      <div className="w-5/6">
-                              _________________________________________________________________________________   
-                      </div>
-                    </div>
-                </div>
-          </div>
-
-          <div className="flex my-5">
-                <div className="w-1/2">
-                  <div className="flex">
-                    <div className="w-1/6">
-                        Premium : 
-                    </div>
-                    <div className="w-5/6">
-                            _________________________________________________________________________________   
-                    </div>
-                  </div>
-                </div> 
-              
-
-              <div className="w-1/2">
-                <div className="flex">
-                  <div className="w-1/6">
-                      Initial Premium : 
-                  </div>
-                  <div className="w-5/6">
-                          _________________________________________________________________________________   
-                  </div>
-                </div>
-              </div>
-          </div>
-          
-          <div className="flex my-5">
-            <div className="w-1/2">
-                <div className="flex">
-                  <div className="w-1/6">
-                  Initial Sum Assured:
-                  </div>
-                  <div className="w-5/6">
-                          _________________________________________________________________________________   
-                  </div>
-                </div>
-            </div> 
-          </div>
-
-          <hr />
-        </div>
-        {/* Print Loop End */}
-      </div>
-
     </>
   );
 }
