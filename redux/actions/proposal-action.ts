@@ -2,13 +2,15 @@ import * as Types from "./../types/proposal-type";
 import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 import { IProposal } from "../interfaces";
+import { getDefaultSelectValue } from './../../utils/defaultSelectValue';
+import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     let data = {
         name: name,
         value: value,
     }
-    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: {data, key} });
+    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
 };
 
 
@@ -17,7 +19,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
     //     Toaster("error", "Proposal No can't be blank!");
     //     return false;
     // }
-    
+
     // if (proposalInput.plan_id === 0) {
     //     Toaster("error", "Plan can't be blank!");
     //     return false;
@@ -200,6 +202,33 @@ export const getPlanDropdownList = () => (dispatch: any) => {
 };
 
 
-export const isSameAddressCheck = (status)=> (dispatch)=>{
-    dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: status});
+export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (dispatch) => {
+
+    let defaultDivision;
+    let defaultDistrict;
+    let defaultArea;
+
+    if (status === true) {
+        if (!permanentAddress.division_id || !permanentAddress.district_id || !permanentAddress.area_id || !permanentAddress.post_office_name || !permanentAddress.street_address) {
+            status = false;
+            Toaster('error', "Please at first fill up your permanent address before checked it.");
+        } else {
+            status = true;
+            defaultDivision = getDefaultSelectValue(divisionList, permanentAddress.division_id);
+            defaultDistrict = getDefaultSelectValue(districtList, permanentAddress.district_id)
+            defaultArea = getDefaultSelectValue(areaList, permanentAddress.area_id);
+        }
+    }
+
+    const data = {
+        status: status,
+        permanentAddress: {
+            ...permanentAddress,
+            defaultDivision: defaultDivision,
+            defaultDistrict: defaultDistrict,
+            defaultArea: defaultArea,
+        }
+    }
+
+    dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: data });
 }

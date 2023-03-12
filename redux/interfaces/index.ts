@@ -132,29 +132,35 @@ export interface IProposal {
     };
     proposer_present_address: {
         proposal_nominee_id: number;
-        street_address: string;
-        post_office_name: string;
-        address_type: string;
-        area_id: number;
-        area_name: string;
-        district_id: number;
-        district_name: string;
-        division_id: number;
-        division_name: string;
-        is_same_address: boolean;
+        street_address     : string;
+        post_office_name   : string;
+        address_type       : string;
+        area_id            : number;
+        area_name          : string;
+        district_id        : number;
+        district_name      : string;
+        division_id        : number;
+        division_name      : string;
+        defaultDivision    : any,
+        defaultDistrict    : any,
+        defaultArea        : any,
+        is_same_address    : boolean;
     };
     proposer_permanent_address: {
         proposal_nominee_id: number;
-        street_address: string;
-        post_office_name: string;
-        address_type: string;
-        area_id: number;
-        area_name: string;
-        district_id: number;
-        district_name: string;
-        division_id: number;
-        division_name: string;
-        is_same_address: boolean;
+        street_address     : string;
+        post_office_name   : string;
+        address_type       : string;
+        area_id            : number;
+        area_name          : string;
+        district_id        : number;
+        district_name      : string;
+        division_id        : number;
+        division_name      : string;
+        defaultDivision    : any,
+        defaultDistrict    : any,
+        defaultArea        : any,
+        is_same_address    : boolean;
     };
     proposer_bank_information: {
         proposal_nominee_id: number;

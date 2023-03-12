@@ -4,51 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isSameAddressCheck } from "@/redux/actions/proposal-action";
+import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any) => void;
   errors?: any;
 }
 
-export function AddressInformation({  changePresentAddress, changePermanentAddress, errors}: IAddressInformation) {
+export function AddressInformation({ changePresentAddress, changePermanentAddress, errors }: IAddressInformation) {
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
 
   const dispatch = useDispatch();
-  const divisionList = [
-    { label: "Barishal", value: 1 },
-    { label: "Chattogram", value: 2 },
-    { label: "Dhaka ", value: 3 },
-    { label: "Khulna ", value: 4 },
-    { label: "Rajshahi", value: 5 },
-    { label: "Rangpur", value: 6 },
-    { label: "Sylhet", value: 7 },
-  ];
 
-  const districtList = [
-    { label: "Chattogram", value: 1 },
-    { label: "Dhaka", value: 2 },
-    { label: "Rangamati", value: 3 },
-    { label: "Faridpur", value: 4 },
-    { label: "Nowakhali", value: 5 },
-  ];
-
-  const areaList = [
-    { label: "Karnaphuli", value: 1 },
-    { label: "Patiya", value: 2 },
-    { label: "Mohakhali", value: 3 },
-    { label: "Jatrabari", value: 4 },
-  ];
-
-  const nomineeList = [
-    { label: "Mr. Rahim", value: 1 },
-    { label: "Mr. Karim", value: 2 },
-    { label: "Mr. Abul Kalam", value: 3 },
-    { label: "Mr. Zihad", value: 4 },
-  ];
-
-  const handleCheckedSameAddress = (event) => {
+  const handleCheckedSameAddress = (event, proposalInput) => {
     const isChecked = event.target.checked;
-    dispatch(isSameAddressCheck(isChecked))
+    dispatch(isSameAddressCheck(isChecked, proposalInput.proposer_permanent_address))
   }
 
   return (
@@ -59,7 +29,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
-        
+
 
         <Select
           options={divisionList}
@@ -67,7 +37,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
           name="division_id"
           value={proposalInput.proposer_permanent_address.division_id}
           label="Division"
-          defaultValue=""
+          defaultValue={proposalInput.proposer_permanent_address.defaultDivision}
           placeholder="Select Division..."
           handleChangeValue={changePermanentAddress}
         />
@@ -78,7 +48,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
           name="district_id"
           label="District"
           value={proposalInput.proposer_permanent_address.district_id}
-          defaultValue=""
+          defaultValue={proposalInput.proposer_permanent_address.defaultDistrict}
           placeholder="Select District..."
           handleChangeValue={changePermanentAddress}
         />
@@ -88,7 +58,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
           name="area_id"
           value={proposalInput.proposer_permanent_address.area_id}
           label="Area"
-          defaultValue=""
+          defaultValue={proposalInput.proposer_permanent_address.defaultArea}
           placeholder="Select Area..."
           handleChangeValue={changePermanentAddress}
         />
@@ -113,12 +83,13 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
           errors={errors}
         />
 
-        <div className="flex items-center mb-4">
+        <div className="flex items-center mb-4 col-span-3">
           <input
             id="same_as_parmanent"
             type="checkbox"
             value=""
-            onChange={(e) => handleCheckedSameAddress(e)}
+            checked={isSameAddress}
+            onChange={(e) => handleCheckedSameAddress(e, proposalInput)}
             className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
           />
           <label
@@ -155,8 +126,8 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
             isSearchable={true}
             name="division_id"
             label="Division"
-            value={proposalInput.proposer_present_address.division_id}
-            defaultValue=""
+            // value={proposalInput.proposer_present_address.division_id}
+            defaultValue={proposalInput.proposer_present_address.defaultDivision}
             placeholder="Select Division..."
             handleChangeValue={changePresentAddress}
           />
@@ -167,7 +138,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
             name="district_id"
             label="District"
             value={proposalInput.proposer_present_address.district_id}
-            defaultValue=""
+            defaultValue={proposalInput.proposer_present_address.defaultDistrict}
             placeholder="Select District..."
             handleChangeValue={changePresentAddress}
           />
@@ -178,7 +149,7 @@ export function AddressInformation({  changePresentAddress, changePermanentAddre
             name="area_id"
             label="Area"
             value={proposalInput.proposer_present_address.area_id}
-            defaultValue=""
+            defaultValue={proposalInput.proposer_present_address.defaultArea}
             placeholder="Select Area..."
             handleChangeValue={changePresentAddress}
           />
