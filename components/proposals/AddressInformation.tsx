@@ -12,10 +12,11 @@ export interface IAddressInformation {
 }
 
 export function AddressInformation({ changePresentAddress, changePermanentAddress, errors }: IAddressInformation) {
+
   const dispatch = useDispatch();
 
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
-  
+
   const handleCheckedSameAddress = (event, proposalInput) => {
     const isChecked = event.target.checked;
     dispatch(isSameAddressCheck(isChecked, proposalInput.proposer_permanent_address))
@@ -38,6 +39,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           defaultValue={proposalInput.proposer_permanent_address.defaultDivision}
           placeholder="Select Division..."
           handleChangeValue={changePermanentAddress}
+          errors={errors}
         />
 
         <Select
@@ -49,6 +51,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           defaultValue={proposalInput.proposer_permanent_address.defaultDistrict}
           placeholder="Select District..."
           handleChangeValue={changePermanentAddress}
+          errors={errors}
         />
         <Select
           options={areaList}
@@ -59,6 +62,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           defaultValue={proposalInput.proposer_permanent_address.defaultArea}
           placeholder="Select Area..."
           handleChangeValue={changePermanentAddress}
+          errors={errors}
         />
 
         <Input
@@ -128,6 +132,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             defaultValue={proposalInput.proposer_present_address.defaultDivision}
             placeholder="Select Division..."
             handleChangeValue={changePresentAddress}
+            errors={errors}
           />
 
           <Select
@@ -139,6 +144,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             defaultValue={proposalInput.proposer_present_address.defaultDistrict}
             placeholder="Select District..."
             handleChangeValue={changePresentAddress}
+            errors={errors}
           />
 
           <Select
@@ -150,6 +156,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             defaultValue={proposalInput.proposer_present_address.defaultArea}
             placeholder="Select Area..."
             handleChangeValue={changePresentAddress}
+            errors={errors}
           />
 
           <Input

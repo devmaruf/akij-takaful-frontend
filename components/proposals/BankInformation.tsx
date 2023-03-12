@@ -46,6 +46,7 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           defaultValue=""
           placeholder="Branch Name"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input

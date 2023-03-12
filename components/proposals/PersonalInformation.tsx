@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import { useState } from 'react';
 import ValidationMessage from "../validationMessage";
+import { calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -16,7 +16,25 @@ export interface IPersonalInformation {
 }
 
 export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
-  const { proposalInput , identity_type} = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
+  const { height, weight, dob } = proposalInput.proposal_personal_information;
+
+  const [age, setAge] = React.useState(0);
+  const [BMI, setBMI] = React.useState({});
+
+  React.useEffect(() => {
+    if (typeof dob !== "undefined") {
+      const getAge = calculateAge(dob);
+      setAge(getAge);
+    }
+    if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
+      const { bmi, status } = calculateBMI(height, weight, age);
+      setBMI({
+        bmi: bmi,
+        status: status
+      })
+    }
+  }, [height, weight, dob, age])
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -88,6 +106,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           defaultValue=""
           placeholder="Marital Status"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <Select
@@ -99,6 +118,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <div>
@@ -115,7 +135,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             inputChange={handleChangeTextInput}
             errors={errors}
           />
-            <ValidationMessage message={identity_type.message} />
+          <ValidationMessage message={identity_type.message} />
         </div>
         <Select
           options={GenderList}
@@ -127,6 +147,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           defaultValue=""
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -164,6 +185,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           defaultValue=""
           placeholder="Select Religion"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Height"
@@ -192,6 +214,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           defaultValue=""
           placeholder="Height Unit"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Weight"
@@ -219,6 +242,17 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           defaultValue=""
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
+        />
+        <Input
+          label="Body Mass Index - (BMI)"
+          name="bmi"
+          placeholder="Body Mass Index(BMI)"
+          value={BMI.bmi}
+          isRequired={false}
+          inputChange={handleChangeTextInput}
+          errors={errors}
+          isDisabled={true}
         />
         <Input
           label="Allocation"

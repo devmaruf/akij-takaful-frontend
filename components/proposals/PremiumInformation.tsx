@@ -48,6 +48,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           defaultValue=""
           placeholder="Select Plan..."
           isRequired={true}
+          errors={errors}
           handleChangeValue={handleChangeTextInput}
         />
         <Select
@@ -58,6 +59,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           defaultValue=""
           placeholder="Select Bank..."
           isRequired={true}
+          errors={errors}
           handleChangeValue={handleChangeTextInput}
         />
         <Select
@@ -68,6 +70,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           defaultValue=""
           placeholder="Select Branch..."
           isRequired={true}
+          errors={errors}
           handleChangeValue={handleChangeTextInput}
         />
         <Input
