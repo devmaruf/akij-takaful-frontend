@@ -5,6 +5,7 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { useState } from 'react';
+import ValidationMessage from "../validationMessage";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -14,9 +15,8 @@ export interface IPersonalInformation {
   errors?: any;
 }
 
-export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField, errors }: IPersonalInformation) {
-  const { proposalInput } = useSelector((state: RootState) => state.proposal);
-
+export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
+  const { proposalInput , identity_type} = useSelector((state: RootState) => state.proposal);
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -103,16 +103,19 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
 
         <div>
           <Input
-            label={identityLabel}
+            label={identity_type.label}
             name="id_no"
-            placeholder={identityLabel}
-            isDisabled={disabledField}
+            type="number"
+            placeholder={identity_type.label}
+            isDisabled={identity_type.isDisabledField}
             value={proposalInput.proposal_personal_information.id_no}
             isRequired={true}
+            minValue={identity_type.minLength}
+            maxValue={identity_type.maxLength}
             inputChange={handleChangeTextInput}
             errors={errors}
           />
-          <p className="text-xs text-red-600 italic">{identityValidationMessage}</p>
+            <ValidationMessage message={identity_type.message} />
         </div>
         <Select
           options={GenderList}

@@ -8,6 +8,7 @@ import {
   getPlanDropdownList,
   changeInputValue,
   submitProposal,
+  handleCheckIdentity,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
@@ -24,9 +25,6 @@ export default function Create() {
   const router = useRouter();
   const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
 
-  const [identityLabel, setIdentityLabel] = React.useState("ID No")
-  const [identityValidationMessage, setIdentityValidationMessage] = React.useState("Please select identity type first")
-  const [disabledField, setDisabledField] = React.useState(true)
   const [errors, setErrors] = React.useState({})
 
   useEffect(() => {
@@ -42,7 +40,7 @@ export default function Create() {
   const handleChangePersonalInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposal_personal_information"));
     if (name == 'identity_type') {
-      checkedIdentityType(value)
+      dispatch(handleCheckIdentity(value))
     }
   };
   const handleChangePresentAddressInfo = (name: string, value: any) => {
@@ -67,25 +65,6 @@ export default function Create() {
     e.preventDefault();
   };
 
-  const checkedIdentityType = (value: any) => {
-    if (value == 'nid') {
-      setIdentityLabel('NID No');
-      setIdentityValidationMessage("NID minimum length must of 17/13 digits or 10 digit for smart card");
-      setDisabledField(false);
-    } else if (value == 'passport') {
-      setIdentityLabel('Passport No');
-      setIdentityValidationMessage("Passport minimum length must be 17 digits");
-      setDisabledField(false);
-    } else if (value == 'brc') {
-      setIdentityLabel('Birth Certificate No');
-      setIdentityValidationMessage("Birth certificate minimum length must be 17 digits");
-      setDisabledField(false);
-    } else {
-      setIdentityLabel('ID No');
-      setIdentityValidationMessage("Please select identity type first");
-      setDisabledField(true);
-    }
-  }
 
   return (
     <div>
@@ -110,10 +89,7 @@ export default function Create() {
               />
               <PersonalInformation
                 handleChangeTextInput={handleChangePersonalInfo}
-                identityLabel={identityLabel}
-                disabledField={disabledField}
                 errors={errors}
-                identityValidationMessage={identityValidationMessage}
               />
               <AddressInformation
                 changePresentAddress={handleChangePresentAddressInfo}

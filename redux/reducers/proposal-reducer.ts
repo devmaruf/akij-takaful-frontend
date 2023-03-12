@@ -93,6 +93,14 @@ const initialState: IProposal = {
         dob: '',
         id_no: '',
         relation: '',
+    },
+    identity_type: {
+        isDisabledField: true,
+        label: "ID No",
+        message: "Please select identity type first",
+        value: "",
+        minLength: 10,
+        maxLength: 17,
     }
 };
 
@@ -208,6 +216,12 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 isDeleting: action.payload.isLoading,
             };
+
+        case Types.CHECKED_IDENTITY:
+            return {
+                ...state,
+                identity_type: action.payload,
+            }
         default:
             break;
     }

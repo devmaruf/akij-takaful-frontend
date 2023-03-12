@@ -176,6 +176,14 @@ export interface IProposal {
         dob: string;
         id_no: string;
         relation: string;
+    };
+    identity_type: {
+        isDisabledField: boolean;
+        label          : string;
+        message        : string;
+        value          : string;
+        minLength      : number,
+        maxLength      : number,
     }
 }
 

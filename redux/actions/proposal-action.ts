@@ -232,3 +232,47 @@ export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (d
 
     dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: data });
 }
+
+
+export const handleCheckIdentity = (value: any) => (dispatch) => {
+
+    const data = {
+        isDisabledField: true,
+        label: "",
+        message: "",
+        value: "",
+        minLength: 1,
+        maxLength: 100
+    }
+console.log('value :>> ', value);
+    if (value == 'nid') {
+        data.isDisabledField = false;
+        data.label           = "NID Number"
+        data.message         = "NID minimum length must be 17/13 digits or 10 digit for smart card";
+        data.value           = value;
+        data.minLength       = 10;
+        data.maxLength       = 17;
+    } else if (value == 'passport') {
+        data.isDisabledField = false;
+        data.label           = "Passport No"
+        data.message         = "Passport minimum length must be 17 digits";
+        data.value           = value;
+        data.minLength       = 17;
+        data.maxLength       = 20;
+    } else if (value == 'brc') {
+        data.isDisabledField = false;
+        data.label           = "Birth Certificate No"
+        data.message         = "Birth certificate minimum length must be 17 digits";
+        data.value           = value;
+        data.minLength       = 17;
+        data.maxLength       = 20;
+    } else {
+        data.isDisabledField = true;
+        data.label           = "ID No"
+        data.message         = "Please select identity type first";
+        data.value           = value;
+        data.minLength       = 10;
+        data.maxLength       = 17;
+    }
+    dispatch({ type: Types.CHECKED_IDENTITY, payload: data });
+}

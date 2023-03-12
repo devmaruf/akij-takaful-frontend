@@ -12,10 +12,10 @@ export interface IAddressInformation {
 }
 
 export function AddressInformation({ changePresentAddress, changePermanentAddress, errors }: IAddressInformation) {
-  const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
-
   const dispatch = useDispatch();
 
+  const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
+  
   const handleCheckedSameAddress = (event, proposalInput) => {
     const isChecked = event.target.checked;
     dispatch(isSameAddressCheck(isChecked, proposalInput.proposer_permanent_address))
@@ -29,8 +29,6 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
-
-
         <Select
           options={divisionList}
           isSearchable={true}
