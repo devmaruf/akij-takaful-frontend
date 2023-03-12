@@ -90,7 +90,7 @@ export const getSidebarMenuList = () => (dispatch) => {
                 {
                     id: 'subMenu02.3',
                     title: 'Print Proposal',
-                    icon: 'bi-person-fill-add',
+                    icon: 'bi bi-printer',
                     url: '/proposals/print',
                     subSubMenu: []
                 },
