@@ -1,5 +1,6 @@
 import ReactSelect from "react-select";
 import styled from "styled-components";
+import ValidationMessage from "../validationMessage";
 interface ISelect {
   name?: string;
   value?: any;
@@ -14,6 +15,7 @@ interface ISelect {
   isMulti?: boolean;
   options: any[];
   defaultValue?: any;
+  errors?: any;
   handleChangeValue?: void | any;
 }
 
@@ -42,6 +44,7 @@ export default function Select({
   defaultValue,
   isMulti = false,
   handleChangeValue,
+  errors,
   placeholder = "Select...",
   isRequired = false,
 }: ISelect) {
@@ -63,6 +66,7 @@ export default function Select({
         name={name}
         isMulti={isMulti}
         defaultValue={defaultValue && defaultValue}
+        required={isRequired}
         //value={value}
         onChange={
           handleChangeValue &&
@@ -82,6 +86,12 @@ export default function Select({
           ),
         }}
       />
+
+      {
+        typeof errors !== "undefined" && errors !== null && errors[name] && (
+          <ValidationMessage message={errors[name]} />
+        )
+      }
     </div>
   );
 }

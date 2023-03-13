@@ -6,25 +6,20 @@ import Select from "@/components/select";
 import { relationList } from "@/utils/proposal-dropdowns";
 export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any) => void;
+  errors?: any;
 }
 
-export function GuardianInformation({
-  handleChangeTextInput,
-}: IGuardianInformation) {
+export function GuardianInformation({ handleChangeTextInput, errors }: IGuardianInformation) {
+  
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const nomineeList = [
-    { label: "Mr. Rahim", value: 1 },
-    { label: "Mr. Karim", value: 2 },
-    { label: "Mr. Abul Kalam", value: 3 },
-    { label: "Mr. Zihad", value: 4 },
-  ];
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Guardian Information
       </h3>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
+
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-3" >
         <Input
           label="Guardian Name"
           name="name"
@@ -32,6 +27,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -41,6 +37,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.phone_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -51,6 +48,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -60,6 +58,7 @@ export function GuardianInformation({
           value={proposalInput.proposer_guardian.id_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
 
         {/* <Input
@@ -70,7 +69,7 @@ export function GuardianInformation({
           isRequired={true}
           inputChange={handleChangeTextInput}
         /> */}
-          <Select
+        <Select
           options={relationList}
           isSearchable={true}
           name="relation"
@@ -79,6 +78,7 @@ export function GuardianInformation({
           isRequired={true}
           placeholder="Select Relation"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
       </div>
     </div>

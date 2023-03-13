@@ -1,66 +1,41 @@
-import React from 'react';
+import { FormEvent, isValidElement } from 'react';
+import Select, { ValueType } from 'react-select';
 
-const FormValidation = (event) => {
-console.log('event :>> ', event);
-//     let isValid = true
-    
-//     if (!name) {
-//       validations.name = 'Name is required'
-//       isValid = false
-//     }
-    
-//     if (name && name.length < 3 || name.length > 50) {
-//       validations.name = 'Name must contain between 3 and 50 characters'
-//       isValid = false
-//     }
-    
-//     if (!email) {
-//       validations.email = 'Email is required'
-//       isValid = false
-//     }
-    
-//     if (email && !/\S+@\S+\.\S+/.test(email)) {
-//       validations.email = 'Email format must be as example@mail.com'
-//       isValid = false
-//     }
-    
-//     if (!gender) {
-//       validations.gender = 'Gender is required'
-//       isValid = false
-//     }
-    
-//     if (!isValid) {
-//       setValidations(validations)
-//     }
-    
-//     return isValid
-//   }
-
-//   const validateOne = (e) => {
-//     const { name } = e.target
-//     const value = values[name]
-//     let message = ''
-    
-//     if (!value) {
-//       message = `${name} is required`
-//     }
-    
-//     if (value && name === 'name' && (value.length < 3 || value.length > 50)) {
-//       message = 'Name must contain between 3 and 50 characters'
-//     }
-
-//     if (value && name === 'email' && !/\S+@\S+\.\S+/.test(value)) {
-//       message = 'Email format must be as example@mail.com'
-//     }
-    
-//     setValidations({...validations, [name]: message })
-//   }
-  
-//   const handleChange = (e) => {
-//     const { name, value } = e.target
-//     setValues({...values, [name]: value })
-//   }
-
+interface FormElement extends HTMLInputElement, HTMLSelectElement {
+    tagName: string;
 }
 
-export default FormValidation;
+export const formValidation = (event: FormEvent<HTMLFormElement>): { errors: { [key: string]: string }; isValid: boolean } => {
+    event.preventDefault();
+    const errors: { [key: string]: string } = {};
+    let isValid: boolean = true;
+    const formElements = event.currentTarget.elements as HTMLFormControlsCollection;
+
+    for (let i = 0; i < formElements.length; i++) {
+        const element = formElements[i] as FormElement | typeof Select;
+        if (element.required) {
+            let value = '';
+            if (element.tagName.toLowerCase() === 'select') {
+                value = (element as HTMLSelectElement).value;
+            } else if (isValidElement(element) && element.type === Select) {
+                value = (element.props.value && (element.props.value as ValueType<{ value: string, label: string }>).value) || '';
+            } else {
+                value = (element as HTMLInputElement).value || '';
+            }
+
+            if (!value.trim()) {
+                let errorMessage;
+                if (element.placeholder !== "") {
+                    errorMessage = `${element.placeholder} is required`
+                } else {
+                    errorMessage = `${element.name} is required`
+                }
+                let replaceUnderscore = errorMessage.split("_");
+                replaceUnderscore[0] = replaceUnderscore[0].charAt(0).toUpperCase() + replaceUnderscore[0].slice(1);
+                errors[element.name] = replaceUnderscore.join(" ");
+                isValid = false;
+            }
+        }
+    }
+    return { errors, isValid };
+};

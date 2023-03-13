@@ -4,18 +4,37 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import { useState } from 'react';
+import ValidationMessage from "../validationMessage";
+import { calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
   identityLabel: any;
   identityValidationMessage: any;
   disabledField: boolean;
+  errors?: any;
 }
 
-export function PersonalInformation({ handleChangeTextInput, identityLabel, identityValidationMessage, disabledField }: IPersonalInformation) {
-  const { proposalInput } = useSelector((state: RootState) => state.proposal);
+export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
+  const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
+  const { height, weight, dob } = proposalInput.proposal_personal_information;
 
+  const [age, setAge] = React.useState(0);
+  const [BMI, setBMI] = React.useState({});
+
+  React.useEffect(() => {
+    if (typeof dob !== "undefined") {
+      const getAge = calculateAge(dob);
+      setAge(getAge);
+    }
+    if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
+      const { bmi, status } = calculateBMI(height, weight, age);
+      setBMI({
+        bmi: bmi,
+        status: status
+      })
+    }
+  }, [height, weight, dob, age])
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -30,6 +49,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.full_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Father Name"
@@ -38,6 +58,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.father_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Mother Name"
@@ -46,6 +67,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.mother_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Spouse Name"
@@ -54,6 +76,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.spouse_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Email Address"
@@ -62,6 +85,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.email}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Mobile No"
@@ -70,6 +94,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.mobile_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Select
           options={MaritalStatusList}
@@ -81,6 +106,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           defaultValue=""
           placeholder="Marital Status"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <Select
@@ -92,19 +118,24 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <div>
           <Input
-            label={identityLabel}
+            label={identity_type.label}
             name="id_no"
-            placeholder={identityLabel}
-            isDisabled={disabledField}
+            type="number"
+            placeholder={identity_type.label}
+            isDisabled={identity_type.isDisabledField}
             value={proposalInput.proposal_personal_information.id_no}
             isRequired={true}
+            minValue={identity_type.minLength}
+            maxValue={identity_type.maxLength}
             inputChange={handleChangeTextInput}
+            errors={errors}
           />
-          <p className="text-xs text-red-600 ">{identityValidationMessage}</p>
+          <ValidationMessage message={identity_type.message} />
         </div>
         <Select
           options={GenderList}
@@ -116,6 +147,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           defaultValue=""
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
 
         <Input
@@ -126,6 +158,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Occupation"
@@ -134,6 +167,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.occupation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         {/* <Input
           label="Relation"
@@ -151,6 +185,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           defaultValue=""
           placeholder="Select Religion"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Height"
@@ -159,6 +194,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.height}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
         <Select
           options={[
@@ -178,6 +214,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           defaultValue=""
           placeholder="Height Unit"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
         />
         <Input
           label="Weight"
@@ -205,6 +242,17 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           defaultValue=""
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
+          errors={errors}
+        />
+        <Input
+          label="Body Mass Index - (BMI)"
+          name="bmi"
+          placeholder="Body Mass Index(BMI)"
+          value={BMI.bmi}
+          isRequired={false}
+          inputChange={handleChangeTextInput}
+          errors={errors}
+          isDisabled={true}
         />
         <Input
           label="Allocation"
@@ -213,6 +261,7 @@ export function PersonalInformation({ handleChangeTextInput, identityLabel, iden
           value={proposalInput.proposal_personal_information.allocation}
           isRequired={true}
           inputChange={handleChangeTextInput}
+          errors={errors}
         />
       </div>
     </div>

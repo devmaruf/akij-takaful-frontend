@@ -2,13 +2,15 @@ import * as Types from "./../types/proposal-type";
 import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 import { IProposal } from "../interfaces";
+import { getDefaultSelectValue } from './../../utils/defaultSelectValue';
+import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     let data = {
         name: name,
         value: value,
     }
-    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: {data, key} });
+    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
 };
 
 
@@ -17,7 +19,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
     //     Toaster("error", "Proposal No can't be blank!");
     //     return false;
     // }
-    
+
     // if (proposalInput.plan_id === 0) {
     //     Toaster("error", "Plan can't be blank!");
     //     return false;
@@ -200,6 +202,77 @@ export const getPlanDropdownList = () => (dispatch: any) => {
 };
 
 
-export const isSameAddressCheck = (status)=> (dispatch)=>{
-    dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: status});
+export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (dispatch) => {
+
+    let defaultDivision;
+    let defaultDistrict;
+    let defaultArea;
+
+    if (status === true) {
+        if (!permanentAddress.division_id || !permanentAddress.district_id || !permanentAddress.area_id || !permanentAddress.post_office_name || !permanentAddress.street_address) {
+            status = false;
+            Toaster('error', "Please at first fill up your permanent address before checked it.");
+        } else {
+            status = true;
+            defaultDivision = getDefaultSelectValue(divisionList, permanentAddress.division_id);
+            defaultDistrict = getDefaultSelectValue(districtList, permanentAddress.district_id)
+            defaultArea = getDefaultSelectValue(areaList, permanentAddress.area_id);
+        }
+    }
+
+    const data = {
+        status: status,
+        permanentAddress: {
+            ...permanentAddress,
+            defaultDivision: defaultDivision,
+            defaultDistrict: defaultDistrict,
+            defaultArea: defaultArea,
+        }
+    }
+
+    dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: data });
+}
+
+
+export const handleCheckIdentity = (value: any) => (dispatch) => {
+
+    const data = {
+        isDisabledField: true,
+        label: "",
+        message: "",
+        value: "",
+        minLength: 1,
+        maxLength: 100
+    }
+console.log('value :>> ', value);
+    if (value == 'nid') {
+        data.isDisabledField = false;
+        data.label           = "NID Number"
+        data.message         = "NID minimum length must be 17/13 digits or 10 digit for smart card";
+        data.value           = value;
+        data.minLength       = 10;
+        data.maxLength       = 17;
+    } else if (value == 'passport') {
+        data.isDisabledField = false;
+        data.label           = "Passport No"
+        data.message         = "Passport minimum length must be 17 digits";
+        data.value           = value;
+        data.minLength       = 17;
+        data.maxLength       = 20;
+    } else if (value == 'brc') {
+        data.isDisabledField = false;
+        data.label           = "Birth Certificate No"
+        data.message         = "Birth certificate minimum length must be 17 digits";
+        data.value           = value;
+        data.minLength       = 17;
+        data.maxLength       = 20;
+    } else {
+        data.isDisabledField = true;
+        data.label           = "ID No"
+        data.message         = "Please select identity type first";
+        data.value           = value;
+        data.minLength       = 10;
+        data.maxLength       = 17;
+    }
+    dispatch({ type: Types.CHECKED_IDENTITY, payload: data });
 }

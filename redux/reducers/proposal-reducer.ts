@@ -58,7 +58,10 @@ const initialState: IProposal = {
         district_name: '',
         division_id: 0,
         division_name: '',
-        is_same_address: true,
+        defaultDivision: {},
+        defaultDistrict: {},
+        defaultArea: {},
+        is_same_address: false,
     },
     proposer_present_address: {
         proposal_nominee_id: 1,
@@ -71,7 +74,10 @@ const initialState: IProposal = {
         district_name: '',
         division_id: 0,
         division_name: '',
-        is_same_address: true,
+        defaultDivision: {},
+        defaultDistrict: {},
+        defaultArea: {},
+        is_same_address: false,
     },
     proposer_bank_information: {
         proposal_nominee_id: 1,
@@ -87,6 +93,14 @@ const initialState: IProposal = {
         dob: '',
         id_no: '',
         relation: '',
+    },
+    identity_type: {
+        isDisabledField: true,
+        label: "ID No",
+        message: "Please select identity type first",
+        value: "",
+        minLength: 10,
+        maxLength: 17,
     }
 };
 
@@ -132,18 +146,18 @@ function ProposalsReducer(state = initialState, action: any) {
             };
         case Types.IS_SAME_ADDRESS_STATUS:
             const prevProposalInput = { ...state.proposalInput };
-            const permanentAddress = { ...state.proposer_permanent_address };
+            // const permanentAddress = { ...state.proposer_permanent_address };
             let presentAddress = { ...state.proposer_present_address };
-            if(action.payload === true){
-                prevProposalInput.proposer_present_address = permanentAddress
-            }else{
+            if (action.payload.status === true) {
+                prevProposalInput.proposer_present_address = action.payload.permanentAddress;
+            } else {
                 prevProposalInput.proposer_present_address = initialState.proposer_present_address
             }
             return {
                 ...state,
                 proposalInput: prevProposalInput,
                 proposer_present_address: presentAddress,
-                isSameAddress: action.payload
+                isSameAddress: action.payload.status
             };
         case Types.GET_PLAN_DROPDOWN:
             return {
@@ -202,6 +216,12 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 isDeleting: action.payload.isLoading,
             };
+
+        case Types.CHECKED_IDENTITY:
+            return {
+                ...state,
+                identity_type: action.payload,
+            }
         default:
             break;
     }
