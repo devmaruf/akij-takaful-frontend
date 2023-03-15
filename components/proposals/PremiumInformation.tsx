@@ -74,10 +74,10 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           handleChangeValue={handleChangeTextInput}
         />
         <Input
-          label="FA Code"
-          name="fa_code"
-          placeholder="FA Code"
-          value={proposalInput.fa_code}
+          label="Agent name"
+          name="agent_id"
+          placeholder="Agent name"
+          value={proposalInput.agent_id}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
