@@ -1,3 +1,5 @@
+import ValidationMessage from "../validationMessage";
+
 interface IInput {
   name?: string;
   value?: any;
@@ -8,10 +10,13 @@ interface IInput {
   type?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
+  errors?: any;
+  minValue?: any;
+  maxValue?: any;
 }
 
 export default function Input({
-  name,
+  name = "text",
   value,
   inputChange,
   placeholder = "Type Here",
@@ -19,8 +24,11 @@ export default function Input({
   type = "text",
   isRequired = false,
   isDisabled = false,
-  handleBlur
+  errors,
+  minValue,
+  maxValue
 }: IInput) {
+
   return (
     <div className="">
       <label
@@ -36,11 +44,17 @@ export default function Input({
         value={value}
         disabled={isDisabled}
         required={isRequired}
+        min={minValue && minValue}
+        max={maxValue && maxValue}
         className={`shadow-sm border border-gray-300 text-gray-900 sm: text-sm rounded-md focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2 my-2 ${isDisabled ? 'bg-gray-100' : 'bg-gray-50'}`}
         placeholder={placeholder}
         onChange={inputChange && ((e) => inputChange(name, e.target.value))}
-        onBlur={handleBlur && ((e) => handleBlur(e))}
       />
+      {
+        typeof errors !== "undefined" && errors !== null && errors[name] && (
+          <ValidationMessage message={errors[name]} />
+        )
+      }
     </div>
   );
 }

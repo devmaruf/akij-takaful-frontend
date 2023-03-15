@@ -45,3 +45,37 @@ export const relationList = [
     { label: "Friend", value: "friend" },
     { label: "Other", value: "other" },
 ];
+
+
+// Address Dropdown 
+export const divisionList = [
+    { label: "Barishal", value: 1 },
+    { label: "Chattogram", value: 2 },
+    { label: "Dhaka ", value: 3 },
+    { label: "Khulna ", value: 4 },
+    { label: "Rajshahi", value: 5 },
+    { label: "Rangpur", value: 6 },
+    { label: "Sylhet", value: 7 },
+];
+
+export const districtList = [
+    { label: "Chattogram", value: 1 },
+    { label: "Dhaka", value: 2 },
+    { label: "Rangamati", value: 3 },
+    { label: "Faridpur", value: 4 },
+    { label: "Nowakhali", value: 5 },
+];
+
+export const areaList = [
+    { label: "Karnaphuli", value: 1 },
+    { label: "Patiya", value: 2 },
+    { label: "Mohakhali", value: 3 },
+    { label: "Jatrabari", value: 4 },
+];
+
+export const nomineeList = [
+    { label: "Mr. Rahim", value: 1 },
+    { label: "Mr. Karim", value: 2 },
+    { label: "Mr. Abul Kalam", value: 3 },
+    { label: "Mr. Zihad", value: 4 },
+];
