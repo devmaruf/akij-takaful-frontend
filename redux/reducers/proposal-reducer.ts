@@ -94,6 +94,7 @@ const initialState: IProposal = {
         id_no: '',
         relation: '',
     },
+    printProposalList: [],
     identity_type: {
         isDisabledField: true,
         label: "ID No",
@@ -217,11 +218,21 @@ function ProposalsReducer(state = initialState, action: any) {
                 isDeleting: action.payload.isLoading,
             };
 
+        case Types.PRINT_PROPOSAL:
+            console.log(action.payload);
+            
+            return {
+                ...state,
+                printProposalList: action.payload.data,
+                isLoading: action.payload.isLoading,
+            };
+            
         case Types.CHECKED_IDENTITY:
             return {
                 ...state,
                 identity_type: action.payload,
             }
+            
         default:
             break;
     }
