@@ -28,7 +28,7 @@ export default function Button({
         <div className={position}>
             <button
                 className={
-                    `text-white 
+                    `${variant === 'default' ? 'text-black' : 'text-white'} 
                     transition 
                     ${variant === 'primary' ? 'bg-cyan-600' : ''} 
                     ${variant === 'danger' ? 'bg-red-600' : ''} 

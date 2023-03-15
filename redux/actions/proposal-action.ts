@@ -65,7 +65,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
         });
 }
 
-export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
+export const getProposalList = (currentPage: number = 1, dataLimit: number = 10, search: string = '') => (dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -76,7 +76,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10)
 
     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
 
-    axios.get(`/proposals?perPage=${dataLimit}&currentPage=${currentPage}`)
+    axios.get(`/proposals?perPage=${dataLimit}&currentPage=${currentPage}&search=${search}`)
         .then(res => {
             response.isLoading = false;
             response.status = true;
