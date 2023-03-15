@@ -55,7 +55,7 @@ export default function ProposalList() {
         <div>
             <PageHeader
                 title='Manage Proposals'
-                searchPlaceholder='Please search proposal by proposal no, plan...'
+                searchPlaceholder='Please search proposal by proposal no, plan, status...'
                 searchText={searchText}
                 onSearchText={setSearchText}
                 headerRightSide={<>
