@@ -13,7 +13,7 @@ interface IEditIconButtonTooltip extends IEditIconButton {
 
 export function EditIconButton({ href }: IEditIconButton) {
     return (
-        <Button customClass="p-1 rounded-md inline">
+        <Button customClass="p-1 rounded-md inline mr-1">
             <Link href={href}>
                 <i className='bi bi-pencil'></i>
             </Link>

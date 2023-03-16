@@ -53,7 +53,7 @@ export default function Create({ setShowModal }) {
                 isSearchable={true}
                 name="project_id"
                 label="Bank"
-                defaultValue=""
+                defaultValue={branchInput.project_id}
                 placeholder='Select Bank...'
                 handleChangeValue={changeTextInput}
             />

@@ -13,7 +13,7 @@ export function DeleteIconButton({ onClick }: IDeleteIconButton) {
     return (
         <Button
             variant='danger'
-            customClass="p-1 rounded-md inline"
+            customClass="p-1 rounded-md inline mr-1"
             onClick={onClick}
         >
             <i className='bi bi-trash'></i>

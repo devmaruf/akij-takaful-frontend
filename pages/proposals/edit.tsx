@@ -77,7 +77,7 @@ export default function Edit() {
                         isSearchable={true}
                         name="plan_id"
                         label="Plan"
-                        defaultValue=""
+                        defaultValue={proposalInput && proposalInput.plan_id ? proposalInput.plan_id : ""}
                         placeholder='Select Plan...'
                         handleChangeValue={handleChangeTextInput}
                       />

@@ -114,7 +114,7 @@ export default function Create() {
                                             isSearchable={true}
                                             name="designation_id"
                                             label="Designation"
-                                            defaultValue=""
+                                            defaultValue={employeeInput.designation_id}
                                             placeholder='Select Designation...'
                                             handleChangeValue={handleChangeTextInput}
                                         />
@@ -123,7 +123,7 @@ export default function Create() {
                                             isSearchable={true}
                                             name="project_id"
                                             label="Bank"
-                                            defaultValue=""
+                                            defaultValue={employeeInput.project_id}
                                             placeholder='Select Bank...'
                                             handleChangeValue={handleChangeTextInput}
                                         />
@@ -133,7 +133,7 @@ export default function Create() {
                                             name="branch_ids"
                                             isMulti={true}
                                             label="Branch"
-                                            defaultValue=""
+                                            defaultValue={employeeInput.branch_ids}
                                             placeholder='Select branch...'
                                             handleChangeValue={handleChangeTextInput}
                                         />
@@ -142,7 +142,7 @@ export default function Create() {
                                             isSearchable={false}
                                             name="role_id"
                                             label="Assign Role"
-                                            defaultValue=""
+                                            defaultValue={employeeInput.role_id}
                                             placeholder='Select role...'
                                             handleChangeValue={handleChangeTextInput}
                                         />

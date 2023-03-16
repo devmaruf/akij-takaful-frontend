@@ -13,7 +13,7 @@ export function ViewIconButton({ onClick }: IViewIconButton) {
     return (
         <Button
             variant='default'
-            customClass="p-1 rounded-md inline"
+            customClass="p-1 rounded-md inline mr-1"
             onClick={onClick}
         >
             <i className='bi bi-eye'></i>
