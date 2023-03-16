@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import IBreadcrumb from "@/components/breadcrumb";
-import PageTitle from "@/components/pageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
@@ -9,7 +7,6 @@ import {
   changeInputValue,
   submitProposal,
   handleCheckIdentity,
-  getProposalDetails,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
@@ -22,13 +19,11 @@ import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { formValidation } from "@/utils/formValidation";
 import PageHeader from "@/components/layouts/PageHeader";
 import { PageContent } from "@/components/layouts/PageContent";
-import Loading from "@/components/loading";
 
-export default function Create() {
+export default function WorksheetEnlistPage() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { id } = router.query;
-  const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, isSubmitting } = useSelector((state: RootState) => state.proposal);
 
   const [errors, setErrors] = React.useState({})
 
@@ -37,12 +32,6 @@ export default function Create() {
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
   }, []);
-
-  useEffect(() => {
-    if (id !== undefined && parseInt(id + '') > 0) {
-      dispatch(getProposalDetails(id))
-    }
-  }, [id]);
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, ""));
@@ -80,65 +69,43 @@ export default function Create() {
   return (
     <div>
       <PageHeader
-        title="Enlist proposal"
+        title="Worksheet proposal enlistment"
         hasSearch={false}
       />
-
       <PageContent>
-        {
-          loadingDetails ?
-            <Loading loadingTitle="Proposal information" />
-            :
-            <form
-              method="post"
-              autoComplete="off"
-              encType="multipart/form-data"
-              onSubmit={(e) => handleSubmitProposal(e)}
-              noValidate
-            >
-              <PremiumInformation
-                handleChangeTextInput={handleChangeTextInput}
-                errors={errors}
-              />
-              {
-                proposalInput.proposal_personal_information !== undefined &&
-                <PersonalInformation
-                  handleChangeTextInput={handleChangePersonalInfo}
-                  errors={errors}
-                />
-              }
+        <form
+          method="post"
+          autoComplete="off"
+          encType="multipart/form-data"
+          onSubmit={(e) => handleSubmitProposal(e)}
+          noValidate
+        >
+          <PremiumInformation
+            handleChangeTextInput={handleChangeTextInput}
+            errors={errors}
+          />
+          <PersonalInformation
+            handleChangeTextInput={handleChangePersonalInfo}
+            errors={errors}
+          />
+          <AddressInformation
+            changePresentAddress={handleChangePresentAddressInfo}
+            changePermanentAddress={handleChangePermanentAddressInfo}
+            errors={errors}
+          />
+          <GuardianInformation
+            handleChangeTextInput={handleChangeGuardianInfo}
+            errors={errors}
+          />
+          <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
 
-              {
-                proposalInput.proposer_permanent_address !== undefined &&
-                <AddressInformation
-                  changePresentAddress={handleChangePresentAddressInfo}
-                  changePermanentAddress={handleChangePermanentAddressInfo}
-                  errors={errors}
-                />
-              }
-
-              {
-                proposalInput.proposer_guardian !== undefined &&
-                <GuardianInformation
-                  handleChangeTextInput={handleChangeGuardianInfo}
-                  errors={errors}
-                />
-              }
-
-              {
-                proposalInput.proposer_bank_information !== undefined &&
-                <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
-              }
-
-              <Button
-                title="Save"
-                loadingTitle="Saving..."
-                loading={isSubmitting}
-                customClass="mt-4"
-              />
-            </form>
-        }
-
+          <Button
+            title="Save"
+            loadingTitle="Saving..."
+            loading={isSubmitting}
+            customClass="mt-4"
+          />
+        </form>
       </PageContent>
     </div>
   );

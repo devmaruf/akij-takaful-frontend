@@ -104,16 +104,16 @@ export const getSidebarMenuList = () => (dispatch) => {
             subMenu: [
                 {
                     id: 'subMenu03.1',
-                    title: 'Proposals',
-                    icon: 'bi-person-fill',
+                    title: 'Enlist Proposal',
+                    icon: 'bi-clipboard-plus',
                     url: '/proposals',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu03.2',
-                    title: 'Enlist Proposal',
-                    icon: 'bi-node-plus-fill',
-                    url: '/proposals/enlistment',
+                    title: 'Worksheets',
+                    icon: 'bi-person-workspace',
+                    url: '/worksheets/enlistment',
                     subSubMenu: []
                 },
                 {

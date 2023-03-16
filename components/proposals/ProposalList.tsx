@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -109,7 +109,7 @@ export default function ProposalList() {
                                             />
                                             <EditIconButtonTooltip
                                                 toooltipTitle={`Edit Proposal No - ${data.proposal_no}`}
-                                                href={`/proposals/create-basic?id=${data.id}&mode=edit`}
+                                                href={`/proposals/enlistment?id=${data.id}`}
                                             />
                                             <DeleteIconButtonTooltip
                                                 toooltipTitle={`Delete Proposal No - ${data.proposal_no}`}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,7 +24,7 @@ export default function CreateBasicPage() {
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
@@ -40,7 +40,7 @@ export default function CreateBasicPage() {
     e.preventDefault();
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getProposalDetails(id))
   }, [id]);
 

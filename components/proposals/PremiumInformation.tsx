@@ -1,9 +1,9 @@
 import Input from "@/components/input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { format } from 'date-fns';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 
 
 export interface IPremiumInformation {
@@ -12,10 +12,11 @@ export interface IPremiumInformation {
 }
 
 export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumInformation) {
-
+  const dispatch = useDispatch();
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
+  const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
 
   const [placeHolderProposalNo, setplaceHolderProposalNo] = useState('');
 
@@ -24,6 +25,10 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
   //   const randomNumber = Math.floor(10000 + Math.random() * 90000);
   //   setplaceHolderProposalNo(`ATLI-${formattedDate}-${randomNumber}`);
   // }, []);
+
+  useEffect(() => {
+    dispatch(getAgentsDropdownList());
+  }, [])
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -45,7 +50,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={true}
           name="plan_id"
           label="Plan"
-          defaultValue=""
+          defaultValue={proposalInput.plan_id}
           placeholder="Select Plan..."
           isRequired={true}
           errors={errors}
@@ -56,7 +61,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={true}
           name="project_id"
           label="Bank"
-          defaultValue=""
+          defaultValue={proposalInput.project_id}
           placeholder="Select Bank..."
           isRequired={true}
           errors={errors}
@@ -67,20 +72,27 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={false}
           name="branch_id"
           label="Branch"
-          defaultValue=""
+          defaultValue={proposalInput.branch_id}
           placeholder="Select Branch..."
           isRequired={true}
           errors={errors}
           handleChangeValue={handleChangeTextInput}
         />
         <Input
-          label="Agent name"
-          name="agent_id"
-          placeholder="Agent name"
-          value={proposalInput.agent_id}
+          label="Proposer Name"
+          name="proposer_name"
+          placeholder='Proposer Name'
+          value={proposalInput.proposer_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
-          errors={errors}
+        />
+        <Input
+          label="Proposer Phone no"
+          name="phone_no"
+          placeholder='Proposer Phone no'
+          value={proposalInput.phone_no}
+          isRequired={true}
+          inputChange={handleChangeTextInput}
         />
         <Input
           label="Initial Sum Assured"
@@ -99,6 +111,16 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
+        />
+        <Select
+          options={agentsDropdownList}
+          isSearchable={true}
+          isRequired={true}
+          name="agent_id"
+          label="Agent"
+          defaultValue={proposalInput.agent_id}
+          placeholder='Select Agent...'
+          handleChangeValue={handleChangeTextInput}
         />
       </div>
     </div>
