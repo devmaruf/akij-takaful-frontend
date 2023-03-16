@@ -23,7 +23,7 @@ export function Questionaires({ proposalId = 0 }) {
       <Label>
         <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
           <p className="basis-4/5">
-            Dose the proposer answer all Questionnaire in this proposal form ?
+            Does the proposer answer all Questionnaire in this proposal form ?
           </p>
           <div>
             <ToggleSwitch
@@ -39,7 +39,7 @@ export function Questionaires({ proposalId = 0 }) {
       <Label>
         <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
           <p className="basis-4/5">
-            Dose the proposer answer the occupation and annual income?
+            Does the proposer answer the occupation and annual income?
           </p>
           <div>
             <ToggleSwitch

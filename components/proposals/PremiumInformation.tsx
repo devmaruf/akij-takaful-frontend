@@ -46,17 +46,6 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           errors={errors}
         />
         <Select
-          options={planDropdownList}
-          isSearchable={true}
-          name="plan_id"
-          label="Plan"
-          defaultValue={proposalInput?.plan_id}
-          placeholder="Select Plan..."
-          isRequired={true}
-          errors={errors}
-          handleChangeValue={handleChangeTextInput}
-        />
-        <Select
           options={projectDropdownList}
           isSearchable={true}
           name="project_id"
@@ -74,6 +63,17 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Branch"
           defaultValue={proposalInput?.branch_id}
           placeholder="Select Branch..."
+          isRequired={true}
+          errors={errors}
+          handleChangeValue={handleChangeTextInput}
+        />
+        <Select
+          options={planDropdownList}
+          isSearchable={true}
+          name="plan_id"
+          label="Plan"
+          defaultValue={proposalInput?.plan_id}
+          placeholder="Select Plan..."
           isRequired={true}
           errors={errors}
           handleChangeValue={handleChangeTextInput}

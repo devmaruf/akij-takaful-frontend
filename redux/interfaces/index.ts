@@ -98,6 +98,7 @@ export interface IProposalBasicInput {
     proposer_permanent_address: any;
     proposer_bank_information: any;
     proposer_guardian: any;
+    status: string;
 }
 
 export interface IProposal {
@@ -112,7 +113,7 @@ export interface IProposal {
     proposalDetails: any;
     proposalInput: IProposalBasicInput;
     proposal_personal_information: {
-        proposal_nominee_id: number;
+        proposal_nominee_id: number | null;
         full_name: string;
         father_name: string;
         mother_name: string;
@@ -133,61 +134,60 @@ export interface IProposal {
         allocation: string;
     };
     proposer_present_address: {
-        proposal_nominee_id: number;
-        street_address     : string;
-        post_office_name   : string;
-        address_type       : string;
-        area_id            : number;
-        area_name          : string;
-        district_id        : number;
-        district_name      : string;
-        division_id        : number;
-        division_name      : string;
-        defaultDivision    : any,
-        defaultDistrict    : any,
-        defaultArea        : any,
-        is_same_address    : boolean;
+        proposal_nominee_id: number | null;
+        street_address: string;
+        post_office_name: string;
+        address_type: string;
+        area_id: number;
+        area_name: string;
+        district_id: number;
+        district_name: string;
+        division_id: number;
+        division_name: string;
+        defaultDivision: any,
+        defaultDistrict: any,
+        defaultArea: any,
+        is_same_address: boolean;
     };
     proposer_permanent_address: {
-        proposal_nominee_id: number;
-        street_address     : string;
-        post_office_name   : string;
-        address_type       : string;
-        area_id            : number;
-        area_name          : string;
-        district_id        : number;
-        district_name      : string;
-        division_id        : number;
-        division_name      : string;
-        defaultDivision    : any,
-        defaultDistrict    : any,
-        defaultArea        : any,
-        is_same_address    : boolean;
+        proposal_nominee_id: number | null;
+        street_address: string;
+        post_office_name: string;
+        address_type: string;
+        area_id: number;
+        area_name: string;
+        district_id: number;
+        district_name: string;
+        division_id: number;
+        division_name: string;
+        defaultDivision: any,
+        defaultDistrict: any,
+        defaultArea: any,
+        is_same_address: boolean;
     };
     proposer_bank_information: {
-        proposal_nominee_id: number;
+        proposal_nominee_id: number | null;
         bank_name: string;
         bank_branch_name: string;
         bank_account_no: string;
         bank_account_holder_name: string;
     };
     proposer_guardian: {
-        proposal_nominee_id: number;
+        proposal_nominee_id: number | null;
         name: string;
         phone_no: string;
         dob: string;
         id_no: string;
         relation: string;
     },
-    printProposalList: Array<IProposalBasicInput>;
-    };
+    printProposalList: Array<IProposalBasicInput>,
     identity_type: {
         isDisabledField: boolean;
-        label          : string;
-        message        : string;
-        value          : string;
-        minLength      : number,
-        maxLength      : number,
+        label: string;
+        message: string;
+        value: string;
+        minLength: number,
+        maxLength: number,
     }
 }
 

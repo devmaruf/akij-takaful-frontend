@@ -25,9 +25,10 @@ const initialState: IProposal = {
         proposer_permanent_address: {},
         proposer_bank_information: {},
         proposer_guardian: {},
+        status: 'creating',
     },
     proposal_personal_information: {
-        proposal_nominee_id: 1,
+        proposal_nominee_id: null,
         full_name: '',
         father_name: '',
         mother_name: '',
@@ -64,7 +65,7 @@ const initialState: IProposal = {
         is_same_address: false,
     },
     proposer_present_address: {
-        proposal_nominee_id: 1,
+        proposal_nominee_id: null,
         street_address: '',
         post_office_name: '',
         address_type: '',
@@ -80,14 +81,14 @@ const initialState: IProposal = {
         is_same_address: false,
     },
     proposer_bank_information: {
-        proposal_nominee_id: 1,
+        proposal_nominee_id: null,
         bank_name: '',
         bank_branch_name: '',
         bank_account_no: '0',
         bank_account_holder_name: '',
     },
     proposer_guardian: {
-        proposal_nominee_id: 1,
+        proposal_nominee_id: null,
         name: '',
         phone_no: '',
         dob: '',

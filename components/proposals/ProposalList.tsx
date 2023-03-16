@@ -44,11 +44,12 @@ export default function ProposalList() {
     const columnData: any[] = [
         { title: "Proposal No", id: 1 },
         { title: "Plan", id: 2 },
-        { title: "Agent Name", id: 3 },
-        { title: "Initial Sum Assured", id: 4 },
-        { title: "Initial Premium", id: 5 },
-        { title: "Status", id: 6 },
-        { title: "Action", id: 7 },
+        { title: "Proposer Info", id: 3 },
+        { title: "Agent", id: 4 },
+        { title: "Initial Sum Assured", id: 5 },
+        { title: "Initial Premium", id: 6 },
+        { title: "Status", id: 7 },
+        { title: "Action", id: 8 },
     ]
 
     return (
@@ -88,6 +89,15 @@ export default function ProposalList() {
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                             {data.plan_name}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words">
+                                            <b>{data.proposer_name}</b> <br />
+                                            {
+                                                data.phone_no !== null &&
+                                                <a href={`tel:${data.phone_no}`} rel="noreferrer" target='_blank' className='text-blue-400'>
+                                                    <i className="bi bi-telephone"></i> {data.phone_no}
+                                                </a>
+                                            }
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                             {data.agent_name}

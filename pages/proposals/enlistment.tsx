@@ -10,6 +10,7 @@ import {
   submitProposal,
   handleCheckIdentity,
   getProposalDetails,
+  updateProposal,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
@@ -72,16 +73,15 @@ export default function Create() {
     const { errors, isValid } = formValidation(e);
     setErrors(errors);
     if (isValid) {
-      dispatch(submitProposal(proposalInput, router));
+      dispatch(updateProposal(proposalInput, id, router));
     }
     e.preventDefault();
   };
 
-
   return (
     <div>
       <PageHeader
-        title="Enlist proposal"
+        title="Enlist Proposal"
         hasSearch={false}
       />
 
@@ -133,7 +133,7 @@ export default function Create() {
 
               {
                 proposalInput.proposal_personal_information !== undefined &&
-                <Questionaires proposalId={parseInt(id + '')}/>
+                <Questionaires proposalId={parseInt(id + '')} />
               }
 
               <Button
