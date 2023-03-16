@@ -24,14 +24,6 @@ export default function CreatePreviewProposal() {
         return debouncedDispatch.cancel; // cleanup the debounced function
     }, [debouncedDispatch]);
 
-    // useLayoutEffect(() => {
-    //     console.log(window);
-
-    //     if (typeof window !== undefined) {
-    //         console.log('called useIsomorphicLayoutEffect');
-    //     }
-    // }, []);
-
     return (
         <div>
             <PageHeader
