@@ -102,8 +102,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           label="Marital Status"
           name="marital_status"
-          value={proposalInput.proposal_personal_information.marital_status}
-          defaultValue=""
+          defaultValue={proposalInput.proposal_personal_information.marital_status}
           placeholder="Marital Status"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -111,10 +110,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
 
         <Select
           options={identityTypeList}
-          // defaultValue={identityTypeList[0]}
           isSearchable={true}
           name="identity_type"
-          value={proposalInput.proposal_personal_information.identity_type}
+          defaultValue={proposalInput.proposal_personal_information.identity_type}
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
@@ -143,8 +141,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           name="gender"
           label="Gender"
-          value={proposalInput.proposal_personal_information.gender}
-          defaultValue=""
+          defaultValue={proposalInput.proposal_personal_information.gender}
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -182,7 +179,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isSearchable={true}
           name="religion"
           label="Religion"
-          defaultValue=""
+          defaultValue={proposalInput.proposal_personal_information.religion}
           placeholder="Select Religion"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -209,9 +206,8 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           ]}
           isSearchable={true}
           name="height_unit"
-          value={proposalInput.proposal_personal_information.height_unit}
+          defaultValue={proposalInput.proposal_personal_information.height_unit}
           label="Height Unit"
-          defaultValue=""
           placeholder="Height Unit"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -238,8 +234,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isSearchable={true}
           name="weight_unit"
           label="Weight Unit"
-          value={proposalInput.proposal_personal_information.weight_unit}
-          defaultValue=""
+          defaultValue={proposalInput.proposal_personal_information.weight_unit}
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
           errors={errors}

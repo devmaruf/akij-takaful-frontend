@@ -55,7 +55,7 @@ export default function Select({
 
     const defaultValueString = defaultValue.toString();
 
-    if (defaultValue && !isNaN(defaultValue)) {
+    if (defaultValue) {
       const foundValue = options.find(option => option.value.toString() == defaultValueString);
 
       if (foundValue) {
