@@ -16,7 +16,7 @@ export function PrintForm() {
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { printProposalList, isLoading } = useSelector((state: RootState) => state.proposal);
-  const [noOfProposalPrint, setNoOfProposalPrint] = useState<number>(1);
+  const [noOfProposalPrint, setNoOfProposalPrint] = useState("1");
   const [projectId, setProjectId] = useState<number>(0);
   const [branchId, setBranchId] = useState<number>(0);
 
@@ -28,7 +28,7 @@ export function PrintForm() {
   const onHandleInputChange = (name: string, value: string | number) => {
     switch (name) {
       case 'proposal_print_no':
-        setNoOfProposalPrint(parseInt(value + ''));
+        setNoOfProposalPrint(value + '');
         break;
 
       case 'project_id':
@@ -74,9 +74,9 @@ export function PrintForm() {
           <Input
             label="Proposal Print No"
             name="proposal_print_no"
-            placeholder="Proposal print no"
-            value={noOfProposalPrint}
+            placeholder="Proposal print no, eg: 10"
             isRequired={true}
+            value={noOfProposalPrint}
             inputChange={onHandleInputChange}
           />
           <Select
