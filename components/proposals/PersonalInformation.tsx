@@ -123,7 +123,6 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           <Input
             label={identity_type.label}
             name="id_no"
-            type="number"
             placeholder={identity_type.label}
             isDisabled={identity_type.isDisabledField}
             value={proposalInput.proposal_personal_information.id_no}
