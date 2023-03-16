@@ -34,9 +34,8 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           options={divisionList}
           isSearchable={true}
           name="division_id"
-          value={proposalInput.proposer_permanent_address.division_id}
+          defaultValue={proposalInput.proposer_permanent_address.division_id}
           label="Division"
-          defaultValue={proposalInput.proposer_permanent_address.defaultDivision}
           placeholder="Select Division..."
           handleChangeValue={changePermanentAddress}
           errors={errors}
@@ -47,8 +46,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           isSearchable={true}
           name="district_id"
           label="District"
-          value={proposalInput.proposer_permanent_address.district_id}
-          defaultValue={proposalInput.proposer_permanent_address.defaultDistrict}
+          defaultValue={proposalInput.proposer_permanent_address.district_id}
           placeholder="Select District..."
           handleChangeValue={changePermanentAddress}
           errors={errors}
@@ -57,9 +55,8 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           options={areaList}
           isSearchable={true}
           name="area_id"
-          value={proposalInput.proposer_permanent_address.area_id}
+          defaultValue={proposalInput.proposer_permanent_address.area_id}
           label="Area"
-          defaultValue={proposalInput.proposer_permanent_address.defaultArea}
           placeholder="Select Area..."
           handleChangeValue={changePermanentAddress}
           errors={errors}
@@ -116,9 +113,8 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             ]}
             isSearchable={true}
             name="address_type"
-            value={proposalInput.proposer_present_address?.address_type}
+            defaultValue={proposalInput.proposer_present_address?.address_type}
             label="Address Type"
-            defaultValue="present"
             placeholder="Address Type"
             handleChangeValue={changePresentAddress}
           />
@@ -128,8 +124,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="division_id"
             label="Division"
-            // value={proposalInput.proposer_present_address?.division_id}
-            defaultValue={proposalInput.proposer_present_address?.defaultDivision}
+            defaultValue={proposalInput.proposer_present_address?.division_id}
             placeholder="Select Division..."
             handleChangeValue={changePresentAddress}
             errors={errors}
@@ -140,8 +135,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="district_id"
             label="District"
-            value={proposalInput.proposer_present_address?.district_id}
-            defaultValue={proposalInput.proposer_present_address?.defaultDistrict}
+            defaultValue={proposalInput.proposer_present_address?.district_id}
             placeholder="Select District..."
             handleChangeValue={changePresentAddress}
             errors={errors}
@@ -152,8 +146,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="area_id"
             label="Area"
-            value={proposalInput.proposer_present_address?.area_id}
-            defaultValue={proposalInput.proposer_present_address?.defaultArea}
+            defaultValue={proposalInput.proposer_present_address?.area_id}
             placeholder="Select Area..."
             handleChangeValue={changePresentAddress}
             errors={errors}

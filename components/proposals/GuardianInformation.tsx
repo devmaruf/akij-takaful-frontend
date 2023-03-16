@@ -74,8 +74,8 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           isSearchable={true}
           name="relation"
           label="Relation"
-          defaultValue=""
           isRequired={true}
+          defaultValue={proposalInput.proposer_guardian.relation}
           placeholder="Select Relation"
           handleChangeValue={handleChangeTextInput}
           errors={errors}

@@ -41,9 +41,8 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           ]}
           isSearchable={true}
           name="bank_branch_name"
-          value={proposalInput.proposer_bank_information.bank_branch_name}
           label="Branch Name"
-          defaultValue=""
+          defaultValue={proposalInput.proposer_guardian.bank_branch_name}
           placeholder="Branch Name"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
