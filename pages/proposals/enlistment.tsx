@@ -18,7 +18,9 @@ import { GuardianInformation } from "@/components/proposals/GuardianInformation"
 import { BankInformation } from "@/components/proposals/BankInformation";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
-import { formValidation } from "./../../utils/formValidation";
+import { formValidation } from "@/utils/formValidation";
+import PageHeader from "@/components/layouts/PageHeader";
+import { PageContent } from "@/components/layouts/PageContent";
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -68,50 +70,45 @@ export default function Create() {
 
   return (
     <div>
-      <div className="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
-        <div className="mb-1 w-full">
-          <div className="mb-4">
-            <IBreadcrumb />
-            <PageTitle title="New Proposal" />
-          </div>
+      <PageHeader
+        title="New Proposal enlistment"
+        hasSearch={false}
+      />
+      <PageContent>
+        <form
+          method="post"
+          autoComplete="off"
+          encType="multipart/form-data"
+          onSubmit={(e) => handleSubmitProposal(e)}
+          noValidate
+        >
+          <PremiumInformation
+            handleChangeTextInput={handleChangeTextInput}
+            errors={errors}
+          />
+          <PersonalInformation
+            handleChangeTextInput={handleChangePersonalInfo}
+            errors={errors}
+          />
+          <AddressInformation
+            changePresentAddress={handleChangePresentAddressInfo}
+            changePermanentAddress={handleChangePermanentAddressInfo}
+            errors={errors}
+          />
+          <GuardianInformation
+            handleChangeTextInput={handleChangeGuardianInfo}
+            errors={errors}
+          />
+          <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
 
-          <div className="mt-2">
-            <form
-              method="post"
-              autoComplete="off"
-              encType="multipart/form-data"
-              onSubmit={(e) => handleSubmitProposal(e)}
-              noValidate
-            >
-              <PremiumInformation
-                handleChangeTextInput={handleChangeTextInput}
-                errors={errors}
-              />
-              <PersonalInformation
-                handleChangeTextInput={handleChangePersonalInfo}
-                errors={errors}
-              />
-              <AddressInformation
-                changePresentAddress={handleChangePresentAddressInfo}
-                changePermanentAddress={handleChangePermanentAddressInfo}
-                errors={errors}
-              />
-              <GuardianInformation
-                handleChangeTextInput={handleChangeGuardianInfo}
-                errors={errors}
-              />
-              <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
-
-              <Button
-                title="Save"
-                loadingTitle="Saving..."
-                loading={isSubmitting}
-                customClass="mt-4"
-              />
-            </form>
-          </div>
-        </div>
-      </div>
+          <Button
+            title="Save"
+            loadingTitle="Saving..."
+            loading={isSubmitting}
+            customClass="mt-4"
+          />
+        </form>
+      </PageContent>
     </div>
   );
 }

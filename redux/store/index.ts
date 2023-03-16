@@ -8,7 +8,7 @@ import UnderwritingReducer from "../reducers/underwriting-reducer";
 import DashboardReducer from "../reducers/proposal-dashboard-reducer";
 import globalReducer from "../reducers/global-reducer";
 import ProposalsReducer from "../reducers/proposal-reducer";
-import roleReducer from "../reducers/role-reducer";
+import RoleReducer from "../reducers/role-reducer";
 import StampReducer from "../reducers/stamp-reducer";
 
 export const store = configureStore({
@@ -23,7 +23,7 @@ export const store = configureStore({
     global      : globalReducer,
     dashboard   : DashboardReducer,
     stamp       : StampReducer,
-    role        : roleReducer,
+    role        : RoleReducer,
   },
 });
 

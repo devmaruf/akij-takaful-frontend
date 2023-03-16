@@ -65,7 +65,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
         });
 }
 
-export const getProposalList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
+export const getProposalList = (currentPage: number = 1, dataLimit: number = 10, search: string = '') => (dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -76,7 +76,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10)
 
     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
 
-    axios.get(`/proposals?perPage=${dataLimit}&currentPage=${currentPage}`)
+    axios.get(`/proposals?perPage=${dataLimit}&currentPage=${currentPage}&search=${search}`)
         .then(res => {
             response.isLoading = false;
             response.status = true;
@@ -92,6 +92,10 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10)
 }
 
 export const getProposalDetails = (id: number | string) => (dispatch) => {
+    if (isNaN(parseInt(id + ''))) {
+        return;
+    }
+
     let response = {
         status: false,
         message: "",
@@ -101,21 +105,23 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
     };
     dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
 
-    axios.get(`/proposals/${id}`)
+    axios.get(`/proposals/${parseInt(id + '')}`)
         .then(res => {
             response.isLoading = false;
             response.status = true;
             response.message = res.data.message;
-            response.data = res.data.data;
+            response.data = res.data;
             // Optional Data,
-            response.inputData.project_id = 1;
-            response.inputData.branch_id = 1;
-            response.inputData.proposal_no = res.data.data.proposal_no;
-            response.inputData.proposer_name = res.data.data.proposer_name;
-            response.inputData.plan_id = res.data.data.plan_id;
-            response.inputData.fa_code = res.data.data.fa_code;
-            response.inputData.initial_sum_assured = res.data.data.initial_sum_assured;
-            response.inputData.initial_premium = res.data.data.initial_premium;
+            response.inputData = res.data;
+            response.inputData.proposal_no = res.data.proposal_no;
+
+            // response.inputData.project_id = 1;
+            // response.inputData.branch_id = 1;
+            // response.inputData.proposer_name = res.data.data.proposer_name;
+            // response.inputData.plan_id = res.data.data.plan_id;
+            // response.inputData.agent_id = res.data.data.agent_id;
+            // response.inputData.initial_sum_assured = res.data.data.initial_sum_assured;
+            // response.inputData.initial_premium = res.data.data.initial_premium;
             dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
         })
         .catch(error => {
@@ -124,29 +130,41 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
         });
 }
 
-export const updateProposal = (proposalInput: proposalInputType, id: number) => (dispatch: any) => {
+export const updateProposal = (proposalInput: proposalInputType, id: number, router) => (dispatch: any) => {
     if (proposalInput.proposal_no === "") {
         Toaster("error", "Proposal No can't be blank!");
         return false;
     }
+    if (proposalInput.project_id === "") {
+        Toaster("error", "Please select a bank.");
+        return false;
+    }
+    if (proposalInput.branch_id === "") {
+        Toaster("error", "Please select a branch.");
+        return false;
+    }
     if (proposalInput.proposer_name === "") {
-        Toaster("error", "Proposal name can't be blank!");
+        Toaster("error", "Please give proposer name.");
+        return false;
+    }
+    if (proposalInput.phone_no === "") {
+        Toaster("error", "Please give proposer phone no.");
         return false;
     }
     if (proposalInput.plan_id === 0) {
-        Toaster("error", "Plan can't be blank!");
-        return false;
-    }
-    if (proposalInput.fa_code === "") {
-        Toaster("error", "Fa code can't be blank!");
+        Toaster("error", "Please select a plan.");
         return false;
     }
     if (proposalInput.initial_sum_assured === "") {
-        Toaster("error", "Initial sum assured can't be blank!");
+        Toaster("error", "Please give initial sum assured.");
         return false;
     }
     if (proposalInput.premium === "") {
-        Toaster("error", "Initial premium can't be blank!");
+        Toaster("error", "Please give initial premium.");
+        return false;
+    }
+    if (proposalInput.agent_id === "") {
+        Toaster("error", "Please select an agent.");
         return false;
     }
 
@@ -164,6 +182,8 @@ export const updateProposal = (proposalInput: proposalInputType, id: number) => 
             responseData.message = res.data.message;
             Toaster('success', responseData.message);
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
+            router.push('/proposals');
+            console.log('update res', res);
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
@@ -296,4 +316,26 @@ export const handleCheckIdentity = (value: any) => (dispatch) => {
         data.maxLength = 17;
     }
     dispatch({ type: Types.CHECKED_IDENTITY, payload: data });
+}
+
+export const createPreviewProposalAndRedirectAction = (router) => (dispatch) => {
+    const source = axios.CancelToken.source();
+
+    axios.post('/proposals/create-preview-proposal', {
+        cancelToken: source.token
+    })
+        .then(res => {
+            router.push(`/proposals/create-basic?id=${res.data.id}`);
+        })
+        .catch(error => {
+            if (axios.isCancel(error)) {
+                console.log('Request canceled', error.message);
+            } else {
+                console.log(error);
+            }
+        });
+
+    return () => {
+        source.cancel('Request canceled by component unmount');
+    };
 }

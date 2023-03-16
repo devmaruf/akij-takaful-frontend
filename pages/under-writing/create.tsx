@@ -66,7 +66,7 @@ export default function Create() {
                                         isSearchable={true}
                                         name="plan_id"
                                         label="Plan"
-                                        defaultValue=""
+                                        defaultValue={proposalInput.plan_id}
                                         placeholder='Select Plan...'
                                         handleChangeValue={handleChangeTextInput}
                                     />

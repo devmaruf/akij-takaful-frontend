@@ -35,7 +35,7 @@ export default function PageHeader({
                         <title>{title} | {getAppName()}</title>
                     </Head>
                 </div>
-                <div className="sm:flex">
+                <div className="sm:flex mt-3">
                     <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
                         {
                             hasSearch &&

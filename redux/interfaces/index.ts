@@ -56,6 +56,7 @@ export interface IEmployee {
     employeePaginationData: any[];
     employeeDetails: any;
     rolesDropdownList: Array<ISelect2Item>
+    agentsDropdownList: Array<ISelect2Item>
     employeeInput: {
         first_name: string;
         last_name: string;

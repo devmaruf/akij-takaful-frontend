@@ -1,9 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
-import Breadcrumb from '@/components/breadcrumb';
 import Modal from '@/components/modal';
-import PageTitle from '@/components/pageTitle';
 import Table from '@/components/table';
 import Button from '@/components/button';
 import Tooltip from '@/components/tooltip';
@@ -13,6 +11,7 @@ import Select from '@/components/select';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { changeInputValue, submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch } from '@/redux/actions/branch-action';
 import Create from './create';
+import PageHeader from '../layouts/PageHeader';
 
 export default function Branches() {
     const dispatch = useDispatch();
@@ -73,33 +72,21 @@ export default function Branches() {
 
     return (
         <div>
-            <div className="p-4 bg-white block sm:flex items-center justify-between lg:mt-1.5">
-                <div className="mb-1 w-full">
-                    <div className="mb-4">
-                        <Breadcrumb />
-                        <PageTitle title='All branches' />
-                    </div>
-                    <div className="sm:flex">
-                        <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
-                            <form className="lg:pr-3" action="#" method="GET">
-                                <label htmlFor="users-search" className="sr-only">Search</label>
-                                <div className="mt-1 relative lg:w-64 xl:w-96">
-                                    <input type="text" name="email" id="users-search" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" placeholder="Search for branches"  onChange={(e)=> setSearchText(e.target.value)} />
-                                </div>z
-                            </form>
-                        </div>
-                        <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
-                            <Button
-                                onClick={() => setShowModal(true)}
-                                customClass="flex"
-                            >
-                                <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                                Open branch
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <PageHeader
+                title='All branches'
+                searchText={searchText}
+                onSearchText={setSearchText}
+                searchPlaceholder='Search banks...'
+                headerRightSide={
+                    <Button
+                        onClick={() => setShowModal(true)}
+                        customClass="flex"
+                    >
+                        <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
+                        Open branch
+                    </Button>
+                }
+            />
 
             <div className="p-4 bg-white block border-b border-gray-200">
                 {
@@ -166,7 +153,7 @@ export default function Branches() {
             </div>
 
             <Modal title={`Open a branch`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
-               <Create setShowModal={setShowModal} />
+                <Create setShowModal={setShowModal} />
             </Modal>
 
             <Modal title={`Branch Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
@@ -243,7 +230,7 @@ export default function Branches() {
                                             isSearchable={true}
                                             name="project_id"
                                             label="Bank"
-                                            defaultValue=""
+                                            defaultValue={branchInput.project_id}
                                             placeholder='Select Bank...'
                                             handleChangeValue={changeTextInput}
                                         />

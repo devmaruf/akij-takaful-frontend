@@ -241,3 +241,10 @@ export const getEmployeeRolesDropdownList = () => (dispatch) => {
             dispatch({ type: Types.GET_EMPLOYEE_ROLES, payload: res.data });
         })
 }
+
+export const getAgentsDropdownList = () => (dispatch) => {
+    axios.get(`/employees/agents-dropdown/list`)
+        .then((res) => {
+            dispatch({ type: Types.GET_AGENT_DROPDOWN_LIST, payload: res.data });
+        })
+}

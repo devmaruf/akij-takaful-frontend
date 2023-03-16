@@ -74,17 +74,10 @@ export const getSidebarMenuList = () => (dispatch) => {
             url: '',
             subMenu: [
                 {
-                    id: 'subMenu02.1',
-                    title: 'Manage Proposals',
-                    icon: 'bi-person-fill',
-                    url: '/proposals',
-                    subSubMenu: []
-                },
-                {
                     id: 'subMenu02.2',
                     title: 'New Proposal',
                     icon: 'bi-person-fill-add',
-                    url: '/proposals/create',
+                    url: '/proposals/create-preview',
                     subSubMenu: []
                 },
                 {
@@ -111,16 +104,16 @@ export const getSidebarMenuList = () => (dispatch) => {
             subMenu: [
                 {
                     id: 'subMenu03.1',
-                    title: 'Manage Worksheets',
-                    icon: 'bi-person-workspace',
+                    title: 'Proposals',
+                    icon: 'bi-person-fill',
                     url: '/proposals',
                     subSubMenu: []
                 },
                 {
                     id: 'subMenu03.2',
-                    title: 'New Worksheet',
+                    title: 'Enlist Proposal',
                     icon: 'bi-node-plus-fill',
-                    url: '/proposals/create',
+                    url: '/proposals/enlistment',
                     subSubMenu: []
                 },
                 {

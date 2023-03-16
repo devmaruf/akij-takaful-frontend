@@ -3,14 +3,14 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Alert } from 'flowbite-react';
 
-import Button from '@/components/button';
 import Table from '@/components/table';
 import { deleteRoleAction, getRoleListAction } from '@/redux/actions/role-action';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
-import Tooltip from '@/components/tooltip';
 import PageHeader from '@/components/layouts/PageHeader';
 import DeleteModal from '@/components/delete/DeleteModal';
+import { EditIconButtonTooltip } from '@/components/button/edit-icon-button';
+import { DeleteIconButtonTooltip } from '@/components/button/delete-icon-button';
 
 export default function Roles() {
     const dispatch = useDispatch();
@@ -108,26 +108,17 @@ export default function Roles() {
 
                                         <td className="px-2 py-3 text-right min-w-[100px]">
                                             <div className='flex'>
-                                                <Tooltip content={`Edit - ${data.name}`}>
-                                                    <Button customClass="p-1 rounded-md inline mr-2">
-                                                        <Link href={`/settings/roles/edit?id=${data.id}`}>
-                                                            <i className='bi bi-pencil'></i>
-                                                        </Link>
-                                                    </Button>
-                                                </Tooltip>
-
-                                                <Tooltip content={`Delete - ${data.name}`}>
-                                                    <Button
-                                                        variant='danger'
-                                                        customClass="p-1 rounded-md inline"
-                                                        onClick={() => {
-                                                            setShowDeleteModal(true);
-                                                            setDeleteId(data.id)
-                                                        }}
-                                                    >
-                                                        <i className='bi bi-trash'></i>
-                                                    </Button>
-                                                </Tooltip>
+                                                <EditIconButtonTooltip
+                                                    toooltipTitle={`Edit - ${data.name}`}
+                                                    href={`/settings/roles/edit?id=${data.id}`}
+                                                />
+                                                <DeleteIconButtonTooltip
+                                                    toooltipTitle={`Delete - ${data.name}`}
+                                                    onClick={() => {
+                                                        setShowDeleteModal(true);
+                                                        setDeleteId(data.id)
+                                                    }}
+                                                />
                                             </div>
                                         </td>
                                     </tr>
