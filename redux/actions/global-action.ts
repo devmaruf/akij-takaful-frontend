@@ -109,13 +109,13 @@ export const getSidebarMenuList = () => (dispatch) => {
                     url: '/proposals',
                     subSubMenu: []
                 },
-                // {
-                //     id: 'subMenu03.2',
-                //     title: 'Enlist Proposal',
-                //     icon: 'bi-node-plus-fill',
-                //     url: '/proposals/enlistment',
-                //     subSubMenu: []
-                // },
+                {
+                    id: 'subMenu03.2',
+                    title: 'Enlist Proposal',
+                    icon: 'bi-node-plus-fill',
+                    url: '/proposals/enlistment',
+                    subSubMenu: []
+                },
                 {
                     id: 'subMenu03.3',
                     title: 'Underwriting',
