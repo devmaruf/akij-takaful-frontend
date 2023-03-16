@@ -71,7 +71,7 @@ export function Questionaires({ proposalId = 0 }) {
       <Label>
         <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
           <p className="basis-4/5">
-            Have you checked and confirmed that the Proposer marked "NO" answers in all Health/Medical questionnaire in this proposal form ?
+            Have you checked and confirmed that the Proposer marked NO answers in all Health/Medical questionnaire in this proposal form ?
           </p>
           <div>
             <ToggleSwitch

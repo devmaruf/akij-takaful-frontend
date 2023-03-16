@@ -19,7 +19,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
 
   const handleCheckedSameAddress = (event, proposalInput) => {
     const isChecked = event.target.checked;
-    dispatch(isSameAddressCheck(isChecked, proposalInput.proposer_permanent_address))
+    dispatch(isSameAddressCheck(isChecked, proposalInput?.proposer_permanent_address))
   }
 
   return (
