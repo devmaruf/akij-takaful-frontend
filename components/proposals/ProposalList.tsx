@@ -54,7 +54,7 @@ export default function ProposalList() {
     return (
         <div>
             <PageHeader
-                title='Proposals'
+                title='Enlist Proposals'
                 searchPlaceholder='Please search proposal by proposal no, plan, status...'
                 searchText={searchText}
                 onSearchText={setSearchText}

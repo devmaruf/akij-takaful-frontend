@@ -17,8 +17,9 @@ export interface IPersonalInformation {
 
 export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
-  const { height, weight, dob } = proposalInput.proposal_personal_information;
-
+  const height = proposalInput?.proposal_personal_information?.height;
+  const weight = proposalInput?.proposal_personal_information?.weight;
+  const dob = proposalInput?.proposal_personal_information?.dob;
   const [age, setAge] = React.useState(0);
   const [BMI, setBMI] = React.useState({});
 
@@ -46,7 +47,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={proposalInput.proposal_personal_information.full_name}
+          value={proposalInput?.proposal_personal_information.full_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -55,7 +56,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Father Name"
           name="father_name"
           placeholder="Father Name"
-          value={proposalInput.proposal_personal_information.father_name}
+          value={proposalInput?.proposal_personal_information.father_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -64,7 +65,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Mother Name"
           name="mother_name"
           placeholder="Mother Name"
-          value={proposalInput.proposal_personal_information.mother_name}
+          value={proposalInput?.proposal_personal_information.mother_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -73,7 +74,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Spouse Name"
           name="spouse_name"
           placeholder="Spouse Name"
-          value={proposalInput.proposal_personal_information.spouse_name}
+          value={proposalInput?.proposal_personal_information.spouse_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -82,7 +83,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Email Address"
           name="email"
           placeholder="Email Address"
-          value={proposalInput.proposal_personal_information.email}
+          value={proposalInput?.proposal_personal_information.email}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -91,7 +92,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Mobile No"
           name="mobile_no"
           placeholder="Mobile No"
-          value={proposalInput.proposal_personal_information.mobile_no}
+          value={proposalInput?.proposal_personal_information.mobile_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -102,7 +103,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           label="Marital Status"
           name="marital_status"
-          defaultValue={proposalInput.proposal_personal_information.marital_status}
+          defaultValue={proposalInput?.proposal_personal_information.marital_status}
           placeholder="Marital Status"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -112,7 +113,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           options={identityTypeList}
           isSearchable={true}
           name="identity_type"
-          defaultValue={proposalInput.proposal_personal_information.identity_type}
+          defaultValue={proposalInput?.proposal_personal_information.identity_type}
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={handleChangeTextInput}
@@ -125,7 +126,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             name="id_no"
             placeholder={identity_type.label}
             isDisabled={identity_type.isDisabledField}
-            value={proposalInput.proposal_personal_information.id_no}
+            value={proposalInput?.proposal_personal_information.id_no}
             isRequired={true}
             minValue={identity_type.minLength}
             maxValue={identity_type.maxLength}
@@ -140,7 +141,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           name="gender"
           label="Gender"
-          defaultValue={proposalInput.proposal_personal_information.gender}
+          defaultValue={proposalInput?.proposal_personal_information.gender}
           placeholder="Gender"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -151,7 +152,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           name="dob"
           placeholder="Date of Birth"
           type="date"
-          value={proposalInput.proposal_personal_information.dob}
+          value={proposalInput?.proposal_personal_information.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -160,7 +161,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Occupation"
           name="occupation"
           placeholder="Occupation"
-          value={proposalInput.proposal_personal_information.occupation}
+          value={proposalInput?.proposal_personal_information.occupation}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -169,7 +170,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput.proposal_personal_information.relation}
+          value={proposalInput?.proposal_personal_information.relation}
           isRequired={true}
           inputChange={handleChangeTextInput}
         /> */}
@@ -178,7 +179,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isSearchable={true}
           name="religion"
           label="Religion"
-          defaultValue={proposalInput.proposal_personal_information.religion}
+          defaultValue={proposalInput?.proposal_personal_information.religion}
           placeholder="Select Religion"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -187,7 +188,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Height"
           name="height"
           placeholder="Height"
-          value={proposalInput.proposal_personal_information.height}
+          value={proposalInput?.proposal_personal_information.height}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -205,7 +206,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           ]}
           isSearchable={true}
           name="height_unit"
-          defaultValue={proposalInput.proposal_personal_information.height_unit}
+          defaultValue={proposalInput?.proposal_personal_information.height_unit}
           label="Height Unit"
           placeholder="Height Unit"
           handleChangeValue={handleChangeTextInput}
@@ -215,7 +216,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Weight"
           name="weight"
           placeholder="Weight"
-          value={proposalInput.proposal_personal_information.weight}
+          value={proposalInput?.proposal_personal_information.weight}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -233,7 +234,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isSearchable={true}
           name="weight_unit"
           label="Weight Unit"
-          defaultValue={proposalInput.proposal_personal_information.weight_unit}
+          defaultValue={proposalInput?.proposal_personal_information.weight_unit}
           placeholder="Weight Unit"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -252,7 +253,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Allocation"
           name="allocation"
           placeholder="Allocation"
-          value={proposalInput.proposal_personal_information.allocation}
+          value={proposalInput?.proposal_personal_information.allocation}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}

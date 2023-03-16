@@ -40,7 +40,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Proposal No"
           name="proposal_no"
           placeholder={`Proposal No - ${placeHolderProposalNo}`}
-          value={proposalInput.proposal_no || placeHolderProposalNo}
+          value={proposalInput?.proposal_no || placeHolderProposalNo}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -50,7 +50,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={true}
           name="plan_id"
           label="Plan"
-          defaultValue={proposalInput.plan_id}
+          defaultValue={proposalInput?.plan_id}
           placeholder="Select Plan..."
           isRequired={true}
           errors={errors}
@@ -61,7 +61,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={true}
           name="project_id"
           label="Bank"
-          defaultValue={proposalInput.project_id}
+          defaultValue={proposalInput?.project_id}
           placeholder="Select Bank..."
           isRequired={true}
           errors={errors}
@@ -72,7 +72,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isSearchable={false}
           name="branch_id"
           label="Branch"
-          defaultValue={proposalInput.branch_id}
+          defaultValue={proposalInput?.branch_id}
           placeholder="Select Branch..."
           isRequired={true}
           errors={errors}
@@ -82,7 +82,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Proposer Name"
           name="proposer_name"
           placeholder='Proposer Name'
-          value={proposalInput.proposer_name}
+          value={proposalInput?.proposer_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -90,7 +90,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Proposer Phone no"
           name="phone_no"
           placeholder='Proposer Phone no'
-          value={proposalInput.phone_no}
+          value={proposalInput?.phone_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
         />
@@ -98,7 +98,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Initial Sum Assured"
           name="initial_sum_assured"
           placeholder="Initial Sum Assured"
-          value={proposalInput.initial_sum_assured}
+          value={proposalInput?.initial_sum_assured}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -107,7 +107,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Initial Premium"
           name="initial_premium"
           placeholder="Initial Premium"
-          value={proposalInput.initial_premium}
+          value={proposalInput?.initial_premium}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -118,7 +118,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isRequired={true}
           name="agent_id"
           label="Agent"
-          defaultValue={proposalInput.agent_id}
+          defaultValue={proposalInput?.agent_id}
           placeholder='Select Agent...'
           handleChangeValue={handleChangeTextInput}
         />

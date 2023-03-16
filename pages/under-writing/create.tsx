@@ -49,7 +49,7 @@ export default function Create() {
                                         label="Proposal No"
                                         name="proposal_no"
                                         placeholder='Proposal No'
-                                        value={proposalInput.proposal_no}
+                                        value={proposalInput?.proposal_no}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
@@ -57,7 +57,7 @@ export default function Create() {
                                         label="Proposal Name"
                                         name="proposer_name"
                                         placeholder='Proposal Name'
-                                        value={proposalInput.proposer_name}
+                                        value={proposalInput?.proposer_name}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
@@ -66,7 +66,7 @@ export default function Create() {
                                         isSearchable={true}
                                         name="plan_id"
                                         label="Plan"
-                                        defaultValue={proposalInput.plan_id}
+                                        defaultValue={proposalInput?.plan_id}
                                         placeholder='Select Plan...'
                                         handleChangeValue={handleChangeTextInput}
                                     />
@@ -74,7 +74,7 @@ export default function Create() {
                                         label="FA Code"
                                         name="fa_code"
                                         placeholder='FA Code'
-                                        value={proposalInput.fa_code}
+                                        value={proposalInput?.fa_code}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
@@ -82,7 +82,7 @@ export default function Create() {
                                         label="Initial Sum Assured"
                                         name="initial_sum_assured"
                                         placeholder='Initial Sum Assured'
-                                        value={proposalInput.initial_sum_assured}
+                                        value={proposalInput?.initial_sum_assured}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
@@ -90,7 +90,7 @@ export default function Create() {
                                         label="Initial Premium"
                                         name="initial_premium"
                                         placeholder='Initial Premium'
-                                        value={proposalInput.initial_premium}
+                                        value={proposalInput?.initial_premium}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
@@ -98,7 +98,7 @@ export default function Create() {
                                         label="Mobile No"
                                         name="mobile_no"
                                         placeholder='Mobile No'
-                                        value={proposalInput.mobile_no}
+                                        value={proposalInput?.mobile_no}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     /> */}

@@ -109,7 +109,7 @@ export default function Edit() {
                       label="Mobile No"
                       name="mobile_no"
                       placeholder='Mobile No'
-                      value={proposalInput.mobile_no}
+                      value={proposalInput?.mobile_no}
                       isRequired={true}
                       inputChange={handleChangeTextInput}
                   /> */}

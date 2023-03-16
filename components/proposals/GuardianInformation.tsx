@@ -24,7 +24,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Guardian Name"
           name="name"
           placeholder="Guardian Name"
-          value={proposalInput.proposer_guardian.name}
+          value={proposalInput?.proposer_guardian.name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -34,7 +34,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Mobile No"
           name="phone_no"
           placeholder="Mobile No"
-          value={proposalInput.proposer_guardian.phone_no}
+          value={proposalInput?.proposer_guardian.phone_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -45,7 +45,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           name="dob"
           type="date"
           placeholder="Date of Birth"
-          value={proposalInput.proposer_guardian.dob}
+          value={proposalInput?.proposer_guardian.dob}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -55,7 +55,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="ID No"
           name="id_no"
           placeholder="ID No"
-          value={proposalInput.proposer_guardian.id_no}
+          value={proposalInput?.proposer_guardian.id_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -65,7 +65,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput.proposer_guardian.relation}
+          value={proposalInput?.proposer_guardian.relation}
           isRequired={true}
           inputChange={handleChangeTextInput}
         /> */}
@@ -75,7 +75,7 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           name="relation"
           label="Relation"
           isRequired={true}
-          defaultValue={proposalInput.proposer_guardian.relation}
+          defaultValue={proposalInput?.proposer_guardian.relation}
           placeholder="Select Relation"
           handleChangeValue={handleChangeTextInput}
           errors={errors}

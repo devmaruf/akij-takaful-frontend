@@ -22,7 +22,7 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={proposalInput.proposer_bank_information.bank_name}
+          value={proposalInput?.proposer_bank_information.bank_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -42,7 +42,7 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           isSearchable={true}
           name="bank_branch_name"
           label="Branch Name"
-          defaultValue={proposalInput.proposer_guardian.bank_branch_name}
+          defaultValue={proposalInput?.proposer_guardian.bank_branch_name}
           placeholder="Branch Name"
           handleChangeValue={handleChangeTextInput}
           errors={errors}
@@ -53,7 +53,7 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           type="number"
           name="bank_account_no"
           placeholder="Account No"
-          value={proposalInput.proposer_bank_information.bank_account_no}
+          value={proposalInput?.proposer_bank_information.bank_account_no}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
@@ -63,7 +63,7 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={proposalInput.proposer_bank_information.bank_account_holder_name}
+          value={proposalInput?.proposer_bank_information.bank_account_holder_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
