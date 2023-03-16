@@ -11,6 +11,7 @@ const initialState: IEmployee = {
     employeePaginationData: [],
     employeeDetails: {},
     rolesDropdownList: [],
+    agentsDropdownList: [],
     employeeInput: {
         first_name: '',
         last_name: '',
@@ -88,6 +89,12 @@ function employeeReducer(state = initialState, action: any) {
             return {
                 ...state,
                 rolesDropdownList: generateDropdownList(action.payload),
+            };
+
+        case Types.GET_AGENT_DROPDOWN_LIST:
+            return {
+                ...state,
+                agentsDropdownList: generateDropdownList(action.payload),
             };
         default:
             break;

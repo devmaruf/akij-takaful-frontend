@@ -1,5 +1,5 @@
 export const PRINT_PROPOSAL         = "PRINT_PROPOSAL";
-export const CHANGE_INPUT_VALUE     = "CHANGE_INPUT_VALUE";
+export const CHANGE_INPUT_VALUE     = "CHANGE_PROPOSAL_INPUT_VALUE";
 export const GET_PLAN_DROPDOWN      = "GET_PLAN_DROPDOWN";
 export const GET_PLAN_LIST          = "GET_PLAN_LIST";
 export const SUBMIT_PROPOSAL        = "SUBMIT_PROPOSAL";

@@ -77,7 +77,7 @@ export const getSidebarMenuList = () => (dispatch) => {
                     id: 'subMenu02.2',
                     title: 'New Proposal',
                     icon: 'bi-person-fill-add',
-                    url: '/proposals/create',
+                    url: '/proposals/create-preview',
                     subSubMenu: []
                 },
                 {
@@ -104,18 +104,18 @@ export const getSidebarMenuList = () => (dispatch) => {
             subMenu: [
                 {
                     id: 'subMenu03.1',
-                    title: 'Manage Proposals',
+                    title: 'Proposals',
                     icon: 'bi-person-fill',
                     url: '/proposals',
                     subSubMenu: []
                 },
-                {
-                    id: 'subMenu03.2',
-                    title: 'Enlist Proposal',
-                    icon: 'bi-node-plus-fill',
-                    url: '/proposals/enlistment',
-                    subSubMenu: []
-                },
+                // {
+                //     id: 'subMenu03.2',
+                //     title: 'Enlist Proposal',
+                //     icon: 'bi-node-plus-fill',
+                //     url: '/proposals/enlistment',
+                //     subSubMenu: []
+                // },
                 {
                     id: 'subMenu03.3',
                     title: 'Underwriting',

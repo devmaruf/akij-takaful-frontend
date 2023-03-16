@@ -1,13 +1,5 @@
-import { useEffect } from "react"
+import CreatePreviewProposal from "@/components/proposals/CreatePreviewProposal"
 
-export default function PropoalCreatePreviewPage() {
-    useEffect(() => {
-        
-    }, []);
-
-    return (
-        <div>
-            Creating unique proposal no...
-        </div>
-    )
+export default function CreatePreviewProposalPage() {
+    return <CreatePreviewProposal />
 }

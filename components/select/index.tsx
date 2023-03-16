@@ -48,8 +48,26 @@ export default function Select({
   placeholder = "Select...",
   isRequired = false,
 }: ISelect) {
+  const getDefaultValue = () => {
+    if (defaultValue === undefined || defaultValue === null) {
+      return "";
+    }
+
+    const defaultValueString = defaultValue.toString();
+
+    if (defaultValue && !isNaN(defaultValue)) {
+      const foundValue = options.find(option => option.value.toString() == defaultValueString);
+
+      if (foundValue) {
+        return foundValue;
+      }
+    }
+
+    return defaultValue;
+  }
+
   return (
-    <div className="my-1.5">
+    <div className="">
       <label
         htmlFor={name}
         className="text-sm font-medium text-gray-900 block mb-2"
@@ -65,9 +83,9 @@ export default function Select({
         isSearchable={isSearchable}
         name={name}
         isMulti={isMulti}
-        defaultValue={defaultValue && defaultValue}
+        defaultValue={getDefaultValue()}
         required={isRequired}
-        //value={value}
+        value={getDefaultValue()}
         onChange={
           handleChangeValue &&
           ((option) =>
@@ -75,7 +93,6 @@ export default function Select({
               ? handleChangeValue(name, option)
               : handleChangeValue(name, option.value))
         }
-        // onChange={handleChangeValue && ((option) => handleChangeValue(name, option))}
         options={options}
         placeholder={placeholder}
         components={{

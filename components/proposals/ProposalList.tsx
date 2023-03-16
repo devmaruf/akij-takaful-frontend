@@ -54,12 +54,12 @@ export default function ProposalList() {
     return (
         <div>
             <PageHeader
-                title='Manage Proposals'
+                title='Proposals'
                 searchPlaceholder='Please search proposal by proposal no, plan, status...'
                 searchText={searchText}
                 onSearchText={setSearchText}
                 headerRightSide={<>
-                    <Link href="/proposals/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
+                    <Link href="/proposals/create-preview" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
                         <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
                         New Proposal
                     </Link>
@@ -109,7 +109,7 @@ export default function ProposalList() {
                                             />
                                             <EditIconButtonTooltip
                                                 toooltipTitle={`Edit Proposal No - ${data.proposal_no}`}
-                                                href={`/proposals/edit?id=${data.id}`}
+                                                href={`/proposals/create-basic?id=${data.id}&mode=edit`}
                                             />
                                             <DeleteIconButtonTooltip
                                                 toooltipTitle={`Delete Proposal No - ${data.proposal_no}`}
@@ -123,7 +123,7 @@ export default function ProposalList() {
                 }
             </PageContent>
 
-            <Modal title="Proposal Details" size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
+            <Modal title="Proposal Details" size="lg" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
                 {
                     loadingDetails ?
                         <div className="text-center">
@@ -139,30 +139,35 @@ export default function ProposalList() {
                                         </div>
                                         <h6>{proposalDetails.proposal_no}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>Proposal Name</h6>
+                                            <h6>Proposer Name</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{proposalDetails.proposer_name}</h6>
+                                        <div className='flex justify-between'>
+                                            <h6>Proposer phone</h6>
+                                            <h6>:</h6>
+                                        </div>
+                                        <h6>{proposalDetails.phone_no}</h6>
                                         <div className='flex justify-between'>
                                             <h6>Plan</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{proposalDetails.plan_name}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>FA Code</h6>
+                                            <h6>Agent</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{proposalDetails.fa_code}</h6>
+                                        <h6>{proposalDetails.agent_name}</h6>
                                         <div className='flex justify-between'>
                                             <h6>Initial Sum Assured</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{proposalDetails.initial_sum_assured}</h6>
+                                        <h6>{formatCurrency(proposalDetails.initial_sum_assured)}</h6>
                                         <div className='flex justify-between'>
                                             <h6>Initial Premium</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{proposalDetails.premium}</h6>
+                                        <h6>{formatCurrency(proposalDetails.premium)}</h6>
                                     </div>
                                 ) : (
                                     <div>Something Went wrong!</div>
