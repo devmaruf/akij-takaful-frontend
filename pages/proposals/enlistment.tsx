@@ -25,6 +25,7 @@ import PageHeader from "@/components/layouts/PageHeader";
 import { PageContent } from "@/components/layouts/PageContent";
 import Loading from "@/components/loading";
 import { Questionaires } from "@/components/proposals/Questionaires";
+import { NomineeForm } from "@/components/proposals/NomineeForm";
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -130,6 +131,8 @@ export default function Create() {
                 proposalInput.proposer_bank_information !== undefined &&
                 <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
               }
+
+              <NomineeForm handleChangeTextInput={handleChangeBankInfo} errors={errors} />
 
               {
                 proposalInput.proposal_personal_information !== undefined &&

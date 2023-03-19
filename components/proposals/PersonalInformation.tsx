@@ -47,7 +47,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={proposalInput?.proposal_personal_information.full_name}
+          // value={proposalInput?.proposal_personal_information.full_name}
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}

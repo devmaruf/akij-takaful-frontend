@@ -191,13 +191,27 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 proposalsList: action.payload.data,
                 paginationData: action.payload.paginationData,
-                isLoading: action.payload.isLoading,
+                isLoading: action.payload.isLoading, 
             };
         case Types.GET_PROPOSAL_DETAILS:
+
+            const inputData =  action.payload.inputData;
+            const proposalPrevInput = {...state.proposalInput, inputData}
+
+            let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
+                if (key in inputData) {
+                    obj[key] = inputData[key];
+                }
+                if(obj[key] == null){
+                    obj[key] = {}
+                }
+                return obj;
+            }, {});
+
             return {
                 ...state,
                 loadingDetails: action.payload.isLoading,
-                proposalInput: action.payload.inputData,
+                proposalInput: intersectionObject,
                 proposalDetails: action.payload.data,
             };
         case Types.UPDATE_PROPOSAL:
@@ -221,19 +235,19 @@ function ProposalsReducer(state = initialState, action: any) {
 
         case Types.PRINT_PROPOSAL:
             console.log(action.payload);
-            
+
             return {
                 ...state,
                 printProposalList: action.payload.data,
                 isLoading: action.payload.isLoading,
             };
-            
+
         case Types.CHECKED_IDENTITY:
             return {
                 ...state,
                 identity_type: action.payload,
             }
-            
+
         default:
             break;
     }
