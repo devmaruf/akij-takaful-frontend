@@ -71,10 +71,13 @@ export default function Create() {
   };
 
   const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { errors, isValid } = formValidation(e);
-    setErrors(errors);
-    if (isValid) {
-      dispatch(updateProposal(proposalInput, id, router));
+    const clickedButton = e.nativeEvent.submitter.name;
+    if (clickedButton === "submitProposal") {
+      const { errors, isValid } = formValidation(e);
+      setErrors(errors);
+      if (isValid) {
+        dispatch(updateProposal(proposalInput, id, router));
+      }
     }
     e.preventDefault();
   };
@@ -140,6 +143,7 @@ export default function Create() {
               }
 
               <Button
+                name="submitProposal"
                 title="Save"
                 loadingTitle="Saving..."
                 loading={isSubmitting}

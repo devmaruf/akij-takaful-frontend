@@ -179,7 +179,7 @@ export interface IProposal {
         dob: string;
         id_no: string;
         relation: string;
-    },
+    };
     printProposalList: Array<IProposalBasicInput>,
     identity_type: {
         isDisabledField: boolean;
@@ -188,7 +188,9 @@ export interface IProposal {
         value: string;
         minLength: number,
         maxLength: number,
-    }
+    };
+
+    proposer_nominees: any[];
 }
 
 export interface IRole {

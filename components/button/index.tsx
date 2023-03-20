@@ -1,5 +1,6 @@
 interface IButton {
     title?: string;
+    name?: string;
     loadingTitle?: string;
     onClick?: React.SyntheticEvent | any;
     disabled?: boolean;
@@ -13,6 +14,7 @@ interface IButton {
 
 export default function Button({
     title,
+    name,
     loadingTitle = "Loading...",
     onClick = () => { },
     disabled = false,
@@ -44,6 +46,7 @@ export default function Button({
                     hover:opacity-80 
                     ${customClass}`
                 }
+                name={name}
                 type={type}
                 disabled={loading}
                 onClick={onClick}

@@ -1,18 +1,14 @@
 import * as React from "react";
-import Input from "@/components/input";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import Select from "@/components/select";
-import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import ValidationMessage from "../validationMessage";
 import { calculateAge, calculateBMI } from "@/utils/calculation";
-import { Accordion, Tabs } from "flowbite-react";
 import Button from '@/components/button';
-import { type } from './../../redux/store/index';
 import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeBankInformation } from "./NomineeBankInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
+import { addMultipleNomineeForm, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
+import { DeleteIconButton } from './../button/delete-icon-button';
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any) => void;
@@ -23,12 +19,18 @@ export interface IPersonalInformation {
 }
 
 export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformation) {
-    const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
+    const dispatch = useDispatch();
+
+
+    const { proposalInput, identity_type, proposer_nominees } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
     const weight = proposalInput?.proposal_personal_information?.weight;
     const dob = proposalInput?.proposal_personal_information?.dob;
     const [age, setAge] = React.useState(0);
     const [BMI, setBMI] = React.useState({});
+    const [nomineeIndex, setNomineeIndex] = React.useState(0);
+    const [nomineeView, setNomineeView] = React.useState(false);
+
 
     React.useEffect(() => {
         if (typeof dob !== "undefined") {
@@ -51,11 +53,13 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
         // dispatch(changeInputValue(name, value, "proposer_permanent_address"));
     };
 
-    const [nominee, setNominee] = React.useState([1]);
+    const handleDelete = (index) => {
 
-    const handleAddNewNominee = () => {
-        const newList = [...nominee, nominee.length + 1];
-        setNominee(newList)
+    }
+
+    const toggleNomineeForm = (status: boolean, index: number) => {
+        setNomineeIndex(index);
+        setNomineeView(status);
     }
 
     return (
@@ -65,120 +69,62 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
             </h3>
 
             {
-                nominee.length > 0 && nominee.map((item, index) => (
+                proposer_nominees.length > 0 && proposer_nominees.map((nominee, index) => (
                     <div className="p-2 5" key={index + 1}>
                         <div className="bg-slate-100 rounded-md">
+                            <div className="text-white bg-cyan-600 p-2 border-b-2 border-gray-300 rounded-t-md flex items-baseline justify-between">
+                                <h3 className="text-md ml-3">
+                                    Nominee - {index + 1}
+                                </h3>
 
-                            {
-                                nominee.length === (index + 1) ? (
-                                    <div>
-                                        <div className="text-white bg-cyan-600 p-2 border-b-2 border-gray-300 rounded-t-md flex items-baseline justify-between">
-                                            <h3 className="text-md ml-3">
-                                                Nominee - {index + 1}
-                                            </h3>
-
-                                            <a
-                                                className='text-gray-900 bg-white focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg transition text-xs text-center leading-none px-3 py-2 hover:opacity-80 flex gap-2 items-center mr-3'
-                                                onClick={() => handleAddNewNominee()}
+                                {
+                                    proposer_nominees.length === (index + 1) ?
+                                        <a className='text-gray-900 bg-white focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg transition text-xs text-center leading-none p-2 hover:opacity-80 flex gap-2 items-center mr-3 cursor-pointer' onClick={() => dispatch(addMultipleNomineeForm())} >
+                                            Add More
+                                            <i className="bi bi-plus"></i>
+                                        </a> :
+                                        <div className="flex items-center gap-2">
+                                            <DeleteIconButton
+                                                toooltipTitle={`Nominee`}
+                                                onClick={() => dispatch(removeMultipleNomineeForm(proposer_nominees, index))}
+                                            />
+                                            <Button
+                                                variant='default'
+                                                customClass="p-1 rounded-md inline mr-1"
+                                                onClick={() => toggleNomineeForm(!nomineeView, index)}
                                             >
-                                                Add More
-                                                <i className="bi bi-plus"></i>
-                                            </a>
+                                                {
+                                                    (nomineeIndex === index && nomineeView === true) ?
+                                                        <i className="bi bi-chevron-up"></i> :
+                                                        <i className="bi bi-chevron-down"></i>
+                                                }
+
+                                            </Button>
                                         </div>
-
-                                        <div className="p-2">
-                                            <NomineePersonalInformation
-                                                handleChangeTextInput={handleChangeTextInput}
-                                                errors={errors}
-                                            />
-                                            <NomineeAddressInformation
-                                                changePresentAddress={handleChangePresentAddressInfo}
-                                                changePermanentAddress={handleChangePermanentAddressInfo}
-                                                errors={errors}
-                                            />
-                                            <NomineeBankInformation
-                                                handleChangeTextInput={handleChangeTextInput}
-                                                errors={errors}
-                                            />
-                                            <NomineeGuardianInformation
-                                                handleChangeTextInput={handleChangeTextInput}
-                                                errors={errors}
-                                            />
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <Accordion alwaysOpen={true} className="divide-none p-0">
-                                        <Accordion.Panel>
-                                            <Accordion.Title className="bg-cyan-600 text-white hover:bg-cyan-600 transition p-2 py-0">
-                                                Nominee - {index + 1}
-                                            </Accordion.Title>
-                                            <Accordion.Content>
-                                                <div className="">
-                                                    <NomineePersonalInformation
-                                                        handleChangeTextInput={handleChangeTextInput}
-                                                        errors={errors}
-                                                    />
-                                                    <NomineeAddressInformation
-                                                        changePresentAddress={handleChangePresentAddressInfo}
-                                                        changePermanentAddress={handleChangePermanentAddressInfo}
-                                                        errors={errors}
-                                                    />
-                                                    <NomineeBankInformation
-                                                        handleChangeTextInput={handleChangeTextInput}
-                                                        errors={errors}
-                                                    />
-                                                    <NomineeGuardianInformation
-                                                        handleChangeTextInput={handleChangeTextInput}
-                                                        errors={errors}
-                                                    />
-                                                </div>
-                                            </Accordion.Content>
-                                        </Accordion.Panel>
-                                    </Accordion>
-                                )
-                            }
+                                }
 
 
+                            </div>
 
-
-
-
-
-
-
-                            {/* <div className="text-gray-700 p-2 border-b-2 border-gray-300 flex items-baseline justify-between">
-                                    <h3 className="text-md ml-3">
-                                        Nominee - 1
-                                    </h3>
-
-                                    <a
-                                        className='text-white transition bg-cyan-600 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-xs text-center leading-none px-3 py-2 hover:opacity-80 flex gap-2 items-center mr-3'
-                                        onClick={() => handleAddNewNominee()}
-                                    >
-                                        Add More
-                                        <i className="bi bi-plus"></i>
-                                    </a>
-                                </div>
-
-                                <div className="p-2">
-                                    <NomineePersonalInformation
-                                        handleChangeTextInput={handleChangeTextInput}
-                                        errors={errors}
-                                    />
-                                    <NomineeAddressInformation
-                                        changePresentAddress={handleChangePresentAddressInfo}
-                                        changePermanentAddress={handleChangePermanentAddressInfo}
-                                        errors={errors}
-                                    />
-                                    <NomineeBankInformation
-                                        handleChangeTextInput={handleChangeTextInput}
-                                        errors={errors}
-                                    />
-                                    <NomineeGuardianInformation
-                                        handleChangeTextInput={handleChangeTextInput}
-                                        errors={errors}
-                                    />
-                                </div> */}
+                            <div className={`p-2 ${(nomineeIndex === index && nomineeView === true || proposer_nominees.length === (index + 1)) ? 'block' : 'hidden'}`}>
+                                <NomineePersonalInformation
+                                    handleChangeTextInput={handleChangeTextInput}
+                                    errors={errors}
+                                />
+                                <NomineeAddressInformation
+                                    changePresentAddress={handleChangePresentAddressInfo}
+                                    changePermanentAddress={handleChangePermanentAddressInfo}
+                                    errors={errors}
+                                />
+                                <NomineeBankInformation
+                                    handleChangeTextInput={handleChangeTextInput}
+                                    errors={errors}
+                                />
+                                <NomineeGuardianInformation
+                                    handleChangeTextInput={handleChangeTextInput}
+                                    errors={errors}
+                                />
+                            </div>
 
                         </div>
                     </div>

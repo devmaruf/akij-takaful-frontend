@@ -103,7 +103,79 @@ const initialState: IProposal = {
         value: "",
         minLength: 10,
         maxLength: 17,
-    }
+    },
+    proposer_nominees: [
+        {
+            proposal_personal_information: {
+                proposal_nominee_id: null,
+                full_name: '',
+                father_name: '',
+                mother_name: '',
+                spouse_name: '',
+                email: '',
+                mobile_no: '',
+                marital_status: '',
+                identity_type: '',
+                gender: '',
+                id_no: '',
+                dob: '',
+                occupation: '',
+                relation: '',
+                height: 0,
+                height_unit: '',
+                weight: 0,
+                weight_unit: '',
+                allocation: '',
+            },
+            proposer_permanent_address: {
+                proposal_nominee_id: 1,
+                street_address: '',
+                post_office_name: '',
+                address_type: '',
+                area_id: 0,
+                area_name: '',
+                district_id: 0,
+                district_name: '',
+                division_id: 0,
+                division_name: '',
+                defaultDivision: {},
+                defaultDistrict: {},
+                defaultArea: {},
+                is_same_address: false,
+            },
+            proposer_present_address: {
+                proposal_nominee_id: null,
+                street_address: '',
+                post_office_name: '',
+                address_type: '',
+                area_id: 0,
+                area_name: '',
+                district_id: 0,
+                district_name: '',
+                division_id: 0,
+                division_name: '',
+                defaultDivision: {},
+                defaultDistrict: {},
+                defaultArea: {},
+                is_same_address: false,
+            },
+            proposer_bank_information: {
+                proposal_nominee_id: null,
+                bank_name: '',
+                bank_branch_name: '',
+                bank_account_no: '0',
+                bank_account_holder_name: '',
+            },
+            proposer_guardian: {
+                proposal_nominee_id: null,
+                name: '',
+                phone_no: '',
+                dob: '',
+                id_no: '',
+                relation: '',
+            },
+        }
+    ]
 };
 
 
@@ -191,18 +263,18 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 proposalsList: action.payload.data,
                 paginationData: action.payload.paginationData,
-                isLoading: action.payload.isLoading, 
+                isLoading: action.payload.isLoading,
             };
         case Types.GET_PROPOSAL_DETAILS:
 
-            const inputData =  action.payload.inputData;
-            const proposalPrevInput = {...state.proposalInput, inputData}
+            const inputData = action.payload.inputData;
+            const proposalPrevInput = { ...state.proposalInput, inputData }
 
             let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
                 if (key in inputData) {
                     obj[key] = inputData[key];
                 }
-                if(obj[key] == null){
+                if (obj[key] == null) {
                     obj[key] = {}
                 }
                 return obj;
@@ -246,6 +318,18 @@ function ProposalsReducer(state = initialState, action: any) {
             return {
                 ...state,
                 identity_type: action.payload,
+            }
+        case Types.ADD_NOMINEE_FORM:
+            const newNomineeList = [...state.proposer_nominees, state.proposer_nominees[0]]
+            return {
+                ...state,
+                proposer_nominees:newNomineeList,
+            }
+        case Types.REMOVE_NOMINEE_FORM:
+         
+            return {
+                ...state,
+                proposer_nominees:action.payload,
             }
 
         default:

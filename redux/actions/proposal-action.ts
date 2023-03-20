@@ -339,3 +339,12 @@ export const createPreviewProposalAndRedirectAction = (router) => (dispatch) => 
         source.cancel('Request canceled by component unmount');
     };
 }
+
+export const addMultipleNomineeForm = () => (dispatch) => {
+    dispatch({ type: Types.ADD_NOMINEE_FORM, payload: {} });
+}
+
+export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => (dispatch) => {
+    const newNomineeList = nomineeList.slice(0, index).concat(nomineeList.slice(index + 1));
+    dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });
+}
