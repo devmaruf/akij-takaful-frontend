@@ -4,6 +4,7 @@ import { Toaster } from "@/components/toaster";
 import { IProposal } from "../interfaces";
 import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
 import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     let data = {
@@ -14,18 +15,47 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
 };
 
 export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
-    const proposer_nominees = proposalInput.proposer_nominees;
+    // let proposalInputUpdated = {
+    //     ...proposalInput,
+    //     proposer_nominees: [],
+    // };
 
-    console.log('name :>> ', name);
-    console.log('value :>> ', value);
-    console.log('key :>> ', key);
-    console.log('index :>> ', index);
-    console.log('proposalInput :>> ', proposalInput);
-    // let data = {
-    //     name: name,
-    //     value: value,
-    // }
-    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: { data, key, index } });
+    // proposalInput.proposer_nominees.forEach((nominee, previousIndex) => {
+    //     if (index === previousIndex) {
+    //         const nomineeUpdated = {
+    //             ...nominee,
+    //         };
+    //         nomineeUpdated[key][name] = value;
+    //         proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
+    //     } else {
+    //         proposalInputUpdated.proposer_nominees.push(nominee);
+    //     }
+    // });
+
+    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
+    const nominees = proposalInput.proposer_nominees;
+    const nomineeToUpdate = nominees[index];
+
+    const updatedNominee = {
+        ...nomineeToUpdate,
+        [key]: {
+            ...nomineeToUpdate[key],
+            [name]: value,
+        },
+    };
+
+    const updatedNominees = [
+        ...nominees.slice(0, index),
+        updatedNominee,
+        ...nominees.slice(index + 1),
+    ];
+
+    const proposalInputUpdated = {
+        ...proposalInput,
+        proposer_nominees: updatedNominees,
+    };
+
+    dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
 };
 
 
@@ -205,7 +235,7 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         })
 }
 
-export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
+export const deleteProposal = (id, setShowDeleteModal) => (dispatch: Dispatch) => {
     let responseData = {
         status: false,
         message: "",
@@ -229,7 +259,7 @@ export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
         });
 }
 
-export const getPlanDropdownList = () => (dispatch: any) => {
+export const getPlanDropdownList = () => (dispatch: Dispatch) => {
     axios.get(`/plans/dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_PLAN_DROPDOWN, payload: res.data });

@@ -22,7 +22,6 @@ export interface IPersonalInformation {
 export function NomineeForm({ errors }: IPersonalInformation) {
     const dispatch = useDispatch();
 
-
     const { proposalInput, identity_type, proposer_nominees } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
     const weight = proposalInput?.proposal_personal_information?.weight;
@@ -103,16 +102,15 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                             </Button>
                                         </div>
                                 }
-
-
                             </div>
 
                             <div className={`p-2 ${(nomineeIndex === index && nomineeView === true || proposalInput.proposer_nominees.length === (index + 1)) ? 'block' : 'hidden'}`}>
                                 <NomineePersonalInformation
                                     handleChangeTextInput={handleChangeProposalNomineeInfo}
                                     errors={errors}
-                                    key="proposal_personal_information"
+                                    id="proposal_personal_information"
                                     index={index}
+                                    data={nominee.proposal_personal_information}
                                 />
                                 <NomineeAddressInformation
                                     changePresentAddress={handleChangePresentAddressInfo}
@@ -140,7 +138,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                     </div>
                 ))
             }
-
         </div >
     );
 }

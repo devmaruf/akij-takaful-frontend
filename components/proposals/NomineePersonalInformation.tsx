@@ -8,16 +8,17 @@ import ValidationMessage from "../validationMessage";
 import { calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
-    handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
+    handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
     identityLabel: any;
     identityValidationMessage: any;
     disabledField: boolean;
-    key: string;
+    id: string;
     index?: any;
     errors?: any;
+    data: any;
 }
 
-export function NomineePersonalInformation({ handleChangeTextInput, errors, key, index }: IPersonalInformation) {
+export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
     const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
@@ -41,7 +42,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, key,
     }, [height, weight, dob, age]);
 
     const changeNomineeInputVal = (name:string, value: any) => {
-        handleChangeTextInput(name, value, key, index)
+        handleChangeTextInput(name, value, id, index)
     }
 
     return (
@@ -54,7 +55,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, key,
                     label="Full Name"
                     name="full_name"
                     placeholder="Full Name"
-                    value={proposalInput.proposer_nominees[index].proposal_personal_information.full_name}
+                    value={data.full_name}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -73,7 +74,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, key,
                     label="Mother Name"
                     name="mother_name"
                     placeholder="Mother Name"
-                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.mother_name}
+                    value={proposalInput.proposer_nominees[index].proposal_personal_information.mother_name}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -82,7 +83,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, key,
                     label="Spouse Name"
                     name="spouse_name"
                     placeholder="Spouse Name"
-                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.spouse_name}
+                    value={data.spouse_name}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}

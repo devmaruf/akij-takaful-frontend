@@ -137,6 +137,7 @@ export default function Create() {
                 proposalInput.proposer_bank_information !== undefined &&
                 <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
               }
+
               {
                 proposalInput.proposer_nominees !== undefined &&
                 <NomineeForm errors={errors} />
