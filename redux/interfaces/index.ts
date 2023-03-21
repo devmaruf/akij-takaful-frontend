@@ -238,3 +238,17 @@ export interface IUnderwritingType {
     priority: number;
     requirements: Array<IUnderwritingRequirement>
 }
+
+export interface IUnderwriting {
+    proposal_id: number;
+    status: string;
+    em_life: number;
+    em_hi: number;
+    em_ci: number;
+    em_pdab: number;
+    em_diab: number;
+    total_em: number;
+    total_premium: number;
+    accepted_standard_rate_for: object;
+    types: Array<IUnderwritingType>
+}

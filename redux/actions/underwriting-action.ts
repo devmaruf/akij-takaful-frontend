@@ -1,9 +1,39 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "@/utils/axios";
 import * as Types from "../types/underwriting-type";
-import { IUnderwritingRequirement, IUnderwritingType } from "../interfaces";
+import { IUnderwriting, IUnderwritingRequirement, IUnderwritingType } from "../interfaces";
+import { Toaster } from "@/components/toaster";
 
-export const getUnderwritingConfigurationsAction = (proposalId: number) => (dispatch: Dispatch) => {
+export const changeUnderwritingInputAction = (name: string, value: any, underwritingForm: IUnderwriting) => (dispatch: any) => {
+    dispatch({
+        type: Types.CHANGE_UNDERWRITING_INPUT, payload: {
+            name: name,
+            value: value,
+        }
+    });
+
+    if (name === 'em_hi' || name === 'em_ci' || name === 'em_pdab' || name === 'em_diab') {
+        const sumAtRisk = 20;
+
+        const totalAccepted: number = parseInt(underwritingForm.em_life + '') ?? 0 +
+            parseInt(underwritingForm.em_hi + '') ?? 0 +
+            parseInt(underwritingForm.em_ci + '') ?? 0 +
+            parseInt(underwritingForm.em_pdab + '') ?? 0 +
+            parseInt(underwritingForm.em_diab + '') ?? 0;
+
+        // (((2.03+2.03)*xxx%)*Sum at risk)/1000
+        const totalEm = (((2.03 + 2.03) * (totalAccepted / 100)) * sumAtRisk) / 1000;
+
+        dispatch({
+            type: Types.CHANGE_UNDERWRITING_INPUT, payload: {
+                name: name,
+                value: parseFloat((totalEm + '')).toFixed(3),
+            }
+        });
+    }
+};
+
+export const getUnderwritingByProposalAction = (proposalId: number) => (dispatch: Dispatch) => {
     if (isNaN(parseInt(proposalId + ''))) {
         return;
     }
@@ -22,12 +52,12 @@ export const getUnderwritingConfigurationsAction = (proposalId: number) => (disp
             response.status = true;
             response.message = res.message;
             response.data = res.data;
+            res.data.accepted_standard_rate_for = JSON.parse(res.data.accepted_standard_rate_for);
             dispatch({ type: Types.GET_UNDERWRITING_CONFIGURATIONS, payload: response });
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.GET_UNDERWRITING_CONFIGURATIONS, payload: response })
         })
-
 }
 
 export const setUnderwritingConfigurationsAction = (
@@ -35,7 +65,7 @@ export const setUnderwritingConfigurationsAction = (
     inputRequirement: IUnderwritingRequirement,
     e: any,
     inputConfigurations: Array<IUnderwritingType>
-) => (dispatch) => {
+) => (dispatch: Dispatch) => {
     let value: any;
     const configurations: IUnderwritingType[] = [];
 
@@ -46,7 +76,7 @@ export const setUnderwritingConfigurationsAction = (
     }
 
     inputConfigurations.forEach((previousType: IUnderwritingType) => {
-        let currentType = {...previousType};
+        let currentType = { ...previousType };
         currentType.requirements = [];
 
         if (currentType.code === inputType.code) {
@@ -69,4 +99,42 @@ export const setUnderwritingConfigurationsAction = (
     });
 
     dispatch({ type: Types.SET_UNDERWRITING_CONFIGURATION_VALUE, payload: configurations });
+}
+
+export const submitUnderwritingAction = (underwriting: IUnderwriting, router: any) => (dispatch: Dispatch) => {
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        isApproving: true,
+        data: [],
+    };
+
+    dispatch({ type: Types.SAVE_UNDERWRITING, payload: response });
+
+    underwriting = {
+        ...underwriting,
+        em_life: underwriting.em_life === '' ? 0 : parseInt(underwriting.em_life ?? ''),
+        em_hi: underwriting.em_hi === '' ? 0 : parseInt(underwriting.em_hi ?? ''),
+        em_ci: underwriting.em_ci === '' ? 0 : parseInt(underwriting.em_ci ?? ''),
+        em_pdab: underwriting.em_pdab === '' ? 0 : parseInt(underwriting.em_pdab ?? ''),
+        em_diab: underwriting.em_diab === '' ? 0 : parseInt(underwriting.em_diab ?? ''),
+        total_em: underwriting.total_em === '' ? 0 : parseInt(underwriting.total_em ?? ''),
+        total_premium: underwriting.total_premium === '' ? 0 : parseInt(underwriting.total_premium ?? ''),
+    }
+
+    axios.post(`/underwritings`, underwriting)
+        .then((res) => {
+            response.isLoading = false;
+            response.isApproving = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data;
+            Toaster('success', res.message);
+            dispatch({ type: Types.SAVE_UNDERWRITING, payload: response });
+            router.push('/proposals');
+        }).catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.SAVE_UNDERWRITING, payload: response })
+        })
 }

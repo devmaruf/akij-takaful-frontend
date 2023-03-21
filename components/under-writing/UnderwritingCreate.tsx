@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Label, ToggleSwitch } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
@@ -6,37 +7,34 @@ import { Dispatch } from '@reduxjs/toolkit';
 import Input from '@/components/input';
 import Button from '@/components/button';
 import { RootState } from '@/redux/store';
-import { getUnderwritingConfigurationsAction, setUnderwritingConfigurationsAction } from '@/redux/actions/underwriting-action';
+import { changeUnderwritingInputAction, getUnderwritingByProposalAction, setUnderwritingConfigurationsAction, submitUnderwritingAction } from '@/redux/actions/underwriting-action';
 import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { IUnderwritingRequirement, IUnderwritingType } from '@/redux/interfaces';
+import { CustomUnderwritingMessage } from './CustomMessage';
 
 export function UnderwritingCreate({ id }: { id: number }) {
+    const router = useRouter();
     const dispatch: Dispatch = useDispatch();
-    const { isLoading, configurations } = useSelector((state: RootState) => state.underwriting);
-    const [acceptedStandardRateFor, setAcceptedStandardRateFor] = useState({
-        hi: '0',
-        ci: '0',
-        pdab: '0',
-        diab: '0',
-    });
-    const [acceptedEm, setAcceptedEm] = useState({
-        em_life: '',
-        em_hi: '',
-        em_ci: '',
-        em_pdab: '',
-        em_diab: '',
-        em_total: '',
-        em_total_preimum: '',
-    });
-
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const { isLoading, underwritingForm, isApproving } = useSelector((state: RootState) => state.underwriting);
     useEffect(() => {
-        dispatch(getUnderwritingConfigurationsAction(id));
+        dispatch(getUnderwritingByProposalAction(id));
     }, [dispatch, id]);
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: any, status: string = 'approved') => {
         e.preventDefault();
+
+        if (status === 'custom_message') {
+            setShowModal(true);
+        } else {
+            const formSubmitData = {
+                ...underwritingForm,
+                status,
+            }
+            dispatch(submitUnderwritingAction(formSubmitData, router, underwritingForm));
+        }
     }
 
     const needsNewLineInput = (type: IUnderwritingType): boolean => {
@@ -48,50 +46,19 @@ export function UnderwritingCreate({ id }: { id: number }) {
         requirement: IUnderwritingRequirement,
         e: any
     ) => {
-        dispatch(setUnderwritingConfigurationsAction(type, requirement, e, configurations));
+        dispatch(setUnderwritingConfigurationsAction(type, requirement, e, underwritingForm.types));
     }
 
-    const changeAcceptedStandardRateFor = (name: string, value: any) => {
-        const acceptedStandardRateForUpdate = {
-            ...acceptedStandardRateFor
-        };
-
-        acceptedStandardRateForUpdate[name] = value;
-
-        setAcceptedStandardRateFor(acceptedStandardRateForUpdate);
+    const changeUnderwritingInput = (name: string, value: any) => {
+        dispatch(changeUnderwritingInputAction(name, value, underwritingForm));
     }
 
-    const changeAcceptedEm = (name: string, value: any) => {
-        let acceptedEmUpdated = {
-            ...acceptedEm
+    const changeUnderwritingInputSub = (parentName: string, name: string, value: any) => {
+        const parentInputData = {
+            ...underwritingForm[parentName],
         };
-
-        acceptedEmUpdated[name] = value;
-
-        acceptedEmUpdated = getAcceptedEmUpdatedTotal(acceptedEmUpdated);
-
-        setAcceptedEm(acceptedEmUpdated);
-    }
-
-    const getAcceptedEmUpdatedTotal = (acceptedEmValue: any) => {
-        const acceptedEmUpdated = {
-            ...acceptedEmValue
-        };
-
-        const sumAtRisk = 20;
-
-        const totalAccepted: number = parseInt(acceptedEm.em_life) ?? 0 +
-            parseInt(acceptedEm.em_hi) ?? 0 +
-            parseInt(acceptedEm.em_ci) ?? 0 +
-            parseInt(acceptedEm.em_pdab) ?? 0 +
-            parseInt(acceptedEm.em_diab) ?? 0;
-
-        // (((2.03+2.03)*xxx%)*Sum at risk)/1000
-        const totalEm = (((2.03 + 2.03) * (totalAccepted / 100)) * sumAtRisk) / 1000;
-
-        acceptedEmUpdated['em_total'] = parseFloat((totalEm + '')).toFixed(2);
-
-        return acceptedEmUpdated;
+        parentInputData[name] = value;
+        changeUnderwritingInput(parentName, parentInputData);
     }
 
     return (
@@ -101,15 +68,21 @@ export function UnderwritingCreate({ id }: { id: number }) {
                 hasSearch={false}
             />
 
+            <CustomUnderwritingMessage
+                showModal={showModal}
+                setShowModal={(value) => setShowModal(value)}
+                onSubmit={(e) => onSubmit(e, "add")}
+            />
+
             <PageContent>
                 {
                     isLoading ?
                         <Loading loadingTitle="Requirement and Documents" />
                         :
                         <form method="post" autoComplete="off">
-
                             {
-                                configurations.map((type: IUnderwritingType) => (
+                                underwritingForm !== undefined &&
+                                underwritingForm.types.map((type: IUnderwritingType) => (
                                     <div key={type.id} className='mb-3'>
                                         <h2 className='font-bold my-2'>{type.name_en}</h2>
 
@@ -161,53 +134,53 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                             {
                                                                 requirement.code === 'accepted_standard_rate_for' &&
                                                                 <div className='pl-0 md:pl-7'>
-                                                                    <div className="flex items-center mb-4" key={requirement.id}>
+                                                                    <div className="flex items-center mb-4" key={`default-checkbox-${requirement.id}-hi`}>
                                                                         <input
                                                                             id={`default-checkbox-${requirement.id}-hi`}
                                                                             type="checkbox"
                                                                             value=""
                                                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                                            onChange={(e) => changeAcceptedStandardRateFor('hi', e.target.checked ? 1 : 0)}
-                                                                            checked={parseInt(acceptedStandardRateFor.hi) === 1}
+                                                                            onChange={(e) => changeUnderwritingInputSub('accepted_standard_rate_for', 'hi', e.target.checked ? 1 : 0)}
+                                                                            checked={parseInt(underwritingForm.accepted_standard_rate_for?.hi) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-hi`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                                             HI
                                                                         </label>
                                                                     </div>
-                                                                    <div className="flex items-center mb-4" key={requirement.id}>
+                                                                    <div className="flex items-center mb-4" key={`default-checkbox-${requirement.id}-ci`}>
                                                                         <input
                                                                             id={`default-checkbox-${requirement.id}-ci`}
                                                                             type="checkbox"
                                                                             value=""
                                                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                                            onChange={(e) => changeAcceptedStandardRateFor('ci', e.target.checked ? 1 : 0)}
-                                                                            checked={parseInt(acceptedStandardRateFor.ci) === 1}
+                                                                            onChange={(e) => changeUnderwritingInputSub('accepted_standard_rate_for', 'ci', e.target.checked ? 1 : 0)}
+                                                                            checked={parseInt(underwritingForm.accepted_standard_rate_for?.ci) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-ci`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                                             CI
                                                                         </label>
                                                                     </div>
-                                                                    <div className="flex items-center mb-4" key={requirement.id}>
+                                                                    <div className="flex items-center mb-4" key={`default-checkbox-${requirement.id}-pdab`}>
                                                                         <input
                                                                             id={`default-checkbox-${requirement.id}-pdab`}
                                                                             type="checkbox"
                                                                             value=""
                                                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                                            onChange={(e) => changeAcceptedStandardRateFor('pdab', e.target.checked ? 1 : 0)}
-                                                                            checked={parseInt(acceptedStandardRateFor.pdab) === 1}
+                                                                            onChange={(e) => changeUnderwritingInputSub('accepted_standard_rate_for', 'pdab', e.target.checked ? 1 : 0)}
+                                                                            checked={parseInt(underwritingForm.accepted_standard_rate_for?.pdab) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-pdab`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                                             PDAB
                                                                         </label>
                                                                     </div>
-                                                                    <div className="flex items-center mb-4" key={requirement.id}>
+                                                                    <div className="flex items-center mb-4" key={`default-checkbox-${requirement.id}-diab`}>
                                                                         <input
                                                                             id={`default-checkbox-${requirement.id}-diab`}
                                                                             type="checkbox"
                                                                             value=""
                                                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                                            onChange={(e) => changeAcceptedStandardRateFor('diab', e.target.checked ? 1 : 0)}
-                                                                            checked={parseInt(acceptedStandardRateFor.diab) === 1}
+                                                                            onChange={(e) => changeUnderwritingInputSub('accepted_standard_rate_for', 'diab', e.target.checked ? 1 : 0)}
+                                                                            checked={parseInt(underwritingForm.accepted_standard_rate_for?.diab) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-hi`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                                             DIAB
@@ -223,58 +196,58 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         label="EM for life (%)"
                                                                         name="em_life"
                                                                         placeholder='eg: 10'
-                                                                        value={acceptedEm.em_life}
+                                                                        value={underwritingForm.em_life}
                                                                         isRequired={true}
-                                                                        inputChange={changeAcceptedEm}
+                                                                        inputChange={changeUnderwritingInput}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="EM for HI (%)"
                                                                         name="em_hi"
                                                                         placeholder='eg: 10'
-                                                                        value={acceptedEm.em_hi}
+                                                                        value={underwritingForm.em_hi}
                                                                         isRequired={true}
-                                                                        inputChange={changeAcceptedEm}
+                                                                        inputChange={changeUnderwritingInput}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="EM for CI (%)"
                                                                         name="em_ci"
                                                                         placeholder='eg: 20'
-                                                                        value={acceptedEm.em_ci}
+                                                                        value={underwritingForm.em_ci}
                                                                         isRequired={true}
-                                                                        inputChange={changeAcceptedEm}
+                                                                        inputChange={changeUnderwritingInput}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="EM for PDAB (%)"
                                                                         name="em_pdab"
                                                                         placeholder='eg: 30'
-                                                                        value={acceptedEm.em_pdab}
+                                                                        value={underwritingForm.em_pdab}
                                                                         isRequired={true}
-                                                                        inputChange={changeAcceptedEm}
+                                                                        inputChange={changeUnderwritingInput}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="EM for DIAB (%)"
                                                                         name="em_diab"
                                                                         placeholder='eg: 30'
-                                                                        value={acceptedEm.em_diab}
+                                                                        value={underwritingForm.em_diab}
                                                                         isRequired={true}
-                                                                        inputChange={changeAcceptedEm}
+                                                                        inputChange={changeUnderwritingInput}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="Total EM"
                                                                         placeholder=''
-                                                                        value={acceptedEm.em_total}
+                                                                        value={underwritingForm.total_em}
                                                                         isRequired={true}
                                                                         isDisabled={true}
                                                                     />
                                                                     <Input
                                                                         type='number'
                                                                         label="Total premium"
-                                                                        value={acceptedEm.em_total_preimum}
+                                                                        value={underwritingForm.total_premium}
                                                                         placeholder=''
                                                                         isRequired={true}
                                                                         isDisabled={true}
@@ -290,11 +263,18 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                     </div>
                                 ))
                             }
-                            <div>
+                            <div className='mt-20'>
                                 <div className="flex">
-                                    <Button title='Approve' position='text-right' customClass='mr-2' loadingTitle="Approving..." onClick={(e: any) => onSubmit(e)} loading={false} />
-                                    <Button title='Reject' position='text-right' customClass='bg-red-500 mr-2' loadingTitle="Rejecting..." onClick={(e: any) => onSubmit(e)} loading={false} />
-                                    <Button title='Message to Agent' position='text-right' customClass='bg-blue-500 mr-2' loadingTitle="Messaging..." onClick={(e: any) => onSubmit(e)} loading={false} />
+                                    <Button
+                                        title='Approve'
+                                        position='text-right'
+                                        customClass='mr-2'
+                                        loadingTitle="Approving..."
+                                        onClick={(e: any) => onSubmit(e, 'approve')}
+                                        loading={isApproving}
+                                    />
+                                    <Button title='Reject' position='text-right' customClass='bg-red-500 mr-2' loadingTitle="Rejecting..." onClick={(e: any) => onSubmit(e, 'reject')} loading={false} />
+                                    <Button title='Message to Agent' position='text-right' customClass='bg-blue-500 mr-2' loadingTitle="Messaging..." onClick={(e: any) => onSubmit(e, 'custom_message')} loading={false} />
                                 </div>
                             </div>
                         </form>
