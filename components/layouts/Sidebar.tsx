@@ -1,12 +1,14 @@
-import { getSidebarMenuList } from "@/redux/actions/global-action";
-import { RootState } from "@/redux/store";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+
+import { getSidebarMenuList } from "@/redux/actions/global-action";
+import { RootState } from "@/redux/store";
 
 export default function Sidebar() {
-    const dispatch = useDispatch();
+    const dispatch: Dispatch = useDispatch();
     const { isOpenSidebar, sideMenuList } = useSelector((state: RootState) => state.global);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -17,7 +19,6 @@ export default function Sidebar() {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
-
 
     useEffect(() => {
         dispatch(getSidebarMenuList())

@@ -1,8 +1,9 @@
+import { Dispatch } from "@reduxjs/toolkit";
 
 import { hasPermission } from "@/utils/permission";
 import * as Types from "../types/global-type";
 
-export const handleSidebar = (isToggle: boolean = false) => (dispatch) => {
+export const handleSidebar = (isToggle: boolean = false) => (dispatch: Dispatch) => {
     dispatch({ type: Types.OPEN_SIDEBAR, payload: !isToggle });
 }
 
@@ -42,7 +43,7 @@ const getDashboardMenus = () => {
     return null;
 }
 
-export const getSidebarMenuList = () => (dispatch) => {
+export const getSidebarMenuList = () => (dispatch: Dispatch) => {
     const menuList = [
         getDashboardMenus(),
         {
@@ -116,13 +117,6 @@ export const getSidebarMenuList = () => (dispatch) => {
                     url: '/worksheets/enlistment',
                     subSubMenu: []
                 },
-                {
-                    id: 'subMenu03.3',
-                    title: 'Underwriting',
-                    icon: 'bi-newspaper',
-                    url: '/under-writing',
-                    subSubMenu: []
-                },
             ]
         },
         {
@@ -155,7 +149,6 @@ export const getSidebarMenuList = () => (dispatch) => {
             ]
         }
     ]
-
 
     dispatch({ type: Types.SIDEBAR_MENU_LIST, payload: menuList });
 }
