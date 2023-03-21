@@ -13,6 +13,21 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
 };
 
+export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
+    const proposer_nominees = proposalInput.proposer_nominees;
+
+    console.log('name :>> ', name);
+    console.log('value :>> ', value);
+    console.log('key :>> ', key);
+    console.log('index :>> ', index);
+    console.log('proposalInput :>> ', proposalInput);
+    // let data = {
+    //     name: name,
+    //     value: value,
+    // }
+    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: { data, key, index } });
+};
+
 
 export const submitProposal = (proposalInput: IProposal, router: any) => (dispatch: any) => {
     // if (proposalInput.proposal_no === "") {

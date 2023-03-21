@@ -7,11 +7,14 @@ import { isSameAddressCheck } from "@/redux/actions/proposal-action";
 import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export interface IAddressInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
+  handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
+  key1: string;
+  key2: string;
+  index?: any;
 }
 
-export function NomineeAddressInformation({ changePresentAddress, changePermanentAddress, errors }: IAddressInformation) {
+export function NomineeAddressInformation({ changePresentAddress, changePermanentAddress, errors, index, key1, key2 }: IAddressInformation) {
 
   const dispatch = useDispatch();
 
@@ -20,6 +23,11 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
   const handleCheckedSameAddress = (event, proposalInput) => {
     const isChecked = event.target.checked;
     dispatch(isSameAddressCheck(isChecked, proposalInput?.proposer_permanent_address))
+  }
+
+
+  const changeNomineeInputVal = (name: string, value: any) => {
+    handleChangeTextInput(name, value, key1, index)
   }
 
   return (
@@ -36,7 +44,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               options={divisionList}
               isSearchable={true}
               name="division_id"
-              defaultValue={proposalInput?.proposer_permanent_address.division_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_permanent_address.division_id}
               label="Division"
               placeholder="Select Division..."
               handleChangeValue={changePermanentAddress}
@@ -48,7 +56,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               isSearchable={true}
               name="district_id"
               label="District"
-              defaultValue={proposalInput?.proposer_permanent_address.district_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_permanent_address.district_id}
               placeholder="Select District..."
               handleChangeValue={changePermanentAddress}
               errors={errors}
@@ -57,7 +65,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               options={areaList}
               isSearchable={true}
               name="area_id"
-              defaultValue={proposalInput?.proposer_permanent_address.area_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_permanent_address.area_id}
               label="Area"
               placeholder="Select Area..."
               handleChangeValue={changePermanentAddress}
@@ -68,7 +76,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               label="Post Office Name"
               name="post_office_name"
               placeholder="Post Office Name"
-              value={proposalInput?.proposer_permanent_address.post_office_name}
+              value={proposalInput.proposer_nominees[index].proposer_permanent_address.post_office_name}
               isRequired={true}
               inputChange={changePermanentAddress}
               errors={errors}
@@ -78,7 +86,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               label="Street address"
               name="street_address"
               placeholder="Street address"
-              value={proposalInput?.proposer_permanent_address.street_address}
+              value={proposalInput.proposer_nominees[index].proposer_permanent_address.street_address}
               isRequired={true}
               inputChange={changePermanentAddress}
               errors={errors}
@@ -115,7 +123,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               ]}
               isSearchable={true}
               name="address_type"
-              defaultValue={proposalInput?.proposer_present_address?.address_type}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_present_address?.address_type}
               label="Address Type"
               placeholder="Address Type"
               handleChangeValue={changePresentAddress}
@@ -126,7 +134,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               isSearchable={true}
               name="division_id"
               label="Division"
-              defaultValue={proposalInput?.proposer_present_address?.division_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_present_address?.division_id}
               placeholder="Select Division..."
               handleChangeValue={changePresentAddress}
               errors={errors}
@@ -137,7 +145,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               isSearchable={true}
               name="district_id"
               label="District"
-              defaultValue={proposalInput?.proposer_present_address?.district_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_present_address?.district_id}
               placeholder="Select District..."
               handleChangeValue={changePresentAddress}
               errors={errors}
@@ -148,7 +156,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               isSearchable={true}
               name="area_id"
               label="Area"
-              defaultValue={proposalInput?.proposer_present_address?.area_id}
+              defaultValue={proposalInput.proposer_nominees[index].proposer_present_address?.area_id}
               placeholder="Select Area..."
               handleChangeValue={changePresentAddress}
               errors={errors}
@@ -158,7 +166,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               label="Post Office Name"
               name="post_office_name"
               placeholder="Post Office Name"
-              value={proposalInput?.proposer_present_address?.post_office_name}
+              value={proposalInput.proposer_nominees[index].proposer_present_address?.post_office_name}
               isRequired={true}
               isDisabled={isSameAddress}
               inputChange={changePresentAddress}
@@ -168,7 +176,7 @@ export function NomineeAddressInformation({ changePresentAddress, changePermanen
               label="Street address"
               name="street_address"
               placeholder="Street address"
-              value={proposalInput?.proposer_present_address?.street_address}
+              value={proposalInput.proposer_nominees[index].proposer_present_address?.street_address}
               isRequired={true}
               isDisabled={isSameAddress}
               inputChange={changePresentAddress}

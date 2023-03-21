@@ -98,6 +98,7 @@ export interface IProposalBasicInput {
     proposer_permanent_address: any;
     proposer_bank_information: any;
     proposer_guardian: any;
+    proposer_nominees: any[];
     status: string;
 }
 

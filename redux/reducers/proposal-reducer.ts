@@ -2,6 +2,79 @@ import { IProposal } from "../interfaces";
 import * as Types from "../types/proposal-type";
 import { generateDropdownList } from "@/utils/dropdown";
 
+const proposer_nominees = [
+    {
+        proposal_personal_information: {
+            proposal_nominee_id: null,
+            full_name: '',
+            father_name: '',
+            mother_name: '',
+            spouse_name: '',
+            email: '',
+            mobile_no: '',
+            marital_status: '',
+            identity_type: '',
+            gender: '',
+            id_no: '',
+            dob: '',
+            occupation: '',
+            relation: '',
+            height: 0,
+            height_unit: '',
+            weight: 0,
+            weight_unit: '',
+            allocation: '',
+        },
+        proposer_permanent_address: {
+            proposal_nominee_id: 1,
+            street_address: '',
+            post_office_name: '',
+            address_type: '',
+            area_id: 0,
+            area_name: '',
+            district_id: 0,
+            district_name: '',
+            division_id: 0,
+            division_name: '',
+            defaultDivision: {},
+            defaultDistrict: {},
+            defaultArea: {},
+            is_same_address: false,
+        },
+        proposer_present_address: {
+            proposal_nominee_id: null,
+            street_address: '',
+            post_office_name: '',
+            address_type: '',
+            area_id: 0,
+            area_name: '',
+            district_id: 0,
+            district_name: '',
+            division_id: 0,
+            division_name: '',
+            defaultDivision: {},
+            defaultDistrict: {},
+            defaultArea: {},
+            is_same_address: false,
+        },
+        proposer_bank_information: {
+            proposal_nominee_id: null,
+            bank_name: '',
+            bank_branch_name: '',
+            bank_account_no: '0',
+            bank_account_holder_name: '',
+        },
+        proposer_guardian: {
+            proposal_nominee_id: null,
+            name: '',
+            phone_no: '',
+            dob: '',
+            id_no: '',
+            relation: '',
+        },
+    }
+]
+
 const initialState: IProposal = {
     isLoading: false,
     isDeleting: false,
@@ -25,6 +98,7 @@ const initialState: IProposal = {
         proposer_permanent_address: {},
         proposer_bank_information: {},
         proposer_guardian: {},
+        proposer_nominees: proposer_nominees,
         status: 'creating',
     },
     proposal_personal_information: {
@@ -218,6 +292,20 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposer_bank_information,
                 proposer_guardian
             };
+
+        case Types.CHANGE_NOMINEE_INPUT:
+            const { data, key, index } = action.payload;
+            let prevProposalInputValues = { ...state.proposalInput };
+            let proposer_nominees = [...state.proposer_nominees];
+            if (key == "proposal_personal_information") {
+                proposer_nominees[index].proposal_personal_information[data.name] = data.value;
+            }
+            return {
+                ...state,
+                proposalInput: prevProposalInputValues,
+                proposer_nominees: proposer_nominees
+            };
+
         case Types.IS_SAME_ADDRESS_STATUS:
             const prevProposalInput = { ...state.proposalInput };
             // const permanentAddress = { ...state.proposer_permanent_address };
@@ -275,7 +363,7 @@ function ProposalsReducer(state = initialState, action: any) {
                     obj[key] = inputData[key];
                 }
                 if (obj[key] == null) {
-                    obj[key] = {}
+                    obj[key] = proposalPrevInput[key]
                 }
                 return obj;
             }, {});
@@ -320,16 +408,19 @@ function ProposalsReducer(state = initialState, action: any) {
                 identity_type: action.payload,
             }
         case Types.ADD_NOMINEE_FORM:
-            const newNomineeList = [...state.proposer_nominees, state.proposer_nominees[0]]
+            let proposalInputValues = { ...state.proposalInput }
+            let newNomineeList = [...proposalInputValues.proposer_nominees, proposalInputValues.proposer_nominees[0]]
+            proposalInputValues.proposer_nominees = newNomineeList;
             return {
                 ...state,
-                proposer_nominees:newNomineeList,
+                proposalInput: proposalInputValues,
             }
         case Types.REMOVE_NOMINEE_FORM:
-         
+            let getPreviousValue = { ...state.proposalInput }
+            getPreviousValue.proposer_nominees = action.payload;
             return {
                 ...state,
-                proposer_nominees:action.payload,
+                proposalInput: getPreviousValue
             }
 
         default:

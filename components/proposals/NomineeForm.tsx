@@ -7,18 +7,19 @@ import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeBankInformation } from "./NomineeBankInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
-import { addMultipleNomineeForm, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
+import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
 import { DeleteIconButton } from './../button/delete-icon-button';
+import closestIndexTo from "date-fns/closestIndexTo";
 
 export interface IPersonalInformation {
-    handleChangeTextInput: (name: string, value: any) => void;
+    // handleChangeTextInput: (name: string, value: any) => void;
     identityLabel: any;
     identityValidationMessage: any;
     disabledField: boolean;
     errors?: any;
 }
 
-export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformation) {
+export function NomineeForm({ errors }: IPersonalInformation) {
     const dispatch = useDispatch();
 
 
@@ -53,13 +54,13 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
         // dispatch(changeInputValue(name, value, "proposer_permanent_address"));
     };
 
-    const handleDelete = (index) => {
-
-    }
-
     const toggleNomineeForm = (status: boolean, index: number) => {
         setNomineeIndex(index);
         setNomineeView(status);
+    }
+
+    const handleChangeProposalNomineeInfo = (name: string, value: any, key: string, index: number) => {
+        dispatch(changeNomineeInputValue(name, value, key, index, proposalInput));
     }
 
     return (
@@ -69,7 +70,7 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
             </h3>
 
             {
-                proposer_nominees.length > 0 && proposer_nominees.map((nominee, index) => (
+                proposalInput.proposer_nominees.length > 0 && proposalInput.proposer_nominees.map((nominee: any, index: number) => (
                     <div className="p-2 5" key={index + 1}>
                         <div className="bg-slate-100 rounded-md">
                             <div className="text-white bg-cyan-600 p-2 border-b-2 border-gray-300 rounded-t-md flex items-baseline justify-between">
@@ -78,7 +79,7 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
                                 </h3>
 
                                 {
-                                    proposer_nominees.length === (index + 1) ?
+                                    proposalInput.proposer_nominees.length === (index + 1) ?
                                         <a className='text-gray-900 bg-white focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg transition text-xs text-center leading-none p-2 hover:opacity-80 flex gap-2 items-center mr-3 cursor-pointer' onClick={() => dispatch(addMultipleNomineeForm())} >
                                             Add More
                                             <i className="bi bi-plus"></i>
@@ -86,7 +87,7 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
                                         <div className="flex items-center gap-2">
                                             <DeleteIconButton
                                                 toooltipTitle={`Nominee`}
-                                                onClick={() => dispatch(removeMultipleNomineeForm(proposer_nominees, index))}
+                                                onClick={() => dispatch(removeMultipleNomineeForm(proposalInput.proposer_nominees, index))}
                                             />
                                             <Button
                                                 variant='default'
@@ -106,23 +107,32 @@ export function NomineeForm({ handleChangeTextInput, errors }: IPersonalInformat
 
                             </div>
 
-                            <div className={`p-2 ${(nomineeIndex === index && nomineeView === true || proposer_nominees.length === (index + 1)) ? 'block' : 'hidden'}`}>
+                            <div className={`p-2 ${(nomineeIndex === index && nomineeView === true || proposalInput.proposer_nominees.length === (index + 1)) ? 'block' : 'hidden'}`}>
                                 <NomineePersonalInformation
-                                    handleChangeTextInput={handleChangeTextInput}
+                                    handleChangeTextInput={handleChangeProposalNomineeInfo}
                                     errors={errors}
+                                    key="proposal_personal_information"
+                                    index={index}
                                 />
                                 <NomineeAddressInformation
                                     changePresentAddress={handleChangePresentAddressInfo}
                                     changePermanentAddress={handleChangePermanentAddressInfo}
                                     errors={errors}
+                                    key1="proposer_permanent_address"
+                                    key2="proposer_present_address"
+                                    index={index}
                                 />
                                 <NomineeBankInformation
-                                    handleChangeTextInput={handleChangeTextInput}
-                                    errors={errors}
+                                   handleChangeTextInput={handleChangeProposalNomineeInfo}
+                                   errors={errors}
+                                   key="proposer_bank_information"
+                                   index={index}
                                 />
                                 <NomineeGuardianInformation
-                                    handleChangeTextInput={handleChangeTextInput}
-                                    errors={errors}
+                                  handleChangeTextInput={handleChangeProposalNomineeInfo}
+                                  errors={errors}
+                                  key="proposer_guardian"
+                                  index={index}
                                 />
                             </div>
 

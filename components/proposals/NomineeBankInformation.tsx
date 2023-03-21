@@ -5,12 +5,17 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 
 export interface IBankInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
+  handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
+  key: string;
+  index?: any;
 }
 
-export function NomineeBankInformation({ handleChangeTextInput, errors }: IBankInformation) {
+export function NomineeBankInformation({ handleChangeTextInput, errors , index, key}: IBankInformation) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const changeNomineeInputVal = (name: string, value: any) => {
+    handleChangeTextInput(name, value, key, index)
+  }
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -22,9 +27,9 @@ export function NomineeBankInformation({ handleChangeTextInput, errors }: IBankI
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={proposalInput?.proposer_bank_information.bank_name}
+          value={proposalInput.proposer_nominees[index].proposer_bank_information.bank_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -42,9 +47,9 @@ export function NomineeBankInformation({ handleChangeTextInput, errors }: IBankI
           isSearchable={true}
           name="bank_branch_name"
           label="Branch Name"
-          defaultValue={proposalInput?.proposer_guardian.bank_branch_name}
+          defaultvalue={proposalInput.proposer_nominees[index].proposer_guardian.bank_branch_name}
           placeholder="Branch Name"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -53,9 +58,9 @@ export function NomineeBankInformation({ handleChangeTextInput, errors }: IBankI
           type="number"
           name="bank_account_no"
           placeholder="Account No"
-          value={proposalInput?.proposer_bank_information.bank_account_no}
+          value={proposalInput.proposer_nominees[index].proposer_bank_information.bank_account_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -63,9 +68,9 @@ export function NomineeBankInformation({ handleChangeTextInput, errors }: IBankI
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={proposalInput?.proposer_bank_information.bank_account_holder_name}
+          value={proposalInput.proposer_nominees[index].proposer_bank_information.bank_account_holder_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
       </div>

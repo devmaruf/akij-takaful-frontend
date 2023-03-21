@@ -69,6 +69,9 @@ export default function Create() {
   const handleChangeGuardianInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposer_guardian"));
   };
+  // const handleChangeNomineeInfo = (name: string, value: any) => {
+  //   dispatch(changeInputValue(name, value, "proposer_nominees"));
+  // };
 
   const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
     const clickedButton = e.nativeEvent.submitter.name;
@@ -134,8 +137,10 @@ export default function Create() {
                 proposalInput.proposer_bank_information !== undefined &&
                 <BankInformation handleChangeTextInput={handleChangeBankInfo} errors={errors} />
               }
-
-              <NomineeForm handleChangeTextInput={handleChangeBankInfo} errors={errors} />
+              {
+                proposalInput.proposer_nominees !== undefined &&
+                <NomineeForm errors={errors} />
+              }
 
               {
                 proposalInput.proposal_personal_information !== undefined &&

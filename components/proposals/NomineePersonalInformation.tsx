@@ -8,14 +8,16 @@ import ValidationMessage from "../validationMessage";
 import { calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
-    handleChangeTextInput: (name: string, value: any) => void;
+    handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
     identityLabel: any;
     identityValidationMessage: any;
     disabledField: boolean;
+    key: string;
+    index?: any;
     errors?: any;
 }
 
-export function NomineePersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
+export function NomineePersonalInformation({ handleChangeTextInput, errors, key, index }: IPersonalInformation) {
 
     const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
@@ -36,7 +38,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                 status: status
             })
         }
-    }, [height, weight, dob, age])
+    }, [height, weight, dob, age]);
+
+    const changeNomineeInputVal = (name:string, value: any) => {
+        handleChangeTextInput(name, value, key, index)
+    }
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -48,54 +54,55 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     label="Full Name"
                     name="full_name"
                     placeholder="Full Name"
-                    // value={proposalInput?.proposal_personal_information.full_name}
+                    value={proposalInput.proposer_nominees[index].proposal_personal_information.full_name}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Father Name"
                     name="father_name"
                     placeholder="Father Name"
-                    value={proposalInput?.proposal_personal_information.father_name}
+                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.father_name}
+                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.father_name}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Mother Name"
                     name="mother_name"
                     placeholder="Mother Name"
-                    value={proposalInput?.proposal_personal_information.mother_name}
+                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.mother_name}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Spouse Name"
                     name="spouse_name"
                     placeholder="Spouse Name"
-                    value={proposalInput?.proposal_personal_information.spouse_name}
+                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.spouse_name}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Email Address"
                     name="email"
                     placeholder="Email Address"
-                    value={proposalInput?.proposal_personal_information.email}
+                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.email}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Mobile No"
                     name="mobile_no"
                     placeholder="Mobile No"
-                    value={proposalInput?.proposal_personal_information.mobile_no}
+                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.mobile_no}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Select
@@ -104,9 +111,9 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     isRequired={true}
                     label="Marital Status"
                     name="marital_status"
-                    defaultValue={proposalInput?.proposal_personal_information.marital_status}
+                  //  defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.marital_status}
                     placeholder="Marital Status"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
 
@@ -114,10 +121,10 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     options={identityTypeList}
                     isSearchable={true}
                     name="identity_type"
-                    defaultValue={proposalInput?.proposal_personal_information.identity_type}
+                    //defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.identity_type}
                     label="Identity Type"
                     placeholder="Identity Type"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
 
@@ -127,11 +134,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                         name="id_no"
                         placeholder={identity_type.label}
                         isDisabled={identity_type.isDisabledField}
-                        value={proposalInput?.proposal_personal_information.id_no}
+                       // value={proposalInput.proposer_nominees[index].proposal_personal_information.id_no}
                         isRequired={true}
                         minValue={identity_type.minLength}
                         maxValue={identity_type.maxLength}
-                        inputChange={handleChangeTextInput}
+                        inputChange={changeNomineeInputVal}
                         errors={errors}
                     />
                     <ValidationMessage message={identity_type.message} />
@@ -142,9 +149,9 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     isRequired={true}
                     name="gender"
                     label="Gender"
-                    defaultValue={proposalInput?.proposal_personal_information.gender}
+                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.gender}
                     placeholder="Gender"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
 
@@ -153,18 +160,18 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     name="dob"
                     placeholder="Date of Birth"
                     type="date"
-                    value={proposalInput?.proposal_personal_information.dob}
+                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.dob}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Occupation"
                     name="occupation"
                     placeholder="Occupation"
-                    value={proposalInput?.proposal_personal_information.occupation}
+                 //   value={proposalInput.proposer_nominees[index].proposal_personal_information.occupation}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
 
@@ -173,18 +180,18 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     isSearchable={true}
                     name="religion"
                     label="Religion"
-                    defaultValue={proposalInput?.proposal_personal_information.religion}
+                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.religion}
                     placeholder="Select Religion"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Height"
                     name="height"
                     placeholder="Height"
-                    value={proposalInput?.proposal_personal_information.height}
+                   // value={proposalInput.proposer_nominees[index].proposal_personal_information.height}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Select
@@ -200,19 +207,19 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     ]}
                     isSearchable={true}
                     name="height_unit"
-                    defaultValue={proposalInput?.proposal_personal_information.height_unit}
+                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.height_unit}
                     label="Height Unit"
                     placeholder="Height Unit"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
                     label="Weight"
                     name="weight"
                     placeholder="Weight"
-                    value={proposalInput?.proposal_personal_information.weight}
+                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.weight}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                 />
                 <Select
                     options={[
@@ -228,9 +235,9 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     isSearchable={true}
                     name="weight_unit"
                     label="Weight Unit"
-                    defaultValue={proposalInput?.proposal_personal_information.weight_unit}
+                 //   defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.weight_unit}
                     placeholder="Weight Unit"
-                    handleChangeValue={handleChangeTextInput}
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
                 <Input
@@ -239,7 +246,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     placeholder="Body Mass Index(BMI)"
                     value={BMI.bmi}
                     isRequired={false}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                     isDisabled={true}
                 />
@@ -247,9 +254,9 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors }: IP
                     label="Allocation"
                     name="allocation"
                     placeholder="Allocation"
-                    value={proposalInput?.proposal_personal_information.allocation}
+                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.allocation}
                     isRequired={true}
-                    inputChange={handleChangeTextInput}
+                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
             </div>

@@ -5,13 +5,18 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { relationList } from "@/utils/proposal-dropdowns";
 export interface IGuardianInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
+  handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
+  key: string;
+  index?: any;
 }
 
-export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IGuardianInformation) {
+export function NomineeGuardianInformation({ handleChangeTextInput, errors, index, key }: IGuardianInformation) {
 
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const changeNomineeInputVal = (name: string, value: any) => {
+    handleChangeTextInput(name, value, key, index)
+  }
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -23,9 +28,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           label="Guardian Name"
           name="name"
           placeholder="Guardian Name"
-          value={proposalInput?.proposer_guardian.name}
+          value={proposalInput.proposer_nominees[index].proposer_guardian.name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -33,9 +38,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           label="Mobile No"
           name="phone_no"
           placeholder="Mobile No"
-          value={proposalInput?.proposer_guardian.phone_no}
+          value={proposalInput.proposer_nominees[index].proposer_guardian.phone_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -44,9 +49,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           name="dob"
           type="date"
           placeholder="Date of Birth"
-          value={proposalInput?.proposer_guardian.dob}
+          value={proposalInput.proposer_nominees[index].proposer_guardian.dob}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -54,9 +59,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           label="ID No"
           name="id_no"
           placeholder="ID No"
-          value={proposalInput?.proposer_guardian.id_no}
+          value={proposalInput.proposer_nominees[index].proposer_guardian.id_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
           errors={errors}
         />
 
@@ -64,9 +69,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput?.proposer_guardian.relation}
+          value={proposalInput.proposer_nominees[index].proposer_guardian.relation}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={changeNomineeInputVal}
         /> */}
         <Select
           options={relationList}
@@ -74,9 +79,9 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors }: IG
           name="relation"
           label="Relation"
           isRequired={true}
-          defaultValue={proposalInput?.proposer_guardian.relation}
+          defaultvalue={proposalInput.proposer_nominees[index].proposer_guardian.relation}
           placeholder="Select Relation"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={changeNomineeInputVal}
           errors={errors}
         />
       </div>
