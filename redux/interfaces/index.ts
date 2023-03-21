@@ -219,3 +219,22 @@ export interface IStamp {
     isSubmitting: boolean;
     stampForm: IStampForm;
 }
+
+export interface IUnderwritingRequirement {
+    id: number
+    code: string;
+    requirement_name_en: string;
+    requirement_name_bn: string;
+    type_id: number
+    input_type: string;
+    value: any;
+}
+
+export interface IUnderwritingType {
+    id: number;
+    name_en: string;
+    name_bn: string;
+    code: string;
+    priority: number;
+    requirements: Array<IUnderwritingRequirement>
+}

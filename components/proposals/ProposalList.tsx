@@ -11,13 +11,13 @@ import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import ProposalStatus from '@/components/proposals/ProposalStatus';
-import { EditIconButtonTooltip } from '@/components/button/edit-icon-button';
-import { DeleteIconButtonTooltip } from '@/components/button/delete-icon-button';
-import { ViewIconButtonTooltip } from '@/components/button/view-icon-button';
 import { formatCurrency } from '@/utils/currency';
+import { Dropdown } from 'flowbite-react';
+import { useRouter } from 'next/router';
 
 export default function ProposalList() {
     const dispatch = useDispatch();
+    const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
     const [proposalID, setProposal] = useState<number | null>(null);
@@ -113,18 +113,28 @@ export default function ProposalList() {
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
-                                            <ViewIconButtonTooltip
-                                                toooltipTitle={`View Proposal No - ${data.proposal_no}`}
-                                                onClick={() => showProposalDetails(data.id)}
-                                            />
-                                            <EditIconButtonTooltip
-                                                toooltipTitle={`Edit Proposal No - ${data.proposal_no}`}
-                                                href={`/proposals/enlistment?id=${data.id}`}
-                                            />
-                                            <DeleteIconButtonTooltip
-                                                toooltipTitle={`Delete Proposal No - ${data.proposal_no}`}
-                                                onClick={() => handleDeleteProposal(data.id)}
-                                            />
+                                            <Dropdown
+                                                label={
+                                                    <div className='mt-2'>
+                                                        <i className="bi bi-three-dots-vertical hover:text-blue-500"></i>
+                                                    </div>
+                                                }
+                                                inline={true}
+                                                arrowIcon={false}
+                                            >
+                                                <Dropdown.Item onClick={() => showProposalDetails(data.id)}>
+                                                    <i className='bi bi-eye mr-4'></i> View
+                                                </Dropdown.Item>
+                                                <Dropdown.Item onClick={() => router.push(`/proposals/enlistment?id=${data.id}`)}>
+                                                    <i className='bi bi-pencil mr-4'></i> Edit
+                                                </Dropdown.Item>
+                                                <Dropdown.Item onClick={() => router.push(`/under-writing?id=${data.id}`)}>
+                                                    <i className='bi bi-send mr-4'></i> Underwriting
+                                                </Dropdown.Item>
+                                                <Dropdown.Item onClick={() => handleDeleteProposal(data.id)}>
+                                                    <i className='bi bi-trash mr-4'></i> Delete
+                                                </Dropdown.Item>
+                                            </Dropdown>
                                         </td>
                                     </tr>
                                 ))

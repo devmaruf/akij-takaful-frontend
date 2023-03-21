@@ -14,6 +14,12 @@ export default function UnderwritingReducer(state = initialState, action: any) {
                 configurations: action.payload.data,
             };
 
+        case Types.SET_UNDERWRITING_CONFIGURATION_VALUE:
+            return {
+                ...state,
+                configurations: action.payload,
+            };
+
         default:
             break;
     }
