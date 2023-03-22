@@ -46,13 +46,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
         }
     }, [height, weight, dob, age])
 
-    const handleChangePresentAddressInfo = (name: string, value: any) => {
-        // dispatch(changeInputValue(name, value, "proposer_present_address"));
-    };
-    const handleChangePermanentAddressInfo = (name: string, value: any) => {
-        // dispatch(changeInputValue(name, value, "proposer_permanent_address"));
-    };
-
     const toggleNomineeForm = (status: boolean, index: number) => {
         setNomineeIndex(index);
         setNomineeView(status);
@@ -64,9 +57,20 @@ export function NomineeForm({ errors }: IPersonalInformation) {
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
-            <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
-                Nominee Information
-            </h3>
+            <div className="flex items-baseline justify-between bg-slate-100 p-2">
+                <h3 className="text-cyan-600 mb-3 text-2xl">
+                    Nominee Information
+                </h3>
+                <Button
+                    variant='primary'
+                    customClass="p-1 rounded-md inline mr-1"
+                    onClick={() => dispatch(addMultipleNomineeForm())}
+                >
+                    Add More
+                    <i className="bi bi-plus"></i>
+
+                </Button>
+            </div>
 
             {
                 proposalInput.proposer_nominees.length > 0 && proposalInput.proposer_nominees.map((nominee: any, index: number) => (
@@ -76,31 +80,28 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                 <h3 className="text-md ml-3">
                                     Nominee - {index + 1}
                                 </h3>
-
                                 {
-                                    proposalInput.proposer_nominees.length === (index + 1) ?
-                                        <a className='text-gray-900 bg-white focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg transition text-xs text-center leading-none p-2 hover:opacity-80 flex gap-2 items-center mr-3 cursor-pointer' onClick={() => dispatch(addMultipleNomineeForm())} >
-                                            Add More
-                                            <i className="bi bi-plus"></i>
-                                        </a> :
-                                        <div className="flex items-center gap-2">
-                                            <DeleteIconButton
-                                                toooltipTitle={`Nominee`}
-                                                onClick={() => dispatch(removeMultipleNomineeForm(proposalInput.proposer_nominees, index))}
-                                            />
-                                            <Button
-                                                variant='default'
-                                                customClass="p-1 rounded-md inline mr-1"
-                                                onClick={() => toggleNomineeForm(!nomineeView, index)}
-                                            >
-                                                {
-                                                    (nomineeIndex === index && nomineeView === true) ?
-                                                        <i className="bi bi-chevron-up"></i> :
-                                                        <i className="bi bi-chevron-down"></i>
-                                                }
+                                    proposalInput.proposer_nominees.length > 1 &&
+                                    <div className="flex items-center gap-2">
 
-                                            </Button>
-                                        </div>
+                                        <DeleteIconButton
+                                            toooltipTitle={`Nominee`}
+                                            onClick={() => dispatch(removeMultipleNomineeForm(proposalInput.proposer_nominees, index))}
+                                        />
+
+                                        <Button
+                                            variant='default'
+                                            customClass="p-1 rounded-md inline mr-1"
+                                            onClick={() => toggleNomineeForm(!nomineeView, index)}
+                                        >
+                                            {
+                                                (nomineeIndex === index && nomineeView === true) ?
+                                                    <i className="bi bi-chevron-up"></i> :
+                                                    <i className="bi bi-chevron-down"></i>
+                                            }
+
+                                        </Button>
+                                    </div>
                                 }
                             </div>
 
@@ -113,24 +114,25 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                     data={nominee.proposal_personal_information}
                                 />
                                 <NomineeAddressInformation
-                                    changePresentAddress={handleChangePresentAddressInfo}
-                                    changePermanentAddress={handleChangePermanentAddressInfo}
+                                    handleChangeTextInput={handleChangeProposalNomineeInfo}
                                     errors={errors}
-                                    key1="proposer_permanent_address"
-                                    key2="proposer_present_address"
                                     index={index}
+                                    ids={{
+                                        permanent: "proposer_permanent_address",
+                                        present: "proposer_present_address"
+                                    }}
+                                    data={{
+                                        permanent: nominee.proposer_permanent_address,
+                                        present: nominee.proposer_present_address
+                                    }}
                                 />
-                                <NomineeBankInformation
-                                   handleChangeTextInput={handleChangeProposalNomineeInfo}
-                                   errors={errors}
-                                   key="proposer_bank_information"
-                                   index={index}
-                                />
+
                                 <NomineeGuardianInformation
-                                  handleChangeTextInput={handleChangeProposalNomineeInfo}
-                                  errors={errors}
-                                  key="proposer_guardian"
-                                  index={index}
+                                    handleChangeTextInput={handleChangeProposalNomineeInfo}
+                                    errors={errors}
+                                    id="proposer_guardian"
+                                    index={index}
+                                    data={nominee.proposer_guardian}
                                 />
                             </div>
 

@@ -7,16 +7,17 @@ import { relationList } from "@/utils/proposal-dropdowns";
 export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
-  key: string;
+  id: string;
   index?: any;
+  data: any;
 }
 
-export function NomineeGuardianInformation({ handleChangeTextInput, errors, index, key }: IGuardianInformation) {
+export function NomineeGuardianInformation({ handleChangeTextInput, errors, index, id, data }: IGuardianInformation) {
 
-  const { proposalInput } = useSelector((state: RootState) => state.proposal);
   const changeNomineeInputVal = (name: string, value: any) => {
-    handleChangeTextInput(name, value, key, index)
+    handleChangeTextInput(name, value, id, index)
   }
+
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -28,7 +29,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           label="Guardian Name"
           name="name"
           placeholder="Guardian Name"
-          value={proposalInput.proposer_nominees[index].proposer_guardian.name}
+          value={data.name}
           isRequired={true}
           inputChange={changeNomineeInputVal}
           errors={errors}
@@ -38,7 +39,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           label="Mobile No"
           name="phone_no"
           placeholder="Mobile No"
-          value={proposalInput.proposer_nominees[index].proposer_guardian.phone_no}
+          value={data.phone_no}
           isRequired={true}
           inputChange={changeNomineeInputVal}
           errors={errors}
@@ -49,7 +50,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           name="dob"
           type="date"
           placeholder="Date of Birth"
-          value={proposalInput.proposer_nominees[index].proposer_guardian.dob}
+          value={data.dob}
           isRequired={true}
           inputChange={changeNomineeInputVal}
           errors={errors}
@@ -59,7 +60,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           label="ID No"
           name="id_no"
           placeholder="ID No"
-          value={proposalInput.proposer_nominees[index].proposer_guardian.id_no}
+          value={data.id_no}
           isRequired={true}
           inputChange={changeNomineeInputVal}
           errors={errors}
@@ -69,7 +70,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput.proposer_nominees[index].proposer_guardian.relation}
+          value={data.relation}
           isRequired={true}
           inputChange={changeNomineeInputVal}
         /> */}
@@ -79,7 +80,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           name="relation"
           label="Relation"
           isRequired={true}
-          defaultvalue={proposalInput.proposer_nominees[index].proposer_guardian.relation}
+          defaultValue={data.relation}
           placeholder="Select Relation"
           handleChangeValue={changeNomineeInputVal}
           errors={errors}

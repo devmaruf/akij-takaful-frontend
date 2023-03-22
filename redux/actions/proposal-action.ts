@@ -390,6 +390,8 @@ export const addMultipleNomineeForm = () => (dispatch) => {
 }
 
 export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => (dispatch) => {
-    const newNomineeList = nomineeList.slice(0, index).concat(nomineeList.slice(index + 1));
-    dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });
+    if (nomineeList.length > 1) {
+        const newNomineeList = nomineeList.slice(0, index).concat(nomineeList.slice(index + 1));
+        dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });
+    }
 }
