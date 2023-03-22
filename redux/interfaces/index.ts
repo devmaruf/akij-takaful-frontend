@@ -207,8 +207,10 @@ export interface IRole {
 }
 
 export interface IStampForm {
-    project_id: number;
     proposal_id: number;
+    project_id: number;
+    branch_id: number;
+    proposal_no: string;
     stamps: Array<object>;
 }
 
@@ -217,6 +219,7 @@ export interface IStamp {
     stampList: any[];
     stampPaginationData: any[];
     isSubmitting: boolean;
+    isSearching: boolean;
     stampForm: IStampForm;
 }
 

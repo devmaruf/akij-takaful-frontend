@@ -1,7 +1,10 @@
-import StampCreate from "@/components/stamps/create";
+import StampForm from "@/components/stamps/StampForm";
 
-export default function StampsPage() {
+export default function StampCreatePage() {
     return (
-        <StampCreate />
+        <StampForm
+            id={0}
+            pageType="create"
+        />
     );
 }

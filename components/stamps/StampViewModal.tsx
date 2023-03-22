@@ -17,8 +17,8 @@ export default function StampViewModal({ showModal, setShowModal, stamp }: IStam
                         <table className="w-full">
                             <thead className="bg-gray-100 p-3">
                                 <tr>
-                                    <td className='p-2'>Name</td>
-                                    <td className='p-2'>Value</td>
+                                    <td className='p-2'>Stamp name</td>
+                                    <td className='p-2'>Stamp value</td>
                                 </tr>
                             </thead>
                             <tbody>

@@ -131,6 +131,9 @@ export default function ProposalList() {
                                                 <Dropdown.Item onClick={() => router.push(`/under-writing?id=${data.id}`)}>
                                                     <i className='bi bi-send mr-4'></i> Underwriting
                                                 </Dropdown.Item>
+                                                <Dropdown.Item onClick={() => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`)}>
+                                                    <i className='bi bi-person-fill-add mr-4'></i> Stamps
+                                                </Dropdown.Item>
                                                 <Dropdown.Item onClick={() => handleDeleteProposal(data.id)}>
                                                     <i className='bi bi-trash mr-4'></i> Delete
                                                 </Dropdown.Item>
