@@ -395,3 +395,48 @@ export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => 
         dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });
     }
 }
+
+export const isNomineeSameAddressCheck = (status: boolean, permanentAddress: any, index: number, proposalInput: any) => (dispatch: Dispatch) => {
+    let defaultDivision;
+    let defaultDistrict;
+    let defaultArea;
+
+    if (status === true) {
+        if (!permanentAddress.division_id || !permanentAddress.district_id || !permanentAddress.area_id || !permanentAddress.post_office_name || !permanentAddress.street_address) {
+            status = false;
+            Toaster('error', "Please at first fill up your nominee permanent address before checked it.");
+        } else {
+            status = true;
+            defaultDivision = getDefaultSelectValue(divisionList, permanentAddress.division_id);
+            defaultDistrict = getDefaultSelectValue(districtList, permanentAddress.district_id)
+            defaultArea = getDefaultSelectValue(areaList, permanentAddress.area_id);
+        }
+    }
+
+
+    let proposalInputUpdated = {
+        ...proposalInput,
+        proposer_nominees: [],
+    };
+
+    const permanentAddressInfo = {
+        ...permanentAddress,
+        defaultDivision: defaultDivision,
+        defaultDistrict: defaultDistrict,
+        defaultArea: defaultArea,
+    }
+
+    proposalInput.proposer_nominees.forEach((nominee: any, previousIndex: number) => {
+        if (index === previousIndex) {
+            const nomineeUpdated = {
+                ...nominee,
+                proposer_present_address: permanentAddressInfo
+            };
+            proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
+        } else {
+            proposalInputUpdated.proposer_nominees.push(nominee);
+        }
+    });
+
+    dispatch({ type: Types.IS_NOMINEE_SAME_ADDRESS, payload: { proposalInputUpdated, status } });
+}

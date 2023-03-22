@@ -86,6 +86,7 @@ const initialState: IProposal = {
     planDropdownList: [],
     proposalDetails: {},
     isSameAddress: false,
+    isNomineeSameAddress: false,
     proposalInput: {
         project_id: 0,
         branch_id: 0,
@@ -222,16 +223,15 @@ function ProposalsReducer(state = initialState, action: any) {
             };
 
         case Types.CHANGE_NOMINEE_INPUT:
-            // const { data, key, index } = action.payload;
-            // let prevProposalInputValues = { ...state.proposalInput };
-            // let proposer_nominees = [...state.proposer_nominees];
-            // if (key == "proposal_personal_information") {
-            //     proposer_nominees[index].proposal_personal_information[data.name] = data.value;
-            // }
             return {
                 ...state,
                 proposalInput: action.payload,
-                // proposer_nominees: proposer_nominees
+            };
+        case Types.IS_NOMINEE_SAME_ADDRESS:
+            return {
+                ...state,
+                proposalInput: action.payload.proposalInputUpdated,
+                isNomineeSameAddress: action.payload.status,
             };
 
         case Types.IS_SAME_ADDRESS_STATUS:

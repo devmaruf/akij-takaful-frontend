@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { isSameAddressCheck } from "@/redux/actions/proposal-action";
+import { isNomineeSameAddressCheck } from "@/redux/actions/proposal-action";
 import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export interface IAddressInformation {
@@ -15,25 +15,28 @@ export interface IAddressInformation {
   data: any;
 }
 
-export function NomineeAddressInformation({  handleChangeTextInput, errors, index, ids, data }: IAddressInformation) {
+export function NomineeAddressInformation({ handleChangeTextInput, errors, index, ids, data }: IAddressInformation) {
 
   const dispatch = useDispatch();
 
-  const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, isNomineeSameAddress } = useSelector((state: RootState) => state.proposal);
 
-  const handleCheckedSameAddress = (event, proposalInput) => {
+  const trackNominee = proposalInput.proposer_nominees.find((item: any, prevIndex: number) => prevIndex === index);
+
+  const handleCheckedNomineeSameAddress = (event: any) => {
     const isChecked = event.target.checked;
-    dispatch(isSameAddressCheck(isChecked, proposalInput?.proposer_permanent_address))
+    dispatch(isNomineeSameAddressCheck(isChecked, trackNominee?.proposer_permanent_address, index, proposalInput))
   }
 
 
   const changePermanentAddressAction = (name: string, value: any) => {
     handleChangeTextInput(name, value, ids.permanent, index);
   }
-  
+
   const changePresentAddressAction = (name: string, value: any) => {
     handleChangeTextInput(name, value, ids.present, index)
   }
+
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -99,15 +102,15 @@ export function NomineeAddressInformation({  handleChangeTextInput, errors, inde
 
             <div className="flex items-center mb-4 col-span-4">
               <input
-                id="same_as_parmanent"
+                id={`same_as_nominee_permanent-${index}`}
                 type="checkbox"
                 value=""
-                checked={isSameAddress}
-                onChange={(e) => handleCheckedSameAddress(e, proposalInput)}
+                checked={isNomineeSameAddress}
+               onChange={(e) => handleCheckedNomineeSameAddress(e)}
                 className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
               />
               <label
-                htmlFor="same_as_parmanent"
+                htmlFor={`same_as_nominee_permanent-${index}`}
                 className="ml-2 text-sm font-medium text-gray-900"
               >
                 Is Same Address
@@ -173,7 +176,7 @@ export function NomineeAddressInformation({  handleChangeTextInput, errors, inde
               placeholder="Post Office Name"
               value={data.present.post_office_name}
               isRequired={true}
-              isDisabled={isSameAddress}
+              isDisabled={isNomineeSameAddress}
               inputChange={changePresentAddressAction}
               errors={errors}
             />
@@ -183,7 +186,7 @@ export function NomineeAddressInformation({  handleChangeTextInput, errors, inde
               placeholder="Street address"
               value={data.present.street_address}
               isRequired={true}
-              isDisabled={isSameAddress}
+              isDisabled={isNomineeSameAddress}
               inputChange={changePresentAddressAction}
               errors={errors}
             />

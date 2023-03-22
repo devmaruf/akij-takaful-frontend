@@ -110,6 +110,7 @@ export interface IProposal {
     proposalsList: any[];
     loadingDetails: boolean;
     isSameAddress: boolean;
+    isNomineeSameAddress: boolean;
     paginationData: any[];
     proposalDetails: any;
     proposalInput: IProposalBasicInput;

@@ -21,27 +21,8 @@ export interface IPersonalInformation {
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
     const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
-    const height = proposalInput?.proposal_personal_information?.height;
-    const weight = proposalInput?.proposal_personal_information?.weight;
-    const dob = proposalInput?.proposal_personal_information?.dob;
-    const [age, setAge] = React.useState(0);
-    const [BMI, setBMI] = React.useState({});
 
-    React.useEffect(() => {
-        if (typeof dob !== "undefined") {
-            const getAge = calculateAge(dob);
-            setAge(getAge);
-        }
-        if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
-            const { bmi, status } = calculateBMI(height, weight, age);
-            setBMI({
-                bmi: bmi,
-                status: status
-            })
-        }
-    }, [height, weight, dob, age]);
-
-    const changeNomineeInputVal = (name:string, value: any) => {
+    const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
 
@@ -64,8 +45,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Father Name"
                     name="father_name"
                     placeholder="Father Name"
-                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.father_name}
-                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.father_name}
+                    value={data.father_name}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -74,7 +54,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Mother Name"
                     name="mother_name"
                     placeholder="Mother Name"
-                    value={proposalInput.proposer_nominees[index].proposal_personal_information.mother_name}
+                    value={data.mother_name}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -92,7 +72,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Email Address"
                     name="email"
                     placeholder="Email Address"
-                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.email}
+                    value={data.email}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -101,7 +81,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Mobile No"
                     name="mobile_no"
                     placeholder="Mobile No"
-                    // value={proposalInput.proposer_nominees[index].proposal_personal_information.mobile_no}
+                    value={data.mobile_no}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -112,7 +92,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     label="Marital Status"
                     name="marital_status"
-                  //  defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.marital_status}
+                    defaultValue={data.marital_status}
                     placeholder="Marital Status"
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
@@ -122,7 +102,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     options={identityTypeList}
                     isSearchable={true}
                     name="identity_type"
-                    //defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.identity_type}
+                    defaultValue={data.identity_type}
                     label="Identity Type"
                     placeholder="Identity Type"
                     handleChangeValue={changeNomineeInputVal}
@@ -135,7 +115,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                         name="id_no"
                         placeholder={identity_type.label}
                         isDisabled={identity_type.isDisabledField}
-                       // value={proposalInput.proposer_nominees[index].proposal_personal_information.id_no}
+                        value={data.id_no}
                         isRequired={true}
                         minValue={identity_type.minLength}
                         maxValue={identity_type.maxLength}
@@ -150,7 +130,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     name="gender"
                     label="Gender"
-                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.gender}
+                    defaultValue={data.gender}
                     placeholder="Gender"
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
@@ -161,7 +141,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     name="dob"
                     placeholder="Date of Birth"
                     type="date"
-                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.dob}
+                    value={data.dob}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -170,7 +150,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Occupation"
                     name="occupation"
                     placeholder="Occupation"
-                 //   value={proposalInput.proposer_nominees[index].proposal_personal_information.occupation}
+                    value={data.occupation}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -181,7 +161,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isSearchable={true}
                     name="religion"
                     label="Religion"
-                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.religion}
+                    defaultValue={data.religion}
                     placeholder="Select Religion"
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
@@ -190,7 +170,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Height"
                     name="height"
                     placeholder="Height"
-                   // value={proposalInput.proposer_nominees[index].proposal_personal_information.height}
+                    value={data.height}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -208,7 +188,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     ]}
                     isSearchable={true}
                     name="height_unit"
-                   // defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.height_unit}
+                    defaultValue={data.height_unit}
                     label="Height Unit"
                     placeholder="Height Unit"
                     handleChangeValue={changeNomineeInputVal}
@@ -218,7 +198,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Weight"
                     name="weight"
                     placeholder="Weight"
-                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.weight}
+                    value={data.weight}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                 />
@@ -236,7 +216,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isSearchable={true}
                     name="weight_unit"
                     label="Weight Unit"
-                 //   defaultvalue={proposalInput.proposer_nominees[index].proposal_personal_information.weight_unit}
+                    defaultValue={data.weight_unit}
                     placeholder="Weight Unit"
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
@@ -255,7 +235,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     label="Allocation"
                     name="allocation"
                     placeholder="Allocation"
-                  //  value={proposalInput.proposer_nominees[index].proposal_personal_information.allocation}
+                    value={data.allocation}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}

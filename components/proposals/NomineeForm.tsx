@@ -25,7 +25,7 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const { proposalInput, identity_type, proposer_nominees } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
     const weight = proposalInput?.proposal_personal_information?.weight;
-    const dob = proposalInput?.proposal_personal_information?.dob;
+    const [dob, setDob] = React.useState(0);
     const [age, setAge] = React.useState(0);
     const [BMI, setBMI] = React.useState({});
     const [nomineeIndex, setNomineeIndex] = React.useState(0);
@@ -53,7 +53,29 @@ export function NomineeForm({ errors }: IPersonalInformation) {
 
     const handleChangeProposalNomineeInfo = (name: string, value: any, key: string, index: number) => {
         dispatch(changeNomineeInputValue(name, value, key, index, proposalInput));
+        if (name === "dob") {
+            CalculateNomineeAge(value);
+            setDob(value);
+        }
     }
+
+    const CalculateNomineeAge = (dob: Date) => {
+        if (typeof dob !== "undefined") {
+            const getAge = calculateAge(dob);
+            setAge(getAge);
+        }
+    }
+
+    React.useEffect(() => {
+        if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
+            const { bmi, status } = calculateBMI(height, weight, age);
+            setBMI({
+                bmi: bmi,
+                status: status
+            })
+        }
+    }, [height, weight, dob, age]);
+
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -111,6 +133,8 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                     errors={errors}
                                     id="proposal_personal_information"
                                     index={index}
+                                    age={age}
+                                    setAge={setAge}
                                     data={nominee.proposal_personal_information}
                                 />
                                 <NomineeAddressInformation
@@ -126,14 +150,17 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                         present: nominee.proposer_present_address
                                     }}
                                 />
-
-                                <NomineeGuardianInformation
-                                    handleChangeTextInput={handleChangeProposalNomineeInfo}
-                                    errors={errors}
-                                    id="proposer_guardian"
-                                    index={index}
-                                    data={nominee.proposer_guardian}
-                                />
+                                {age !== 0 && age < 18 &&
+                                    (
+                                        <NomineeGuardianInformation
+                                            handleChangeTextInput={handleChangeProposalNomineeInfo}
+                                            errors={errors}
+                                            id="proposer_guardian"
+                                            index={index}
+                                            data={nominee.proposer_guardian}
+                                        />
+                                    )
+                                }
                             </div>
 
                         </div>
