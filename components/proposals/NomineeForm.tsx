@@ -5,14 +5,12 @@ import { calculateAge, calculateBMI } from "@/utils/calculation";
 import Button from '@/components/button';
 import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
-import { NomineeBankInformation } from "./NomineeBankInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
 import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
 import { DeleteIconButton } from './../button/delete-icon-button';
 import closestIndexTo from "date-fns/closestIndexTo";
 
 export interface IPersonalInformation {
-    // handleChangeTextInput: (name: string, value: any) => void;
     identityLabel: any;
     identityValidationMessage: any;
     disabledField: boolean;
@@ -30,7 +28,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const [BMI, setBMI] = React.useState({});
     const [nomineeIndex, setNomineeIndex] = React.useState(0);
     const [nomineeView, setNomineeView] = React.useState(false);
-
 
     React.useEffect(() => {
         if (typeof dob !== "undefined") {

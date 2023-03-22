@@ -8,7 +8,6 @@ import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
-  // changePermanentAddress: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
   ids: any;
   index?: any;

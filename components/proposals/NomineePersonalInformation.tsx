@@ -5,7 +5,6 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import ValidationMessage from "../validationMessage";
-import { calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -20,7 +19,11 @@ export interface IPersonalInformation {
 
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
-    const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
+    const { identity_type } = useSelector((state: RootState) => state.proposal);
+   
+    // const [age, setAge] = React.useState(0);
+    const [BMI, setBMI] = React.useState({});
+
 
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
