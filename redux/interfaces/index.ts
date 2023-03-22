@@ -252,3 +252,17 @@ export interface IUnderwriting {
     accepted_standard_rate_for: object;
     types: Array<IUnderwritingType>
 }
+
+export interface IStamp {
+    name: string;
+    value: number;
+}
+
+export interface IStamps {
+    stamps: Array<IStamp>;
+}
+
+export interface IStampListItem extends IStamps {
+    proposal_id: number;
+    proposal_no: string;
+}
