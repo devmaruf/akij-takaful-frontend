@@ -1,16 +1,28 @@
 import { IStamp } from "../interfaces";
 import * as Types from "./../types/stamp-types";
 
+export const defaultStampValue = {
+    name: '',
+    value: '',
+}
+
+export const defaultStampForm = {
+    proposal_id: 0,
+    proposal_no: '',
+    project_id: 0,
+    branch_id: 0,
+    stamps: [
+        defaultStampValue,
+    ]
+}
+
 const initialState: IStamp = {
     isLoading: false,
     stampList: [],
     stampPaginationData: [],
     isSubmitting: false,
-    stampForm: {
-        project_id: 0,
-        proposal_id: 0,
-        stamps: []
-    },
+    isSearching: false,
+    stampForm: defaultStampForm,
 };
 
 function StampReducer(state = initialState, action: any) {
@@ -29,6 +41,25 @@ function StampReducer(state = initialState, action: any) {
             return {
                 ...state,
                 stampForm,
+            };
+
+        case Types.SET_STAMP_FORM:
+            return {
+                ...state,
+                isSearching: action.payload.isLoading,
+                stampForm: {
+                    ...action.payload.data,
+                    stamps: action.payload.data?.stamps?.length > 0 ?
+                        action.payload.data?.stamps :
+                        [defaultStampValue]
+                },
+            };
+
+        case Types.SAVE_STAMP_FORM:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+                stampForm: action.payload.status ? { ...defaultStampForm } : state.stampForm
             };
 
         default:

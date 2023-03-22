@@ -6,7 +6,6 @@ import { RootState } from '@/redux/store';
 import { getStampListAction } from '@/redux/actions/stamp-action';
 import PageHeader from '@/components/layouts/PageHeader';
 import Table from '@/components/table';
-import Tooltip from '@/components/tooltip';
 import Loading from '@/components/loading';
 import { PageContentList } from '../layouts/PageContentList';
 import { Dropdown } from 'flowbite-react';
@@ -95,17 +94,12 @@ export default function StampList() {
                       inline={true}
                       arrowIcon={false}
                     >
-                      <Dropdown.Item onClick={() => showStampDetails(stamp)}>
+                      {/* <Dropdown.Item onClick={() => showStampDetails(stamp)}>
                         <i className='bi bi-eye mr-4'></i> View
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => router.push(`/stamps/edit?id=${stamp.proposal_id}`)}>
-                        <Tooltip content={`Edit stamps for - ${stamp.proposal_no}`}>
-                          <i className='bi bi-pencil mr-4'></i> Edit
-                        </Tooltip>
-                      </Dropdown.Item>
-                      {/* <Dropdown.Item onClick={() => handleDeleteProposal(stamp.id)}>
-                        <i className='bi bi-trash mr-4'></i> Delete
                       </Dropdown.Item> */}
+                      <Dropdown.Item onClick={() => router.push(`/stamps/edit?proposal_no=${stamp.proposal_no}`)}>
+                        <i className='bi bi-pencil mr-4'></i> Edit
+                      </Dropdown.Item>
                     </Dropdown>
                   </td>
                 </tr>

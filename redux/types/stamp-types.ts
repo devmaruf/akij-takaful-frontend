@@ -1,2 +1,4 @@
 export const CHANGE_STAMP_FORM = 'CHANGE_STAMP_FORM';
 export const GET_STAMP_LIST = 'GET_STAMP_LIST';
+export const SET_STAMP_FORM = 'SET_STAMP_FORM';
+export const SAVE_STAMP_FORM = 'SAVE_STAMP_FORM';
