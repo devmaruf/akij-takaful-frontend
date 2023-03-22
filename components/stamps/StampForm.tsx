@@ -154,7 +154,7 @@ export default function StampForm({ proposalNo, pageType }: IStampForm) {
                                                             />
                                                         </td>
                                                         <td>
-                                                            <button onClick={() => deleteStamp(index)}>
+                                                            <button type='button' onClick={() => deleteStamp(index)}>
                                                                 <i className='bi bi-trash text-red-500 cursor-pointer'></i>
                                                             </button>
                                                         </td>

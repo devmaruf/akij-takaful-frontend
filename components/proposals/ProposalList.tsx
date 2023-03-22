@@ -9,7 +9,7 @@ import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
-import { PageContent } from '@/components/layouts/PageContent';
+import { PageContentList } from '@/components/layouts/PageContentList';
 import ProposalStatus from '@/components/proposals/ProposalStatus';
 import { formatCurrency } from '@/utils/currency';
 import { Dropdown } from 'flowbite-react';
@@ -67,7 +67,7 @@ export default function ProposalList() {
                 </>}
             />
 
-            <PageContent hasShadow={false}>
+            <PageContentList>
                 {
                     isLoading ?
                         <div className="text-center">
@@ -144,7 +144,7 @@ export default function ProposalList() {
                             }
                         </Table>
                 }
-            </PageContent>
+            </PageContentList>
 
             <Modal title="Proposal Details" size="lg" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
                 {
