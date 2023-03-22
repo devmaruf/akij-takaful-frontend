@@ -11,7 +11,7 @@ export const changeStampInputValue = (name: string, value: any) => (dispatch: an
 };
 
 export const getStampListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch) => {
-    let url = `stamps?perPage=${dataLimit}`
+    let url = `stamps?perPage=${dataLimit}&page=${currentPage}`
 
     if (searchText !== '') {
         url += `&search=${searchText}`;

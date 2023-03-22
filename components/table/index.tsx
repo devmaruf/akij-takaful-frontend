@@ -22,7 +22,7 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
     return (
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-gray-500 divide-y divide-gray-200 table-auto">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr className=''>
                         {
                             column && column.length > 0 && column.map((data, index) => (
