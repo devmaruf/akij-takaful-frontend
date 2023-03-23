@@ -2,7 +2,6 @@ import * as React from "react";
 import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import Select from "@/components/select";
 
 export interface IBankInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -27,27 +26,15 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           inputChange={handleChangeTextInput}
           errors={errors}
         />
-
-        <Select
-          options={[
-            {
-              label: "Branch 01",
-              value: "branch-01",
-            },
-            {
-              label: "Branch 02",
-              value: "branch-02",
-            },
-          ]}
-          isSearchable={true}
-          name="bank_branch_name"
+        <Input
           label="Branch Name"
-          defaultValue={proposalInput?.proposer_guardian.bank_branch_name}
+          name="bank_branch_name"
           placeholder="Branch Name"
-          handleChangeValue={handleChangeTextInput}
+          value={proposalInput?.proposer_bank_information.bank_branch_name}
+          isRequired={true}
+          inputChange={handleChangeTextInput}
           errors={errors}
         />
-
         <Input
           label="Account No"
           type="number"

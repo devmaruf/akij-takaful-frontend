@@ -5,7 +5,6 @@ import Select from "@/components/select";
 import React, { useEffect, useState } from "react";
 import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 
-
 export interface IPremiumInformation {
   handleChangeTextInput: (name: string, value: any) => void;
   errors?: any;
@@ -18,17 +17,9 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
   const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
 
-  const [placeHolderProposalNo, setplaceHolderProposalNo] = useState('');
-
-  // useEffect(() => {
-  //   const formattedDate = format(new Date(), 'yyyyMMdd');
-  //   const randomNumber = Math.floor(10000 + Math.random() * 90000);
-  //   setplaceHolderProposalNo(`ATLI-${formattedDate}-${randomNumber}`);
-  // }, []);
-
   useEffect(() => {
     dispatch(getAgentsDropdownList());
-  }, [])
+  }, []);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -39,9 +30,9 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
         <Input
           label="Proposal No"
           name="proposal_no"
-          placeholder={`Proposal No - ${placeHolderProposalNo}`}
-          value={proposalInput?.proposal_no || placeHolderProposalNo}
+          value={proposalInput?.proposal_no}
           isRequired={true}
+          isDisabled={true}
           inputChange={handleChangeTextInput}
           errors={errors}
         />

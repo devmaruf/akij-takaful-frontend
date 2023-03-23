@@ -138,8 +138,8 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                         maxValue={identity_type.maxLength}
                         inputChange={changeNomineeInputVal}
                         errors={errors}
+                        hintText={identity_type.message}
                     />
-                    <ValidationMessage message={identity_type.message} />
                 </div>
                 <Select
                     options={GenderList}

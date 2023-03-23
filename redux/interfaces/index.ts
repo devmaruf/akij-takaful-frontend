@@ -90,9 +90,11 @@ export interface IProposalBasicInput {
     branch_id: number;
     proposal_no: string;
     plan_id: number;
-    fa_code: string;
+    agent_id: number;
     initial_sum_assured: number;
     initial_premium: number;
+    proposer_name: '',
+    phone_no: '',
     proposal_personal_information: any;
     proposer_present_address: any;
     proposer_permanent_address: any;

@@ -69,7 +69,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
     //     Toaster("error", "Plan can't be blank!");
     //     return false;
     // }
-    // if (proposalInput.fa_code === "") {
+    // if (proposalInput.agent_id === "") {
     //     Toaster("error", "Fa code can't be blank!");
     //     return false;
     // }
@@ -220,7 +220,10 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
     };
     dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
 
-    axios.put(`/proposals/${id}`, proposalInput)
+    axios.put(`/proposals/${id}`, {
+        ...proposalInput,
+        id
+    })
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
