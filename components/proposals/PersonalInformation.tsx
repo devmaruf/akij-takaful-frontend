@@ -3,8 +3,7 @@ import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { GenderList, heightMeasurementList, identityTypeList, MaritalStatusList, religionList, weightMeasurementList } from "@/utils/proposal-dropdowns";
-import ValidationMessage from "../validationMessage";
+import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
@@ -126,7 +125,6 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           handleChangeValue={handleChangeTextInput}
           errors={errors}
         />
-
         <div>
           <Input
             label={identity_type.label}

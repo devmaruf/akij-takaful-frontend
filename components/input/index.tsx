@@ -61,7 +61,7 @@ export default function Input({
       }
       {
         hintText !== '' &&
-        <p className="text-gray-500 mt-1 text-sm">{hintText}</p>
+        <p className="text-gray-500 mt-1 text-xs">{hintText}</p>
       }
     </div>
   );
