@@ -1,5 +1,6 @@
 export const PRINT_PROPOSAL         = "PRINT_PROPOSAL";
 export const CHANGE_INPUT_VALUE     = "CHANGE_PROPOSAL_INPUT_VALUE";
+export const CHANGE_NOMINEE_INPUT     = "CHANGE_NOMINEE_INPUT";
 export const GET_PLAN_DROPDOWN      = "GET_PLAN_DROPDOWN";
 export const GET_PLAN_LIST          = "GET_PLAN_LIST";
 export const SUBMIT_PROPOSAL        = "SUBMIT_PROPOSAL";
@@ -9,3 +10,6 @@ export const UPDATE_PROPOSAL        = "UPDATE_PROPOSAL";
 export const DELETE_PROPOSAL        = "DELETE_PROPOSAL";
 export const IS_SAME_ADDRESS_STATUS = "IS_SAME_ADDRESS_STATUS";
 export const CHECKED_IDENTITY       = "CHECKED_IDENTITY";
+export const ADD_NOMINEE_FORM       = "ADD_NOMINEE_FORM";
+export const REMOVE_NOMINEE_FORM       = "REMOVE_NOMINEE_FORM";
+export const IS_NOMINEE_SAME_ADDRESS       = "IS_NOMINEE_SAME_ADDRESS";

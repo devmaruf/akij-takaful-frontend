@@ -1,23 +1,43 @@
-export const calculateBMI = (height: number, weight: number, age: number): { bmi: number, status: string } => {
+export interface IBMI {
+  bmi: number;
+  status: string;
+}
 
-  const heightInMeters = height / 100; // convert height to meters
-  const bmi = weight / (heightInMeters * heightInMeters); // calculate BMI
-  let status: string;
-
-  if (age < 18) {
-    status = 'Age must be greater than or equal to 18';
-  } else if (bmi < 18.5) {
-    status = 'Underweight';
-  } else if (bmi < 25) {
-    status = 'Normal';
-  } else if (bmi < 30) {
-    status = 'Overweight';
-  } else {
-    status = 'Obese';
+/**
+ * Calculate BMI (Body Mass Index)
+ * 
+ * Formula: 703 x weight (lbs) / [height (in)]2
+ * 
+ * @param hFeet Feet value in number
+ * @param hInch Inch value in number
+ * @param wKg Weight in KG
+ * @returns {IBMI}
+ */
+export function calculateBMI(heightFeet: number, heightInches: number, weightKg: number): IBMI {
+  if (heightFeet <= 0 || weightKg <= 0) {
+    return { bmi: 0, status: "" };
   }
 
-  return { bmi, status };
+  const heightInchesTotal = (parseFloat(heightFeet + '') * 12) + parseFloat(heightInches + '');
+  const weightPounds = weightKg * 2.2;
+
+  const bmi = (weightPounds / Math.pow(heightInchesTotal, 2)) * 703;
+  const bmiRounded = parseFloat(bmi.toFixed(2));
+
+  let status = "";
+  if (bmiRounded < 18.5) {
+    status = "Underweight";
+  } else if (bmiRounded < 25) {
+    status = "Normal weight";
+  } else if (bmiRounded < 30) {
+    status = "Overweight";
+  } else {
+    status = "Obese";
+  }
+
+  return { bmi: bmiRounded, status: status };
 }
+
 
 
 export const calculateAge = (birthDate: Date): number => {
@@ -31,7 +51,7 @@ export const calculateAge = (birthDate: Date): number => {
   const monthDifference: number = today.getMonth() - prevBirthdate.getMonth();
 
   if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < prevBirthdate.getDate())) {
-    age--; 
+    age--;
   }
 
   return age;

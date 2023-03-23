@@ -90,14 +90,17 @@ export interface IProposalBasicInput {
     branch_id: number;
     proposal_no: string;
     plan_id: number;
-    fa_code: string;
+    agent_id: number;
     initial_sum_assured: number;
     initial_premium: number;
+    proposer_name: '',
+    phone_no: '',
     proposal_personal_information: any;
     proposer_present_address: any;
     proposer_permanent_address: any;
     proposer_bank_information: any;
     proposer_guardian: any;
+    proposer_nominees: any[];
     status: string;
 }
 
@@ -109,6 +112,7 @@ export interface IProposal {
     proposalsList: any[];
     loadingDetails: boolean;
     isSameAddress: boolean;
+    isNomineeSameAddress: boolean;
     paginationData: any[];
     proposalDetails: any;
     proposalInput: IProposalBasicInput;
@@ -128,6 +132,7 @@ export interface IProposal {
         occupation: string;
         relation: string;
         height: number;
+        height_inch: number;
         height_unit: string;
         weight: number;
         weight_unit: string;
@@ -179,7 +184,7 @@ export interface IProposal {
         dob: string;
         id_no: string;
         relation: string;
-    },
+    };
     printProposalList: Array<IProposalBasicInput>,
     identity_type: {
         isDisabledField: boolean;
@@ -188,7 +193,9 @@ export interface IProposal {
         value: string;
         minLength: number,
         maxLength: number,
-    }
+    };
+
+    proposer_nominees: any[];
 }
 
 export interface IRole {

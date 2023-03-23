@@ -4,6 +4,7 @@ import { Toaster } from "@/components/toaster";
 import { IProposal } from "../interfaces";
 import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
 import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
+import { Dispatch } from "@reduxjs/toolkit";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     let data = {
@@ -11,6 +12,50 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
         value: value,
     }
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
+};
+
+export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
+    // let proposalInputUpdated = {
+    //     ...proposalInput,
+    //     proposer_nominees: [],
+    // };
+
+    // proposalInput.proposer_nominees.forEach((nominee, previousIndex) => {
+    //     if (index === previousIndex) {
+    //         const nomineeUpdated = {
+    //             ...nominee,
+    //         };
+    //         nomineeUpdated[key][name] = value;
+    //         proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
+    //     } else {
+    //         proposalInputUpdated.proposer_nominees.push(nominee);
+    //     }
+    // });
+
+    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
+    const nominees = proposalInput.proposer_nominees;
+    const nomineeToUpdate = nominees[index];
+
+    const updatedNominee = {
+        ...nomineeToUpdate,
+        [key]: {
+            ...nomineeToUpdate[key],
+            [name]: value,
+        },
+    };
+
+    const updatedNominees = [
+        ...nominees.slice(0, index),
+        updatedNominee,
+        ...nominees.slice(index + 1),
+    ];
+
+    const proposalInputUpdated = {
+        ...proposalInput,
+        proposer_nominees: updatedNominees,
+    };
+
+    dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
 };
 
 
@@ -24,7 +69,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
     //     Toaster("error", "Plan can't be blank!");
     //     return false;
     // }
-    // if (proposalInput.fa_code === "") {
+    // if (proposalInput.agent_id === "") {
     //     Toaster("error", "Fa code can't be blank!");
     //     return false;
     // }
@@ -175,7 +220,10 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
     };
     dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
 
-    axios.put(`/proposals/${id}`, proposalInput)
+    axios.put(`/proposals/${id}`, {
+        ...proposalInput,
+        id
+    })
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
@@ -190,7 +238,7 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         })
 }
 
-export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
+export const deleteProposal = (id, setShowDeleteModal) => (dispatch: Dispatch) => {
     let responseData = {
         status: false,
         message: "",
@@ -214,7 +262,7 @@ export const deleteProposal = (id, setShowDeleteModal) => (dispatch) => {
         });
 }
 
-export const getPlanDropdownList = () => (dispatch: any) => {
+export const getPlanDropdownList = () => (dispatch: Dispatch) => {
     axios.get(`/plans/dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_PLAN_DROPDOWN, payload: res.data });
@@ -338,4 +386,60 @@ export const createPreviewProposalAndRedirectAction = (router) => (dispatch) => 
     return () => {
         source.cancel('Request canceled by component unmount');
     };
+}
+
+export const addMultipleNomineeForm = () => (dispatch) => {
+    dispatch({ type: Types.ADD_NOMINEE_FORM, payload: {} });
+}
+
+export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => (dispatch) => {
+    if (nomineeList.length > 1) {
+        const newNomineeList = nomineeList.slice(0, index).concat(nomineeList.slice(index + 1));
+        dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });
+    }
+}
+
+export const isNomineeSameAddressCheck = (status: boolean, permanentAddress: any, index: number, proposalInput: any) => (dispatch: Dispatch) => {
+    let defaultDivision;
+    let defaultDistrict;
+    let defaultArea;
+
+    if (status === true) {
+        if (!permanentAddress.division_id || !permanentAddress.district_id || !permanentAddress.area_id || !permanentAddress.post_office_name || !permanentAddress.street_address) {
+            status = false;
+            Toaster('error', "Please at first fill up your nominee permanent address before checked it.");
+        } else {
+            status = true;
+            defaultDivision = getDefaultSelectValue(divisionList, permanentAddress.division_id);
+            defaultDistrict = getDefaultSelectValue(districtList, permanentAddress.district_id)
+            defaultArea = getDefaultSelectValue(areaList, permanentAddress.area_id);
+        }
+    }
+
+
+    let proposalInputUpdated = {
+        ...proposalInput,
+        proposer_nominees: [],
+    };
+
+    const permanentAddressInfo = {
+        ...permanentAddress,
+        defaultDivision: defaultDivision,
+        defaultDistrict: defaultDistrict,
+        defaultArea: defaultArea,
+    }
+
+    proposalInput.proposer_nominees.forEach((nominee: any, previousIndex: number) => {
+        if (index === previousIndex) {
+            const nomineeUpdated = {
+                ...nominee,
+                proposer_present_address: permanentAddressInfo
+            };
+            proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
+        } else {
+            proposalInputUpdated.proposer_nominees.push(nominee);
+        }
+    });
+
+    dispatch({ type: Types.IS_NOMINEE_SAME_ADDRESS, payload: { proposalInputUpdated, status } });
 }

@@ -83,9 +83,9 @@ export default function Edit() {
                       />
                       <Input
                         label="FA Code"
-                        name="fa_code"
+                        name="agent_id"
                         placeholder='FA Code'
-                        value={proposalInput && proposalInput.fa_code ? proposalInput.fa_code : ""}
+                        value={proposalInput && proposalInput.agent_id ? proposalInput.agent_id : ""}
                         isRequired={true}
                         inputChange={handleChangeTextInput}
                       />

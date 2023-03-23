@@ -13,17 +13,17 @@ import StampReducer from "../reducers/stamp-reducer";
 
 export const store = configureStore({
   reducer: {
-    proposal    : ProposalsReducer,
-    Auth        : AuthReducer,
-    Project     : ProjectReducer,
-    Branch      : BranchReducer,
-    employee    : employeeReducer,
-    designation : designationReducer,
+    proposal: ProposalsReducer,
+    Auth: AuthReducer,
+    Project: ProjectReducer,
+    Branch: BranchReducer,
+    employee: employeeReducer,
+    designation: designationReducer,
     underwriting: UnderwritingReducer,
-    global      : globalReducer,
-    dashboard   : DashboardReducer,
-    stamp       : StampReducer,
-    role        : RoleReducer,
+    global: globalReducer,
+    dashboard: DashboardReducer,
+    stamp: StampReducer,
+    role: RoleReducer,
   },
 });
 

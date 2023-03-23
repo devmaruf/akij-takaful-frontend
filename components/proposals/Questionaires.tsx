@@ -62,7 +62,7 @@ export function Questionaires({ proposalId = 0 }) {
               className="basis-1/5"
               checked={switch3}
               label=""
-              onChange={setSwitch4}
+              onChange={setSwitch3}
             />
           </div>
         </div>

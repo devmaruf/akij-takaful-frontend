@@ -1,11 +1,10 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import ValidationMessage from "../validationMessage";
-import { calculateAge, calculateBMI } from "@/utils/calculation";
+import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
@@ -18,24 +17,29 @@ export interface IPersonalInformation {
 export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
   const height = proposalInput?.proposal_personal_information?.height;
+  const heightInch = proposalInput?.proposal_personal_information?.height_inch;
   const weight = proposalInput?.proposal_personal_information?.weight;
   const dob = proposalInput?.proposal_personal_information?.dob;
-  const [age, setAge] = React.useState(0);
-  const [BMI, setBMI] = React.useState({});
+  const [age, setAge] = useState(0);
+  const [BMI, setBMI] = useState<IBMI>({
+    bmi: 0,
+    status: ''
+  });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof dob !== "undefined") {
       const getAge = calculateAge(dob);
       setAge(getAge);
     }
-    if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
-      const { bmi, status } = calculateBMI(height, weight, age);
-      setBMI({
-        bmi: bmi,
-        status: status
-      })
-    }
-  }, [height, weight, dob, age])
+  }, [dob, age])
+
+  useEffect(() => {
+    const { bmi, status } = calculateBMI(height, heightInch, weight);
+    setBMI({
+      bmi: bmi,
+      status: status
+    })
+  }, [height, heightInch, weight])
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -70,15 +74,29 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           inputChange={handleChangeTextInput}
           errors={errors}
         />
-        <Input
-          label="Spouse Name"
-          name="spouse_name"
-          placeholder="Spouse Name"
-          value={proposalInput?.proposal_personal_information.spouse_name}
+        <Select
+          options={MaritalStatusList}
+          isSearchable={true}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          label="Marital Status"
+          name="marital_status"
+          defaultValue={proposalInput?.proposal_personal_information.marital_status}
+          placeholder="Marital Status"
+          handleChangeValue={handleChangeTextInput}
           errors={errors}
         />
+        {
+          proposalInput?.proposal_personal_information.marital_status === 'married' &&
+          <Input
+            label="Spouse Name"
+            name="spouse_name"
+            placeholder="Spouse Name"
+            value={proposalInput?.proposal_personal_information.spouse_name}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+            errors={errors}
+          />
+        }
         <Input
           label="Email Address"
           name="email"
@@ -98,18 +116,6 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           errors={errors}
         />
         <Select
-          options={MaritalStatusList}
-          isSearchable={true}
-          isRequired={true}
-          label="Marital Status"
-          name="marital_status"
-          defaultValue={proposalInput?.proposal_personal_information.marital_status}
-          placeholder="Marital Status"
-          handleChangeValue={handleChangeTextInput}
-          errors={errors}
-        />
-
-        <Select
           options={identityTypeList}
           isSearchable={true}
           name="identity_type"
@@ -119,7 +125,6 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           handleChangeValue={handleChangeTextInput}
           errors={errors}
         />
-
         <div>
           <Input
             label={identity_type.label}
@@ -132,8 +137,8 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             maxValue={identity_type.maxLength}
             inputChange={handleChangeTextInput}
             errors={errors}
+            hintText={identity_type.message}
           />
-          <ValidationMessage message={identity_type.message} />
         </div>
         <Select
           options={GenderList}
@@ -184,71 +189,55 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           handleChangeValue={handleChangeTextInput}
           errors={errors}
         />
-        <Input
-          label="Height"
-          name="height"
-          placeholder="Height"
-          value={proposalInput?.proposal_personal_information.height}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-          errors={errors}
-        />
-        <Select
-          options={[
-            {
-              label: "Feet",
-              value: "feet",
-            },
-            {
-              label: "Inches",
-              value: "inches",
-            },
-          ]}
-          isSearchable={true}
-          name="height_unit"
-          defaultValue={proposalInput?.proposal_personal_information.height_unit}
-          label="Height Unit"
-          placeholder="Height Unit"
-          handleChangeValue={handleChangeTextInput}
-          errors={errors}
-        />
-        <Input
-          label="Weight"
-          name="weight"
-          placeholder="Weight"
-          value={proposalInput?.proposal_personal_information.weight}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-        <Select
-          options={[
-            {
-              label: "KG",
-              value: "kg",
-            },
-            {
-              label: "LBS",
-              value: "lbs",
-            },
-          ]}
-          isSearchable={true}
-          name="weight_unit"
-          label="Weight Unit"
-          defaultValue={proposalInput?.proposal_personal_information.weight_unit}
-          placeholder="Weight Unit"
-          handleChangeValue={handleChangeTextInput}
-          errors={errors}
-        />
-        <Input
-          label="Body Mass Index - (BMI)"
-          name="bmi"
-          placeholder="Body Mass Index(BMI)"
-          value={BMI.bmi}
-          isRequired={false}
-          inputChange={handleChangeTextInput}
-          errors={errors}
-          isDisabled={true}
-        />
+        <div className="flex flex-1 w-full">
+          <Input
+            areaClassNames='flex-1'
+            label="Height Feet"
+            name="height"
+            type="number"
+            placeholder="feet, eg: 5"
+            value={proposalInput?.proposal_personal_information.height}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+            errors={errors}
+          />
+          <Input
+            areaClassNames='flex-1 ml-1'
+            label="Height Inch"
+            name="height_inch"
+            type="number"
+            placeholder="inch, eg: 6"
+            value={proposalInput?.proposal_personal_information.height_inch}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+            errors={errors}
+          />
+        </div>
+        <div className="flex w-full">
+          <Input
+            areaClassNames='flex-1'
+            label="Weight in KG"
+            name="weight"
+            type="number"
+            placeholder="kg; eg: 65"
+            value={proposalInput?.proposal_personal_information.weight}
+            isRequired={true}
+            inputChange={handleChangeTextInput}
+          />
+          <Input
+            areaClassNames='flex-1 ml-1 mt-1'
+            label="Body Mass Index - (BMI)"
+            name="bmi"
+            placeholder="Body Mass Index(BMI)"
+            value={BMI.bmi}
+            isRequired={false}
+            inputChange={handleChangeTextInput}
+            errors={errors}
+            isDisabled={true}
+            hintText={BMI.status !== '' ? BMI.status : ''}
+          />
+        </div>
+
         <Input
           label="Allocation"
           name="allocation"

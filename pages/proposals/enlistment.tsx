@@ -25,6 +25,7 @@ import PageHeader from "@/components/layouts/PageHeader";
 import { PageContent } from "@/components/layouts/PageContent";
 import Loading from "@/components/loading";
 import { Questionaires } from "@/components/proposals/Questionaires";
+import { NomineeForm } from "@/components/proposals/NomineeForm";
 
 export default function Create() {
   const dispatch = useDispatch();
@@ -68,12 +69,18 @@ export default function Create() {
   const handleChangeGuardianInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposer_guardian"));
   };
+  // const handleChangeNomineeInfo = (name: string, value: any) => {
+  //   dispatch(changeInputValue(name, value, "proposer_nominees"));
+  // };
 
   const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { errors, isValid } = formValidation(e);
-    setErrors(errors);
-    if (isValid) {
-      dispatch(updateProposal(proposalInput, id, router));
+    const clickedButton = e.nativeEvent.submitter.name;
+    if (clickedButton === "submitProposal") {
+      const { errors, isValid } = formValidation(e);
+      setErrors(errors);
+      if (isValid) {
+        dispatch(updateProposal(proposalInput, id, router));
+      }
     }
     e.preventDefault();
   };
@@ -132,11 +139,17 @@ export default function Create() {
               }
 
               {
+                proposalInput.proposer_nominees !== undefined &&
+                <NomineeForm errors={errors} />
+              }
+
+              {
                 proposalInput.proposal_personal_information !== undefined &&
                 <Questionaires proposalId={parseInt(id + '')} />
               }
 
               <Button
+                name="submitProposal"
                 title="Save"
                 loadingTitle="Saving..."
                 loading={isSubmitting}
