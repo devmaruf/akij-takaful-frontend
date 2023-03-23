@@ -130,6 +130,7 @@ export interface IProposal {
         occupation: string;
         relation: string;
         height: number;
+        height_inch: number;
         height_unit: string;
         weight: number;
         weight_unit: string;

@@ -3,7 +3,7 @@ import Input from "@/components/input";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import { GenderList, heightMeasurementList, identityTypeList, MaritalStatusList, religionList, weightMeasurementList } from "@/utils/proposal-dropdowns";
 import ValidationMessage from "../validationMessage";
 
 export interface IPersonalInformation {
@@ -20,7 +20,7 @@ export interface IPersonalInformation {
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
     const { identity_type } = useSelector((state: RootState) => state.proposal);
-   
+
     // const [age, setAge] = React.useState(0);
     const [BMI, setBMI] = React.useState({});
 
@@ -62,15 +62,29 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
-                <Input
-                    label="Spouse Name"
-                    name="spouse_name"
-                    placeholder="Spouse Name"
-                    value={data.spouse_name}
+                <Select
+                    options={MaritalStatusList}
+                    isSearchable={true}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    label="Marital Status"
+                    name="marital_status"
+                    defaultValue={data.marital_status}
+                    placeholder="Marital Status"
+                    handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
+                {
+                    data.marital_status === 'married' &&
+                    <Input
+                        label="Spouse Name"
+                        name="spouse_name"
+                        placeholder="Spouse Name"
+                        value={data.spouse_name}
+                        isRequired={true}
+                        inputChange={changeNomineeInputVal}
+                        errors={errors}
+                    />
+                }
                 <Input
                     label="Email Address"
                     name="email"
@@ -89,18 +103,6 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
-                <Select
-                    options={MaritalStatusList}
-                    isSearchable={true}
-                    isRequired={true}
-                    label="Marital Status"
-                    name="marital_status"
-                    defaultValue={data.marital_status}
-                    placeholder="Marital Status"
-                    handleChangeValue={changeNomineeInputVal}
-                    errors={errors}
-                />
-
                 <Select
                     options={identityTypeList}
                     isSearchable={true}
@@ -179,16 +181,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     errors={errors}
                 />
                 <Select
-                    options={[
-                        {
-                            label: "Feet",
-                            value: "feet",
-                        },
-                        {
-                            label: "Inches",
-                            value: "inches",
-                        },
-                    ]}
+                    options={heightMeasurementList}
                     isSearchable={true}
                     name="height_unit"
                     defaultValue={data.height_unit}
@@ -206,16 +199,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                 />
                 <Select
-                    options={[
-                        {
-                            label: "KG",
-                            value: "kg",
-                        },
-                        {
-                            label: "LBS",
-                            value: "lbs",
-                        },
-                    ]}
+                    options={weightMeasurementList}
                     isSearchable={true}
                     name="weight_unit"
                     label="Weight Unit"

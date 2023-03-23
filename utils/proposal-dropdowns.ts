@@ -79,3 +79,33 @@ export const nomineeList = [
     { label: "Mr. Abul Kalam", value: 3 },
     { label: "Mr. Zihad", value: 4 },
 ];
+
+export const heightMeasurementList = [
+    {
+        label: "Feet",
+        value: "ft",
+    },
+    {
+        label: "Inches",
+        value: "in",
+    },
+    {
+        label: "Meter",
+        value: "m",
+    },
+    {
+        label: "Centemeter",
+        value: "cm",
+    },
+];
+
+export const weightMeasurementList = [
+    {
+        label: "KG",
+        value: "kg",
+    },
+    {
+        label: "LBS",
+        value: "lbs",
+    },
+]

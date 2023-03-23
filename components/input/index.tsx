@@ -13,6 +13,8 @@ interface IInput {
   errors?: any;
   minValue?: any;
   maxValue?: any;
+  areaClassNames?: string;
+  hintText?: string;
 }
 
 export default function Input({
@@ -26,11 +28,13 @@ export default function Input({
   isDisabled = false,
   errors,
   minValue,
-  maxValue
+  maxValue,
+  areaClassNames = '',
+  hintText = ''
 }: IInput) {
 
   return (
-    <div className="">
+    <div className={areaClassNames}>
       <label
         htmlFor={name}
         className="text-sm font-medium text-gray-900 block mb-2"
@@ -54,6 +58,10 @@ export default function Input({
         typeof errors !== "undefined" && errors !== null && errors[name] && (
           <ValidationMessage message={errors[name]} />
         )
+      }
+      {
+        hintText !== '' &&
+        <p className="text-gray-500 mt-1 text-sm">{hintText}</p>
       }
     </div>
   );

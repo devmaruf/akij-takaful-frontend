@@ -105,21 +105,6 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
         <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
           <Select
-            options={[
-              {
-                label: "Present",
-                value: "present",
-              },
-            ]}
-            isSearchable={true}
-            name="address_type"
-            defaultValue={proposalInput?.proposer_present_address?.address_type}
-            label="Address Type"
-            placeholder="Address Type"
-            handleChangeValue={changePresentAddress}
-          />
-
-          <Select
             options={divisionList}
             isSearchable={true}
             name="division_id"
