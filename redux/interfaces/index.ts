@@ -276,3 +276,19 @@ export interface IStampListItem extends IStamps {
     proposal_id: number;
     proposal_no: string;
 }
+
+export interface IExpenseInput {
+    expense_type_id: number;
+    name: string;
+    items: any[],
+}
+export interface IExpense {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    loadingDetails: boolean;
+    isDeleting: boolean;
+    expensesList: any[];
+    paginationData: any[];
+    expenseDetails: any;
+    expenseInput: IExpenseInput
+}

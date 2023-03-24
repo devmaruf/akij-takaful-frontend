@@ -10,6 +10,7 @@ import globalReducer from "../reducers/global-reducer";
 import ProposalsReducer from "../reducers/proposal-reducer";
 import RoleReducer from "../reducers/role-reducer";
 import StampReducer from "../reducers/stamp-reducer";
+import ExpenseReducer from './../reducers/expense-reducer';
 
 export const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
     dashboard: DashboardReducer,
     stamp: StampReducer,
     role: RoleReducer,
+    expense: ExpenseReducer,
   },
 });
 

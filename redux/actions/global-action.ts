@@ -98,6 +98,28 @@ export const getSidebarMenuList = () => (dispatch: Dispatch) => {
             ]
         },
         {
+            id: 'menu06',
+            title: 'Expense',
+            icon: 'bi-cash',
+            url: '',
+            subMenu: [
+                {
+                    id: 'subMenu02.2',
+                    title: 'New Expense',
+                    icon: 'bi-clipboard-plus',
+                    url: '/expense/create',
+                    subSubMenu: []
+                },
+                {
+                    id: 'subMenu02.3',
+                    title: 'Expense List',
+                    icon: 'bi-list-ul',
+                    url: '/expense/',
+                    subSubMenu: []
+                },
+            ]
+        },
+        {
             id: 'menu03',
             title: 'Worksheets',
             icon: 'bi-person-workspace',
