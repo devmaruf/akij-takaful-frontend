@@ -259,6 +259,10 @@ export interface IUnderwriting {
     types: Array<IUnderwritingType>
 }
 
+export interface IUnderwritingView extends IUnderwriting {
+    initial_sum_assured: number;
+}
+
 export interface IStamp {
     name: string;
     value: number;
