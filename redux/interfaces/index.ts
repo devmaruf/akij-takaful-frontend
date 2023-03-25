@@ -277,3 +277,9 @@ export interface IStampListItem extends IStamps {
     proposal_id: number;
     proposal_no: string;
 }
+
+export interface IProposalFormSection {
+    onChangeText: (name: string, value: any) => void;
+    errors?: any;
+    sectionName?: string | null;
+}

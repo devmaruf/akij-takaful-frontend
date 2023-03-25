@@ -1,12 +1,9 @@
 import { Label, ToggleSwitch } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-export interface IQuestionaires {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export function Questionaires({ handleChangeTextInput, errors }: IQuestionaires) {
+export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
   const { underwriting_questionnaires } = proposalInput;
 
@@ -17,7 +14,7 @@ export function Questionaires({ handleChangeTextInput, errors }: IQuestionaires)
       value: isChecked ? 1 : 0,
     };
 
-    handleChangeTextInput('underwriting_questionnaires', updatedQuestionnaires)
+    onChangeText('underwriting_questionnaires', updatedQuestionnaires);
   }
 
   return (

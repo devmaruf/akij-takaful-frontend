@@ -1,4 +1,4 @@
-import { IProposal } from "../interfaces";
+import { IProposal, IProposalBasicInput } from "../interfaces";
 import * as Types from "../types/proposal-type";
 import { generateDropdownList } from "@/utils/dropdown";
 
@@ -191,40 +191,22 @@ const initialState: IProposal = {
 function ProposalsReducer(state = initialState, action: any) {
     switch (action.type) {
         case Types.CHANGE_INPUT_VALUE:
-            const proposalInput = { ...state.proposalInput };
-            const proposal_personal_information = { ...state.proposal_personal_information };
-            const proposer_present_address = { ...state.proposer_present_address };
-            const proposer_permanent_address = { ...state.proposer_permanent_address };
-            const proposer_bank_information = { ...state.proposer_bank_information };
-            const proposer_guardian = { ...state.proposer_guardian };
-            if (action.payload.key === 'proposal_personal_information') {
-                proposal_personal_information[action.payload.data.name] = action.payload.data.value;
-                proposalInput.proposal_personal_information = proposal_personal_information;
+            const updatedProposalInput: IProposalBasicInput = {
+                ...state.proposalInput
             }
-            else if (action.payload.key === 'proposer_present_address') {
-                proposer_present_address[action.payload.data.name] = action.payload.data.value;
-                proposalInput.proposer_present_address = proposer_present_address;
-            } else if (action.payload.key === 'proposer_permanent_address') {
-                proposer_permanent_address[action.payload.data.name] = action.payload.data.value;
-                proposalInput.proposer_permanent_address = proposer_permanent_address;
-            } else if (action.payload.key === 'proposer_bank_information') {
-                proposer_bank_information[action.payload.data.name] = action.payload.data.value;
-                proposalInput.proposer_bank_information = proposer_bank_information;
-            } else if (action.payload.key === 'proposer_guardian') {
-                proposer_guardian[action.payload.data.name] = action.payload.data.value;
-                proposalInput.proposer_guardian = proposer_guardian;
+
+            if (action.payload.key === '') {
+                updatedProposalInput[action.payload.data.name] = action.payload.data.value;
             } else {
-                proposalInput[action.payload.data.name] = action.payload.data.value;
+                updatedProposalInput[action.payload.key] = {
+                    ...updatedProposalInput[action.payload.key],
+                    [action.payload.data.name]: action.payload.data.value
+                };
             }
 
             return {
                 ...state,
-                proposalInput,
-                proposal_personal_information,
-                proposer_present_address,
-                proposer_permanent_address,
-                proposer_bank_information,
-                proposer_guardian
+                proposalInput: updatedProposalInput,
             };
 
         case Types.CHANGE_PROPOSAL_INPUT:

@@ -1,25 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { getAgentsDropdownList } from "@/redux/actions/employee-action";
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export interface IPremiumInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
-
-export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumInformation) {
-  const dispatch = useDispatch();
+export function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
-
-  useEffect(() => {
-    dispatch(getAgentsDropdownList());
-  }, []);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -33,7 +22,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           value={proposalInput?.proposal_no}
           isRequired={true}
           isDisabled={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Select
@@ -45,7 +34,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Bank..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
         <Select
           options={branchDropdownList}
@@ -56,7 +45,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Branch..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
         <Select
           options={planDropdownList}
@@ -67,7 +56,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Plan..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
         <Input
           type="number"
@@ -76,7 +65,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Initial Sum Assured"
           value={proposalInput?.initial_sum_assured}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
           minValue={0}
         />
@@ -87,7 +76,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Initial Premium"
           value={proposalInput?.initial_premium}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
           minValue={0}
           maxValue={proposalInput?.initial_sum_assured}
@@ -100,7 +89,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Agent"
           defaultValue={proposalInput?.agent_id}
           placeholder='Select Agent...'
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
       </div>
     </div>

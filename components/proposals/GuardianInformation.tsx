@@ -1,17 +1,14 @@
-import * as React from "react";
-import Input from "@/components/input";
 import { useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { relationList } from "@/utils/proposal-dropdowns";
-export interface IGuardianInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export function GuardianInformation({ handleChangeTextInput, errors }: IGuardianInformation) {
-  
+export function GuardianInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const { proposer_guardian: guardianInformation } = proposalInput;
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -24,9 +21,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Guardian Name"
           name="name"
           placeholder="Guardian Name"
-          value={proposalInput?.proposer_guardian.name}
+          value={guardianInformation.name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
 
@@ -34,9 +31,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Mobile No"
           name="phone_no"
           placeholder="Mobile No"
-          value={proposalInput?.proposer_guardian.phone_no}
+          value={guardianInformation.phone_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
 
@@ -45,9 +42,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           name="dob"
           type="date"
           placeholder="Date of Birth"
-          value={proposalInput?.proposer_guardian.dob}
+          value={guardianInformation.dob}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
 
@@ -55,9 +52,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="ID No"
           name="id_no"
           placeholder="ID No"
-          value={proposalInput?.proposer_guardian.id_no}
+          value={guardianInformation.id_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
 
@@ -65,9 +62,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput?.proposer_guardian.relation}
+          value={guardianInformation.relation}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
         /> */}
         <Select
           options={relationList}
@@ -75,9 +72,9 @@ export function GuardianInformation({ handleChangeTextInput, errors }: IGuardian
           name="relation"
           label="Relation"
           isRequired={true}
-          defaultValue={proposalInput?.proposer_guardian.relation}
+          defaultValue={guardianInformation.relation}
           placeholder="Select Relation"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
           errors={errors}
         />
       </div>

@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
-import Input from "@/components/input";
 import { useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export interface IPersonalInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
-
-export function PersonalInformation({ handleChangeTextInput, errors }: IPersonalInformation) {
+export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
-  const height = proposalInput?.proposal_personal_information?.height;
-  const heightInch = proposalInput?.proposal_personal_information?.height_inch;
-  const weight = proposalInput?.proposal_personal_information?.weight;
-  const dob = proposalInput?.proposal_personal_information?.dob;
+  const personalInformation = proposalInput.proposal_personal_information;
+
+  const height = personalInformation.height;
+  const heightInch = personalInformation.height_inch;
+  const weight = personalInformation.weight;
+  const dob = personalInformation.dob;
   const [age, setAge] = useState(0);
   const [BMI, setBMI] = useState<IBMI>({
     bmi: 0,
@@ -48,27 +47,27 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={proposalInput?.proposal_personal_information.full_name}
+          value={personalInformation.full_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Input
           label="Father Name"
           name="father_name"
           placeholder="Father Name"
-          value={proposalInput?.proposal_personal_information.father_name}
+          value={personalInformation.father_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Input
           label="Mother Name"
           name="mother_name"
           placeholder="Mother Name"
-          value={proposalInput?.proposal_personal_information.mother_name}
+          value={personalInformation.mother_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Select
@@ -77,9 +76,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           name="gender"
           label="Gender"
-          defaultValue={proposalInput?.proposal_personal_information.gender}
+          defaultValue={personalInformation.gender}
           placeholder="Gender"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
           errors={errors}
         />
         <Select
@@ -88,24 +87,24 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           isRequired={true}
           label="Marital Status"
           name="marital_status"
-          defaultValue={proposalInput?.proposal_personal_information.marital_status}
+          defaultValue={personalInformation.marital_status}
           placeholder="Marital Status"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
           errors={errors}
         />
         {
-          proposalInput?.proposal_personal_information.marital_status === 'married' &&
+          personalInformation.marital_status === 'married' &&
           <Input
             label={
-              `${proposalInput?.proposal_personal_information?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+              `${personalInformation?.gender === 'female' ? 'Husband' : 'Spouse'} name`
             }
             name="spouse_name"
             placeholder={
-              `${proposalInput?.proposal_personal_information?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+              `${personalInformation?.gender === 'female' ? 'Husband' : 'Spouse'} name`
             }
-            value={proposalInput?.proposal_personal_information.spouse_name}
+            value={personalInformation.spouse_name}
             isRequired={true}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
             errors={errors}
           />
         }
@@ -113,28 +112,28 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Email Address"
           name="email"
           placeholder="Email Address"
-          value={proposalInput?.proposal_personal_information.email}
+          value={personalInformation.email}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Input
           label="Mobile No"
           name="mobile_no"
           placeholder="Mobile No"
-          value={proposalInput?.proposal_personal_information.mobile_no}
+          value={personalInformation.mobile_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Select
           options={identityTypeList}
           isSearchable={true}
           name="identity_type"
-          defaultValue={proposalInput?.proposal_personal_information.identity_type}
+          defaultValue={personalInformation.identity_type}
           label="Identity Type"
           placeholder="Identity Type"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
           errors={errors}
         />
         <div>
@@ -143,11 +142,11 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             name="id_no"
             placeholder={identity_type.label}
             isDisabled={identity_type.isDisabledField}
-            value={proposalInput?.proposal_personal_information.id_no}
+            value={personalInformation.id_no}
             isRequired={true}
             minValue={identity_type.minLength}
             maxValue={identity_type.maxLength}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
             errors={errors}
             hintText={identity_type.message}
           />
@@ -157,36 +156,36 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           name="dob"
           placeholder="Date of Birth"
           type="date"
-          value={proposalInput?.proposal_personal_information.dob}
+          value={personalInformation.dob}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Input
           label="Occupation"
           name="occupation"
           placeholder="Occupation"
-          value={proposalInput?.proposal_personal_information.occupation}
+          value={personalInformation.occupation}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         {/* <Input
           label="Relation"
           name="relation"
           placeholder="Relation"
-          value={proposalInput?.proposal_personal_information.relation}
+          value={personalInformation.relation}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
         /> */}
         <Select
           options={religionList}
           isSearchable={true}
           name="religion"
           label="Religion"
-          defaultValue={proposalInput?.proposal_personal_information.religion}
+          defaultValue={personalInformation.religion}
           placeholder="Select Religion"
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
           errors={errors}
         />
         <div className="flex flex-1 w-full">
@@ -196,9 +195,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             name="height"
             type="number"
             placeholder="feet, eg: 5"
-            value={proposalInput?.proposal_personal_information.height}
+            value={personalInformation.height}
             isRequired={true}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
             errors={errors}
           />
           <Input
@@ -207,9 +206,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             name="height_inch"
             type="number"
             placeholder="inch, eg: 6"
-            value={proposalInput?.proposal_personal_information.height_inch}
+            value={personalInformation.height_inch}
             isRequired={true}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
             errors={errors}
           />
         </div>
@@ -220,9 +219,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             name="weight"
             type="number"
             placeholder="kg; eg: 65"
-            value={proposalInput?.proposal_personal_information.weight}
+            value={personalInformation.weight}
             isRequired={true}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
           />
           <Input
             areaClassNames='flex-1 ml-1 mt-1'
@@ -231,7 +230,7 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             placeholder="Body Mass Index(BMI)"
             value={BMI.bmi}
             isRequired={false}
-            inputChange={handleChangeTextInput}
+            inputChange={onChangeText}
             errors={errors}
             isDisabled={true}
             hintText={BMI.status !== '' ? BMI.status : ''}
@@ -242,9 +241,9 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           label="Allocation"
           name="allocation"
           placeholder="Allocation"
-          value={proposalInput?.proposal_personal_information.allocation}
+          value={personalInformation.allocation}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
       </div>
