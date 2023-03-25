@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
@@ -9,6 +10,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
+  const { productDropdownList } = useSelector((state: RootState) => state.product);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -54,6 +56,17 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           label="Plan"
           defaultValue={proposalInput?.plan_id}
           placeholder="Select Plan..."
+          isRequired={true}
+          errors={errors}
+          handleChangeValue={onChangeText}
+        />
+        <Select
+          options={productDropdownList}
+          isSearchable={true}
+          name="product_id"
+          label="Product"
+          defaultValue={proposalInput?.product_id}
+          placeholder="Select Product..."
           isRequired={true}
           errors={errors}
           handleChangeValue={onChangeText}
