@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from '@/components/modal';
@@ -14,6 +13,9 @@ import ProposalStatus from '@/components/proposals/ProposalStatus';
 import { formatCurrency } from '@/utils/currency';
 import { Dropdown } from 'flowbite-react';
 import { useRouter } from 'next/router';
+import { debounce } from 'lodash';
+import NewButton from '../button/button-new';
+import ActionButtons from '../button/button-actions';
 
 export default function ProposalList() {
     const dispatch = useDispatch();
@@ -24,12 +26,19 @@ export default function ProposalList() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
-
     const { proposalsList, paginationData, proposalDetails, isLoading, loadingDetails, isDeleting } = useSelector((state: RootState) => state.proposal);
 
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getProposalList(currentPage, dataLimit, searchText))
+        }, 500),
+        [currentPage, dataLimit, searchText]
+    );
+
     useEffect(() => {
-        dispatch(getProposalList(currentPage, dataLimit, searchText))
-    }, [currentPage, dataLimit, searchText])
+        debouncedDispatch(); // call debounced dispatch function
+        return debouncedDispatch.cancel; // cleanup the debounced function
+    }, [debouncedDispatch]);
 
     const showProposalDetails = (id: number) => {
         setShowModal(true);
@@ -59,12 +68,7 @@ export default function ProposalList() {
                 searchPlaceholder='Please search proposal by proposal no, plan, status...'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                headerRightSide={<>
-                    <Link href="/proposals/create-preview" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
-                        <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                        New Proposal
-                    </Link>
-                </>}
+                headerRightSide={<NewButton href="/proposals/create-preview" element={'New Proposal'} />}
             />
 
             <PageContentList>
@@ -113,31 +117,35 @@ export default function ProposalList() {
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
-                                            <Dropdown
-                                                label={
-                                                    <div className='mt-2'>
-                                                        <i className="bi bi-three-dots-vertical hover:text-blue-500"></i>
-                                                    </div>
-                                                }
-                                                inline={true}
-                                                arrowIcon={false}
-                                            >
-                                                <Dropdown.Item onClick={() => showProposalDetails(data.id)}>
-                                                    <i className='bi bi-eye mr-4'></i> View
-                                                </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => router.push(`/proposals/enlistment?id=${data.id}`)}>
-                                                    <i className='bi bi-pencil mr-4'></i> Edit
-                                                </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => router.push(`/under-writing?id=${data.id}`)}>
-                                                    <i className='bi bi-send mr-4'></i> Underwriting
-                                                </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`)}>
-                                                    <i className='bi bi-person-fill-add mr-4'></i> Stamps
-                                                </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => handleDeleteProposal(data.id)}>
-                                                    <i className='bi bi-trash mr-4'></i> Delete
-                                                </Dropdown.Item>
-                                            </Dropdown>
+                                            <ActionButtons
+                                                items={[
+                                                    {
+                                                        element: 'View',
+                                                        onClick: () => showProposalDetails(data.id),
+                                                        iconClass: 'eye'
+                                                    },
+                                                    {
+                                                        element: 'Edit',
+                                                        onClick: () => router.push(`/proposals/enlistment?id=${data.id}`),
+                                                        iconClass: 'pencil'
+                                                    },
+                                                    {
+                                                        element: 'Underwriting',
+                                                        onClick: () => router.push(`/under-writing?id=${data.id}`),
+                                                        iconClass: 'send'
+                                                    },
+                                                    {
+                                                        element: 'Stamps',
+                                                        onClick: () => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`),
+                                                        iconClass: 'person-fill-add'
+                                                    },
+                                                    {
+                                                        element: 'Delete',
+                                                        onClick: () => handleDeleteProposal(data.id),
+                                                        iconClass: 'trash'
+                                                    }
+                                                ]}
+                                            />
                                         </td>
                                     </tr>
                                 ))
