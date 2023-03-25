@@ -1,5 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { debounce } from 'lodash';
 
 import Modal from '@/components/modal';
 import Table from '@/components/table';
@@ -9,13 +11,11 @@ import Button from '@/components/button';
 import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import ProposalStatus from '@/components/proposals/ProposalStatus';
 import { formatCurrency } from '@/utils/currency';
-import { Dropdown } from 'flowbite-react';
-import { useRouter } from 'next/router';
-import { debounce } from 'lodash';
-import NewButton from '../button/button-new';
-import ActionButtons from '../button/button-actions';
+import NewButton from '@/components/button/button-new';
+import ActionButtons from '@/components/button/button-actions';
+import StatusBadge from '@/components/badge/StatusBadge';
+import { IProposalBasicInput } from '@/redux/interfaces';
 
 export default function ProposalList() {
     const dispatch = useDispatch();
@@ -86,7 +86,7 @@ export default function ProposalList() {
                         >
                             {
                                 proposalsList && proposalsList.length > 0
-                                && proposalsList.map((data, index) => (
+                                && proposalsList.map((data: IProposalBasicInput, index: number) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.proposal_no}
@@ -113,7 +113,7 @@ export default function ProposalList() {
                                             {formatCurrency(data.initial_premium)}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            <ProposalStatus status={data.status} />
+                                            <StatusBadge status={data.status} />
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">

@@ -1,5 +1,6 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import Modal from '@/components/modal';
 import Table from '@/components/table';
@@ -11,19 +12,21 @@ import Select from '@/components/select';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { changeInputValue, submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch } from '@/redux/actions/branch-action';
 import Create from './create';
-import PageHeader from '../layouts/PageHeader';
+import PageHeader from '@/components/layouts/PageHeader';
+import NewButton from '@/components/button/button-new';
+import { PageContentList } from '@/components/layouts/PageContentList';
 
 export default function Branches() {
     const dispatch = useDispatch();
 
-    const [showModal, setShowModal] = React.useState<boolean>(false);
-    const [showDetailsModal, setShowDetailsModal] = React.useState<boolean>(false);
-    const [showUpdateModal, setShowUpdateModal] = React.useState<boolean>(false);
-    const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
-    const [branchID, setBranchID] = React.useState<number | null>(null);
-    const [currentPage, setCurrentPage] = React.useState<number>(1);
-    const [dataLimit, setDataLimit] = React.useState<number>(5);
-    const [searchText, setSearchText] = React.useState<string>('');
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
+    const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+    const [branchID, setBranchID] = useState<number | null>(null);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [dataLimit, setDataLimit] = useState<number>(5);
+    const [searchText, setSearchText] = useState<string>('');
 
     const { branchInput, branchList, branchPaginationData, isLoading, isSubmitting, branchDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Branch);
     const { projectDropdownList } = useSelector((state: RootState) => state.Project);
@@ -36,11 +39,11 @@ export default function Branches() {
         { title: "Action", id: 5 },
     ]
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getBranchList(currentPage, dataLimit, searchText));
     }, [currentPage, dataLimit, searchText]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getProjectListDropdown());
     }, []);
 
@@ -76,19 +79,11 @@ export default function Branches() {
                 title='All branches'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                searchPlaceholder='Search banks...'
-                headerRightSide={
-                    <Button
-                        onClick={() => setShowModal(true)}
-                        customClass="flex"
-                    >
-                        <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                        Open branch
-                    </Button>
-                }
+                searchPlaceholder='Search branches...'
+                headerRightSide={<NewButton onClick={() => setShowModal(true)} element='Open branch' />}
             />
 
-            <div className="p-4 bg-white block border-b border-gray-200">
+            <PageContentList>
                 {
                     isLoading ?
                         <div className="text-center">
@@ -150,7 +145,7 @@ export default function Branches() {
                             }
                         </Table>
                 }
-            </div>
+            </PageContentList>
 
             <Modal title={`Open a branch`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
                 <Create setShowModal={setShowModal} />

@@ -35,7 +35,6 @@ export default function Banks(props: IBanksProps) {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
-
     const { projectInput, projectList, projectPaginationData, isLoading, isSubmitting, projectDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Project);
 
     const columnData: any[] = [
@@ -67,12 +66,12 @@ export default function Banks(props: IBanksProps) {
 
     // Submit Project Data
     const onSubmit = (e: any, type: string) => {
+        e.preventDefault();
         if (type === "edit") {
             dispatch(handleUpdateProject(projectInput, setShowUpdateModal));
         } else {
             dispatch(handleSubmitProject(projectInput, setShowModal));
         }
-        e.preventDefault();
     }
 
     return (
