@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Input from "@/components/input";
 import { useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { GenderList, heightMeasurementList, identityTypeList, MaritalStatusList, religionList, weightMeasurementList } from "@/utils/proposal-dropdowns";
-import ValidationMessage from "../validationMessage";
+import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateBMI } from "@/utils/calculation";
-
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
     identityLabel: any;
@@ -44,7 +43,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
             <div className="bg-white text-cyan-600 mb-3 text-sm border border-gray-200">
-                <h3 className="p-2">  Nominee Personal Information</h3>
+                <h3 className="p-2"> Nominee Personal Information</h3>
             </div>
             <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2">
                 <Input
@@ -75,6 +74,17 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     errors={errors}
                 />
                 <Select
+                    options={GenderList}
+                    isSearchable={true}
+                    isRequired={true}
+                    name="gender"
+                    label="Gender"
+                    defaultValue={data.gender}
+                    placeholder="Gender"
+                    handleChangeValue={changeNomineeInputVal}
+                    errors={errors}
+                />
+                <Select
                     options={MaritalStatusList}
                     isSearchable={true}
                     isRequired={true}
@@ -88,9 +98,13 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                 {
                     data.marital_status === 'married' &&
                     <Input
-                        label="Spouse Name"
+                        label={
+                            `${data?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+                        }
                         name="spouse_name"
-                        placeholder="Spouse Name"
+                        placeholder={
+                            `${data?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+                        }
                         value={data.spouse_name}
                         isRequired={true}
                         inputChange={changeNomineeInputVal}
@@ -141,17 +155,6 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                         hintText={identity_type.message}
                     />
                 </div>
-                <Select
-                    options={GenderList}
-                    isSearchable={true}
-                    isRequired={true}
-                    name="gender"
-                    label="Gender"
-                    defaultValue={data.gender}
-                    placeholder="Gender"
-                    handleChangeValue={changeNomineeInputVal}
-                    errors={errors}
-                />
 
                 <Input
                     label="Date of Birth"

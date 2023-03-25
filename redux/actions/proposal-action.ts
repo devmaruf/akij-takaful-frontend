@@ -1,38 +1,25 @@
-import * as Types from "./../types/proposal-type";
-import axios from "@/utils/axios";
-import { Toaster } from "@/components/toaster";
-import { IProposal } from "../interfaces";
-import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
-import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 import { Dispatch } from "@reduxjs/toolkit";
 
+import axios from "@/utils/axios";
+import * as Types from "@/redux/types/proposal-type";
+import { Toaster } from "@/components/toaster";
+import { IProposal } from "@/redux/interfaces";
+import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
+import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
+
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
-    let data = {
-        name: name,
-        value: value,
-    }
-    dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
+    dispatch({
+        type: Types.CHANGE_INPUT_VALUE, payload: {
+            data: {
+                name: name,
+                value: value,
+            },
+            key
+        }
+    });
 };
 
 export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
-    // let proposalInputUpdated = {
-    //     ...proposalInput,
-    //     proposer_nominees: [],
-    // };
-
-    // proposalInput.proposer_nominees.forEach((nominee, previousIndex) => {
-    //     if (index === previousIndex) {
-    //         const nomineeUpdated = {
-    //             ...nominee,
-    //         };
-    //         nomineeUpdated[key][name] = value;
-    //         proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
-    //     } else {
-    //         proposalInputUpdated.proposer_nominees.push(nominee);
-    //     }
-    // });
-
-    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
     const nominees = proposalInput.proposer_nominees;
     const nomineeToUpdate = nominees[index];
 
@@ -110,7 +97,7 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
         });
 }
 
-export const getProposalList = (currentPage: number = 1, dataLimit: number = 10, search: string = '') => (dispatch) => {
+export const getProposalList = (currentPage: number = 1, dataLimit: number = 10, search: string = '') => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -136,7 +123,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10,
         });
 }
 
-export const getProposalDetails = (id: number | string) => (dispatch) => {
+export const getProposalDetails = (id: number | string) => (dispatch: Dispatch) => {
     if (isNaN(parseInt(id + ''))) {
         return;
     }
@@ -156,17 +143,9 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
             response.status = true;
             response.message = res.data.message;
             response.data = res.data;
-            // Optional Data,
+
             response.inputData = res.data;
             response.inputData.proposal_no = res.data.proposal_no;
-
-            // response.inputData.project_id = 1;
-            // response.inputData.branch_id = 1;
-            // response.inputData.proposer_name = res.data.data.proposer_name;
-            // response.inputData.plan_id = res.data.data.plan_id;
-            // response.inputData.agent_id = res.data.data.agent_id;
-            // response.inputData.initial_sum_assured = res.data.data.initial_sum_assured;
-            // response.inputData.initial_premium = res.data.data.initial_premium;
             dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
         })
         .catch(error => {
@@ -269,7 +248,7 @@ export const getPlanDropdownList = () => (dispatch: Dispatch) => {
         });
 };
 
-export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (dispatch) => {
+export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (dispatch: Dispatch) => {
     let defaultDivision;
     let defaultDistrict;
     let defaultArea;
@@ -299,7 +278,7 @@ export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (d
     dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: data });
 }
 
-export const printProposalAction = (proposalPrintData: object) => (dispatch: any) => {
+export const printProposalAction = (proposalPrintData: object) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -324,7 +303,7 @@ export const printProposalAction = (proposalPrintData: object) => (dispatch: any
 }
 
 
-export const handleCheckIdentity = (value: any) => (dispatch) => {
+export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
     const data = {
         isDisabledField: true,
         label: "",
@@ -366,7 +345,7 @@ export const handleCheckIdentity = (value: any) => (dispatch) => {
     dispatch({ type: Types.CHECKED_IDENTITY, payload: data });
 }
 
-export const createPreviewProposalAndRedirectAction = (router) => (dispatch) => {
+export const createPreviewProposalAndRedirectAction = (router: any) => (dispatch: Dispatch) => {
     const source = axios.CancelToken.source();
 
     axios.post('/proposals/create-preview-proposal', {
@@ -388,11 +367,11 @@ export const createPreviewProposalAndRedirectAction = (router) => (dispatch) => 
     };
 }
 
-export const addMultipleNomineeForm = () => (dispatch) => {
+export const addMultipleNomineeForm = () => (dispatch: Dispatch) => {
     dispatch({ type: Types.ADD_NOMINEE_FORM, payload: {} });
 }
 
-export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => (dispatch) => {
+export const removeMultipleNomineeForm = (nomineeList: any[], index: number) => (dispatch: Dispatch) => {
     if (nomineeList.length > 1) {
         const newNomineeList = nomineeList.slice(0, index).concat(nomineeList.slice(index + 1));
         dispatch({ type: Types.REMOVE_NOMINEE_FORM, payload: newNomineeList });

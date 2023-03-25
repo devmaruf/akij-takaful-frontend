@@ -1,15 +1,12 @@
-import * as React from "react";
-import Input from "@/components/input";
 import { useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export interface IBankInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
-
-export function BankInformation({ handleChangeTextInput, errors }: IBankInformation) {
+export function BankInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const { proposer_bank_information: bankInformation } = proposalInput;
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -21,28 +18,30 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={proposalInput?.proposer_bank_information.bank_name}
+          value={bankInformation.bank_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
+
         <Input
           label="Branch Name"
           name="bank_branch_name"
           placeholder="Branch Name"
-          value={proposalInput?.proposer_bank_information.bank_branch_name}
+          value={bankInformation.bank_branch_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
+
         <Input
           label="Account No"
           type="number"
           name="bank_account_no"
           placeholder="Account No"
-          value={proposalInput?.proposer_bank_information.bank_account_no}
+          value={bankInformation.bank_account_no}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
 
@@ -50,9 +49,9 @@ export function BankInformation({ handleChangeTextInput, errors }: IBankInformat
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={proposalInput?.proposer_bank_information.bank_account_holder_name}
+          value={bankInformation.bank_account_holder_name}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
       </div>

@@ -1,25 +1,25 @@
-import * as React from "react";
-import Input from "@/components/input";
 import { useDispatch, useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isSameAddressCheck } from "@/redux/actions/proposal-action";
 import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export interface IAddressInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
+export interface IAddressInformation extends IProposalFormSection {
+  onChangePermanentAddress: (name: string, value: any) => void;
+  onChangePresentAddress: (name: string, value: any) => void;
 }
 
-export function AddressInformation({ changePresentAddress, changePermanentAddress, errors }: IAddressInformation) {
-
+export function AddressInformation({ onChangeText, onChangePresentAddress, onChangePermanentAddress, errors }: IAddressInformation) {
   const dispatch = useDispatch();
-
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
+  const { proposer_permanent_address: permanentAddress, proposer_present_address: presentAddress } = proposalInput;
 
-  const handleCheckedSameAddress = (event, proposalInput) => {
-    const isChecked = event.target.checked;
-    dispatch(isSameAddressCheck(isChecked, proposalInput?.proposer_permanent_address))
+  const handleCheckedSameAddress = (e: any) => {
+    const isChecked = e.target.checked;
+    dispatch(isSameAddressCheck(isChecked, permanentAddress))
   }
 
   return (
@@ -34,10 +34,10 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           options={divisionList}
           isSearchable={true}
           name="division_id"
-          defaultValue={proposalInput?.proposer_permanent_address.division_id}
+          defaultValue={permanentAddress.division_id}
           label="Division"
           placeholder="Select Division..."
-          handleChangeValue={changePermanentAddress}
+          handleChangeValue={onChangePermanentAddress}
           errors={errors}
         />
 
@@ -46,19 +46,19 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           isSearchable={true}
           name="district_id"
           label="District"
-          defaultValue={proposalInput?.proposer_permanent_address.district_id}
+          defaultValue={permanentAddress.district_id}
           placeholder="Select District..."
-          handleChangeValue={changePermanentAddress}
+          handleChangeValue={onChangePermanentAddress}
           errors={errors}
         />
         <Select
           options={areaList}
           isSearchable={true}
           name="area_id"
-          defaultValue={proposalInput?.proposer_permanent_address.area_id}
+          defaultValue={permanentAddress.area_id}
           label="Area"
           placeholder="Select Area..."
-          handleChangeValue={changePermanentAddress}
+          handleChangeValue={onChangePermanentAddress}
           errors={errors}
         />
 
@@ -66,9 +66,9 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           label="Post Office Name"
           name="post_office_name"
           placeholder="Post Office Name"
-          value={proposalInput?.proposer_permanent_address.post_office_name}
+          value={permanentAddress.post_office_name}
           isRequired={true}
-          inputChange={changePermanentAddress}
+          inputChange={onChangePermanentAddress}
           errors={errors}
         />
 
@@ -76,9 +76,9 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           label="Street address"
           name="street_address"
           placeholder="Street address"
-          value={proposalInput?.proposer_permanent_address.street_address}
+          value={permanentAddress.street_address}
           isRequired={true}
-          inputChange={changePermanentAddress}
+          inputChange={onChangePermanentAddress}
           errors={errors}
         />
 
@@ -88,7 +88,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             type="checkbox"
             value=""
             checked={isSameAddress}
-            onChange={(e) => handleCheckedSameAddress(e, proposalInput)}
+            onChange={handleCheckedSameAddress}
             className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
           />
           <label
@@ -99,6 +99,7 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
           </label>
         </div>
       </div>
+
       <div
       // className={isSameAddress ? 'block' : 'hidden'}
       >
@@ -109,9 +110,9 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="division_id"
             label="Division"
-            defaultValue={proposalInput?.proposer_present_address?.division_id}
+            defaultValue={presentAddress.division_id}
             placeholder="Select Division..."
-            handleChangeValue={changePresentAddress}
+            handleChangeValue={onChangePresentAddress}
             errors={errors}
           />
 
@@ -120,9 +121,9 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="district_id"
             label="District"
-            defaultValue={proposalInput?.proposer_present_address?.district_id}
+            defaultValue={presentAddress.district_id}
             placeholder="Select District..."
-            handleChangeValue={changePresentAddress}
+            handleChangeValue={onChangePresentAddress}
             errors={errors}
           />
 
@@ -131,9 +132,9 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             isSearchable={true}
             name="area_id"
             label="Area"
-            defaultValue={proposalInput?.proposer_present_address?.area_id}
+            defaultValue={presentAddress.area_id}
             placeholder="Select Area..."
-            handleChangeValue={changePresentAddress}
+            handleChangeValue={onChangePresentAddress}
             errors={errors}
           />
 
@@ -141,20 +142,20 @@ export function AddressInformation({ changePresentAddress, changePermanentAddres
             label="Post Office Name"
             name="post_office_name"
             placeholder="Post Office Name"
-            value={proposalInput?.proposer_present_address?.post_office_name}
+            value={presentAddress.post_office_name}
             isRequired={true}
             isDisabled={isSameAddress}
-            inputChange={changePresentAddress}
+            inputChange={onChangePresentAddress}
             errors={errors}
           />
           <Input
             label="Street address"
             name="street_address"
             placeholder="Street address"
-            value={proposalInput?.proposer_present_address?.street_address}
+            value={presentAddress.street_address}
             isRequired={true}
             isDisabled={isSameAddress}
-            inputChange={changePresentAddress}
+            inputChange={onChangePresentAddress}
             errors={errors}
           />
         </div>

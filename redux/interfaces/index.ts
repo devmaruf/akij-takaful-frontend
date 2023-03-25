@@ -85,6 +85,71 @@ export interface IGlobal {
     sideMenuList: any[];
 }
 
+export interface IProposalPersonalInformation {
+    proposal_nominee_id: number | null;
+    full_name: string;
+    father_name: string;
+    mother_name: string;
+    spouse_name: string;
+    email: string;
+    mobile_no: string;
+    marital_status: string;
+    identity_type: string;
+    gender: string;
+    id_no: string;
+    dob: string;
+    occupation: string;
+    relation: string;
+    height: number;
+    height_inch: number;
+    height_unit: string;
+    weight: number;
+    weight_unit: string;
+    allocation: string;
+}
+
+export interface IProposalAddress {
+    proposal_nominee_id: number | null;
+    street_address: string;
+    post_office_name: string;
+    address_type: 'present' | 'permanent';
+    area_id: number;
+    area_name: string;
+    district_id: number;
+    district_name: string;
+    division_id: number;
+    division_name: string;
+    defaultDivision: any,
+    defaultDistrict: any,
+    defaultArea: any,
+    is_same_address: boolean;
+}
+
+export interface IProposalPresentAddress extends IProposalAddress {
+    address_type: 'present';
+}
+
+export interface IProposalPermanentAddress extends IProposalAddress {
+    address_type: 'permanent';
+}
+
+export interface IProposalBankInformation {
+    proposal_nominee_id: number | null;
+    bank_name: string;
+    bank_branch_name: string;
+    bank_account_no: string;
+    bank_account_holder_name: string;
+}
+
+export interface IProposalGuardian {
+    proposal_nominee_id: number | null;
+    name: string;
+    phone_no: string;
+    dob: string;
+    id_no: string;
+    relation: string;
+}
+
 export interface IProposalBasicInput {
     project_id: number;
     branch_id: number;
@@ -95,12 +160,13 @@ export interface IProposalBasicInput {
     initial_premium: number;
     proposer_name: '',
     phone_no: '',
-    proposal_personal_information: any;
-    proposer_present_address: any;
-    proposer_permanent_address: any;
-    proposer_bank_information: any;
-    proposer_guardian: any;
+    proposal_personal_information: IProposalPersonalInformation | {};
+    proposer_present_address: IProposalPresentAddress | {};
+    proposer_permanent_address: IProposalPermanentAddress | {};
+    proposer_bank_information: IProposalBankInformation | {};
+    proposer_guardian: IProposalGuardian | {};
     proposer_nominees: any[];
+    underwriting_questionnaires: any[];
     status: string;
 }
 
@@ -116,75 +182,6 @@ export interface IProposal {
     paginationData: any[];
     proposalDetails: any;
     proposalInput: IProposalBasicInput;
-    proposal_personal_information: {
-        proposal_nominee_id: number | null;
-        full_name: string;
-        father_name: string;
-        mother_name: string;
-        spouse_name: string;
-        email: string;
-        mobile_no: string;
-        marital_status: string;
-        identity_type: string;
-        gender: string;
-        id_no: string;
-        dob: string;
-        occupation: string;
-        relation: string;
-        height: number;
-        height_inch: number;
-        height_unit: string;
-        weight: number;
-        weight_unit: string;
-        allocation: string;
-    };
-    proposer_present_address: {
-        proposal_nominee_id: number | null;
-        street_address: string;
-        post_office_name: string;
-        address_type: string;
-        area_id: number;
-        area_name: string;
-        district_id: number;
-        district_name: string;
-        division_id: number;
-        division_name: string;
-        defaultDivision: any,
-        defaultDistrict: any,
-        defaultArea: any,
-        is_same_address: boolean;
-    };
-    proposer_permanent_address: {
-        proposal_nominee_id: number | null;
-        street_address: string;
-        post_office_name: string;
-        address_type: string;
-        area_id: number;
-        area_name: string;
-        district_id: number;
-        district_name: string;
-        division_id: number;
-        division_name: string;
-        defaultDivision: any,
-        defaultDistrict: any,
-        defaultArea: any,
-        is_same_address: boolean;
-    };
-    proposer_bank_information: {
-        proposal_nominee_id: number | null;
-        bank_name: string;
-        bank_branch_name: string;
-        bank_account_no: string;
-        bank_account_holder_name: string;
-    };
-    proposer_guardian: {
-        proposal_nominee_id: number | null;
-        name: string;
-        phone_no: string;
-        dob: string;
-        id_no: string;
-        relation: string;
-    };
     printProposalList: Array<IProposalBasicInput>,
     identity_type: {
         isDisabledField: boolean;
@@ -194,8 +191,6 @@ export interface IProposal {
         minLength: number,
         maxLength: number,
     };
-
-    proposer_nominees: any[];
 }
 
 export interface IRole {
@@ -275,4 +270,10 @@ export interface IStamps {
 export interface IStampListItem extends IStamps {
     proposal_id: number;
     proposal_no: string;
+}
+
+export interface IProposalFormSection {
+    onChangeText: (name: string, value: any) => void;
+    errors?: any;
+    sectionName?: string | null;
 }
