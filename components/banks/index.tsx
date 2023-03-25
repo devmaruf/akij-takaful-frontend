@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import Modal from '@/components/modal';
 import Table from '@/components/table';
@@ -21,11 +22,9 @@ import PageHeader from '../layouts/PageHeader';
 import NewButton from '../button/button-new';
 import { PageContentList } from '../layouts/PageContentList';
 import ActionButtons from '../button/button-actions';
+import { debounce } from 'lodash';
 
-export interface IBanksProps {
-}
-
-export default function Banks(props: IBanksProps) {
+export default function Banks() {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
@@ -43,9 +42,17 @@ export default function Banks(props: IBanksProps) {
         { title: "Action", id: 3 },
     ]
 
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getProjectList(currentPage, dataLimit, searchText));
+        }, 500),
+        [currentPage, dataLimit, searchText]
+    );
+
     useEffect(() => {
-        dispatch(getProjectList(currentPage, dataLimit, searchText));
-    }, [currentPage, dataLimit, searchText])
+        debouncedDispatch(); // call debounced dispatch function
+        return debouncedDispatch.cancel; // cleanup the debounced function
+    }, [debouncedDispatch]);
 
     const handleOpenModal = (id: number, type: string) => {
         if (type === "view") {

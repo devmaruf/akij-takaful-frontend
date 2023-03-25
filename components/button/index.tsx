@@ -9,7 +9,8 @@ interface IButton {
     type?: 'submit' | 'button' | 'reset';
     customClass?: string;
     children?: React.ReactNode;
-    variant?: 'primary' | 'default' | 'danger' | 'success'
+    variant?: 'primary' | 'default' | 'danger' | 'success';
+    iconRight?: React.ReactNode;
 }
 
 export default function Button({
@@ -23,7 +24,8 @@ export default function Button({
     position = "text-right",
     children,
     customClass = "",
-    variant = 'primary'
+    variant = 'primary',
+    iconRight = <></>
 }: IButton) {
 
     return (
@@ -53,6 +55,7 @@ export default function Button({
             >
                 {loading ? loadingTitle + '...' : ''}
                 {(!loading && typeof title !== "undefined" && title !== null) ? title : children}
+                {iconRight}
             </button>
         </div>
     );
