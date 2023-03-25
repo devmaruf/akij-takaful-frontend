@@ -1,8 +1,9 @@
 import axios from "@/utils/axios";
 import * as Types from "../types/employee-type";
 import { Toaster } from "@/components/toaster";
+import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeInputValue = (name: string, value: any) => (dispatch: any) => {
+export const changeInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
     let data = {
         name: name,
         value: value,
@@ -11,7 +12,7 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
 };
 
 
-export const createEmployee = (employeeInput, router) => (dispatch: any) => {
+export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
     if (employeeInput.first_name === "") {
         Toaster("error", "Please give first name.");
         return false;
@@ -71,8 +72,7 @@ export const createEmployee = (employeeInput, router) => (dispatch: any) => {
         });
 }
 
-
-export const getEmployeeList = (currentPage: number = 1, dataLimit: number = 10) => (dispatch) => {
+export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -82,7 +82,7 @@ export const getEmployeeList = (currentPage: number = 1, dataLimit: number = 10)
     };
     dispatch({ type: Types.GET_EMPLOYEE_LIST, payload: response });
 
-    axios.get(`/employees?perPage=${dataLimit}&currentPage=${currentPage}`)
+    axios.get(`/employees?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -97,7 +97,7 @@ export const getEmployeeList = (currentPage: number = 1, dataLimit: number = 10)
 
 }
 
-export const getEmployeeDetails = (id: number | string) => (dispatch) => {
+export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -120,7 +120,7 @@ export const getEmployeeDetails = (id: number | string) => (dispatch) => {
         });
 }
 
-// export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: any) => {
+// export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: Dispatch) => {
 //     if (projectInput.name === "") {
 //         Toaster("error", "Project name can't be blank!");
 //         return false;
@@ -156,7 +156,7 @@ export const getEmployeeDetails = (id: number | string) => (dispatch) => {
 //         })
 // }
 
-// export const deleteProject = (id: number, setShowDeleteModal) => (dispatch) => {
+// export const deleteProject = (id: number, setShowDeleteModal) => (dispatch: Dispatch) => {
 //     let responseData = {
 //         status: false,
 //         message: "",
@@ -179,7 +179,7 @@ export const getEmployeeDetails = (id: number | string) => (dispatch) => {
 // }
 
 
-export const updateEmployee = (employeeInput, router) => (dispatch: any) => {
+export const updateEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
     if (employeeInput.first_name === "") {
         Toaster("error", "Please give first name.");
         return false;
@@ -235,14 +235,14 @@ export const updateEmployee = (employeeInput, router) => (dispatch: any) => {
         });
 }
 
-export const getEmployeeRolesDropdownList = () => (dispatch) => {
+export const getEmployeeRolesDropdownList = () => (dispatch: Dispatch) => {
     axios.get(`/roles/dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_EMPLOYEE_ROLES, payload: res.data });
         })
 }
 
-export const getAgentsDropdownList = () => (dispatch) => {
+export const getAgentsDropdownList = () => (dispatch: Dispatch) => {
     axios.get(`/employees/agents-dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_AGENT_DROPDOWN_LIST, payload: res.data });

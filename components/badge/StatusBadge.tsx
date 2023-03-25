@@ -1,8 +1,8 @@
-interface IProposalStatus {
+interface IStatusBadge {
     status: string;
 }
 
-export default function ProposalStatus({ status }: IProposalStatus) {
+export default function StatusBadge({ status }: IStatusBadge) {
     let colorClass, label;
 
     switch (status) {

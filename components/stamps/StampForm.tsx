@@ -81,7 +81,6 @@ export default function StampForm({ proposalNo, pageType }: IStampForm) {
             <PageHeader
                 title={pageType === 'create' ? 'New stamp' : 'Edit stamp'}
                 hasSearch={false}
-                headerRightSide=<></>
             />
 
             <PageContent>
@@ -107,6 +106,7 @@ export default function StampForm({ proposalNo, pageType }: IStampForm) {
                                 position="text-left"
                                 loadingTitle="Searching..."
                                 loading={isSearching}
+                                iconRight={<i className='bi bi-search ml-2'></i>}
                             />
                         </div>
                         {
@@ -116,8 +116,8 @@ export default function StampForm({ proposalNo, pageType }: IStampForm) {
                                     <table className='w-full'>
                                         <thead>
                                             <tr>
-                                                <th className='p-3 text-left'>Stamp Name</th>
-                                                <th className='p-3 text-left'>
+                                                <th className='p-3 text-sm text-left font-normal text-black'>Stamp Name</th>
+                                                <th className='p-3 text-sm text-left font-normal text-black'>
                                                     <div className="flex justify-between">
                                                         <div>
                                                             Stamp Value

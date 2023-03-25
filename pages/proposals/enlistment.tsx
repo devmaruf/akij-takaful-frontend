@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 import { RootState } from "@/redux/store";
 import {
@@ -25,6 +26,7 @@ import { PageContentList } from "@/components/layouts/PageContentList";
 import Loading from "@/components/loading";
 import { Questionaires } from "@/components/proposals/Questionaires";
 import { NomineeForm } from "@/components/proposals/NomineeForm";
+import { useDebounced } from "@/hooks/use-debounce";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -33,18 +35,24 @@ export default function EnlistmentPage() {
   const [errors, setErrors] = useState({})
   const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
 
-  useEffect(() => {
+  useDebounced(() => {
     dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
-  }, []);
+  });
+
+  const debouncedDispatch = useCallback(
+    debounce(() => {
+      dispatch(getProposalDetails(id))
+    }, 2000),
+    [id]
+  );
 
   useEffect(() => {
-    if (id !== undefined && parseInt(id + '') > 0) {
-      dispatch(getProposalDetails(id))
-    }
-  }, [id]);
+    debouncedDispatch(); // call debounced dispatch function
+    return debouncedDispatch.cancel; // cleanup the debounced function
+  }, [debouncedDispatch]);
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, ""));

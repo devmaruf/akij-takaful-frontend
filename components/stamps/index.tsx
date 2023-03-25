@@ -15,6 +15,7 @@ import NoTableDataFound from '../table/NoDataFound';
 import { IStampListItem } from '@/redux/interfaces';
 import StampViewModal from './StampViewModal';
 import { Dispatch } from '@reduxjs/toolkit';
+import NewButton from '../button/button-new';
 
 export default function StampList() {
   const router = useRouter();
@@ -45,15 +46,11 @@ export default function StampList() {
   return (
     <div>
       <PageHeader
-        title='Manage Stamps'
+        title='Stamps'
         searchText={searchText}
         searchPlaceholder={'Search stamps...'}
         onSearchText={setSearchText}
-        headerRightSide={
-          <Link href="/stamps/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-1 text-center sm:w-auto">
-            <i className='bi bi-plus-circle mr-2'></i> Add New
-          </Link>
-        }
+        headerRightSide={<NewButton href='/stamps/create' element='New stamp' />}
       />
 
       <StampViewModal

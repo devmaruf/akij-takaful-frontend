@@ -1,8 +1,9 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getProposalDashboardCountingAction } from "@/redux/actions/proposal-dashboard-action";
 import { RootState } from "@/redux/store";
 import Card from "@/components/card";
+import { useDebounced } from "@/hooks/use-debounce";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -10,9 +11,9 @@ export default function Home() {
     (state: RootState) => state.dashboard
   );
 
-  useEffect(() => {
+  useDebounced(() => {
     dispatch(getProposalDashboardCountingAction());
-  }, []);
+  });
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -13,6 +13,7 @@ import { PageContent } from '@/components/layouts/PageContent';
 import { getAgentsDropdownList } from '@/redux/actions/employee-action';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
+import { useDebounced } from '@/hooks/use-debounce';
 
 export default function CreateBasicPage() {
   const router = useRouter()
@@ -24,12 +25,12 @@ export default function CreateBasicPage() {
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
 
-  useEffect(() => {
+  useDebounced(() => {
     dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
-  }, [dispatch])
+  });
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value));
@@ -43,6 +44,7 @@ export default function CreateBasicPage() {
   useEffect(() => {
     dispatch(getProposalDetails(id));
   }, [id]);
+  
 
   return (
     <div>
