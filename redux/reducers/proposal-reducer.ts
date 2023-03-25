@@ -107,75 +107,6 @@ const initialState: IProposal = {
         underwriting_questionnaires: [],
         status: 'creating',
     },
-    proposal_personal_information: {
-        proposal_nominee_id: null,
-        full_name: '',
-        father_name: '',
-        mother_name: '',
-        spouse_name: '',
-        email: '',
-        mobile_no: '',
-        marital_status: '',
-        identity_type: '',
-        gender: '',
-        id_no: '',
-        dob: '',
-        occupation: '',
-        relation: '',
-        height: 0,
-        height_inch: 0,
-        height_unit: 'ft',
-        weight: 0,
-        weight_unit: 'kg',
-        allocation: '',
-    },
-    proposer_permanent_address: {
-        proposal_nominee_id: 1,
-        street_address: '',
-        post_office_name: '',
-        address_type: 'permanent',
-        area_id: 0,
-        area_name: '',
-        district_id: 0,
-        district_name: '',
-        division_id: 0,
-        division_name: '',
-        defaultDivision: {},
-        defaultDistrict: {},
-        defaultArea: {},
-        is_same_address: false,
-    },
-    proposer_present_address: {
-        proposal_nominee_id: null,
-        street_address: '',
-        post_office_name: '',
-        address_type: 'present',
-        area_id: 0,
-        area_name: '',
-        district_id: 0,
-        district_name: '',
-        division_id: 0,
-        division_name: '',
-        defaultDivision: {},
-        defaultDistrict: {},
-        defaultArea: {},
-        is_same_address: false,
-    },
-    proposer_bank_information: {
-        proposal_nominee_id: null,
-        bank_name: '',
-        bank_branch_name: '',
-        bank_account_no: '',
-        bank_account_holder_name: '',
-    },
-    proposer_guardian: {
-        proposal_nominee_id: null,
-        name: '',
-        phone_no: '',
-        dob: '',
-        id_no: '',
-        relation: '',
-    },
     printProposalList: [],
     identity_type: {
         isDisabledField: true,
@@ -209,15 +140,6 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposalInput: updatedProposalInput,
             };
 
-        case Types.CHANGE_PROPOSAL_INPUT:
-            return {
-                ...state,
-                proposalInput: {
-                    ...state.proposalInput,
-                    [action.payload.name]: action.payload.value
-                },
-            };
-
         case Types.CHANGE_NOMINEE_INPUT:
             return {
                 ...state,
@@ -233,17 +155,14 @@ function ProposalsReducer(state = initialState, action: any) {
 
         case Types.IS_SAME_ADDRESS_STATUS:
             const prevProposalInput = { ...state.proposalInput };
-            // const permanentAddress = { ...state.proposer_permanent_address };
-            let presentAddress = { ...state.proposer_present_address };
             if (action.payload.status === true) {
                 prevProposalInput.proposer_present_address = action.payload.permanentAddress;
             } else {
-                prevProposalInput.proposer_present_address = initialState.proposer_present_address
+                prevProposalInput.proposer_present_address = initialState.proposalInput.proposer_present_address
             }
             return {
                 ...state,
                 proposalInput: prevProposalInput,
-                proposer_present_address: presentAddress,
                 isSameAddress: action.payload.status
             };
 

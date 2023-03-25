@@ -19,15 +19,6 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
     });
 };
 
-export const changeProposalInputValue = (name: string, value: any) => (dispatch: any) => {
-    dispatch({
-        type: Types.CHANGE_PROPOSAL_INPUT, payload: {
-            name: name,
-            value: value,
-        }
-    });
-};
-
 export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
     const nominees = proposalInput.proposer_nominees;
     const nomineeToUpdate = nominees[index];
