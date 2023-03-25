@@ -17,7 +17,7 @@ export interface IPersonalInformation {
 export function NomineeForm({ errors }: IPersonalInformation) {
     const dispatch = useDispatch();
 
-    const { proposalInput, identity_type, proposer_nominees } = useSelector((state: RootState) => state.proposal);
+    const { proposalInput} = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
     const weight = proposalInput?.proposal_personal_information?.weight;
     const [dob, setDob] = useState(0);

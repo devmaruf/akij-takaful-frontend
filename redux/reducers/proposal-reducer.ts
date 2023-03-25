@@ -261,12 +261,17 @@ function ProposalsReducer(state = initialState, action: any) {
             }
 
         case Types.ADD_NOMINEE_FORM:
-            let proposalInputValues = { ...state.proposalInput }
-            let newNomineeList = [...proposalInputValues.proposer_nominees, proposalInputValues.proposer_nominees[0]]
-            proposalInputValues.proposer_nominees = newNomineeList;
             return {
                 ...state,
-                proposalInput: proposalInputValues,
+                proposalInput: {
+                    ...state.proposalInput,
+                    proposer_nominees: [
+                        ...state.proposalInput.proposer_nominees,
+                        {
+                            ...defaultProposerNominee
+                        }
+                    ]
+                },
             }
 
         case Types.REMOVE_NOMINEE_FORM:
