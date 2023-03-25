@@ -93,6 +93,7 @@ const initialState: IProposal = {
         branch_id: 0,
         proposal_no: '',
         plan_id: 0,
+        product_id: 0,
         agent_id: 0,
         initial_sum_assured: 0,
         initial_premium: 0,

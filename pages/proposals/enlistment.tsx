@@ -27,6 +27,7 @@ import Loading from "@/components/loading";
 import { Questionaires } from "@/components/proposals/Questionaires";
 import { NomineeForm } from "@/components/proposals/NomineeForm";
 import { useDebounced } from "@/hooks/use-debounce";
+import { getProductDropdownListAction } from "@/redux/actions/product-action";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ export default function EnlistmentPage() {
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
+    dispatch(getProductDropdownListAction());
   });
 
   const debouncedDispatch = useCallback(

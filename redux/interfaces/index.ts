@@ -155,6 +155,7 @@ export interface IProposalBasicInput {
     branch_id: number;
     proposal_no: string;
     plan_id: number;
+    product_id: number;
     agent_id: number;
     initial_sum_assured: number;
     initial_premium: number;
@@ -276,4 +277,8 @@ export interface IProposalFormSection {
     onChangeText: (name: string, value: any) => void;
     errors?: any;
     sectionName?: string | null;
+}
+
+export interface IProductReducer {
+    productDropdownList: Array<ISelect2Item>
 }
