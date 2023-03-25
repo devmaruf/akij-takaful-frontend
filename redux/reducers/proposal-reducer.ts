@@ -104,6 +104,7 @@ const initialState: IProposal = {
         proposer_bank_information: {},
         proposer_guardian: {},
         proposer_nominees: [defaultProposerNominee],
+        underwriting_questionnaires: [],
         status: 'creating',
     },
     proposal_personal_information: {
@@ -226,11 +227,21 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposer_guardian
             };
 
+        case Types.CHANGE_PROPOSAL_INPUT:
+            return {
+                ...state,
+                proposalInput: {
+                    ...state.proposalInput,
+                    [action.payload.name]: action.payload.value
+                },
+            };
+
         case Types.CHANGE_NOMINEE_INPUT:
             return {
                 ...state,
                 proposalInput: action.payload,
             };
+
         case Types.IS_NOMINEE_SAME_ADDRESS:
             return {
                 ...state,
@@ -253,6 +264,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposer_present_address: presentAddress,
                 isSameAddress: action.payload.status
             };
+
         case Types.GET_PLAN_DROPDOWN:
             return {
                 ...state,
@@ -264,6 +276,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 planList: getPlanList(action.payload),
             };
+
         case Types.SUBMIT_PROPOSAL:
             if (action.payload.status === true) {
                 return {
@@ -285,6 +298,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 paginationData: action.payload.paginationData,
                 isLoading: action.payload.isLoading,
             };
+
         case Types.GET_PROPOSAL_DETAILS:
 
             const inputData = action.payload.inputData;
@@ -309,6 +323,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 },
                 proposalDetails: action.payload.data,
             };
+
         case Types.UPDATE_PROPOSAL:
             if (action.payload.status === true) {
                 return {
@@ -322,6 +337,7 @@ function ProposalsReducer(state = initialState, action: any) {
                     isSubmitting: action.payload.isLoading,
                 };
             }
+
         case Types.DELETE_PROPOSAL:
             return {
                 ...state,
@@ -342,6 +358,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 identity_type: action.payload,
             }
+
         case Types.ADD_NOMINEE_FORM:
             let proposalInputValues = { ...state.proposalInput }
             let newNomineeList = [...proposalInputValues.proposer_nominees, proposalInputValues.proposer_nominees[0]]
@@ -350,6 +367,7 @@ function ProposalsReducer(state = initialState, action: any) {
                 ...state,
                 proposalInput: proposalInputValues,
             }
+
         case Types.REMOVE_NOMINEE_FORM:
             let getPreviousValue = { ...state.proposalInput }
             getPreviousValue.proposer_nominees = action.payload;

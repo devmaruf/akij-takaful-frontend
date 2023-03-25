@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import IBreadcrumb from "@/components/breadcrumb";
-import PageTitle from "@/components/pageTitle";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import {
@@ -11,6 +9,7 @@ import {
   handleCheckIdentity,
   getProposalDetails,
   updateProposal,
+  changeProposalInputValue,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
@@ -22,7 +21,7 @@ import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { formValidation } from "@/utils/formValidation";
 import PageHeader from "@/components/layouts/PageHeader";
-import { PageContent } from "@/components/layouts/PageContent";
+import { PageContentList } from "@/components/layouts/PageContentList";
 import Loading from "@/components/loading";
 import { Questionaires } from "@/components/proposals/Questionaires";
 import { NomineeForm } from "@/components/proposals/NomineeForm";
@@ -69,15 +68,16 @@ export default function Create() {
   const handleChangeGuardianInfo = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, "proposer_guardian"));
   };
-  // const handleChangeNomineeInfo = (name: string, value: any) => {
-  //   dispatch(changeInputValue(name, value, "proposer_nominees"));
-  // };
+  const handleChangeQuestionnaires = (name: string, value: any) => {
+    dispatch(changeProposalInputValue(name, value));
+  };
 
   const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
     const clickedButton = e.nativeEvent.submitter.name;
     if (clickedButton === "submitProposal") {
       const { errors, isValid } = formValidation(e);
       setErrors(errors);
+
       if (isValid) {
         dispatch(updateProposal(proposalInput, id, router));
       }
@@ -92,10 +92,12 @@ export default function Create() {
         hasSearch={false}
       />
 
-      <PageContent>
+      <PageContentList>
         {
           loadingDetails ?
-            <Loading loadingTitle="Proposal information" />
+            <div className="text-center">
+              <Loading loadingTitle="Proposal information" />
+            </div>
             :
             <form
               method="post"
@@ -145,7 +147,7 @@ export default function Create() {
 
               {
                 proposalInput.proposal_personal_information !== undefined &&
-                <Questionaires proposalId={parseInt(id + '')} />
+                <Questionaires handleChangeTextInput={handleChangeQuestionnaires} errors={errors} />
               }
 
               <Button
@@ -158,7 +160,7 @@ export default function Create() {
             </form>
         }
 
-      </PageContent>
+      </PageContentList>
     </div>
   );
 }

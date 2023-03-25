@@ -1,8 +1,8 @@
-import Input from "@/components/input";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import React, { useEffect, useState } from "react";
 import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 
 export interface IPremiumInformation {
@@ -22,7 +22,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
   }, []);
 
   return (
-    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
+    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Premium Information
       </h3>
@@ -70,22 +70,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           handleChangeValue={handleChangeTextInput}
         />
         <Input
-          label="Proposer Name"
-          name="proposer_name"
-          placeholder='Proposer Name'
-          value={proposalInput?.proposer_name}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-        <Input
-          label="Proposer Phone no"
-          name="phone_no"
-          placeholder='Proposer Phone no'
-          value={proposalInput?.phone_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-        <Input
+          type="number"
           label="Initial Sum Assured"
           name="initial_sum_assured"
           placeholder="Initial Sum Assured"
@@ -93,8 +78,10 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
+          minValue={0}
         />
         <Input
+          type="number"
           label="Initial Premium"
           name="initial_premium"
           placeholder="Initial Premium"
@@ -102,6 +89,8 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           isRequired={true}
           inputChange={handleChangeTextInput}
           errors={errors}
+          minValue={0}
+          maxValue={proposalInput?.initial_sum_assured}
         />
         <Select
           options={agentsDropdownList}

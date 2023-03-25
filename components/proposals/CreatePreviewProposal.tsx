@@ -27,12 +27,14 @@ export default function CreatePreviewProposal() {
     return (
         <div>
             <PageHeader
-                title='Create unique proposal no'
+                title='New Proposal'
                 hasSearch={false}
             />
 
             <PageContent>
-                <Loading loadingTitle="Proposal" />
+                <div className="text-center">
+                    <Loading loadingTitle="Proposal" />
+                </div>
             </PageContent>
         </div>
     )

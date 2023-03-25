@@ -14,25 +14,16 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: { data, key } });
 };
 
+export const changeProposalInputValue = (name: string, value: any) => (dispatch: any) => {
+    dispatch({
+        type: Types.CHANGE_PROPOSAL_INPUT, payload: {
+            name: name,
+            value: value,
+        }
+    });
+};
+
 export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
-    // let proposalInputUpdated = {
-    //     ...proposalInput,
-    //     proposer_nominees: [],
-    // };
-
-    // proposalInput.proposer_nominees.forEach((nominee, previousIndex) => {
-    //     if (index === previousIndex) {
-    //         const nomineeUpdated = {
-    //             ...nominee,
-    //         };
-    //         nomineeUpdated[key][name] = value;
-    //         proposalInputUpdated.proposer_nominees.push(nomineeUpdated);
-    //     } else {
-    //         proposalInputUpdated.proposer_nominees.push(nominee);
-    //     }
-    // });
-
-    // dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
     const nominees = proposalInput.proposer_nominees;
     const nomineeToUpdate = nominees[index];
 
@@ -156,17 +147,9 @@ export const getProposalDetails = (id: number | string) => (dispatch) => {
             response.status = true;
             response.message = res.data.message;
             response.data = res.data;
-            // Optional Data,
+            
             response.inputData = res.data;
             response.inputData.proposal_no = res.data.proposal_no;
-
-            // response.inputData.project_id = 1;
-            // response.inputData.branch_id = 1;
-            // response.inputData.proposer_name = res.data.data.proposer_name;
-            // response.inputData.plan_id = res.data.data.plan_id;
-            // response.inputData.agent_id = res.data.data.agent_id;
-            // response.inputData.initial_sum_assured = res.data.data.initial_sum_assured;
-            // response.inputData.initial_premium = res.data.data.initial_premium;
             dispatch({ type: Types.GET_PROPOSAL_DETAILS, payload: response });
         })
         .catch(error => {

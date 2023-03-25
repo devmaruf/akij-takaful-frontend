@@ -44,138 +44,146 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
       </div>
 
       <div className="p-2">
-        <div className="">
-          <h4 className="my-1 text-black text-sm">-- Permanent Address --</h4>
-          <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2 pb-5">
-            <Select
-              options={divisionList}
-              isSearchable={true}
-              name="division_id"
-              defaultValue={data.permanent.division_id}
-              label="Division"
-              placeholder="Select Division..."
-              handleChangeValue={changePermanentAddressAction}
-              errors={errors}
-            />
-
-            <Select
-              options={districtList}
-              isSearchable={true}
-              name="district_id"
-              label="District"
-              defaultValue={data.permanent.district_id}
-              placeholder="Select District..."
-              handleChangeValue={changePermanentAddressAction}
-              errors={errors}
-            />
-            <Select
-              options={areaList}
-              isSearchable={true}
-              name="area_id"
-              defaultValue={data.permanent.area_id}
-              label="Area"
-              placeholder="Select Area..."
-              handleChangeValue={changePermanentAddressAction}
-              errors={errors}
-            />
-
-            <Input
-              label="Post Office Name"
-              name="post_office_name"
-              placeholder="Post Office Name"
-              value={data.permanent.post_office_name}
-              isRequired={true}
-              inputChange={changePermanentAddressAction}
-              errors={errors}
-            />
-
-            <Input
-              label="Street address"
-              name="street_address"
-              placeholder="Street address"
-              value={data.permanent.street_address}
-              isRequired={true}
-              inputChange={changePermanentAddressAction}
-              errors={errors}
-            />
-
-            <div className="flex items-center mb-4 col-span-4">
-              <input
-                id={`same_as_nominee_permanent-${index}`}
-                type="checkbox"
-                value=""
-                checked={isNomineeSameAddress}
-               onChange={(e) => handleCheckedNomineeSameAddress(e)}
-                className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
+        {
+          data.permanent !== undefined && data.permanent !== null &&
+          <div className="">
+            <h4 className="my-1 text-black text-sm">-- Permanent Address --</h4>
+            <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2 pb-5">
+              <Select
+                options={divisionList}
+                isSearchable={true}
+                name="division_id"
+                defaultValue={data.permanent.division_id}
+                label="Division"
+                placeholder="Select Division..."
+                handleChangeValue={changePermanentAddressAction}
+                errors={errors}
               />
-              <label
-                htmlFor={`same_as_nominee_permanent-${index}`}
-                className="ml-2 text-sm font-medium text-gray-900"
-              >
-                Is Same Address
-              </label>
+
+              <Select
+                options={districtList}
+                isSearchable={true}
+                name="district_id"
+                label="District"
+                defaultValue={data.permanent.district_id}
+                placeholder="Select District..."
+                handleChangeValue={changePermanentAddressAction}
+                errors={errors}
+              />
+              <Select
+                options={areaList}
+                isSearchable={true}
+                name="area_id"
+                defaultValue={data.permanent.area_id}
+                label="Area"
+                placeholder="Select Area..."
+                handleChangeValue={changePermanentAddressAction}
+                errors={errors}
+              />
+
+              <Input
+                label="Post Office Name"
+                name="post_office_name"
+                placeholder="Post Office Name"
+                value={data.permanent.post_office_name}
+                isRequired={true}
+                inputChange={changePermanentAddressAction}
+                errors={errors}
+              />
+
+              <Input
+                label="Street address"
+                name="street_address"
+                placeholder="Street address"
+                value={data.permanent.street_address}
+                isRequired={true}
+                inputChange={changePermanentAddressAction}
+                errors={errors}
+              />
+
+              <div className="flex items-center mb-4 col-span-4">
+                <input
+                  id={`same_as_nominee_permanent-${index}`}
+                  type="checkbox"
+                  value=""
+                  checked={isNomineeSameAddress}
+                  onChange={(e) => handleCheckedNomineeSameAddress(e)}
+                  className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
+                />
+                <label
+                  htmlFor={`same_as_nominee_permanent-${index}`}
+                  className="ml-2 text-sm font-medium text-gray-900"
+                >
+                  Is Same Address
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div // className={isSameAddress ? 'block' : 'hidden'}
-        >
-          <h4 className="my-2 text-black text-sm"> -- Present Address --</h4>
-          <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
-            <Select
-              options={divisionList}
-              isSearchable={true}
-              name="division_id"
-              label="Division"
-              defaultValue={data.present.division_id}
-              placeholder="Select Division..."
-              handleChangeValue={changePresentAddressAction}
-              errors={errors}
-            />
+        }
 
-            <Select
-              options={districtList}
-              isSearchable={true}
-              name="district_id"
-              label="District"
-              defaultValue={data.present.district_id}
-              placeholder="Select District..."
-              handleChangeValue={changePresentAddressAction}
-              errors={errors}
-            />
+        {
+          data.present !== undefined && data.present !== null &&
+          <div // className={isSameAddress ? 'block' : 'hidden'}
+          >
+            <h4 className="my-2 text-black text-sm"> -- Present Address --</h4>
+            <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+              <Select
+                options={divisionList}
+                isSearchable={true}
+                name="division_id"
+                label="Division"
+                defaultValue={data.present.division_id}
+                placeholder="Select Division..."
+                handleChangeValue={changePresentAddressAction}
+                errors={errors}
+              />
 
-            <Select
-              options={areaList}
-              isSearchable={true}
-              name="area_id"
-              label="Area"
-              defaultValue={data.present.area_id}
-              placeholder="Select Area..."
-              handleChangeValue={changePresentAddressAction}
-              errors={errors}
-            />
+              <Select
+                options={districtList}
+                isSearchable={true}
+                name="district_id"
+                label="District"
+                defaultValue={data.present.district_id}
+                placeholder="Select District..."
+                handleChangeValue={changePresentAddressAction}
+                errors={errors}
+              />
 
-            <Input
-              label="Post Office Name"
-              name="post_office_name"
-              placeholder="Post Office Name"
-              value={data.present.post_office_name}
-              isRequired={true}
-              isDisabled={isNomineeSameAddress}
-              inputChange={changePresentAddressAction}
-              errors={errors}
-            />
-            <Input
-              label="Street address"
-              name="street_address"
-              placeholder="Street address"
-              value={data.present.street_address}
-              isRequired={true}
-              isDisabled={isNomineeSameAddress}
-              inputChange={changePresentAddressAction}
-              errors={errors}
-            />
+              <Select
+                options={areaList}
+                isSearchable={true}
+                name="area_id"
+                label="Area"
+                defaultValue={data.present.area_id}
+                placeholder="Select Area..."
+                handleChangeValue={changePresentAddressAction}
+                errors={errors}
+              />
+
+              <Input
+                label="Post Office Name"
+                name="post_office_name"
+                placeholder="Post Office Name"
+                value={data.present.post_office_name}
+                isRequired={true}
+                isDisabled={isNomineeSameAddress}
+                inputChange={changePresentAddressAction}
+                errors={errors}
+              />
+              <Input
+                label="Street address"
+                name="street_address"
+                placeholder="Street address"
+                value={data.present.street_address}
+                isRequired={true}
+                isDisabled={isNomineeSameAddress}
+                inputChange={changePresentAddressAction}
+                errors={errors}
+              />
+            </div>
           </div>
-        </div>
+        }
+
       </div>
 
 

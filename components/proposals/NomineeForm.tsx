@@ -1,19 +1,16 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { RootState } from "@/redux/store";
 import { calculateAge, calculateBMI } from "@/utils/calculation";
 import Button from '@/components/button';
+import { DeleteIconButton } from '@/components/button/delete-icon-button';
 import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
 import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
-import { DeleteIconButton } from './../button/delete-icon-button';
-import closestIndexTo from "date-fns/closestIndexTo";
 
 export interface IPersonalInformation {
-    identityLabel: any;
-    identityValidationMessage: any;
-    disabledField: boolean;
     errors?: any;
 }
 
@@ -23,13 +20,13 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const { proposalInput, identity_type, proposer_nominees } = useSelector((state: RootState) => state.proposal);
     const height = proposalInput?.proposal_personal_information?.height;
     const weight = proposalInput?.proposal_personal_information?.weight;
-    const [dob, setDob] = React.useState(0);
-    const [age, setAge] = React.useState(0);
-    const [BMI, setBMI] = React.useState({});
-    const [nomineeIndex, setNomineeIndex] = React.useState(0);
-    const [nomineeView, setNomineeView] = React.useState(false);
+    const [dob, setDob] = useState(0);
+    const [age, setAge] = useState(0);
+    const [BMI, setBMI] = useState({});
+    const [nomineeIndex, setNomineeIndex] = useState(0);
+    const [nomineeView, setNomineeView] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (typeof dob !== "undefined") {
             const getAge = calculateAge(dob);
             setAge(getAge);
@@ -63,7 +60,7 @@ export function NomineeForm({ errors }: IPersonalInformation) {
         }
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
             const { bmi, status } = calculateBMI(height, weight, age);
             setBMI({
@@ -72,7 +69,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
             })
         }
     }, [height, weight, dob, age]);
-
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -87,7 +83,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                 >
                     Add More
                     <i className="bi bi-plus"></i>
-
                 </Button>
             </div>
 
@@ -102,7 +97,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                 {
                                     proposalInput.proposer_nominees.length > 1 &&
                                     <div className="flex items-center gap-2">
-
                                         <DeleteIconButton
                                             toooltipTitle={`Nominee`}
                                             onClick={() => dispatch(removeMultipleNomineeForm(proposalInput.proposer_nominees, index))}

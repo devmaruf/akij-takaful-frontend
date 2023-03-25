@@ -8,9 +8,6 @@ import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 
 export interface IPersonalInformation {
   handleChangeTextInput: (name: string, value: any) => void;
-  identityLabel: any;
-  identityValidationMessage: any;
-  disabledField: boolean;
   errors?: any;
 }
 
@@ -75,6 +72,17 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
           errors={errors}
         />
         <Select
+          options={GenderList}
+          isSearchable={true}
+          isRequired={true}
+          name="gender"
+          label="Gender"
+          defaultValue={proposalInput?.proposal_personal_information.gender}
+          placeholder="Gender"
+          handleChangeValue={handleChangeTextInput}
+          errors={errors}
+        />
+        <Select
           options={MaritalStatusList}
           isSearchable={true}
           isRequired={true}
@@ -88,9 +96,13 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
         {
           proposalInput?.proposal_personal_information.marital_status === 'married' &&
           <Input
-            label="Spouse Name"
+            label={
+              `${proposalInput?.proposal_personal_information?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+            }
             name="spouse_name"
-            placeholder="Spouse Name"
+            placeholder={
+              `${proposalInput?.proposal_personal_information?.gender === 'female' ? 'Husband' : 'Spouse'} name`
+            }
             value={proposalInput?.proposal_personal_information.spouse_name}
             isRequired={true}
             inputChange={handleChangeTextInput}
@@ -140,18 +152,6 @@ export function PersonalInformation({ handleChangeTextInput, errors }: IPersonal
             hintText={identity_type.message}
           />
         </div>
-        <Select
-          options={GenderList}
-          isSearchable={true}
-          isRequired={true}
-          name="gender"
-          label="Gender"
-          defaultValue={proposalInput?.proposal_personal_information.gender}
-          placeholder="Gender"
-          handleChangeValue={handleChangeTextInput}
-          errors={errors}
-        />
-
         <Input
           label="Date of Birth"
           name="dob"
