@@ -210,7 +210,6 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
             Toaster('success', responseData.message);
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
             router.push('/proposals');
-            console.log('update res', res);
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
@@ -312,7 +311,6 @@ export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
         minLength: 1,
         maxLength: 100
     }
-    console.log('value :>> ', value);
     if (value == 'nid') {
         data.isDisabledField = false;
         data.label = "NID Number"

@@ -247,8 +247,6 @@ function ProposalsReducer(state = initialState, action: any) {
             };
 
         case Types.PRINT_PROPOSAL:
-            console.log(action.payload);
-
             return {
                 ...state,
                 printProposalList: action.payload.data,

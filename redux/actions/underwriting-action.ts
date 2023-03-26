@@ -5,9 +5,6 @@ import { IUnderwriting, IUnderwritingRequirement, IUnderwritingType, IUnderwriti
 import { Toaster } from "@/components/toaster";
 
 export const changeUnderwritingInputAction = (name: string, value: any, underwritingForm: IUnderwritingView) => (dispatch: any) => {
-
-    console.log(name, value, underwritingForm);
-
     dispatch({
         type: Types.CHANGE_UNDERWRITING_INPUT,
         payload: {
