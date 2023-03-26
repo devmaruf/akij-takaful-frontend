@@ -48,8 +48,6 @@ export default function ExpenseList() {
         { title: "Action", id: 5 },
     ]
 
-    console.log('expenseDetails :>> ', expenseDetails);
-
     return (
         <div>
             <PageHeader
@@ -58,7 +56,7 @@ export default function ExpenseList() {
                 searchText={searchText}
                 onSearchText={setSearchText}
                 headerRightSide={<>
-                    <Link href="/proposals/create-preview" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
+                    <Link href="/expense/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-3 py-2 text-center sm:w-auto">
                         <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
                         New Expense
                     </Link>
@@ -110,7 +108,7 @@ export default function ExpenseList() {
                                                 <Dropdown.Item onClick={() => showExpenseDetails(data.id)}>
                                                     <i className='bi bi-eye mr-4'></i> View
                                                 </Dropdown.Item>
-                                                <Dropdown.Item onClick={() => router.push(`/proposals/enlistment?id=${data.id}`)}>
+                                                <Dropdown.Item onClick={() => router.push(`/expense/edit?id=${data.id}`)}>
                                                     <i className='bi bi-pencil mr-4'></i> Edit
                                                 </Dropdown.Item>
                                                 <Dropdown.Item onClick={() => handleDeleteExpense(data.id)}>
@@ -163,12 +161,12 @@ export default function ExpenseList() {
                                             {
                                                 expenseDetails.status && <ExpenseStatus status={expenseDetails.status} />
                                             }
- <div className='flex justify-between'>
+                                            <div className='flex justify-between'>
                                                 <h6>Expense Item</h6>
                                                 <h6>:</h6>
                                             </div>
                                         </div>
-                                       
+
                                         <table className="border-collapse border border-gray-300 rounded-md w-full text-sm mt-3">
                                             <thead className="text-xs font-semibold text-gray-700 text-center bg-gray-100">
                                                 <tr>

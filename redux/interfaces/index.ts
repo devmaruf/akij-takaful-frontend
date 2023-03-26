@@ -290,5 +290,6 @@ export interface IExpense {
     expensesList: any[];
     paginationData: any[];
     expenseDetails: any;
-    expenseInput: IExpenseInput
+    expenseInput: IExpenseInput,
+    expenseTypeDropdownList: any[];
 }
