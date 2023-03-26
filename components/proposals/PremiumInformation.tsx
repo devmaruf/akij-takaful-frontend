@@ -1,28 +1,19 @@
+import { useSelector } from "react-redux";
+
 import Input from "@/components/input";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import React, { useEffect, useState } from "react";
-import { getAgentsDropdownList } from "@/redux/actions/employee-action";
+import { IProposalFormSection } from "@/redux/interfaces";
 
-export interface IPremiumInformation {
-  handleChangeTextInput: (name: string, value: any) => void;
-  errors?: any;
-}
-
-export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumInformation) {
-  const dispatch = useDispatch();
+export function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
-
-  useEffect(() => {
-    dispatch(getAgentsDropdownList());
-  }, []);
+  const { productDropdownList } = useSelector((state: RootState) => state.product);
 
   return (
-    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
+    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
         Premium Information
       </h3>
@@ -33,7 +24,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           value={proposalInput?.proposal_no}
           isRequired={true}
           isDisabled={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
         />
         <Select
@@ -45,7 +36,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Bank..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
         <Select
           options={branchDropdownList}
@@ -56,7 +47,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Branch..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
         <Select
           options={planDropdownList}
@@ -67,41 +58,41 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           placeholder="Select Plan..."
           isRequired={true}
           errors={errors}
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
-        <Input
-          label="Proposer Name"
-          name="proposer_name"
-          placeholder='Proposer Name'
-          value={proposalInput?.proposer_name}
+        <Select
+          options={productDropdownList}
+          isSearchable={true}
+          name="product_id"
+          label="Product"
+          defaultValue={proposalInput?.product_id}
+          placeholder="Select Product..."
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          errors={errors}
+          handleChangeValue={onChangeText}
         />
         <Input
-          label="Proposer Phone no"
-          name="phone_no"
-          placeholder='Proposer Phone no'
-          value={proposalInput?.phone_no}
-          isRequired={true}
-          inputChange={handleChangeTextInput}
-        />
-        <Input
+          type="number"
           label="Initial Sum Assured"
           name="initial_sum_assured"
           placeholder="Initial Sum Assured"
           value={proposalInput?.initial_sum_assured}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
+          minValue={0}
         />
         <Input
+          type="number"
           label="Initial Premium"
           name="initial_premium"
           placeholder="Initial Premium"
           value={proposalInput?.initial_premium}
           isRequired={true}
-          inputChange={handleChangeTextInput}
+          inputChange={onChangeText}
           errors={errors}
+          minValue={0}
+          maxValue={proposalInput?.initial_sum_assured}
         />
         <Select
           options={agentsDropdownList}
@@ -111,7 +102,7 @@ export function PremiumInformation({ handleChangeTextInput, errors }: IPremiumIn
           label="Agent"
           defaultValue={proposalInput?.agent_id}
           placeholder='Select Agent...'
-          handleChangeValue={handleChangeTextInput}
+          handleChangeValue={onChangeText}
         />
       </div>
     </div>

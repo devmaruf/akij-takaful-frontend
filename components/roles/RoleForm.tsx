@@ -9,6 +9,7 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
+import { useDebounced } from '@/hooks/use-debounce';
 
 interface IRoleForm {
     id: number;
@@ -20,10 +21,10 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
     const dispatch = useDispatch();
     const { inputData, isLoading } = useSelector((state: RootState) => state.role);
 
-    useEffect(() => {
+    useDebounced(() => {
         dispatch(emptyRoleStatusMessage());
         dispatch(getPermissionGroups());
-    }, []);
+    });
 
     const roleCheck = (e, indexChild, permissionGroupIndex) => {
         let checkboxStatus = e.target.checked;
@@ -43,8 +44,8 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
         dispatch(changeRoleInputAction(name, value));
     }
 
-useEffect(() => {
-        if(id > 0) {
+    useEffect(() => {
+        if (id > 0) {
             dispatch(getRoleDetailsDataAction(id));
         }
     }, [id]);
@@ -72,7 +73,9 @@ useEffect(() => {
 
             <PageContent>
                 {
-                    isLoading && <Loading loadingTitle="Loading permissions..." />
+                    isLoading && <div className='text-center'>
+                        <Loading loadingTitle="permissions..." />
+                    </div>
                 }
                 {
                     !isLoading &&

@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Alert } from 'flowbite-react';
+import { useRouter } from 'next/router';
+import { debounce } from 'lodash';
 
 import Table from '@/components/table';
 import { deleteRoleAction, getRoleListAction } from '@/redux/actions/role-action';
@@ -11,9 +12,13 @@ import PageHeader from '@/components/layouts/PageHeader';
 import DeleteModal from '@/components/delete/DeleteModal';
 import { EditIconButtonTooltip } from '@/components/button/edit-icon-button';
 import { DeleteIconButtonTooltip } from '@/components/button/delete-icon-button';
+import NewButton from '@/components/button/button-new';
+import { PageContentList } from '@/components/layouts/PageContentList';
+import ActionButtons from '@/components/button/button-actions';
 
 export default function Roles() {
     const dispatch = useDispatch();
+    const router = useRouter();
     const columnData = [
         { title: "SL", id: "01" },
         { title: "Role", id: "02" },
@@ -26,34 +31,36 @@ export default function Roles() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
-
     const { isLoading, roleList, rolesListPaginated } = useSelector((state: RootState) => state.role);
-
-    useEffect(() => {
-        dispatch(getRoleListAction(currentPage, dataLimit, searchText));
-    }, [currentPage, dataLimit, searchText, dispatch]);
 
     const onDelete = () => {
         dispatch(deleteRoleAction(deleteId));
         setShowDeleteModal(false);
     }
 
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getRoleListAction(currentPage, dataLimit, searchText));
+        }, 500),
+        [currentPage, dataLimit, searchText]
+    );
+
+    useEffect(() => {
+        debouncedDispatch(); // call debounced dispatch function
+        return debouncedDispatch.cancel; // cleanup the debounced function
+    }, [debouncedDispatch]);
+
     return (
         <div>
             <PageHeader
-                title='Manage Roles'
+                title='Roles'
                 searchPlaceholder='Search roles by name...'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                headerRightSide={
-                    <Link href="/settings/roles/create" type="button" className="w-1/2 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium inline-flex items-center justify-center rounded-lg text-sm px-2 py-1 text-center sm:w-auto">
-                        <svg className="-ml-1 mr-2 h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" /></svg>
-                        Add New
-                    </Link>
-                }
+                headerRightSide={<NewButton href='/settings/roles/create' element='Add New' />}
             />
 
-            <div className="p-4 bg-white block border-b border-gray-200">
+            <PageContentList>
                 {
                     isLoading ?
                         <div className="text-center">
@@ -67,7 +74,7 @@ export default function Roles() {
                             totalData={rolesListPaginated.total}
                         >
                             {
-                                roleList && roleList.length > 0 && roleList.map((data, index) => (
+                                roleList && roleList.length > 0 && roleList.map((data: any, index: number) => (
                                     <tr className="bg-white border-b hover:bg-gray-50" key={index + 1}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words w-6" >
                                             {index + 1}
@@ -107,26 +114,30 @@ export default function Roles() {
                                         </td>
 
                                         <td className="px-2 py-3 text-right min-w-[100px]">
-                                            <div className='flex'>
-                                                <EditIconButtonTooltip
-                                                    toooltipTitle={`Edit - ${data.name}`}
-                                                    href={`/settings/roles/edit?id=${data.id}`}
-                                                />
-                                                <DeleteIconButtonTooltip
-                                                    toooltipTitle={`Delete - ${data.name}`}
-                                                    onClick={() => {
-                                                        setShowDeleteModal(true);
-                                                        setDeleteId(data.id)
-                                                    }}
-                                                />
-                                            </div>
+                                            <ActionButtons
+                                                items={[
+                                                    {
+                                                        element: 'Edit',
+                                                        onClick: () => router.push(`/settings/roles/edit?id=${data.id}`),
+                                                        iconClass: 'pencil'
+                                                    },
+                                                    {
+                                                        element: 'Delete',
+                                                        onClick: () => {
+                                                            setShowDeleteModal(true);
+                                                            setDeleteId(data.id)
+                                                        },
+                                                        iconClass: 'trash'
+                                                    }
+                                                ]}
+                                            />
                                         </td>
                                     </tr>
                                 ))
                             }
                         </Table>
                 }
-            </div>
+            </PageContentList>
 
             <DeleteModal
                 showDeleteModal={showDeleteModal}

@@ -1,33 +1,49 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "@/utils/axios";
-import * as Types from "../types/underwriting-type";
-import { IUnderwriting, IUnderwritingRequirement, IUnderwritingType } from "../interfaces";
+import * as Types from "@/redux/types/underwriting-type";
+import { IUnderwriting, IUnderwritingRequirement, IUnderwritingType, IUnderwritingView } from "@/redux/interfaces";
 import { Toaster } from "@/components/toaster";
 
-export const changeUnderwritingInputAction = (name: string, value: any, underwritingForm: IUnderwriting) => (dispatch: any) => {
+export const changeUnderwritingInputAction = (name: string, value: any, underwritingForm: IUnderwritingView) => (dispatch: any) => {
     dispatch({
-        type: Types.CHANGE_UNDERWRITING_INPUT, payload: {
+        type: Types.CHANGE_UNDERWRITING_INPUT,
+        payload: {
             name: name,
             value: value,
         }
     });
 
-    if (name === 'em_hi' || name === 'em_ci' || name === 'em_pdab' || name === 'em_diab') {
-        const sumAtRisk = 20;
+    if (
+        name === 'em_life'
+        || name === 'em_hi'
+        || name === 'em_ci'
+        || name === 'em_pdab'
+        || name === 'em_diab'
+    ) {
+        const sumAtRisk = underwritingForm.initial_sum_assured;
 
-        const totalAccepted: number = parseInt(underwritingForm.em_life + '') ?? 0 +
-            parseInt(underwritingForm.em_hi + '') ?? 0 +
-            parseInt(underwritingForm.em_ci + '') ?? 0 +
-            parseInt(underwritingForm.em_pdab + '') ?? 0 +
-            parseInt(underwritingForm.em_diab + '') ?? 0;
+        const totalAccepted: number = (parseFloat(underwritingForm.em_life + '') ?? 0) +
+            (parseFloat(underwritingForm.em_hi + '') ?? 0) +
+            (parseFloat(underwritingForm.em_ci + '') ?? 0) +
+            (parseFloat(underwritingForm.em_pdab + '') ?? 0) +
+            (parseFloat(underwritingForm.em_diab + '') ?? 0);
 
         // (((2.03+2.03)*xxx%)*Sum at risk)/1000
         const totalEm = (((2.03 + 2.03) * (totalAccepted / 100)) * sumAtRisk) / 1000;
 
         dispatch({
-            type: Types.CHANGE_UNDERWRITING_INPUT, payload: {
-                name: name,
+            type: Types.CHANGE_UNDERWRITING_INPUT,
+            payload: {
+                name: 'total_em',
                 value: parseFloat((totalEm + '')).toFixed(3),
+            }
+        });
+
+        dispatch({
+            type: Types.CHANGE_UNDERWRITING_INPUT,
+            payload: {
+                name: 'total_premium',
+                value: sumAtRisk,
             }
         });
     }

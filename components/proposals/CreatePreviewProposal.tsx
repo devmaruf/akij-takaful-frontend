@@ -1,38 +1,43 @@
 import { useRouter } from "next/router";
-import { useEffect, useCallback } from "react"
 import React, { useDispatch } from "react-redux";
-import { debounce } from "lodash";
 
 import { createPreviewProposalAndRedirectAction } from "@/redux/actions/proposal-action";
 import Loading from "@/components/loading";
 import PageHeader from "@/components/layouts/PageHeader";
 import { PageContent } from "@/components/layouts/PageContent";
+import { useDebounced } from "@/hooks/use-debounce";
 
 export default function CreatePreviewProposal() {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const debouncedDispatch = useCallback(
-        debounce(() => {
-            dispatch(createPreviewProposalAndRedirectAction(router));
-        }, 2000),
-        []
-    );
+    // const debouncedDispatch = useCallback(
+    //     debounce(() => {
+    //         dispatch(createPreviewProposalAndRedirectAction(router));
+    //     }, 2000),
+    //     []
+    // );
 
-    useEffect(() => {
-        debouncedDispatch(); // call debounced dispatch function
-        return debouncedDispatch.cancel; // cleanup the debounced function
-    }, [debouncedDispatch]);
+    // useEffect(() => {
+    //     debouncedDispatch(); // call debounced dispatch function
+    //     return debouncedDispatch.cancel; // cleanup the debounced function
+    // }, [debouncedDispatch]);
+
+    useDebounced(() => {
+        dispatch(createPreviewProposalAndRedirectAction(router));
+    });
 
     return (
         <div>
             <PageHeader
-                title='Create unique proposal no'
+                title='New Proposal'
                 hasSearch={false}
             />
 
             <PageContent>
-                <Loading loadingTitle="Proposal" />
+                <div className="text-center">
+                    <Loading loadingTitle="Proposal" />
+                </div>
             </PageContent>
         </div>
     )
