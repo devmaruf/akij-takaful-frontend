@@ -19,8 +19,6 @@ interface IStampForm {
 }
 
 export default function StampForm({ proposalNo, pageType }: IStampForm) {
-    console.log('proposalNo', proposalNo);
-
     const dispatch: Dispatch = useDispatch();
     const router = useRouter();
     const { stampForm, isSubmitting, isSearching } = useSelector((state: RootState) => state.stamp);

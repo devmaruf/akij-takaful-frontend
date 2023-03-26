@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Label, ToggleSwitch } from 'flowbite-react';
+import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from '@reduxjs/toolkit';
 
@@ -19,9 +20,18 @@ export function UnderwritingCreate({ id }: { id: number }) {
     const dispatch: Dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
     const { isLoading, underwritingForm, isApproving } = useSelector((state: RootState) => state.underwriting);
+
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getUnderwritingByProposalAction(id));
+        }, 500),
+        [id]
+    );
+
     useEffect(() => {
-        dispatch(getUnderwritingByProposalAction(id));
-    }, [dispatch, id]);
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
+    }, [debouncedDispatch]);
 
     const onSubmit = (e: any, status: string = 'approved') => {
         e.preventDefault();
@@ -50,7 +60,10 @@ export function UnderwritingCreate({ id }: { id: number }) {
     }
 
     const changeUnderwritingInput = (name: string, value: any) => {
-        dispatch(changeUnderwritingInputAction(name, value, underwritingForm));
+        dispatch(changeUnderwritingInputAction(name, value, {
+            ...underwritingForm,
+            [name]: value
+        }));
     }
 
     const changeUnderwritingInputSub = (parentName: string, name: string, value: any) => {
@@ -77,7 +90,9 @@ export function UnderwritingCreate({ id }: { id: number }) {
             <PageContent>
                 {
                     isLoading ?
-                        <Loading loadingTitle="Requirement and Documents" />
+                        <div className="text-center">
+                            <Loading loadingTitle="Requirement and Documents" />
+                        </div>
                         :
                         <form method="post" autoComplete="off">
                             {
