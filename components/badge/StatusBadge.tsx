@@ -2,7 +2,7 @@ interface IStatusBadge {
     status: string;
 }
 
-export default function StatusBadge({ status }: IStatusBadge) {
+export default function StatusBadge({ status = '' }: IStatusBadge) {
     let colorClass, label;
 
     switch (status) {

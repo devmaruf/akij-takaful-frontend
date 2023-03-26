@@ -14,7 +14,7 @@ export const changeExpenseInputValue = (name: string, value: any) => (dispatch: 
 };
 
 export const submitExpenseAction = (expensesForm: IExpense, router: any) => (dispatch: Dispatch) => {
-   
+
     let response = {
         status: false,
         message: "",
@@ -23,7 +23,7 @@ export const submitExpenseAction = (expensesForm: IExpense, router: any) => (dis
     };
     dispatch({ type: Types.SUBMIT_EXPENSE, payload: response });
 
-    axios.post(`/expenses/`, expensesForm)
+    axios.post(`/expenses`, expensesForm)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -38,16 +38,7 @@ export const submitExpenseAction = (expensesForm: IExpense, router: any) => (dis
         });
 }
 
-
-
 export const getExpensesList = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch: Dispatch) => {
-  
-    let url = `expenses?perPage=${dataLimit}&page=${currentPage}`
-
-    if (searchText !== '') {
-        url += `&search=${searchText}`;
-    }
-
     let response = {
         status: false,
         message: "",
@@ -58,7 +49,7 @@ export const getExpensesList = (currentPage: number = 1, dataLimit: number = 10,
 
     dispatch({ type: Types.GET_EXPENSES_LIST, payload: response });
 
-    axios.get(url)
+    axios.get(`expenses?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then(res => {
             response.isLoading = false;
             response.status = true;
@@ -102,7 +93,6 @@ export const getExpenseDetails = (id: number | string) => (dispatch: Dispatch) =
 }
 
 export const updateExpenseAction = (expensesForm: IExpense, id: number, router: any) => (dispatch: Dispatch) => {
-   
     let response = {
         status: false,
         message: "",
