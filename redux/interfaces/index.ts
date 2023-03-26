@@ -282,6 +282,7 @@ export interface IExpenseInput {
     name: string;
     items: any[],
 }
+
 export interface IExpense {
     isLoading: boolean;
     isSubmitting: boolean;
