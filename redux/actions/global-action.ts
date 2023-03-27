@@ -83,7 +83,7 @@ export const getSidebarMenuList = () => (dispatch: Dispatch) => {
                 },
                 {
                     id: 'subMenu02.3',
-                    title: 'Print Proposal',
+                    title: 'Assign / Print Proposal',
                     icon: 'bi bi-printer',
                     url: '/proposals/print',
                     subSubMenu: []
@@ -93,28 +93,6 @@ export const getSidebarMenuList = () => (dispatch: Dispatch) => {
                     title: 'Stamps',
                     icon: 'bi-person-fill-add',
                     url: '/stamps',
-                    subSubMenu: []
-                },
-            ]
-        },
-        {
-            id: 'menu06',
-            title: 'Expense',
-            icon: 'bi-cash',
-            url: '',
-            subMenu: [
-                {
-                    id: 'subMenu02.2',
-                    title: 'New Expense',
-                    icon: 'bi-clipboard-plus',
-                    url: '/expense/create',
-                    subSubMenu: []
-                },
-                {
-                    id: 'subMenu02.3',
-                    title: 'Expense List',
-                    icon: 'bi-list-ul',
-                    url: '/expense/',
                     subSubMenu: []
                 },
             ]
@@ -137,6 +115,28 @@ export const getSidebarMenuList = () => (dispatch: Dispatch) => {
                     title: 'Worksheets',
                     icon: 'bi-person-workspace',
                     url: '/worksheets/enlistment',
+                    subSubMenu: []
+                },
+            ]
+        },
+        {
+            id: 'menu06',
+            title: 'Expense',
+            icon: 'bi-cash',
+            url: '',
+            subMenu: [
+                {
+                    id: 'subMenu02.2',
+                    title: 'New Expense',
+                    icon: 'bi-clipboard-plus',
+                    url: '/expense/create',
+                    subSubMenu: []
+                },
+                {
+                    id: 'subMenu02.3',
+                    title: 'Expense List',
+                    icon: 'bi-list-ul',
+                    url: '/expense/',
                     subSubMenu: []
                 },
             ]
