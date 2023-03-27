@@ -298,6 +298,9 @@ export interface IProposalFormSection {
     onChangeText: (name: string, value: any) => void;
     errors?: any;
     sectionName?: string | null;
+    divisionList: any;
+    cityList: any;
+    areaList: any;
 }
 
 export interface IProductReducer {
