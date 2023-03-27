@@ -171,6 +171,12 @@ export interface IProposalBasicInput {
     status: string;
 }
 
+export interface IProposalView extends IProposalBasicInput {
+    id: number;
+    project_name: string;
+    branch_name: string;
+}
+
 export interface IProposal {
     isLoading: boolean;
     isDeleting: boolean;

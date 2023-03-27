@@ -1,34 +1,40 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 
 import Input from "@/components/input";
 import Select from "@/components/select";
 import Button from "@/components/button";
-import Image from "next/image";
 import { RootState } from "@/redux/store";
 import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { printProposalAction } from "@/redux/actions/proposal-action";
-import { IProposalBasicInput } from "@/redux/interfaces";
+import { IProposalView } from "@/redux/interfaces";
+import { useDebounced } from "@/hooks/use-debounce";
 
-export function PrintForm() {
+export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
   const dispatch = useDispatch();
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { printProposalList, isLoading } = useSelector((state: RootState) => state.proposal);
   const [noOfProposalPrint, setNoOfProposalPrint] = useState("1");
+  const [noOfProposalPrintTo, setNoOfProposalPrintTo] = useState("10");
   const [projectId, setProjectId] = useState<number>(0);
   const [branchId, setBranchId] = useState<number>(0);
 
-  useEffect(() => {
+  useDebounced(() => {
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
-  }, []);
+  });
 
   const onHandleInputChange = (name: string, value: string | number) => {
     switch (name) {
       case 'proposal_print_no':
         setNoOfProposalPrint(value + '');
+        break;
+
+      case 'proposal_print_no_to':
+        setNoOfProposalPrintTo(value + '');
         break;
 
       case 'project_id':
@@ -48,9 +54,9 @@ export function PrintForm() {
     e.preventDefault();
     const formData = {
       proposal_print_no: noOfProposalPrint,
+      proposal_print_no_to: isAssign ? noOfProposalPrintTo : null,
       project_id: projectId,
       branch_id: branchId,
-      agent_id: 1,
     }
     dispatch(printProposalAction(formData));
   }
@@ -72,13 +78,24 @@ export function PrintForm() {
       <form action="" onSubmit={onFormSubmit}>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
           <Input
-            label="Proposal Print No"
+            label={isAssign ? 'Start proposal no.' : 'Proposal Print No'}
             name="proposal_print_no"
-            placeholder="Proposal print no, eg: 10"
+            placeholder="eg: 10"
             isRequired={true}
             value={noOfProposalPrint}
             inputChange={onHandleInputChange}
           />
+          {
+            isAssign &&
+            <Input
+              label="End proposal no."
+              name="proposal_print_no_to"
+              placeholder="eg: 20"
+              isRequired={true}
+              value={noOfProposalPrintTo}
+              inputChange={onHandleInputChange}
+            />
+          }
           <Select
             options={projectDropdownList}
             isSearchable={true}
@@ -111,7 +128,7 @@ export function PrintForm() {
       </form>
 
       {
-        printProposalList !== undefined && printProposalList.length > 0 &&
+        !isAssign && printProposalList !== undefined && printProposalList.length > 0 &&
         <>
           <div className="mt-2">
             <Button variant="success" onClick={handlePrint}>
@@ -121,7 +138,7 @@ export function PrintForm() {
 
           <div className="printDiv" ref={divRef}>
             {
-              printProposalList.map((proposal: IProposalBasicInput, index: number) => (
+              printProposalList.map((proposal: IProposalView, index: number) => (
                 <div className="pl-10" key={index}>
                   <div className="w-full">
                     <a href="#" className="text-xl font-bold lg:ml-2.5">
@@ -233,6 +250,21 @@ export function PrintForm() {
               ))
             }
           </div>
+        </>
+      }
+
+      {
+        isAssign && printProposalList !== undefined && printProposalList.length > 0 &&
+        <>
+          {
+            printProposalList.map((proposal: IProposalView) => (
+              <div className="border-b border-dotted py-6" key={proposal.id}>
+                <h2 className="text-lg font-bold">Proposal No: {proposal.proposal_no}</h2>
+                <h2>Project Name: {proposal.project_name}</h2>
+                <h2>Branch Name: {proposal.branch_name}</h2>
+              </div>
+            ))
+          }
         </>
       }
     </>

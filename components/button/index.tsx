@@ -10,6 +10,7 @@ interface IButton {
     customClass?: string;
     children?: React.ReactNode;
     variant?: 'primary' | 'default' | 'danger' | 'success';
+    iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
 }
 
@@ -25,7 +26,8 @@ export default function Button({
     children,
     customClass = "",
     variant = 'primary',
-    iconRight = <></>
+    iconLeft = <></>,
+    iconRight = <></>,
 }: IButton) {
 
     return (
@@ -54,6 +56,7 @@ export default function Button({
                 onClick={onClick}
             >
                 {loading ? loadingTitle + '...' : ''}
+                {iconLeft}
                 {(!loading && typeof title !== "undefined" && title !== null) ? title : children}
                 {iconRight}
             </button>
