@@ -29,6 +29,7 @@ import { NomineeForm } from "@/components/proposals/NomineeForm";
 import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
+import { areaList } from '@/utils/proposal-dropdowns';
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -80,14 +81,14 @@ export default function EnlistmentPage() {
     if (sectionName == "proposer_permanent_address" && name == "division_id") {
       getCitiesDropdownList(value).then((data) => {
         const newCities = { ...cityList, permanentCities: data }
-        setAreaList({ presentAreas: [], permanentAreas: [] })
+        setAreaList({ ...areaList, permanentAreas: [] })
         setCityList(newCities);
       });
     }
     if (sectionName == "proposer_present_address" && name == "division_id") {
       getCitiesDropdownList(value).then((data) => {
         const newCities = { ...cityList, presentCities: data }
-        setAreaList({ presentAreas: [], permanentAreas: [] })
+        setAreaList({ ...areaList, presentAreas: [] })
         setCityList(newCities);
       });
     }

@@ -9,6 +9,7 @@ import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
 import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
+import { getCitiesDropdownList, getDivisionDropdownList, getAreasDropdownList } from "@/utils/address-dropdown";
 
 export interface IPersonalInformation {
     errors?: any;
@@ -25,6 +26,18 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const [BMI, setBMI] = useState({});
     const [nomineeIndex, setNomineeIndex] = useState(0);
     const [nomineeView, setNomineeView] = useState(false);
+    const [divisionList, setDivisionList] = useState({
+        presentDivisions: [],
+        permanentDivisions: []
+      });
+      const [cityList, setCityList] = useState({
+        presentCities: [],
+        permanentCities: []
+      });
+      const [areaList, setAreaList] = useState({
+        presentAreas: [],
+        permanentAreas: []
+      });
 
     useEffect(() => {
         if (typeof dob !== "undefined") {
@@ -51,6 +64,34 @@ export function NomineeForm({ errors }: IPersonalInformation) {
             CalculateNomineeAge(value);
             setDob(value);
         }
+       
+        if (key == "proposer_permanent_address" && name == "division_id") {
+            getCitiesDropdownList(value).then((data) => {
+              const newCities = { ...cityList, permanentCities: data }
+              setAreaList({ ...areaList, permanentAreas: [] })
+              setCityList(newCities);
+            });
+          }
+          if (key == "proposer_present_address" && name == "division_id") {
+            getCitiesDropdownList(value).then((data) => {
+              const newCities = { ...cityList, presentCities: data }
+              setAreaList({ ...areaList, presentAreas: [] })
+              setCityList(newCities);
+            });
+          }
+          if (key == "proposer_permanent_address" && name == "district_id") {
+            getAreasDropdownList(value).then((data) => {
+              const newAreas = { ...areaList, permanentAreas: data };
+              setAreaList(newAreas);
+            });
+          }
+          if (key == "proposer_present_address" && name == "district_id") {
+            getAreasDropdownList(value).then((data) => {
+              const newAreas = { ...areaList, presentAreas: data };
+              setAreaList(newAreas);
+            });
+          }
+
     }
 
     const CalculateNomineeAge = (dob: Date) => {
@@ -69,6 +110,15 @@ export function NomineeForm({ errors }: IPersonalInformation) {
             })
         }
     }, [height, weight, dob, age]);
+
+    useEffect(() => {
+        getDivisionDropdownList().then((data) => {
+          const newDivisions = { permanentDivisions: data, presentDivisions: data }
+          setCityList({ presentCities: [], permanentCities: [] })
+          setAreaList({ presentAreas: [], permanentAreas: [] })
+          setDivisionList(newDivisions);
+        });
+      }, []);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -140,6 +190,9 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                         permanent: nominee.proposer_permanent_address,
                                         present: nominee.proposer_present_address
                                     }}
+                                    divisionList={divisionList}
+                                    cityList={cityList}
+                                    areaList={areaList}
                                 />
                                 {age !== 0 && age < 18 &&
                                     (

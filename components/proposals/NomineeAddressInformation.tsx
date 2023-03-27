@@ -12,9 +12,12 @@ export interface IAddressInformation {
   ids: any;
   index?: any;
   data: any;
+  divisionList: any;
+  cityList: any;
+  areaList: any;
 }
 
-export function NomineeAddressInformation({ handleChangeTextInput, errors, index, ids, data }: IAddressInformation) {
+export function NomineeAddressInformation({ handleChangeTextInput, errors, index, ids, data, divisionList, cityList, areaList }: IAddressInformation) {
 
   const dispatch = useDispatch();
 
@@ -36,6 +39,10 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
     handleChangeTextInput(name, value, ids.present, index)
   }
 
+  const {permanentDivisions, presentDivisions} = divisionList;
+  const {permanentCities, presentCities} = cityList;
+  const {permanentAreas, presentAreas} = areaList;
+
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -50,7 +57,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
             <h4 className="my-1 text-black text-sm">-- Permanent Address --</h4>
             <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2 pb-5">
               <Select
-                options={divisionList}
+                options={permanentDivisions}
                 isSearchable={true}
                 name="division_id"
                 defaultValue={data.permanent.division_id}
@@ -61,7 +68,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               />
 
               <Select
-                options={districtList}
+                options={permanentCities}
                 isSearchable={true}
                 name="district_id"
                 label="District"
@@ -71,7 +78,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 errors={errors}
               />
               <Select
-                options={areaList}
+                options={permanentAreas}
                 isSearchable={true}
                 name="area_id"
                 defaultValue={data.permanent.area_id}
@@ -105,7 +112,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 <input
                   id={`same_as_nominee_permanent-${index}`}
                   type="checkbox"
-                  value=""
+                  value=" "
                   checked={isNomineeSameAddress}
                   onChange={(e) => handleCheckedNomineeSameAddress(e)}
                   className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
@@ -128,7 +135,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
             <h4 className="my-2 text-black text-sm"> -- Present Address --</h4>
             <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
               <Select
-                options={divisionList}
+                options={presentDivisions}
                 isSearchable={true}
                 name="division_id"
                 label="Division"
@@ -139,7 +146,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               />
 
               <Select
-                options={districtList}
+                options={presentCities}
                 isSearchable={true}
                 name="district_id"
                 label="District"
@@ -150,7 +157,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               />
 
               <Select
-                options={areaList}
+                options={presentAreas}
                 isSearchable={true}
                 name="area_id"
                 label="Area"

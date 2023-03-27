@@ -20,7 +20,6 @@ export const getCitiesDropdownList = async (id: any) => {
 
 export const getAreasDropdownList = async (id: any) => {
     const res = await axios.get(`/areas/dropdown/list?city_id=${id}`);
-    console.log('res :>> ', res);
     const cities = generateDropdownList(res.data);
     return cities
 };
