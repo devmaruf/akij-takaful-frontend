@@ -15,7 +15,8 @@ import { formatCurrency } from '@/utils/currency';
 import NewButton from '@/components/button/button-new';
 import ActionButtons from '@/components/button/button-actions';
 import StatusBadge from '@/components/badge/StatusBadge';
-import { IProposalBasicInput } from '@/redux/interfaces';
+import { IProposalBasicInput, IProposalView } from '@/redux/interfaces';
+import NoTableDataFound from '@/components/table/NoDataFound';
 
 export default function ProposalList() {
     const dispatch = useDispatch();
@@ -86,7 +87,7 @@ export default function ProposalList() {
                         >
                             {
                                 proposalsList && proposalsList.length > 0
-                                && proposalsList.map((data: IProposalBasicInput, index: number) => (
+                                && proposalsList.map((data: IProposalView, index: number) => (
                                     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.proposal_no}
@@ -149,6 +150,11 @@ export default function ProposalList() {
                                         </td>
                                     </tr>
                                 ))
+                            }
+
+                            {
+                                proposalsList && proposalsList.length === 0 &&
+                                <NoTableDataFound colSpan={8}>No proposal found ! Please create a proposal or assign.</NoTableDataFound>
                             }
                         </Table>
                 }

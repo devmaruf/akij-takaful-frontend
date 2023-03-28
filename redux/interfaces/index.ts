@@ -175,6 +175,8 @@ export interface IProposalView extends IProposalBasicInput {
     id: number;
     project_name: string;
     branch_name: string;
+    plan_name: string;
+    agent_name: string;
 }
 
 export interface IProposal {
