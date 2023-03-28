@@ -11,18 +11,6 @@ export default function CreatePreviewProposal() {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    // const debouncedDispatch = useCallback(
-    //     debounce(() => {
-    //         dispatch(createPreviewProposalAndRedirectAction(router));
-    //     }, 2000),
-    //     []
-    // );
-
-    // useEffect(() => {
-    //     debouncedDispatch(); // call debounced dispatch function
-    //     return debouncedDispatch.cancel; // cleanup the debounced function
-    // }, [debouncedDispatch]);
-
     useDebounced(() => {
         dispatch(createPreviewProposalAndRedirectAction(router));
     });

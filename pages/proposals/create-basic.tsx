@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'lodash';
 
 import { RootState } from '@/redux/store';
 import Input from '@/components/input';
@@ -33,7 +34,7 @@ export default function CreateBasicPage() {
   });
 
   const handleChangeTextInput = (name: string, value: any) => {
-    dispatch(changeInputValue(name, value));
+    dispatch(changeInputValue(name, value, ''));
   };
 
   const handleUpdateProposal = (e: any) => {
@@ -41,10 +42,17 @@ export default function CreateBasicPage() {
     dispatch(updateProposal(proposalInput, id, router));
   }
 
+  const debouncedDispatch = useCallback(
+    debounce(() => {
+      dispatch(getProposalDetails(id));
+    }, 1000),
+    [id]
+  );
+
   useEffect(() => {
-    dispatch(getProposalDetails(id));
-  }, [id]);
-  
+    debouncedDispatch(); // call debounced dispatch function
+    return debouncedDispatch.cancel; // cleanup the debounced function
+  }, [debouncedDispatch]);
 
   return (
     <div>
@@ -139,7 +147,6 @@ export default function CreateBasicPage() {
                 <Select
                   options={agentsDropdownList}
                   isSearchable={true}
-                  isRequired={true}
                   name="agent_id"
                   label="Agent"
                   defaultValue={proposalInput?.agent_id ?? ''}
