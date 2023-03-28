@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
@@ -15,7 +16,7 @@ export default function Login() {
     };
 
     const onSubmit = (e: any) => {
-            dispatch(handleLogin(loginInput));
+        dispatch(handleLogin(loginInput));
         e.preventDefault();
     }
 
@@ -31,9 +32,9 @@ export default function Login() {
                 </div>
                 <div className="basis-1 md:basis-1/2">
                     <form method="post" autoComplete="off">
-                        <h4 className="text-lg font-bold">
-                            {process.env.APP_NAME}
-                        </h4>
+                        <div className="flex justify-center items-center mb-10">
+                            <Image src={'/images/banner.png'} alt={''} height={80} width={300} unoptimized />
+                        </div>
                         <div className="flex items-center mb-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
                             <p className="text-center font-semibold mx-4 mb-0">Login</p>
                         </div>
