@@ -72,6 +72,15 @@ const getConfigurationMenu = () => {
                 subSubMenu: []
             });
         }
+        if (hasPermission('product.view')) {
+            menu.subMenu.push({
+                id: 'subMenu04.2',
+                title: 'Manage Products',
+                icon: 'bi-bag-check-fill',
+                url: '/settings/products',
+                subSubMenu: []
+            });
+        }
 
         if (hasPermission('role.view')) {
             menu.subMenu.push({

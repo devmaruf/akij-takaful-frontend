@@ -3,11 +3,60 @@ import * as Types from "@/redux/types/product-type";
 import { generateDropdownList } from "@/utils/dropdown";
 
 const initialState: IProductReducer = {
-    productDropdownList: []
+    isLoading: false,
+    isDeleting: false,
+    isSubmitting: false,
+    loadingDetails: false,
+    productList: [],
+    paginationData: [],
+    productDetails: {},
+    productDropdownList: [],
+    productInput: {
+        project_id: 0,
+        name: ""
+    },
 };
 
 export default function ProductReducer(state = initialState, action: any) {
     switch (action.type) {
+        case Types.CHANGE_PRODUCT_INPUT:
+            const productInput = { ...state.productInput };
+            productInput[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                productInput,
+            };
+        case Types.SUBMIT_PRODUCT:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+                productInput: action.payload.status ? initialState.productInput : state.productInput
+            };
+        case Types.GET_PRODUCT_LIST:
+            return {
+                ...state,
+                productList: action.payload.data,
+                paginationData: action.payload.paginationData,
+                isLoading: action.payload.isLoading,
+            };
+        case Types.GET_PRODUCT_DETAILS:
+            return {
+                ...state,
+                productDetails: action.payload.data,
+                productInput: action.payload.data,
+                loadingDetails: action.payload.isLoading,
+            };
+            case Types.UPDATE_PRODUCT:
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    productInput: action.payload.status ? initialState.productInput : state.productInput
+                };
+        case Types.DELETE_PRODUCT:
+            return {
+                ...state,
+                isDeleting: action.payload.isLoading,
+            };
         case Types.GET_PRODUCT_DROPDOWN_LIST:
             return {
                 ...state,

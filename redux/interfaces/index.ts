@@ -312,5 +312,13 @@ export interface IProposalFormSection {
 }
 
 export interface IProductReducer {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    loadingDetails: boolean;
+    isDeleting: boolean;
+    productList: any[];
+    paginationData: any[];
+    productDetails: any;
     productDropdownList: Array<ISelect2Item>
+    productInput: any
 }
