@@ -32,7 +32,7 @@ export default function Create({ setShowModal }) {
             autoComplete="off"
         >
             <Input
-                label="Branch name Check"
+                label="Branch name"
                 name="name"
                 placeholder='Branch name'
                 value={branchInput.name}

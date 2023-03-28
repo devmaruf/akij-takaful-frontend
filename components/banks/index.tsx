@@ -18,11 +18,12 @@ import {
 }
     from '@/redux/actions/project-action';
 import { NewBank } from './NewBank';
-import PageHeader from '../layouts/PageHeader';
-import NewButton from '../button/button-new';
-import { PageContentList } from '../layouts/PageContentList';
-import ActionButtons from '../button/button-actions';
+import PageHeader from '@/components/layouts/PageHeader';
+import NewButton from '@/components/button/button-new';
+import { PageContentList } from '@/components/layouts/PageContentList';
+import ActionButtons from '@/components/button/button-actions';
 import { debounce } from 'lodash';
+import NoTableDataFound from '@/components/table/NoDataFound';
 
 export default function Banks() {
     const dispatch = useDispatch();
@@ -136,6 +137,11 @@ export default function Banks() {
                                     </td>
                                 </tr>
                             ))
+                            }
+    
+                            {
+                                projectList && projectList.length === 0 &&
+                                <NoTableDataFound colSpan={3}>No banks found ! Please enlist a bank.</NoTableDataFound>
                             }
                         </Table>
                 }

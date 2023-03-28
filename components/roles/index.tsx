@@ -10,11 +10,11 @@ import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import DeleteModal from '@/components/delete/DeleteModal';
-import { EditIconButtonTooltip } from '@/components/button/edit-icon-button';
-import { DeleteIconButtonTooltip } from '@/components/button/delete-icon-button';
 import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
+import NoTableDataFound from '@/components/table/NoDataFound';
+import { Toaster } from '@/components/toaster';
 
 export default function Roles() {
     const dispatch = useDispatch();
@@ -124,6 +124,11 @@ export default function Roles() {
                                                     {
                                                         element: 'Delete',
                                                         onClick: () => {
+                                                            if (!data.deletable) {
+                                                                Toaster('error', 'This role could not be deleted.');
+                                                                return;
+                                                            }
+
                                                             setShowDeleteModal(true);
                                                             setDeleteId(data.id)
                                                         },
@@ -134,6 +139,11 @@ export default function Roles() {
                                         </td>
                                     </tr>
                                 ))
+                            }
+
+                            {
+                                roleList && roleList.length === 0 &&
+                                <NoTableDataFound colSpan={3}>No roles found ! Please create a role.</NoTableDataFound>
                             }
                         </Table>
                 }

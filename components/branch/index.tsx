@@ -17,6 +17,8 @@ import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import { useDebounced } from '@/hooks/use-debounce';
 import ActionButtons from '@/components/button/button-actions';
+import NoTableDataFound from '@/components/table/NoDataFound';
+import StatusBadge from '../badge/StatusBadge';
 
 export default function Branches() {
     const dispatch = useDispatch();
@@ -116,7 +118,7 @@ export default function Branches() {
                                         {data.code}
                                     </th>
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {data.status}
+                                        <StatusBadge status={data?.status ?? ''} />
                                     </th>
                                     <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.project_name}
@@ -144,6 +146,11 @@ export default function Branches() {
                                     </td>
                                 </tr>
                             ))
+                            }
+
+                            {
+                                branchList && branchList.length === 0 &&
+                                <NoTableDataFound colSpan={5}>No branches found ! Please open a branch.</NoTableDataFound>
                             }
                         </Table>
                 }

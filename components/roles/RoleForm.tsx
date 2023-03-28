@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -10,6 +10,7 @@ import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { useDebounced } from '@/hooks/use-debounce';
+import { debounce } from 'lodash';
 
 interface IRoleForm {
     id: number;
@@ -23,7 +24,10 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
 
     useDebounced(() => {
         dispatch(emptyRoleStatusMessage());
-        dispatch(getPermissionGroups());
+
+        if (pageType === 'create') {
+            dispatch(getPermissionGroups());
+        }
     });
 
     const roleCheck = (e, indexChild, permissionGroupIndex) => {
@@ -44,11 +48,20 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
         dispatch(changeRoleInputAction(name, value));
     }
 
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            if (id > 0) {
+                dispatch(getRoleDetailsDataAction(id));
+            }
+        }, 500),
+        [id]
+    );
+
     useEffect(() => {
-        if (id > 0) {
-            dispatch(getRoleDetailsDataAction(id));
-        }
-    }, [id]);
+        debouncedDispatch(); // call debounced dispatch function
+        return debouncedDispatch.cancel; // cleanup the debounced function
+    }, [debouncedDispatch]);
+
 
     const onFormSubmit = (e: any) => {
         e.preventDefault();
