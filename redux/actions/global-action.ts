@@ -27,7 +27,7 @@ const getDashboardMenus = () => {
             });
         }
 
-        if (hasPermission('dashboard.view')) {
+        if (hasPermission('financial_dashboard')) {
             menu.subMenu.push({
                 id: 'subMenu00.2',
                 title: 'Financial Dashboard',
@@ -39,6 +39,53 @@ const getDashboardMenus = () => {
 
         return menu;
     }
+
+    return null;
+}
+
+const getConfigurationMenu = () => {
+    const menu = {
+        id: 'menu04',
+        title: 'Configurations',
+        icon: 'bi-gear',
+        url: '',
+        subMenu: []
+    };
+
+    if (hasPermission('project.view') || hasPermission('branch.view') || hasPermission('role.view')) {
+        if (hasPermission('project.view')) {
+            menu.subMenu.push({
+                id: 'subMenu04.1',
+                title: 'Enlist bank',
+                icon: 'bi-bank',
+                url: '/settings/banks',
+                subSubMenu: []
+            });
+        }
+
+        if (hasPermission('branch.view')) {
+            menu.subMenu.push({
+                id: 'subMenu04.2',
+                title: 'Open branch',
+                icon: 'bi-bank2',
+                url: '/settings/branches',
+                subSubMenu: []
+            });
+        }
+
+        if (hasPermission('role.view')) {
+            menu.subMenu.push({
+                id: 'subMenu04.3',
+                title: 'Manage Roles',
+                icon: 'bi-shield-check',
+                url: '/settings/roles',
+                subSubMenu: []
+            });
+        }
+
+        return menu;
+    }
+
 
     return null;
 }
@@ -141,35 +188,7 @@ export const getSidebarMenuList = () => (dispatch: Dispatch) => {
                 },
             ]
         },
-        {
-            id: 'menu04',
-            title: 'Configurations',
-            icon: 'bi-gear',
-            url: '',
-            subMenu: [
-                {
-                    id: 'subMenu04.1',
-                    title: 'Enlist bank',
-                    icon: 'bi-bank',
-                    url: '/settings/banks',
-                    subSubMenu: []
-                },
-                {
-                    id: 'subMenu04.2',
-                    title: 'Open branch',
-                    icon: 'bi-bank2',
-                    url: '/settings/branches',
-                    subSubMenu: []
-                },
-                {
-                    id: 'subMenu04.3',
-                    title: 'Manage Roles',
-                    icon: 'bi-shield-check',
-                    url: '/settings/roles',
-                    subSubMenu: []
-                },
-            ]
-        }
+        getConfigurationMenu()
     ]
 
     dispatch({ type: Types.SIDEBAR_MENU_LIST, payload: menuList });
