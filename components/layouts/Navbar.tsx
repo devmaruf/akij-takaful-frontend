@@ -50,18 +50,8 @@ export default function Navbar() {
                                 </span>
                             </Dropdown.Header>
                             <Dropdown.Item className="py-2 px-4">
-                                <Link href={'/'}>
+                                <Link href={'/employee/profile'}>
                                     <i className="bi bi-person-bounding-box"></i> &nbsp;&nbsp; Profile
-                                </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item className="py-2 px-4">
-                                <Link href={'/'}>
-                                    <i className="bi bi-speedometer2"></i> &nbsp;&nbsp; Dashboard
-                                </Link>
-                            </Dropdown.Item>
-                            <Dropdown.Item className="py-2 px-4">
-                                <Link href={'/'}>
-                                    <i className="bi bi-gear"></i> &nbsp;&nbsp; Settings
                                 </Link>
                             </Dropdown.Item>
                             {/* <Dropdown.Divider className="" /> */}
