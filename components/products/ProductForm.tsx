@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Input from '@/components/input';

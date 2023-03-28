@@ -1,35 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Dispatch } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
-import { useCallback, useEffect } from 'react';
-import { getProductDetailsAction } from '@/redux/actions/product-action';
-import { debounce } from "lodash";
 import StatusBadge from '@/components/badge/StatusBadge';
 
-interface IProductDetails {
-    productID: string;
-}
+export default function ProductDetails() {
 
-export default function ProductDetails({ productID }: IProductDetails) {
-
-    // const dispatch: Dispatch = useDispatch();
     const { productDetails, loadingDetails } = useSelector((state: RootState) => state.product);
-
-
-    // const debouncedDispatch = useCallback(
-    //     debounce(() => {
-    //         dispatch(getProductDetailsAction(productID));
-    //     }, 1000),
-    //     [productID]
-    // );
-
-    // useEffect(() => {
-    //     if (typeof productID !== "undefined") {
-    //         debouncedDispatch();
-    //         return debouncedDispatch.cancel;
-    //     }
-    // }, [debouncedDispatch, productID]);
 
     return (
 
