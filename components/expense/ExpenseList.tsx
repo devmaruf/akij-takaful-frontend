@@ -14,7 +14,8 @@ import { formatCurrency } from '@/utils/currency';
 import NewButton from '@/components/button/button-new';
 import ActionButtons from '@/components/button/button-actions';
 import ExpenseDetail from './ExpenseDetail';
-import StatusBadge from '../badge/StatusBadge';
+import StatusBadge from '@/components/badge/StatusBadge';
+import NoTableDataFound from '@/components/table/NoDataFound';
 
 export default function ExpenseList() {
     const dispatch = useDispatch();
@@ -118,6 +119,12 @@ export default function ExpenseList() {
                                         </td>
                                     </tr>
                                 ))
+                            }
+                            {
+                                expensesList && expensesList.length === 0 &&
+                                <NoTableDataFound colSpan={7}>
+                                    No expense found ! Please create an expense.
+                                </NoTableDataFound>
                             }
                         </Table>
                 }
