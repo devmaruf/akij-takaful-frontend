@@ -4,7 +4,6 @@ import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isSameAddressCheck } from "@/redux/actions/proposal-action";
-import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 import { IProposalFormSection } from "@/redux/interfaces";
 
 export interface IAddressInformation extends IProposalFormSection {
@@ -12,7 +11,7 @@ export interface IAddressInformation extends IProposalFormSection {
   onChangePresentAddress: (name: string, value: any) => void;
 }
 
-export function AddressInformation({ onChangeText, onChangePresentAddress, onChangePermanentAddress, errors }: IAddressInformation) {
+export function AddressInformation({ onChangeText, onChangePresentAddress, onChangePermanentAddress, errors, divisionList, cityList, areaList }: IAddressInformation) {
   const dispatch = useDispatch();
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
   const { proposer_permanent_address: permanentAddress, proposer_present_address: presentAddress } = proposalInput;
@@ -21,6 +20,10 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
     const isChecked = e.target.checked;
     dispatch(isSameAddressCheck(isChecked, permanentAddress))
   }
+
+  const {permanentDivisions, presentDivisions} = divisionList;
+  const {permanentCities, presentCities} = cityList;
+  const {permanentAreas, presentAreas} = areaList;
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -31,7 +34,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
         <Select
-          options={divisionList}
+          options={permanentDivisions}
           isSearchable={true}
           name="division_id"
           defaultValue={permanentAddress.division_id}
@@ -42,7 +45,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         />
 
         <Select
-          options={districtList}
+          options={permanentCities}
           isSearchable={true}
           name="district_id"
           label="District"
@@ -52,7 +55,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           errors={errors}
         />
         <Select
-          options={areaList}
+          options={permanentAreas}
           isSearchable={true}
           name="area_id"
           defaultValue={permanentAddress.area_id}
@@ -106,7 +109,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
           <Select
-            options={divisionList}
+            options={presentDivisions}
             isSearchable={true}
             name="division_id"
             label="Division"
@@ -117,7 +120,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           />
 
           <Select
-            options={districtList}
+            options={presentCities}
             isSearchable={true}
             name="district_id"
             label="District"
@@ -128,7 +131,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           />
 
           <Select
-            options={areaList}
+            options={presentAreas}
             isSearchable={true}
             name="area_id"
             label="Area"
