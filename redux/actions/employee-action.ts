@@ -11,8 +11,7 @@ export const changeInputValue = (name: string, value: any) => (dispatch: Dispatc
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 };
 
-
-export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
+export const validateEmployeeForm = (employeeInput) => {
     if (employeeInput.first_name === "") {
         Toaster("error", "Please give first name.");
         return false;
@@ -41,9 +40,13 @@ export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) =>
         Toaster("error", "Please select a role.");
         return false;
     }
-    if (employeeInput.branch_ids && employeeInput.branch_ids.length < 1) {
-        Toaster("error", "Please select minimum one branch.");
-        return false;
+
+    return true;
+}
+
+export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
+    if (!validateEmployeeForm(employeeInput)) {
+        return;
     }
 
     let response = {
@@ -112,6 +115,15 @@ export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) 
             response.status = true;
             response.message = res.message;
             response.data = res.data;
+            const branches = res.data.branches;
+            const branchIds = [];
+            branches.forEach(branch => {
+                branchIds.push({
+                    label: branch.branch_name,
+                    value: branch.branch_id,
+                })
+            });
+            response.data.branch_ids = branchIds;
             dispatch({ type: Types.GET_EMPLOYEE_DETAILS, payload: response });
         })
         .catch((error) => {
@@ -179,44 +191,16 @@ export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) 
 // }
 
 
-export const updateEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
-    if (employeeInput.first_name === "") {
-        Toaster("error", "Please give first name.");
-        return false;
-    }
-    if (employeeInput.last_name === "") {
-        Toaster("error", "Please give last name.");
-        return false;
-    }
-    if (employeeInput.email === "") {
-        Toaster("error", "Please give employee email.");
-        return false;
-    }
-    if (employeeInput.phone === "") {
-        Toaster("error", "Please give employee phone no.");
-        return false;
-    }
-    if (employeeInput.designation_id === "") {
-        Toaster("error", "Please select a designation.");
-        return false;
-    }
-    if (employeeInput.project_id === "") {
-        Toaster("error", "Please select a bank");
-        return false;
-    }
-    if (employeeInput.role_id === 0) {
-        Toaster("error", "Please select a role.");
-        return false;
-    }
-    if (employeeInput.branch_ids && employeeInput.branch_ids.length < 1) {
-        Toaster("error", "Please select minimum one branch.");
-        return false;
+export const updateEmployee = (employeeInput, router: any, pageType: string = 'edit') => (dispatch: Dispatch) => {
+    if (!validateEmployeeForm(employeeInput)) {
+        return;
     }
 
     let response = {
         status: false,
         message: "",
         isLoading: true,
+        pageType,
     };
     dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
 
@@ -226,7 +210,9 @@ export const updateEmployee = (employeeInput, router) => (dispatch: Dispatch) =>
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
-            router.push('/employee')
+            if (pageType !== 'profile') {
+                router.push('/employee');
+            }
             dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
         })
         .catch((error) => {

@@ -22,7 +22,7 @@ const initialState: IEmployee = {
         branch_ids: [],
         phone: '',
         avatar: null,
-        password: '',
+        password: 'AKIJTakaful@$@123',
         confirm_password: '',
     }
 };
@@ -52,16 +52,18 @@ function employeeReducer(state = initialState, action: any) {
             }
 
         case Types.UPDATE_EMPLOYEE:
+            if (!action.payload.status || action.payload.pageType === 'profile') {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+
             if (action.payload.status) {
                 return {
                     ...state,
                     isSubmitting: action.payload.isLoading,
-                    employeeInput: initialState.employeeInput,
-                };
-            } else {
-                return {
-                    ...state,
-                    isSubmitting: action.payload.isLoading,
+                    employeeInput: initialState.employeeInput
                 };
             }
 

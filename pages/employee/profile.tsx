@@ -1,14 +1,13 @@
 import EmployeeForm from '@/components/employees/EmployeeForm';
-import { useRouter } from 'next/router';
+import { getAuthData } from '@/utils/auth';
 
 export default function EmployeeEditPage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const id = getAuthData()?.id;
 
   return (
     <EmployeeForm
       id={typeof id === undefined || id === null ? 0 : parseInt(id + '')}
-      pageType='edit'
+      pageType='profile'
     />
   )
 }
