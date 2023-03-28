@@ -4,6 +4,7 @@ import { getProposalDashboardCountingAction } from "@/redux/actions/proposal-das
 import { RootState } from "@/redux/store";
 import Card from "@/components/card";
 import { useDebounced } from "@/hooks/use-debounce";
+import { formatCurrency } from "@/utils/currency";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -31,9 +32,8 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_amount_of_submitted_proposal
-                }{" "}
-                ৳
+                  formatCurrency(proposalDashboardCount.total_amount_of_submitted_proposal)
+                }
               </div>
             </div>
           </Card>
@@ -51,9 +51,8 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_no_of_pending_payment_proposal
+                  formatCurrency(proposalDashboardCount.total_no_of_pending_payment_proposal)
                 }
-                ৳
               </div>
             </div>
           </Card>
@@ -71,9 +70,8 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_no_of_pending_proposal_approval_from_und
+                  formatCurrency(proposalDashboardCount.total_amount_of_pending_proposal_approval_from_und)
                 }
-                ৳
               </div>
             </div>
           </Card>
@@ -91,9 +89,8 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_no_of_pending_proposal_approval_from_und
+                  formatCurrency(proposalDashboardCount.total_amount_of_pending_proposal_approval_from_und)
                 }
-                ৳
               </div>
             </div>
           </Card>
@@ -111,9 +108,8 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_no_of_pending_proposal_approval_from_und
+                  formatCurrency(proposalDashboardCount.total_amount_of_pending_proposal_approval_from_und)
                 }
-                ৳
               </div>
             </div>
           </Card>
@@ -128,7 +124,7 @@ export default function Home() {
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
-                {proposalDashboardCount.total_amount_of_pending_proposal}৳
+                {formatCurrency(proposalDashboardCount.total_amount_of_pending_proposal)}
               </div>
             </div>
           </Card>
@@ -143,8 +139,7 @@ export default function Home() {
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-                {proposalDashboardCount.total_amount_of_approved_proposal}
-                ৳
+                {formatCurrency(proposalDashboardCount.total_amount_of_approved_proposal)}
               </div>
             </div>
           </Card>
@@ -159,7 +154,7 @@ export default function Home() {
                 </h3>
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-                {proposalDashboardCount.total_amount_of_expired_proposal}৳
+                {formatCurrency(proposalDashboardCount.total_amount_of_expired_proposal)}
               </div>
             </div>
           </Card>
@@ -175,9 +170,42 @@ export default function Home() {
               </div>
               <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
                 {
-                  proposalDashboardCount.total_amount_of_completed_proposal
+                  formatCurrency(proposalDashboardCount.total_amount_of_completed_proposal)
                 }
-                ৳
+              </div>
+            </div>
+          </Card>
+          <Card>
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                  {proposalDashboardCount.total_no_of_soft_copy_proposal}
+                </span>
+                <h3 className="text-base font-normal text-gray-500">
+                  SOFT COPY Proposal
+                </h3>
+              </div>
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-blue-500 text-base font-bold">
+                {
+                  formatCurrency(proposalDashboardCount.total_amount_of_soft_copy_proposal)
+                }
+              </div>
+            </div>
+          </Card>
+          <Card>
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                  {proposalDashboardCount.total_no_of_hard_copy_proposal}
+                </span>
+                <h3 className="text-base font-normal text-gray-500">
+                  HARD COPY Proposal
+                </h3>
+              </div>
+              <div className="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+                {
+                  formatCurrency(proposalDashboardCount.total_amount_of_hard_copy_proposal)
+                }
               </div>
             </div>
           </Card>

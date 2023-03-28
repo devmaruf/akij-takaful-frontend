@@ -8,7 +8,7 @@ export const getProposalDashboardCountingAction = () => (dispatch) => {
     isLoading: true,
     data: [],
   };
-  dispatch({ type: Types.GET_PROPOSAL_DASHBOARD_COUNTING, payload: response });
+  // dispatch({ type: Types.GET_PROPOSAL_DASHBOARD_COUNTING, payload: response });
 
   axios
     .get(`/dashboard/proposal-counting`)
