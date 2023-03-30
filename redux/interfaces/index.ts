@@ -79,6 +79,13 @@ export interface IDesignation {
     isLoadingDetails: boolean;
     isSubmitting: boolean;
     designationDropdownList: Array<ISelect2Item>
+    designationList: any[];
+    paginationData: {};
+    designationDetails: {};
+    designationInput: {
+        name: string;
+        code: string;
+    },
 }
 
 export interface IGlobal {
