@@ -7,18 +7,16 @@ import Modal from '@/components/modal';
 import Table from '@/components/table';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
-import Input from '@/components/input';
-import Select from '@/components/select';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
-import { changeInputValue, submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch } from '@/redux/actions/branch-action';
-import Create from './create';
+import { submitBranch, getBranchList, getBranchDetails, deleteBranch, updateBranch, emptyBranchInputAction } from '@/redux/actions/branch-action';
 import PageHeader from '@/components/layouts/PageHeader';
 import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import { useDebounced } from '@/hooks/use-debounce';
 import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
-import StatusBadge from '../badge/StatusBadge';
+import StatusBadge from '@/components/badge/StatusBadge';
+import BranchForm from './BranchForm';
 
 export default function Branches() {
     const dispatch = useDispatch();
@@ -29,18 +27,17 @@ export default function Branches() {
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
     const [branchID, setBranchID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [dataLimit, setDataLimit] = useState<number>(5);
+    const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
-
     const { branchInput, branchList, branchPaginationData, isLoading, isSubmitting, branchDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Branch);
-    const { projectDropdownList } = useSelector((state: RootState) => state.Project);
 
     const columnData: any[] = [
         { title: "Branch name", id: 1 },
         { title: "Branch code", id: 2 },
-        { title: "Branch status", id: 3 },
+        { title: "Branch address", id: 3 },
         { title: "Bank name", id: 4 },
-        { title: "Action", id: 5 },
+        { title: "Branch status", id: 5 },
+        { title: "Action", id: 6 },
     ]
 
     const debouncedDispatch = useCallback(
@@ -72,17 +69,14 @@ export default function Branches() {
         }
     }
 
-    const changeTextInput = (name: string, value: any) => {
-        dispatch(changeInputValue(name, value));
-    };
-
     const onSubmit = (e: any, type: string) => {
+        e.preventDefault();
+
         if (type === "edit") {
             dispatch(updateBranch(branchInput, setShowUpdateModal));
         } else {
             dispatch(submitBranch(branchInput, setShowModal));
         }
-        e.preventDefault();
     }
 
     return (
@@ -92,7 +86,14 @@ export default function Branches() {
                 searchText={searchText}
                 onSearchText={setSearchText}
                 searchPlaceholder='Search branches...'
-                headerRightSide={<NewButton onClick={() => setShowModal(true)} element='Open branch' />}
+                headerRightSide={
+                    <NewButton
+                        onClick={() => {
+                            dispatch(emptyBranchInputAction());
+                            setShowModal(true);
+                        }}
+                        element='Open branch'
+                    />}
             />
 
             <PageContentList>
@@ -118,11 +119,14 @@ export default function Branches() {
                                         {data.code}
                                     </th>
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        <StatusBadge status={data?.status ?? ''} />
+                                        {data.address ?? '-'}
                                     </th>
                                     <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.project_name}
                                     </td>
+                                    <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        <StatusBadge status={data?.status ?? ''} />
+                                    </th>
                                     <td className="px-2 py-3 flex gap-1">
                                         <ActionButtons
                                             items={[
@@ -150,14 +154,18 @@ export default function Branches() {
 
                             {
                                 branchList && branchList.length === 0 &&
-                                <NoTableDataFound colSpan={5}>No branches found ! Please open a branch.</NoTableDataFound>
+                                <NoTableDataFound colSpan={6}>No branches found ! Please open a branch.</NoTableDataFound>
                             }
                         </Table>
                 }
             </PageContentList>
 
             <Modal title={`Open a branch`} size="lg" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
-                <Create setShowModal={setShowModal} />
+                <BranchForm
+                    setShowModal={setShowModal}
+                    pageType='add'
+                    onSubmit={onSubmit}
+                />
             </Modal>
 
             <Modal title={`Branch Details`} size="lg" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
@@ -184,7 +192,9 @@ export default function Branches() {
                                             <h6>Branch status</h6>
                                             <h6>:</h6>
                                         </div>
-                                        <h6>{branchDetails.status}</h6>
+                                        <h6>
+                                            <StatusBadge status={branchDetails?.status ?? ''} />
+                                        </h6>
                                         <div className='flex justify-between'>
                                             <h6>Bank name</h6>
                                             <h6>:</h6>
@@ -199,7 +209,13 @@ export default function Branches() {
                 }
             </Modal>
 
-            <Modal title={`Update Branch`} size="md" show={showUpdateModal} handleClose={() => setShowUpdateModal(false)} isDismissible={false}>
+            <Modal
+                title={<>Update Branch <br /><span className='text-xs text-blue-500'>{branchInput.code ?? ''}</span></>}
+                size="lg"
+                show={showUpdateModal}
+                handleClose={() => setShowUpdateModal(false)}
+                isDismissible={false}
+            >
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
@@ -208,47 +224,11 @@ export default function Branches() {
                         <div className="text-gray-900">
                             {
                                 (typeof branchInput !== "undefined" && branchInput !== null) ? (
-                                    <form
-                                        method="post"
-                                        autoComplete="off"
-                                    >
-                                        <Input
-                                            label="Branch name"
-                                            name="name"
-                                            placeholder='Branch name'
-                                            value={branchInput.name}
-                                            isRequired={true}
-                                            inputChange={changeTextInput}
-                                        />
-                                        <Input
-                                            label="Branch code"
-                                            name="code"
-                                            placeholder='Branch code'
-                                            value={branchInput.code}
-                                            isRequired={true}
-                                            inputChange={changeTextInput}
-                                        />
-
-                                        <Select
-                                            options={projectDropdownList}
-                                            isSearchable={true}
-                                            name="project_id"
-                                            label="Bank"
-                                            defaultValue={branchInput.project_id}
-                                            placeholder='Select Bank...'
-                                            handleChangeValue={changeTextInput}
-                                        />
-
-                                        <div className="mt-2">
-                                            <Button
-                                                title="Save"
-                                                onClick={(e) => onSubmit(e, "edit")}
-                                                position="text-left"
-                                                loadingTitle="Saving..."
-                                                loading={isSubmitting}
-                                            />
-                                        </div>
-                                    </form>
+                                    <BranchForm
+                                        setShowModal={setShowUpdateModal}
+                                        pageType='edit'
+                                        onSubmit={onSubmit}
+                                    />
                                 ) : (
                                     <div>Something Went wrong!</div>
                                 )
@@ -257,7 +237,7 @@ export default function Branches() {
                 }
             </Modal>
 
-            <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
+            <Modal title="Delete branch" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
                 <div className="text-gray-900 text-center flex flex-col justify-center items-center">
                     <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 5.5C12.5523 5.5 13 5.94772 13 6.5L13 13.5C13 14.0523 12.5523 14.5 12 14.5C11.4477 14.5 11 14.0523 11 13.5L11 6.5C11 5.94772 11.4477 5.5 12 5.5Z" fill="red" />

@@ -1,25 +1,26 @@
 import { getDropdownList } from "@/components/_utlities/dropdown";
-import { IProject } from "../interfaces";
-import * as Types from "./../types/ProjectType";
+import { IProject } from "@/redux/interfaces";
+import * as Types from "@/redux/types/ProjectType";
 
 const initialState: IProject = {
-    isLoading            : false,
-    isDeleting           : false,
-    isLoadingDetails     : false,
-    isSubmitting         : false,
-    projectOptionList    : [],
-    projectList          : [],
+    isLoading: false,
+    isDeleting: false,
+    isLoadingDetails: false,
+    isSubmitting: false,
+    projectOptionList: [],
+    projectList: [],
     projectPaginationData: [],
-    projectDetails       : null,
-    projectInput         : {
-        name             : "",
-        code             : ""
+    projectDetails: null,
+    projectInput: {
+        name: "",
+        code: "",
+        address: ""
     },
     projectDropdownList: [],
 };
 
 
-function ProjectReducer(state = initialState, action: any) {
+export default function ProjectReducer(state = initialState, action: any) {
     switch (action.type) {
         case Types.CHANGE_INPUT_VALUE:
             const projectInput = { ...state.projectInput };
@@ -28,6 +29,13 @@ function ProjectReducer(state = initialState, action: any) {
                 ...state,
                 projectInput,
             };
+
+        case Types.EMPTY_PROJECT_INPUT:
+            return {
+                ...state,
+                projectInput: initialState.projectInput,
+            };
+
         case Types.SUBMIT_PROJECT:
             if (action.payload.status === true) {
                 return {
@@ -64,15 +72,16 @@ function ProjectReducer(state = initialState, action: any) {
                 projectDetails: action.payload.data,
                 projectInput: action.payload.data,
             };
-            case Types.DELETE_PROJECT:
-                return {
-                    ...state,
-                    isDeleting: action.payload.isLoading,
-                };
+
+        case Types.DELETE_PROJECT:
+            return {
+                ...state,
+                isDeleting: action.payload.isLoading,
+            };
+
         default:
             break;
     }
+
     return state;
 }
-
-export default ProjectReducer;

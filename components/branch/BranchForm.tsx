@@ -1,5 +1,6 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Input from '@/components/input';
@@ -7,13 +8,18 @@ import Select from '@/components/select';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { changeInputValue, submitBranch } from '@/redux/actions/branch-action';
 
-export default function Create({ setShowModal }) {
+interface IBranchForm {
+    setShowModal: (showModal: boolean) => void;
+    onSubmit: (e: any, pageType: string) => void;
+    pageType: 'add' | 'edit';
+}
 
+export default function BranchForm({ setShowModal, pageType, onSubmit }: IBranchForm) {
     const dispatch = useDispatch();
     const { branchInput, isSubmitting } = useSelector((state: RootState) => state.Branch);
     const { projectDropdownList } = useSelector((state: RootState) => state.Project);
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getProjectListDropdown());
     }, [dispatch]);
 
@@ -21,33 +27,11 @@ export default function Create({ setShowModal }) {
         dispatch(changeInputValue(name, value));
     };
 
-    const onSubmit = (e: any) => {
-        dispatch(submitBranch(branchInput, setShowModal));
-        e.preventDefault();
-    }
-
     return (
         <form
             method="post"
             autoComplete="off"
         >
-            <Input
-                label="Branch name"
-                name="name"
-                placeholder='Branch name'
-                value={branchInput.name}
-                isRequired={true}
-                inputChange={changeTextInput}
-            />
-            <Input
-                label="Branch code"
-                name="code"
-                placeholder='Branch code'
-                value={branchInput.code}
-                isRequired={true}
-                inputChange={changeTextInput}
-            />
-
             <Select
                 options={projectDropdownList}
                 isSearchable={true}
@@ -57,11 +41,27 @@ export default function Create({ setShowModal }) {
                 placeholder='Select Bank...'
                 handleChangeValue={changeTextInput}
             />
-
-            <div className="mt-2">
+            <Input
+                label="Branch name"
+                name="name"
+                placeholder='Branch name'
+                value={branchInput.name}
+                isRequired={true}
+                inputChange={changeTextInput}
+            />
+            <Input
+                type='textarea'
+                label="Branch address"
+                name="address"
+                placeholder='Branch address'
+                value={branchInput.address}
+                isRequired={false}
+                inputChange={changeTextInput}
+            />
+            <div className="mt-4">
                 <Button
                     title="Save"
-                    onClick={(e) => onSubmit(e)}
+                    onClick={(e: any) => onSubmit(e, pageType)}
                     position="text-left"
                     loadingTitle="Saving..."
                     loading={isSubmitting}

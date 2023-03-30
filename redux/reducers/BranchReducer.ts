@@ -12,8 +12,9 @@ const initialState: IBranch = {
     branchDetails: null,
     branchDropdownList: [],
     branchInput: {
-        project_id: 1,
+        project_id: null,
         name: "",
+        address: "",
         code: "",
     }
 };
@@ -28,6 +29,13 @@ function BranchReducer(state = initialState, action: any) {
                 ...state,
                 branchInput,
             };
+
+        case Types.EMPTY_BRANCH_INPUT:
+            return {
+                ...state,
+                branchInput: initialState.branchInput,
+            };
+
         case Types.SUBMIT_BRANCH:
             if (action.payload.status === true) {
                 return {
