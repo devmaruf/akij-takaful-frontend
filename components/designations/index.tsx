@@ -85,7 +85,7 @@ export default function DesignationList() {
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               dataLimit={dataLimit}
-              totalData={paginationData.data.length > 0 && paginationData.total}
+              totalData={designationList.length > 0 && paginationData.total}
             >
               {designationList && designationList.length > 0 && designationList.map((data: any, index: number) => (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
@@ -99,11 +99,11 @@ export default function DesignationList() {
                   <td className="px-2 py-3 flex gap-1">
                     <ActionButtons
                       items={[
-                        {
-                          element: 'View',
-                          onClick: () => handleOpenModal(data.id, 'view'),
-                          iconClass: 'eye'
-                        },
+                        // {
+                        //   element: 'View',
+                        //   onClick: () => handleOpenModal(data.id, 'view'),
+                        //   iconClass: 'eye'
+                        // },
                         {
                           element: 'Edit',
                           onClick: () => handleOpenModal(data.id, 'edit'),
