@@ -75,34 +75,37 @@ export default function Select({
         {label}
         {isRequired && <span className="text-red-600 text-base"> * </span>}
       </label>
-      <ReactSelect
-        classNamePrefix="select"
-        isDisabled={isDisabled}
-        isLoading={isLoading}
-        isClearable={isClearable}
-        isSearchable={isSearchable}
-        name={name}
-        isMulti={isMulti}
-        defaultValue={getDefaultValue()}
-        required={isRequired}
-        value={getDefaultValue()}
-        onChange={
-          handleChangeValue &&
-          ((option) =>
-            isMulti === true
-              ? handleChangeValue(name, option)
-              : handleChangeValue(name, option.value))
-        }
-        options={options}
-        placeholder={placeholder}
-        components={{
-          Option: ({ children, innerProps, innerRef, ...rest }) => (
-            <Option ref={innerRef} {...innerProps} {...rest}>
-              {children}
-            </Option>
-          ),
-        }}
-      />
+
+      <div className="my-2">
+        <ReactSelect
+          classNamePrefix="select"
+          isDisabled={isDisabled}
+          isLoading={isLoading}
+          isClearable={isClearable}
+          isSearchable={isSearchable}
+          name={name}
+          isMulti={isMulti}
+          defaultValue={getDefaultValue()}
+          required={isRequired}
+          value={getDefaultValue()}
+          onChange={
+            handleChangeValue &&
+            ((option) =>
+              isMulti === true
+                ? handleChangeValue(name, option)
+                : handleChangeValue(name, option.value))
+          }
+          options={options}
+          placeholder={placeholder}
+          components={{
+            Option: ({ children, innerProps, innerRef, ...rest }) => (
+              <Option ref={innerRef} {...innerProps} {...rest}>
+                {children}
+              </Option>
+            ),
+          }}
+        />
+      </div>
 
       {
         typeof errors !== "undefined" && errors !== null && errors[name] && (

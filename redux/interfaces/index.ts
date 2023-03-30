@@ -41,12 +41,12 @@ export interface IBranch {
     branchDetails: any;
     branchDropdownList: Array<ISelect2Item>
     branchInput: {
-        project_id: number;
+        project_id: number | null;
         name: string;
+        address: string;
         code: string;
     }
 }
-
 
 export interface IEmployee {
     isLoading: boolean;

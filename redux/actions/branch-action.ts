@@ -1,8 +1,9 @@
 import { Toaster } from "@/components/toaster";
 import axios from "@/utils/axios";
 import * as Types from "../types/BranchType";
+import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeInputValue = (name: string, value: any) => (dispatch: any) => {
+export const changeInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
     let data = {
         name: name,
         value: value,
@@ -10,17 +11,17 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 };
 
-export const submitBranch = (branchInput, setShowModal) => (dispatch: any) => {
-    if (branchInput.name === "") {
-        Toaster("error", "Branch name can't be blank!");
-        return false;
-    }
-    if (branchInput.code === "") {
-        Toaster("error", "Branch code can't be blank!");
-        return false;
-    }
+export const emptyBranchInputAction = () => (dispatch: Dispatch) => {
+    dispatch({ type: Types.EMPTY_BRANCH_INPUT, payload: {} });
+};
+
+export const submitBranch = (branchInput, setShowModal) => (dispatch: Dispatch) => {
     if (branchInput.project_id === "") {
-        Toaster("error", "Project can't be blank!");
+        Toaster("error", "Please select a bank.");
+        return false;
+    }
+    if (branchInput.name === "") {
+        Toaster("error", "Please give a branch name.");
         return false;
     }
 
@@ -31,18 +32,14 @@ export const submitBranch = (branchInput, setShowModal) => (dispatch: any) => {
     };
     dispatch({ type: Types.SUBMIT_BRANCH, payload: response });
 
-    axios({
-        method: 'POST',
-        url: `/branches`,
-        data: branchInput
-    })
+    axios.post('/branches', branchInput)
         .then((res) => {
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
             setShowModal(false);
-            dispatch(getBranchList(1, 5));
+            dispatch(getBranchList());
             dispatch({ type: Types.SUBMIT_BRANCH, payload: response });
         })
         .catch((error) => {
@@ -55,17 +52,7 @@ export const getBranchList = (
     currentPage: number = 1,
     dataLimit: number = 10,
     searchText: string = ''
-) => (dispatch) => {
-
-    let branchURL = 'branches'
-
-    if (dataLimit) {
-        branchURL += `?perPage=${dataLimit}`;
-    }
-    if(searchText !== ''){
-        branchURL += `&search=${searchText}`;
-    }
-
+) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -75,7 +62,7 @@ export const getBranchList = (
     };
     dispatch({ type: Types.GET_BRANCH_LIST, payload: response });
 
-    axios(branchURL)
+    axios(`/branches?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res: any) => {
             response.isLoading = false;
             response.status = true;
@@ -90,7 +77,7 @@ export const getBranchList = (
         });
 }
 
-export const getBranchDetails = (id: number | string) => (dispatch) => {
+export const getBranchDetails = (id: number | string) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -117,17 +104,13 @@ export const getBranchDetails = (id: number | string) => (dispatch) => {
         });
 }
 
-export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any) => {
-    if (branchInput.name === "") {
-        Toaster("error", "Branch name can't be blank!");
-        return false;
-    }
-    if (branchInput.code === "") {
-        Toaster("error", "Branch code can't be blank!");
-        return false;
-    }
+export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: Dispatch) => {
     if (branchInput.project_id === "") {
-        Toaster("error", "Project can't be blank!");
+        Toaster("error", "Please select a bank.");
+        return false;
+    }
+    if (branchInput.name === "") {
+        Toaster("error", "Please give a branch name.");
         return false;
     }
 
@@ -138,19 +121,14 @@ export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any)
     };
     dispatch({ type: Types.UPDATE_BRANCH, payload: response });
 
-    axios.put(`/branches/${branchInput.id}`, {
-        id: branchInput.id,
-        name: branchInput.name,
-        code: branchInput.code,
-        project_id: branchInput.project_id
-    })
+    axios.put(`/branches/${branchInput.id}`, branchInput)
         .then((res) => {
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
             setShowUpdateModal(false);
-            dispatch(getBranchList(1, 5));
+            dispatch(getBranchList());
             dispatch({ type: Types.UPDATE_BRANCH, payload: response });
         })
         .catch((error) => {
@@ -159,7 +137,7 @@ export const updateBranch = (branchInput, setShowUpdateModal) => (dispatch: any)
         });
 }
 
-export const deleteBranch = (id, setShowDeleteModal) => (dispatch) => {
+export const deleteBranch = (id, setShowDeleteModal) => (dispatch: Dispatch) => {
     let responseData = {
         status: false,
         message: "",
@@ -174,7 +152,7 @@ export const deleteBranch = (id, setShowDeleteModal) => (dispatch) => {
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
-            dispatch(getBranchList(1, 5));
+            dispatch(getBranchList());
             dispatch({ type: Types.DELETE_BRANCH, payload: responseData });
         })
         .catch((error) => {
@@ -183,12 +161,9 @@ export const deleteBranch = (id, setShowDeleteModal) => (dispatch) => {
         });
 }
 
-
-
-
-export const getBranchDropdownList = () => (dispatch) => {
+export const getBranchDropdownList = () => (dispatch: Dispatch) => {
     axios.get(`/branches/dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_BRANCH_DROPDOWN, payload: res.data });
-        })
+        });
 }
