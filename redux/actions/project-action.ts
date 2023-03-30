@@ -11,6 +11,10 @@ export const changeInputValue = (name: string, value: any) => (dispatch: Dispatc
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 };
 
+export const emptyProjectInputAction = () => (dispatch: Dispatch) => {
+    dispatch({ type: Types.EMPTY_PROJECT_INPUT, payload: {} });
+};
+
 export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: Dispatch) => {
     if (projectInput.name === "") {
         Toaster("error", "Bank name can't be blank!");

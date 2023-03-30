@@ -1,4 +1,6 @@
+import { memo } from "react";
 import { useSelector } from "react-redux";
+
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Button from "@/components/button";
@@ -6,10 +8,10 @@ import Button from "@/components/button";
 interface IBankForm {
     onChangeText: (name: string, value: any) => void,
     onSubmit: (e: any, pageType: string) => void,
-    pageType: 'create' | 'edit'
+    pageType: 'add' | 'edit'
 }
 
-export default function BankForm({
+function BankForm({
     onChangeText,
     onSubmit,
     pageType
@@ -59,3 +61,5 @@ export default function BankForm({
         </form>
     )
 }
+
+export default memo(BankForm);

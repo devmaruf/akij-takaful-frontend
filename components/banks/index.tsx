@@ -1,28 +1,26 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { debounce } from 'lodash';
 
 import { RootState } from '@/redux/store';
 import Modal from '@/components/modal';
 import Table from '@/components/table';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
-import Input from '@/components/input';
-
 import {
     getProjectList,
     changeInputValue,
     handleSubmitProject,
     getProjectDetails,
     handleUpdateProject,
-    deleteProject
+    deleteProject,
+    emptyProjectInputAction
 }
     from '@/redux/actions/project-action';
-import NewBankModal from './NewBankModal';
 import PageHeader from '@/components/layouts/PageHeader';
 import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
-import { debounce } from 'lodash';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import BankForm from './BankForm';
 
@@ -91,8 +89,14 @@ export default function Banks() {
                 title='Banks'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                searchPlaceholder='Search banks by Code, name, short code, address...'
-                headerRightSide={<NewButton onClick={() => setShowModal(true)} element='Enlist bank' />}
+                searchPlaceholder='Search banks by code, name, short code, address...'
+                headerRightSide={
+                    <NewButton onClick={() => {
+                        setShowModal(true);
+                        dispatch(emptyProjectInputAction());
+                    }}
+                        element='Enlist bank'
+                    />}
             />
             <PageContentList>
                 {
@@ -108,7 +112,7 @@ export default function Banks() {
                             dataLimit={dataLimit}
                             totalData={projectPaginationData.total}
                         >
-                            {projectList && projectList.length > 0 && projectList.map((data, index) => (
+                            {projectList && projectList.length > 0 && projectList.map((data, index: number) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         #{data.id}
@@ -155,12 +159,13 @@ export default function Banks() {
                 }
             </PageContentList>
 
-            <NewBankModal
-                showModal={showModal}
-                setShowModal={(value) => setShowModal(value)}
-                changeTextInput={changeTextInput}
-                onSubmit={(e) => onSubmit(e, "add")}
-            />
+            <Modal title={`Enlist Bank`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
+                <BankForm
+                    onChangeText={changeTextInput}
+                    onSubmit={onSubmit}
+                    pageType='add'
+                />
+            </Modal>
 
             <Modal title={`Bank Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
                 {

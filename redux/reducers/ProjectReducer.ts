@@ -30,6 +30,12 @@ export default function ProjectReducer(state = initialState, action: any) {
                 projectInput,
             };
 
+        case Types.EMPTY_PROJECT_INPUT:
+            return {
+                ...state,
+                projectInput: initialState.projectInput,
+            };
+
         case Types.SUBMIT_PROJECT:
             if (action.payload.status === true) {
                 return {
