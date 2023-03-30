@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
+
 import { RootState } from '@/redux/store';
 import Modal from '@/components/modal';
 import Table from '@/components/table';
@@ -18,23 +19,21 @@ import { getProjectListDropdown } from '@/redux/actions/project-action';
 import ProductDetails from './ProductDetails';
 
 export default function ProductList() {
-  
   const dispatch = useDispatch();
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [productID, setProductID] = useState<number | null>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [dataLimit, setDataLimit] = useState<number>(5);
+  const [dataLimit, setDataLimit] = useState<number>(10);
   const [searchText, setSearchText] = useState<string>('');
 
   const { productList, paginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.product);
 
   const columnData: any[] = [
     { title: "Name", id: 1 },
-    { title: "Project Name", id: 2 },
+    { title: "Bank name", id: 2 },
     { title: "Action", id: 3 },
   ]
 
@@ -46,8 +45,8 @@ export default function ProductList() {
   );
 
   useEffect(() => {
-    debouncedDispatch(); // call debounced dispatch function
-    return debouncedDispatch.cancel; // cleanup the debounced function
+    debouncedDispatch();
+    return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
 
   useDebounced(() => {
@@ -69,15 +68,13 @@ export default function ProductList() {
     }
   }
 
-
-
   return (
     <div>
       <PageHeader
         title='Products'
         searchText={searchText}
         onSearchText={setSearchText}
-        searchPlaceholder='Search products...'
+        searchPlaceholder='Search products by name...'
         headerRightSide={<NewButton onClick={() => setShowModal(true)} element='New Product' />}
       />
 
@@ -139,11 +136,12 @@ export default function ProductList() {
 
       <Modal
         title={`New Product`}
-        size="lg" show={showModal}
+        size="lg"
+        show={showModal}
         handleClose={() => setShowModal(false)}
         isDismissible={false}
       >
-        <ProductForm productID={productID} pageType="create" closeModal={setShowModal} />
+        <ProductForm productID={0} pageType="create" closeModal={setShowModal} />
       </Modal>
 
       <Modal
@@ -163,7 +161,6 @@ export default function ProductList() {
       >
         <ProductForm productID={productID} pageType="edit" closeModal={setShowUpdateModal} />
       </Modal>
-
 
       <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
         <div className="text-gray-900 text-center flex flex-col justify-center items-center">

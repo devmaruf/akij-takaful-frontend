@@ -16,7 +16,6 @@ interface IProductForm {
 }
 
 export default function ProductForm({ productID, pageType, closeModal }: IProductForm) {
-
     const dispatch: Dispatch = useDispatch();
     const { productInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.product);
     const { projectDropdownList } = useSelector((state: RootState) => state.Project);
@@ -27,6 +26,7 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
     };
 
     const submitProduct = (e: any) => {
+        e.preventDefault();
         const { errors, isValid } = formValidation(e);
         setErrors(errors);
         if (isValid) {
@@ -36,7 +36,6 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                 dispatch(submitProductAction(productInput, closeModal));
             }
         }
-        e.preventDefault();
     }
 
     return (
@@ -52,30 +51,29 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                         onSubmit={submitProduct}
                         noValidate
                     >
+                        <Select
+                            options={projectDropdownList}
+                            isSearchable={true}
+                            name="project_id"
+                            label="Bank name"
+                            defaultValue={productInput?.project_id}
+                            placeholder="Select bank..."
+                            isRequired={true}
+                            errors={errors}
+                            handleChangeValue={changeTextInput}
+                        />
                         <Input
-                            label="Product Name"
+                            label="Product name"
                             name="name"
-                            placeholder='Product Name'
+                            placeholder='Product name'
                             value={productInput?.name}
                             isRequired={true}
                             errors={errors}
                             inputChange={changeTextInput}
                         />
-                        <Select
-                            options={projectDropdownList}
-                            isSearchable={true}
-                            name="project_id"
-                            label="Project"
-                            defaultValue={productInput?.project_id}
-                            placeholder="Select Project..."
-                            isRequired={true}
-                            errors={errors}
-                            handleChangeValue={changeTextInput}
-                        />
-
                         <Button
                             title="Save"
-                            position="text-right mt-2"
+                            position="text-right mt-4"
                             loadingTitle="Saving..."
                             loading={isSubmitting}
                         />

@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { memo, useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
+import Link from "next/link";
 
 import { getSidebarMenuList } from "@/redux/actions/global-action";
 import { RootState } from "@/redux/store";
+import { debounce } from "lodash";
 
-export default function Sidebar() {
+function Sidebar() {
     const dispatch: Dispatch = useDispatch();
     const { isOpenSidebar, sideMenuList } = useSelector((state: RootState) => state.global);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -20,9 +21,21 @@ export default function Sidebar() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getSidebarMenuList());
+        }, 500),
+        []
+    );
+
     useEffect(() => {
-        dispatch(getSidebarMenuList())
-    }, [dispatch]);
+        if (sideMenuList.length === 0) {
+            debouncedDispatch();
+            console.log('called');
+
+            return debouncedDispatch.cancel;
+        }
+    }, [debouncedDispatch, sideMenuList]);
 
     return (
         <aside id="sidebar" className={`fixed z-20 h-full top-0 left-0 pt-16 lg:flex flex-shrink-0 flex-col transition-width ease-in-out duration-300 ${isOpenSidebar || windowWidth > 1023 ? "w-64" : "w-0"}`} aria-label="Sidebar">
@@ -65,8 +78,8 @@ const SubMenuUI = ({ menu }) => {
         }
 
         // Get the URL of each sub-menu item, if there are any
-        if (menu.subMenu) {
-            for (let subMenu of menu.subMenu) {
+        if (menu.submenu) {
+            for (let subMenu of menu.submenu) {
                 urls = urls.concat(getAllUrlsByMenu(subMenu));
             }
         }
@@ -81,26 +94,23 @@ const SubMenuUI = ({ menu }) => {
         }
     }, [router.pathname]);
 
-    // (toggleSubMenu && menuID === menu.id)
-
     return (
         <li>
             <button onClick={() => handleToggle(menu)} type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full ${(menuID === menu.id && toggleSubMenu === true) ? 'bg-gray-100' : 'bg-white'}`}>
                 <i className={menu.icon}></i>
-                <span className="text-left ml-3 whitespace-nowrap w-full">{menu.title}</span>
+                <span className="text-left ml-3 whitespace-nowrap w-full text-sm">{menu.title}</span>
                 {
-                    !toggleSubMenu ?
-                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M201.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 338.7 54.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" /></svg> :
-                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M169.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L192 205.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
+                    !toggleSubMenu ? <i className="bi bi-chevron-down text-sm ml-2" /> :
+                        <i className="bi bi-chevron-up text-sm ml-2" />
                 }
             </button>
             {
                 <ul className={`text-base text-gray-900 font-normal rounded-lg p-2 group w-full ml-2 ${isMenuOpen ? 'block' : 'hidden'}`}>
                     {
-                        menu.subMenu.map((subMenu, subMenuIndex) => (
+                        menu.submenu.map((subMenu, subMenuIndex) => (
                             <div key={subMenuIndex}>
                                 {
-                                    subMenu.subSubMenu.length === 0 ?
+                                    subMenu.submenu.length === 0 ?
                                         <li className="w-full" key={subMenuIndex + 1}>
                                             <Link href={subMenu.url} className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1 ">
                                                 <i className={subMenu.icon}></i> &nbsp;&nbsp;
@@ -125,7 +135,7 @@ const SubSubMenuUI = ({ subMenu }) => {
             <span className="block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1" onClick={() => setIsToggleSubSubMenu(!isToggleSubSubMenu)}>{subMenu.title}</span>
             <ul className={isToggleSubSubMenu ? 'block' : 'hidden'} >
                 {
-                    subMenu.subSubMenu.map((subSubMenu, subSubMenuIndex) => (
+                    subMenu.submenu.map((subSubMenu, subSubMenuIndex) => (
                         <li className="w-full" key={subSubMenuIndex + 1}>
                             <Link href={subSubMenu.url} className="ml-3 block transition hover:bg-gray-100 text-gray-900 font-normal text-sm p-2 rounded flex-1">
                                 <span>{subSubMenu.title}</span>
@@ -137,3 +147,5 @@ const SubSubMenuUI = ({ subMenu }) => {
         </li>
     )
 }
+
+export default memo(Sidebar);
