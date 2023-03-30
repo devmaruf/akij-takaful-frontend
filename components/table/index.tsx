@@ -26,7 +26,7 @@ export default function Table({ column, children, currentPage = 1, setCurrentPag
                     <tr className=''>
                         {
                             column && column.length > 0 && column.map((data, index) => (
-                                <th scope="col" className="px-2 py-3 text-left" key={index + 1}>
+                                <th scope="col" className={`px-3 py-3 text-left`} key={index + 1}>
                                     {data.title}
                                 </th>
                             ))

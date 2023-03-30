@@ -17,13 +17,14 @@ import {
     deleteProject
 }
     from '@/redux/actions/project-action';
-import { NewBank } from './NewBank';
+import NewBankModal from './NewBankModal';
 import PageHeader from '@/components/layouts/PageHeader';
 import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
 import { debounce } from 'lodash';
 import NoTableDataFound from '@/components/table/NoDataFound';
+import BankForm from './BankForm';
 
 export default function Banks() {
     const dispatch = useDispatch();
@@ -38,9 +39,11 @@ export default function Banks() {
     const { projectInput, projectList, projectPaginationData, isLoading, isSubmitting, projectDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Project);
 
     const columnData: any[] = [
-        { title: "Bank name", id: 1 },
-        { title: "Bank code", id: 2 },
-        { title: "Action", id: 3 },
+        { title: "Bank code", id: 1 },
+        { title: "Bank name", id: 2 },
+        { title: "Bank short code", id: 3 },
+        { title: "Bank address", id: 4 },
+        { title: "Action", id: 5 },
     ]
 
     const debouncedDispatch = useCallback(
@@ -88,7 +91,7 @@ export default function Banks() {
                 title='Banks'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                searchPlaceholder='Search for banks...'
+                searchPlaceholder='Search banks by Code, name, short code, address...'
                 headerRightSide={<NewButton onClick={() => setShowModal(true)} element='Enlist bank' />}
             />
             <PageContentList>
@@ -108,12 +111,17 @@ export default function Banks() {
                             {projectList && projectList.length > 0 && projectList.map((data, index) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                                     <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        #{data.id}
+                                    </th>
+                                    <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.name}
                                     </th>
                                     <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         {data.code}
                                     </td>
-
+                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        {data.address}
+                                    </td>
                                     <td className="px-2 py-3 flex gap-1">
                                         <ActionButtons
                                             items={[
@@ -138,16 +146,16 @@ export default function Banks() {
                                 </tr>
                             ))
                             }
-    
+
                             {
                                 projectList && projectList.length === 0 &&
-                                <NoTableDataFound colSpan={3}>No banks found ! Please enlist a bank.</NoTableDataFound>
+                                <NoTableDataFound colSpan={5}>No banks found ! Please enlist a bank.</NoTableDataFound>
                             }
                         </Table>
                 }
             </PageContentList>
 
-            <NewBank
+            <NewBankModal
                 showModal={showModal}
                 setShowModal={(value) => setShowModal(value)}
                 changeTextInput={changeTextInput}
@@ -170,10 +178,15 @@ export default function Banks() {
                                         </div>
                                         <h6>{projectDetails.name}</h6>
                                         <div className='flex justify-between'>
-                                            <h6>Bank code</h6>
+                                            <h6>Bank short code</h6>
                                             <h6>:</h6>
                                         </div>
                                         <h6>{projectDetails.code}</h6>
+                                        <div className='flex justify-between'>
+                                            <h6>Bank address</h6>
+                                            <h6>:</h6>
+                                        </div>
+                                        <h6>{projectDetails.address}</h6>
                                     </div>
                                 ) : (
                                     <div>Something Went wrong!</div>
@@ -192,36 +205,11 @@ export default function Banks() {
                         <div className="text-gray-900">
                             {
                                 (typeof projectInput !== "undefined" && projectInput !== null) ? (
-                                    <form
-                                        method="post"
-                                        autoComplete="off"
-                                        encType="multipart/form-data"
-                                    >
-                                        <Input
-                                            label="Bank name"
-                                            name="name"
-                                            placeholder='Bank name'
-                                            value={projectInput.name}
-                                            isRequired={true}
-                                            inputChange={changeTextInput}
-                                        />
-                                        <Input
-                                            label="Bank code"
-                                            name="code"
-                                            placeholder='Bank code'
-                                            value={projectInput.code}
-                                            isRequired={true}
-                                            inputChange={changeTextInput}
-                                        />
-
-                                        <Button
-                                            title="Save"
-                                            onClick={(e) => onSubmit(e, "edit")}
-                                            position="text-left"
-                                            loadingTitle="Saving..."
-                                            loading={isSubmitting}
-                                        />
-                                    </form>
+                                    <BankForm
+                                        onChangeText={changeTextInput}
+                                        onSubmit={onSubmit}
+                                        pageType='edit'
+                                    />
                                 ) : (
                                     <div>Something Went wrong!</div>
                                 )

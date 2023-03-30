@@ -26,6 +26,7 @@ export interface IProject {
     projectInput: {
         name: string;
         code: string;
+        address: string;
     };
     projectDropdownList: Array<ISelect2Item>
 }

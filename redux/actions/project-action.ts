@@ -1,8 +1,9 @@
 import axios from "@/utils/axios";
 import * as Types from "../types/ProjectType";
 import { Toaster } from "@/components/toaster";
+import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeInputValue = (name: string, value: any) => (dispatch: any) => {
+export const changeInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
     let data = {
         name: name,
         value: value,
@@ -10,13 +11,14 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 };
 
-export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: any) => {
+export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: Dispatch) => {
     if (projectInput.name === "") {
-        Toaster("error", "Project name can't be blank!");
+        Toaster("error", "Bank name can't be blank!");
         return false;
     }
+
     if (projectInput.code === "") {
-        Toaster("error", "Project code can't be blank!");
+        Toaster("error", "Bank short code can't be blank!");
         return false;
     }
 
@@ -27,17 +29,14 @@ export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: an
     };
     dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
 
-    axios.post(`/projects`, {
-        name: projectInput.name,
-        code: projectInput.code
-    })
+    axios.post(`/projects`, projectInput)
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowModal(false);
-            dispatch(getProjectList(1, 5));
+            dispatch(getProjectList());
             dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
@@ -45,17 +44,7 @@ export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: an
         })
 }
 
-export const getProjectList = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch) => {
-
-    let bankURL = 'projects'
-
-    if (dataLimit) {
-        bankURL += `?perPage=${dataLimit}`;
-    }
-    if(searchText !== ''){
-        bankURL += `&search=${searchText}`;
-    }
-
+export const getProjectList = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -65,7 +54,7 @@ export const getProjectList = (currentPage: number = 1, dataLimit: number = 10, 
     };
     dispatch({ type: Types.GET_PROJECT_LIST, payload: response });
 
-    axios.get(bankURL)
+    axios.get(`projects?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -80,7 +69,7 @@ export const getProjectList = (currentPage: number = 1, dataLimit: number = 10, 
 
 }
 
-export const getProjectDetails = (id: number | string) => (dispatch) => {
+export const getProjectDetails = (id: number | string) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -106,13 +95,14 @@ export const getProjectDetails = (id: number | string) => (dispatch) => {
         })
 }
 
-export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: any) => {
+export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: Dispatch) => {
     if (projectInput.name === "") {
-        Toaster("error", "Project name can't be blank!");
+        Toaster("error", "Bank name can't be blank!");
         return false;
     }
+
     if (projectInput.code === "") {
-        Toaster("error", "Project code can't be blank!");
+        Toaster("error", "Bank short code can't be blank!");
         return false;
     }
 
@@ -123,11 +113,7 @@ export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispat
     };
     dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
 
-    axios.put(`/projects/${projectInput.id}`, {
-        id: projectInput.id,
-        name: projectInput.name,
-        code: projectInput.code
-    })
+    axios.put(`/projects/${projectInput.id}`, projectInput)
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
@@ -142,7 +128,7 @@ export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispat
         })
 }
 
-export const deleteProject = (id: number, setShowDeleteModal) => (dispatch) => {
+export const deleteProject = (id: number, setShowDeleteModal) => (dispatch: Dispatch) => {
     let responseData = {
         status: false,
         message: "",
@@ -156,7 +142,7 @@ export const deleteProject = (id: number, setShowDeleteModal) => (dispatch) => {
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
-            dispatch(getProjectList(1, 5));
+            dispatch(getProjectList());
             dispatch({ type: Types.DELETE_PROJECT, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
@@ -164,7 +150,7 @@ export const deleteProject = (id: number, setShowDeleteModal) => (dispatch) => {
         })
 }
 
-export const getProjectListDropdown = () => (dispatch) => {
+export const getProjectListDropdown = () => (dispatch: Dispatch) => {
     axios.get(`/projects/dropdown/list`)
         .then((res) => {
             dispatch({ type: Types.GET_PROJECT_DROPDOWN, payload: res.data });
