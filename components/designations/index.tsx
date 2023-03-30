@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
+
 import { RootState } from '@/redux/store';
 import Modal from '@/components/modal';
 import Table from '@/components/table';
@@ -16,16 +17,14 @@ import DesignationDetails from './DesignationDetails';
 import { getDesignationListAction, getDesignationDetailsAction, deleteDesignationAction } from '@/redux/actions/designation-action';
 
 export default function DesignationList() {
-
   const dispatch = useDispatch();
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
   const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [designationID, setDesignationID] = useState<number | null>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [dataLimit, setDataLimit] = useState<number>(5);
+  const [dataLimit, setDataLimit] = useState<number>(20);
   const [searchText, setSearchText] = useState<string>('');
 
   const { designationList, paginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.designation);
@@ -44,8 +43,8 @@ export default function DesignationList() {
   );
 
   useEffect(() => {
-    debouncedDispatch(); // call debounced dispatch function
-    return debouncedDispatch.cancel; // cleanup the debounced function
+    debouncedDispatch();
+    return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
 
   const handleOpenModal = (id: number, type: string) => {

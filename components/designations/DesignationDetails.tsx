@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
-import StatusBadge from '@/components/badge/StatusBadge';
 
 export default function DesignationDetails() {
-
     const { designationDetails, isLoadingDetails } = useSelector((state: RootState) => state.designation);
 
     return (

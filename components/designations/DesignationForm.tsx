@@ -1,22 +1,21 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from '@reduxjs/toolkit';
+
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { Dispatch } from '@reduxjs/toolkit';
-import Select from '@/components/select';
-import { changeInputValue, submitDesignationAction, updateDesignationAction } from './../../redux/actions/designation-action';
+import { changeInputValue, submitDesignationAction, updateDesignationAction } from '@/redux/actions/designation-action';
 import { formValidation } from '@/utils/formValidation';
-import { useState } from 'react';
 import Loading from '@/components/loading';
 
-interface IProductForm {
+interface IDesignationForm {
     designationID: number;
     pageType: 'create' | 'edit';
     closeModal: any
 }
 
-export default function DesignationForm({ designationID, pageType, closeModal }: IProductForm) {
-
+export default function DesignationForm({ designationID, pageType, closeModal }: IDesignationForm) {
     const dispatch: Dispatch = useDispatch();
     const { designationInput, isSubmitting, isLoadingDetails } = useSelector((state: RootState) => state.designation);
     const [errors, setErrors] = useState({})
@@ -26,6 +25,7 @@ export default function DesignationForm({ designationID, pageType, closeModal }:
     };
 
     const submitDesignation = (e: any) => {
+        e.preventDefault();
         const { errors, isValid } = formValidation(e);
         setErrors(errors);
         if (isValid) {
@@ -35,7 +35,6 @@ export default function DesignationForm({ designationID, pageType, closeModal }:
                 dispatch(submitDesignationAction(designationInput, closeModal));
             }
         }
-        e.preventDefault();
     }
 
     return (
@@ -72,7 +71,7 @@ export default function DesignationForm({ designationID, pageType, closeModal }:
                       
                         <Button
                             title="Save"
-                            position="text-right mt-2"
+                            position="text-right mt-4"
                             loadingTitle="Saving..."
                             loading={isSubmitting}
                         />
