@@ -4,11 +4,8 @@ import Loading from '@/components/loading';
 import StatusBadge from '@/components/badge/StatusBadge';
 
 export default function ProductDetails() {
-
     const { productDetails, loadingDetails } = useSelector((state: RootState) => state.product);
-
     return (
-
         <div>
             {
                 loadingDetails === true ?
@@ -25,10 +22,10 @@ export default function ProductDetails() {
                                     </div>
                                     <h6>{productDetails.name}</h6>
                                     <div className='flex justify-between'>
-                                        <h6>Project Name</h6>
+                                        <h6>Bank name</h6>
                                         <h6>:</h6>
                                     </div>
-                                    <h6>{productDetails.code}</h6>
+                                    <h6>{productDetails.project_name}</h6>
                                     <div className='flex justify-between'>
                                         <h6>Product status</h6>
                                         <h6>:</h6>
