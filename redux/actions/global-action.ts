@@ -82,6 +82,16 @@ const getConfigurationMenu = () => {
             });
         }
 
+        if (hasPermission('designation.view')) {
+            menu.subMenu.push({
+                id: 'subMenu04.2',
+                title: 'Manage Designation',
+                icon: 'bi-person-video3',
+                url: '/settings/designations',
+                subSubMenu: []
+            });
+        }
+
         if (hasPermission('role.view')) {
             menu.subMenu.push({
                 id: 'subMenu04.3',
