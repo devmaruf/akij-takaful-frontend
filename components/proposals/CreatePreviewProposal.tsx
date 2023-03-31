@@ -7,7 +7,11 @@ import PageHeader from "@/components/layouts/PageHeader";
 import { PageContent } from "@/components/layouts/PageContent";
 import { useDebounced } from "@/hooks/use-debounce";
 
-export default function CreatePreviewProposal() {
+interface ICreatePreview {
+    isWorksheet?: boolean;
+}
+
+export default function CreatePreviewProposal({ isWorksheet }: ICreatePreview) {
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -18,13 +22,13 @@ export default function CreatePreviewProposal() {
     return (
         <div>
             <PageHeader
-                title='New Proposal'
+                title={isWorksheet ? 'New Worksheet' : 'New Proposal'}
                 hasSearch={false}
             />
 
             <PageContent>
                 <div className="text-center">
-                    <Loading loadingTitle="Proposal" />
+                    <Loading loadingTitle="Worksheet" />
                 </div>
             </PageContent>
         </div>

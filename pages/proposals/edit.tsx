@@ -16,7 +16,7 @@ import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
 import { useDebounced } from '@/hooks/use-debounce';
 
-export default function CreateBasicPage() {
+export default function ProposalBasicEditPage() {
   const router = useRouter()
   const { id } = router.query;
   const pageType = router.query?.mode === 'edit' ? 'edit' : 'create';
@@ -45,19 +45,19 @@ export default function CreateBasicPage() {
   const debouncedDispatch = useCallback(
     debounce(() => {
       dispatch(getProposalDetails(id));
-    }, 1000),
+    }, 500),
     [id]
   );
 
   useEffect(() => {
-    debouncedDispatch(); // call debounced dispatch function
-    return debouncedDispatch.cancel; // cleanup the debounced function
+    debouncedDispatch();
+    return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
 
   return (
     <div>
       <PageHeader
-        title={pageType === 'create' ? 'New Proposal' : 'Edit Proposal'}
+        title={'Enlist Proposal'}
         hasSearch={false}
       />
 

@@ -15,10 +15,14 @@ import { formatCurrency } from '@/utils/currency';
 import NewButton from '@/components/button/button-new';
 import ActionButtons from '@/components/button/button-actions';
 import StatusBadge from '@/components/badge/StatusBadge';
-import { IProposalBasicInput, IProposalView } from '@/redux/interfaces';
+import { IProposalView } from '@/redux/interfaces';
 import NoTableDataFound from '@/components/table/NoDataFound';
 
-export default function ProposalList() {
+interface IProposalList {
+    isWorksheet?: boolean
+}
+
+export default function ProposalList({ isWorksheet = false }: IProposalList) {
     const dispatch = useDispatch();
     const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -31,7 +35,7 @@ export default function ProposalList() {
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getProposalList(currentPage, dataLimit, searchText))
+            dispatch(getProposalList(currentPage, dataLimit, searchText, isWorksheet))
         }, 500),
         [currentPage, dataLimit, searchText]
     );
@@ -65,11 +69,19 @@ export default function ProposalList() {
     return (
         <div>
             <PageHeader
-                title='Enlist Proposals'
-                searchPlaceholder='Please search proposal by proposal no, plan, status...'
+                title={isWorksheet ? 'Worksheets' : 'Proposals'}
+                searchPlaceholder={`Please search ${isWorksheet ? 'worksheet' : 'proposal'} by proposal no, plan, status...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
-                headerRightSide={<NewButton href="/proposals/create-preview" element={'New Proposal'} />}
+                headerRightSide={
+                    isWorksheet ?
+                        <NewButton
+                            href="/proposals/create-preview"
+                            element={isWorksheet ? 'New Worksheet' : 'New Proposal'}
+                        />
+                        :
+                        <></>
+                }
             />
 
             <PageContentList>
@@ -93,10 +105,10 @@ export default function ProposalList() {
                                             {data.proposal_no}
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {data.plan_name}
+                                            {data.plan_name ?? '-'}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            <b>{data.proposer_name}</b> <br />
+                                            <b>{data.proposer_name ?? '-'}</b> <br />
                                             {
                                                 data.phone_no !== null &&
                                                 <a href={`tel:${data.phone_no}`} rel="noreferrer" target='_blank' className='text-blue-400'>
@@ -127,8 +139,13 @@ export default function ProposalList() {
                                                     },
                                                     {
                                                         element: 'Edit',
-                                                        onClick: () => router.push(`/proposals/enlistment?id=${data.id}`),
+                                                        onClick: () => router.push(`/proposals/edit?id=${data.id}`),
                                                         iconClass: 'pencil'
+                                                    },
+                                                    {
+                                                        element: 'Worksheet',
+                                                        onClick: () => router.push(`/worksheets?id=${data.id}`),
+                                                        iconClass: 'list-task'
                                                     },
                                                     {
                                                         element: 'Underwriting',
