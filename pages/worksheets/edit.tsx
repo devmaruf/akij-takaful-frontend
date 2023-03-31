@@ -29,7 +29,6 @@ import { NomineeForm } from "@/components/proposals/NomineeForm";
 import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
-import { areaList } from '@/utils/proposal-dropdowns';
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -67,8 +66,8 @@ export default function EnlistmentPage() {
   );
 
   useEffect(() => {
-    debouncedDispatch(); // call debounced dispatch function
-    return debouncedDispatch.cancel; // cleanup the debounced function
+    debouncedDispatch();
+    return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
 
   const handleChangeTextInput = (name: string, value: any) => {
@@ -80,28 +79,24 @@ export default function EnlistmentPage() {
 
     if (sectionName == "proposer_permanent_address" && name == "division_id") {
       getCitiesDropdownList(value).then((data) => {
-        const newCities = { ...cityList, permanentCities: data }
         setAreaList({ ...areaList, permanentAreas: [] })
-        setCityList(newCities);
+        setCityList({ ...cityList, permanentCities: data });
       });
     }
     if (sectionName == "proposer_present_address" && name == "division_id") {
       getCitiesDropdownList(value).then((data) => {
-        const newCities = { ...cityList, presentCities: data }
         setAreaList({ ...areaList, presentAreas: [] })
-        setCityList(newCities);
+        setCityList({ ...cityList, presentCities: data });
       });
     }
     if (sectionName == "proposer_permanent_address" && name == "district_id") {
       getAreasDropdownList(value).then((data) => {
-        const newAreas = { ...areaList, permanentAreas: data };
-        setAreaList(newAreas);
+        setAreaList({ ...areaList, permanentAreas: data });
       });
     }
     if (sectionName == "proposer_present_address" && name == "district_id") {
       getAreasDropdownList(value).then((data) => {
-        const newAreas = { ...areaList, presentAreas: data };
-        setAreaList(newAreas);
+        setAreaList({ ...areaList, presentAreas: data });
       });
     }
     if (sectionName === 'proposal_personal_information' && name == 'identity_type') {

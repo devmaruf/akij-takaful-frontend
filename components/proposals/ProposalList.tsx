@@ -41,8 +41,8 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
     );
 
     useEffect(() => {
-        debouncedDispatch(); // call debounced dispatch function
-        return debouncedDispatch.cancel; // cleanup the debounced function
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
 
     const showProposalDetails = (id: number) => {
@@ -88,7 +88,7 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Proposals" />
+                            <Loading loadingTitle={isWorksheet ? 'Worksheets...' : 'Proposals...'} />
                         </div> :
                         <Table
                             column={columnData}
@@ -138,13 +138,13 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
                                                         iconClass: 'eye'
                                                     },
                                                     {
-                                                        element: 'Edit',
+                                                        element: 'Edit Proposal',
                                                         onClick: () => router.push(`/proposals/edit?id=${data.id}`),
                                                         iconClass: 'pencil'
                                                     },
                                                     {
-                                                        element: 'Worksheet',
-                                                        onClick: () => router.push(`/worksheets?id=${data.id}`),
+                                                        element: 'Edit Worksheet',
+                                                        onClick: () => router.push(`/worksheets/edit?id=${data.id}`),
                                                         iconClass: 'list-task'
                                                     },
                                                     {

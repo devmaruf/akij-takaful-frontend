@@ -172,8 +172,8 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         Toaster("error", "Please select a branch.");
         return false;
     }
-    if (proposalInput.plan_id === 0) {
-        Toaster("error", "Please select a plan.");
+    if (proposalInput.product_id === 0) {
+        Toaster("error", "Please select a product.");
         return false;
     }
     if (proposalInput.initial_sum_assured === "") {
