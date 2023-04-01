@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 
 import { RootState } from '@/redux/store';
 import Input from '@/components/input';
-import { changeInputValue, updateProposal, getProposalDetails, getPlanDropdownList } from '@/redux/actions/proposal-action';
+import { changeInputValue, updateProposal, getProposalDetails } from '@/redux/actions/proposal-action';
 import Select from '@/components/select';
 import Button from '@/components/button';
 import Loading from '@/components/loading';
@@ -15,23 +15,25 @@ import { getAgentsDropdownList } from '@/redux/actions/employee-action';
 import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
 import { useDebounced } from '@/hooks/use-debounce';
+import { getProductDropdownListAction } from '@/redux/actions/product-action';
 
-export default function CreateBasicPage() {
+export default function ProposalBasicEditPage() {
   const router = useRouter()
   const { id } = router.query;
-  const pageType = router.query?.mode === 'edit' ? 'edit' : 'create';
   const dispatch = useDispatch();
-  const { proposalInput, planDropdownList, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
   const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
+  const { productDropdownList } = useSelector((state: RootState) => state.product);
 
   useDebounced(() => {
-    dispatch(getPlanDropdownList());
     dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
+    dispatch(getProductDropdownListAction());
   });
+
 
   const handleChangeTextInput = (name: string, value: any) => {
     dispatch(changeInputValue(name, value, ''));
@@ -45,19 +47,19 @@ export default function CreateBasicPage() {
   const debouncedDispatch = useCallback(
     debounce(() => {
       dispatch(getProposalDetails(id));
-    }, 1000),
+    }, 500),
     [id]
   );
 
   useEffect(() => {
-    debouncedDispatch(); // call debounced dispatch function
-    return debouncedDispatch.cancel; // cleanup the debounced function
+    debouncedDispatch();
+    return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
 
   return (
     <div>
       <PageHeader
-        title={pageType === 'create' ? 'New Proposal' : 'Edit Proposal'}
+        title={'Enlist Proposal'}
         hasSearch={false}
       />
 
@@ -98,13 +100,13 @@ export default function CreateBasicPage() {
                   handleChangeValue={handleChangeTextInput}
                 />
                 <Select
-                  options={planDropdownList}
+                  options={productDropdownList}
                   isSearchable={true}
                   isRequired={true}
-                  name="plan_id"
-                  label="Plan"
-                  defaultValue={proposalInput?.plan_id ?? ''}
-                  placeholder='Select Plan...'
+                  name="product_id"
+                  label="Product"
+                  defaultValue={proposalInput?.product_id ?? ''}
+                  placeholder='Select a product...'
                   handleChangeValue={handleChangeTextInput}
                 />
                 <Input

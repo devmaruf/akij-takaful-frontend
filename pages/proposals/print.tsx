@@ -11,11 +11,11 @@ export default function PropoalPrintPage() {
   return (
     <div>
       <PageHeader
-        title={`${isAssign ? 'Assign' : 'Print'} Proposal`}
+        title={`${isAssign ? 'Allotment' : 'Print'} Proposal`}
         hasSearch={false}
         pageTitleRightSide={
           <Button
-            title={`Toggle ${isAssign ? 'Print' : 'Assign'} mode`}
+            title={`Toggle ${isAssign ? 'Print' : 'Allotment'} mode`}
             onClick={() => setIsAssign(!isAssign)}
             variant="default"
             iconLeft={<i className="bi bi-check2-circle mr-2"></i>}

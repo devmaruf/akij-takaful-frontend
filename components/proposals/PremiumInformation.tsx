@@ -50,17 +50,6 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           handleChangeValue={onChangeText}
         />
         <Select
-          options={planDropdownList}
-          isSearchable={true}
-          name="plan_id"
-          label="Plan"
-          defaultValue={proposalInput?.plan_id}
-          placeholder="Select Plan..."
-          isRequired={true}
-          errors={errors}
-          handleChangeValue={onChangeText}
-        />
-        <Select
           options={productDropdownList}
           isSearchable={true}
           name="product_id"

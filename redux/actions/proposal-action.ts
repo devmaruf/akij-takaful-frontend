@@ -97,7 +97,12 @@ export const submitProposal = (proposalInput: IProposal, router: any) => (dispat
         });
 }
 
-export const getProposalList = (currentPage: number = 1, dataLimit: number = 10, search: string = '') => (dispatch: Dispatch) => {
+export const getProposalList = (
+    currentPage: number = 1,
+    dataLimit: number = 10,
+    search: string = '',
+    isWorksheet: boolean = false
+) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -108,7 +113,7 @@ export const getProposalList = (currentPage: number = 1, dataLimit: number = 10,
 
     dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
 
-    axios.get(`/proposals?perPage=${dataLimit}&page=${currentPage}&search=${search}`)
+    axios.get(`/proposals?perPage=${dataLimit}&page=${currentPage}&search=${search}&type=${isWorksheet ? 'worksheet' : 'proposal'}`)
         .then(res => {
             response.isLoading = false;
             response.status = true;
@@ -167,8 +172,8 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         Toaster("error", "Please select a branch.");
         return false;
     }
-    if (proposalInput.plan_id === 0) {
-        Toaster("error", "Please select a plan.");
+    if (proposalInput.product_id === 0) {
+        Toaster("error", "Please select a product.");
         return false;
     }
     if (proposalInput.initial_sum_assured === "") {
@@ -342,7 +347,7 @@ export const createPreviewProposalAndRedirectAction = (router: any) => (dispatch
         cancelToken: source.token
     })
         .then(res => {
-            router.push(`/proposals/create-basic?id=${res.data.id}`);
+            router.push(`/worksheets/edit?id=${res.data.id}`);
         })
         .catch(error => {
             if (axios.isCancel(error)) {
