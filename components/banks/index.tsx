@@ -158,7 +158,7 @@ export default function Banks() {
                 }
             </PageContentList>
 
-            <Modal title={`Enlist Bank`} size="md" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
+            <Modal title={`Enlist Bank`} size="lg" show={showModal} handleClose={() => setShowModal(false)} isDismissible={false}>
                 <BankForm
                     onChangeText={changeTextInput}
                     onSubmit={onSubmit}
@@ -166,7 +166,7 @@ export default function Banks() {
                 />
             </Modal>
 
-            <Modal title={`Bank Details`} size="md" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
+            <Modal title={`Bank Details`} size="lg" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">

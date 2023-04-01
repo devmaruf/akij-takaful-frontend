@@ -9,10 +9,12 @@ const initialState: IProject = {
     isSubmitting: false,
     projectOptionList: [],
     projectList: [],
+    defaultBanks: [],
     projectPaginationData: [],
     projectDetails: null,
     projectInput: {
         name: "",
+        default_bank_id: null,
         code: "",
         address: ""
     },
@@ -34,6 +36,7 @@ export default function ProjectReducer(state = initialState, action: any) {
             return {
                 ...state,
                 projectInput: initialState.projectInput,
+                defaultBanks: [],
             };
 
         case Types.SUBMIT_PROJECT:
@@ -63,6 +66,12 @@ export default function ProjectReducer(state = initialState, action: any) {
             return {
                 ...state,
                 projectDropdownList: getDropdownList(action.payload),
+            };
+
+        case Types.GET_DEFAULT_BANKS:
+            return {
+                ...state,
+                defaultBanks: action.payload,
             };
 
         case Types.GET_PROJECT_DETAILS:
