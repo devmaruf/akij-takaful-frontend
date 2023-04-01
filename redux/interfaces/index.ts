@@ -21,11 +21,13 @@ export interface IProject {
     isSubmitting: boolean;
     projectOptionList: any[];
     projectList: any[];
+    defaultBanks: any[];
     projectPaginationData: any[];
     projectDetails: any;
     projectInput: {
         name: string;
         code: string;
+        default_bank_id: number | null;
         address: string;
     };
     projectDropdownList: Array<ISelect2Item>

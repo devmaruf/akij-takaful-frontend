@@ -17,12 +17,12 @@ export const emptyProjectInputAction = () => (dispatch: Dispatch) => {
 
 export const handleSubmitProject = (projectInput, setShowModal) => (dispatch: Dispatch) => {
     if (projectInput.name === "") {
-        Toaster("error", "Bank name can't be blank!");
+        Toaster("error", "Please give a bank name.");
         return false;
     }
 
     if (projectInput.code === "") {
-        Toaster("error", "Bank short code can't be blank!");
+        Toaster("error", "Please give bank short code.");
         return false;
     }
 
@@ -152,6 +152,13 @@ export const deleteProject = (id: number, setShowDeleteModal) => (dispatch: Disp
             responseData.isLoading = false;
             dispatch({ type: Types.DELETE_PROJECT, payload: responseData })
         })
+}
+
+export const getDefaultBanksBySearch = (search: string = '') => (dispatch: Dispatch) => {
+    axios.get(`/default-banks?perPage=10&search=${search}&orderBy=name&order=asc`)
+        .then((res) => {
+            dispatch({ type: Types.GET_DEFAULT_BANKS, payload: res.data.data });
+        });
 }
 
 export const getProjectListDropdown = () => (dispatch: Dispatch) => {
