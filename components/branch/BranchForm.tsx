@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import Select from '@/components/select';
-import { getProjectListDropdown } from '@/redux/actions/project-action';
-import { changeInputValue, submitBranch } from '@/redux/actions/branch-action';
+import BankSelect from '@/components/banks/BankSelect';
+import { changeInputValue } from '@/redux/actions/branch-action';
 
 interface IBranchForm {
     setShowModal: (showModal: boolean) => void;
@@ -17,11 +15,6 @@ interface IBranchForm {
 export default function BranchForm({ setShowModal, pageType, onSubmit }: IBranchForm) {
     const dispatch = useDispatch();
     const { branchInput, isSubmitting } = useSelector((state: RootState) => state.Branch);
-    const { projectDropdownList } = useSelector((state: RootState) => state.Project);
-
-    useEffect(() => {
-        dispatch(getProjectListDropdown());
-    }, [dispatch]);
 
     const changeTextInput = (name: string, value: any) => {
         dispatch(changeInputValue(name, value));
@@ -32,14 +25,9 @@ export default function BranchForm({ setShowModal, pageType, onSubmit }: IBranch
             method="post"
             autoComplete="off"
         >
-            <Select
-                options={projectDropdownList}
-                isSearchable={true}
-                name="project_id"
-                label="Bank"
+            <BankSelect
                 defaultValue={branchInput.project_id}
-                placeholder='Select Bank...'
-                handleChangeValue={changeTextInput}
+                changeTextInput={changeTextInput}
             />
             <Input
                 label="Branch name"
