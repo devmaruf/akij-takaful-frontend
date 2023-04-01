@@ -10,46 +10,45 @@ import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { useDebounced } from '@/hooks/use-debounce';
-import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { getDesignationDropdownList } from '@/redux/actions/designation-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
 import { changeInputValue, createEmployee, getEmployeeDetails, getEmployeeRolesDropdownList, updateEmployee } from '@/redux/actions/employee-action';
 import Select from '@/components/select';
+import BankSelect from '@/components/banks/BankSelect';
 
 interface IEmployeeForm {
     id: number;
     pageType: 'create' | 'edit' | 'profile';
+    isAgent?: boolean;
 }
 
-export default function EmployeeForm({ id, pageType }: IEmployeeForm) {
+export default function EmployeeForm({ id, pageType, isAgent = false }: IEmployeeForm) {
     const router = useRouter();
     const dispatch = useDispatch();
     const defaultPassword = 'AKIJTakaful@$@123';
 
-    const { projectDropdownList } = useSelector((state: RootState) => state.Project);
     const { designationDropdownList } = useSelector((state: RootState) => state.designation);
     const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
     const { employeeInput, isSubmitting, isLoadingDetails, rolesDropdownList } = useSelector((state: RootState) => state.employee);
 
     useDebounced(() => {
-        dispatch(getProjectListDropdown());
         dispatch(getDesignationDropdownList());
         dispatch(getBranchDropdownList());
-        dispatch(getEmployeeRolesDropdownList());
+        dispatch(getEmployeeRolesDropdownList(isAgent));
     });
 
     const debouncedDispatch = useCallback(
         debounce(() => {
             if (id > 0) {
-                dispatch(getEmployeeDetails(id));
+                dispatch(getEmployeeDetails(id, isAgent));
             }
         }, 500),
-        [id]
+        [id, isAgent]
     );
 
     useEffect(() => {
-        debouncedDispatch(); // call debounced dispatch function
-        return debouncedDispatch.cancel; // cleanup the debounced function
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
 
     const handleChangeTextInput = (name: string, value: any) => {
@@ -64,25 +63,48 @@ export default function EmployeeForm({ id, pageType }: IEmployeeForm) {
         }
 
         if (pageType === 'create') {
-            dispatch(createEmployee(formattedInputObject, router));
+            dispatch(createEmployee(formattedInputObject, router, isAgent));
         } else {
-            dispatch(updateEmployee(formattedInputObject, router, pageType));
+            dispatch(updateEmployee(formattedInputObject, router, pageType, isAgent));
         }
+    }
+
+    const getMainPageTitle = () => {
+        if (pageType === 'profile') {
+            return 'Profile';
+        } else if (isAgent) {
+            return 'Officer/Manager';
+        }
+
+        return 'Employee';
+    }
+
+    const getPageTitle = () => {
+        let title = '';
+        if (pageType === 'create') {
+            title += 'New ';
+        } else if (pageType === 'edit' || pageType === 'profile') {
+            title += 'Edit ';
+        }
+
+        title += getMainPageTitle();
+
+        return title;
     }
 
     return (
         <>
             <PageHeader
-                title={
-                    pageType === 'create' ? 'New Bank Agent' : (pageType === 'profile') ? 'Edit your profile' : 'Edit Bank Agent'
-                }
+                title={getPageTitle()}
                 hasSearch={false}
             />
             <PageContent>
                 {
                     isLoadingDetails &&
                     <div className="text-center">
-                        <Loading loadingTitle={`${pageType === 'profile' ? 'Profile' : 'Employee'} Details`} />
+                        <Loading
+                            loadingTitle={`${getMainPageTitle()} Details...`}
+                        />
                     </div>
                 }
 
@@ -157,15 +179,9 @@ export default function EmployeeForm({ id, pageType }: IEmployeeForm) {
                                                 placeholder='Select Designation...'
                                                 handleChangeValue={handleChangeTextInput}
                                             />
-                                            <Select
-                                                options={projectDropdownList}
-                                                isSearchable={true}
-                                                name="project_id"
-                                                label="Bank"
-                                                isMulti={false}
+                                            <BankSelect
                                                 defaultValue={employeeInput.project_id}
-                                                placeholder='Select a bank...'
-                                                handleChangeValue={handleChangeTextInput}
+                                                changeTextInput={handleChangeTextInput}
                                             />
                                             <Select
                                                 options={branchDropdownList}

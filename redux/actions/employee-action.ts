@@ -44,7 +44,7 @@ export const validateEmployeeForm = (employeeInput) => {
     return true;
 }
 
-export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) => {
+export const createEmployee = (employeeInput, router, isAgent: boolean = false) => (dispatch: Dispatch) => {
     if (!validateEmployeeForm(employeeInput)) {
         return;
     }
@@ -56,17 +56,13 @@ export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) =>
     };
     dispatch({ type: Types.CREATE_EMPLOYEE, payload: response });
 
-    axios({
-        method: 'POST',
-        url: `/employees`,
-        data: employeeInput
-    })
+    axios.post(`/${isAgent ? 'agents' : 'employees'}`, employeeInput)
         .then((res) => {
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
-            router.push('/employee')
+            router.push(isAgent ? '/banca/agent' : '/employee');
             dispatch({ type: Types.CREATE_EMPLOYEE, payload: response });
         })
         .catch((error) => {
@@ -75,7 +71,7 @@ export const createEmployee = (employeeInput, router) => (dispatch: Dispatch) =>
         });
 }
 
-export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch: Dispatch) => {
+export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '', isAgent: boolean = false) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -85,7 +81,9 @@ export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number
     };
     dispatch({ type: Types.GET_EMPLOYEE_LIST, payload: response });
 
-    axios.get(`/employees?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+    const resourceUrl = isAgent ? 'agents' : 'employees';
+
+    axios.get(`/${resourceUrl}?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -100,7 +98,7 @@ export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number
 
 }
 
-export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) => {
+export const getEmployeeDetails = (id: number | string, isAgent: boolean = false) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -109,7 +107,7 @@ export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) 
     };
     dispatch({ type: Types.GET_EMPLOYEE_DETAILS, payload: response });
 
-    axios(`/employees/${id}`)
+    axios(`/${isAgent ? 'agents' : 'employees'}/${id}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -191,7 +189,7 @@ export const getEmployeeDetails = (id: number | string) => (dispatch: Dispatch) 
 // }
 
 
-export const updateEmployee = (employeeInput, router: any, pageType: string = 'edit') => (dispatch: Dispatch) => {
+export const updateEmployee = (employeeInput, router: any, pageType: string = 'edit', isAgent: boolean = false) => (dispatch: Dispatch) => {
     if (!validateEmployeeForm(employeeInput)) {
         return;
     }
@@ -204,14 +202,14 @@ export const updateEmployee = (employeeInput, router: any, pageType: string = 'e
     };
     dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
 
-    axios.put(`/employees/${employeeInput.id}`, employeeInput)
+    axios.put(`/${isAgent ? 'agents' : 'employees'}/${employeeInput.id}`, employeeInput)
         .then((res) => {
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
             Toaster('success', response.message);
             if (pageType !== 'profile') {
-                router.push('/employee');
+                router.push(isAgent ? '/banca/agent' : '/employee');
             }
             dispatch({ type: Types.UPDATE_EMPLOYEE, payload: response });
         })
@@ -221,8 +219,8 @@ export const updateEmployee = (employeeInput, router: any, pageType: string = 'e
         });
 }
 
-export const getEmployeeRolesDropdownList = () => (dispatch: Dispatch) => {
-    axios.get(`/roles/dropdown/list`)
+export const getEmployeeRolesDropdownList = (isAgent: boolean = false) => (dispatch: Dispatch) => {
+    axios.get(`/roles/dropdown/list?is_head_office=${isAgent ? 0 : 1}`)
         .then((res) => {
             dispatch({ type: Types.GET_EMPLOYEE_ROLES, payload: res.data });
         })

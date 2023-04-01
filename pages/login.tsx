@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Image from "next/image";
 import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +8,8 @@ import Link from 'next/link';
 import { changeInputValue, handleLogin } from '@/redux/actions/auth-action';
 
 export default function Login() {
-
     const dispatch = useDispatch();
+    const [viewMoreCredential, setViewMoreCredential] = useState<boolean>(false);
     const { loginInput, isSubmitting } = useSelector((state: RootState) => state.Auth);
 
     const changeTextInput = (name: string, value: any) => {
@@ -68,9 +69,16 @@ export default function Login() {
                                     Remember me
                                 </label>
                             </div>
-                            <Link href="/forget-password" className="text-gray-800">
-                                Forgot password?
-                            </Link>
+                            <div>
+                                <Link href="/forget-password" className="text-gray-800">
+                                    Forgot password?
+                                </Link>
+                                <i
+                                    className="bi bi-gear cursor-pointer ml-5"
+                                    title="Click to view other login credentials"
+                                    onClick={() => setViewMoreCredential(!viewMoreCredential)}
+                                ></i>
+                            </div>
                         </div>
                         <div className="text-center lg:text-left">
                             <Button
@@ -81,10 +89,33 @@ export default function Login() {
                                 loading={isSubmitting}
                             />
                         </div>
+
+                        {
+                            viewMoreCredential &&
+                            <div className="flex flex-row justify-center items-center flex-wrap">
+                                <div className="max-w-[250px] text-sm bg-slate-100 mt-3 p-3 mr-2">
+                                    <b>Superadmin</b><br />
+                                    -----------------<br />
+                                    admin@example.com<br />
+                                    12345678
+                                </div>
+                                <div className="max-w-[250px] text-sm bg-slate-100 mt-3 p-3 mr-2">
+                                    <b>Bank Admin</b><br />
+                                    -----------------<br />
+                                    bank_admin@example.com<br />
+                                    12345678
+                                </div>
+                                <div className="max-w-[250px] text-sm bg-slate-100 mt-3 p-3 mr-2">
+                                    <b>Agent 1</b><br />
+                                    -----------------<br />
+                                    agent1@example.com<br />
+                                    12345678
+                                </div>
+                            </div>
+                        }
                     </form>
                 </div>
             </div>
         </section>
-
     )
 }

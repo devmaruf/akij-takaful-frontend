@@ -48,8 +48,8 @@ export default function Branches() {
     );
 
     useEffect(() => {
-        debouncedDispatch(); // call debounced dispatch function
-        return debouncedDispatch.cancel; // cleanup the debounced function
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
 
     useDebounced(() => {

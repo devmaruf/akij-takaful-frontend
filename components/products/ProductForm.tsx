@@ -1,13 +1,14 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from '@reduxjs/toolkit';
+
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Input from '@/components/input';
-import { Dispatch } from '@reduxjs/toolkit';
-import Select from '@/components/select';
-import { changeProductInputValue, submitProductAction, updateProductAction } from './../../redux/actions/product-action';
+import { changeProductInputValue, submitProductAction, updateProductAction } from '@/redux/actions/product-action';
 import { formValidation } from '@/utils/formValidation';
-import { useState } from 'react';
 import Loading from '@/components/loading';
+import BankSelect from '@/components/banks/BankSelect';
 
 interface IProductForm {
     productID: number;
@@ -18,7 +19,6 @@ interface IProductForm {
 export default function ProductForm({ productID, pageType, closeModal }: IProductForm) {
     const dispatch: Dispatch = useDispatch();
     const { productInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.product);
-    const { projectDropdownList } = useSelector((state: RootState) => state.Project);
     const [errors, setErrors] = useState({})
 
     const changeTextInput = (name: string, value: any) => {
@@ -51,16 +51,9 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                         onSubmit={submitProduct}
                         noValidate
                     >
-                        <Select
-                            options={projectDropdownList}
-                            isSearchable={true}
-                            name="project_id"
-                            label="Bank name"
-                            defaultValue={productInput?.project_id}
-                            placeholder="Select bank..."
-                            isRequired={true}
-                            errors={errors}
-                            handleChangeValue={changeTextInput}
+                        <BankSelect
+                            defaultValue={productInput.project_id}
+                            changeTextInput={changeTextInput}
                         />
                         <Input
                             label="Product name"

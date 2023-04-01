@@ -14,7 +14,11 @@ import ActionButtons from '@/components/button/button-actions';
 import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 
-export default function EmployeeList() {
+interface IEmployeeList {
+    isAgent?: boolean;
+}
+
+export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     const dispatch = useDispatch();
     const router = useRouter();
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -25,26 +29,26 @@ export default function EmployeeList() {
     const [searchText, setSearchText] = useState<string>('');
 
     const columnData: any[] = [
-        { title: "SL", id: "01" },
-        { title: "Employee Name", id: "02" },
-        { title: "Email", id: "03" },
-        { title: "Phone", id: "04" },
-        { title: "Designation", id: "05" },
-        { title: "Avatar", id: "06" },
-        { title: "Status", id: "07" },
-        { title: "Action", id: "08" },
+        { title: "SL", id: 1 },
+        { title: 'Name', id: 2 },
+        { title: "Email", id: 3 },
+        { title: "Phone", id: 4 },
+        { title: "Designation", id: 5 },
+        { title: "Avatar", id: 6 },
+        { title: "Status", id: 7 },
+        { title: "Action", id: 8 },
     ];
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getEmployeeListAction(currentPage, dataLimit, searchText))
+            dispatch(getEmployeeListAction(currentPage, dataLimit, searchText, isAgent))
         }, 500),
         [currentPage, dataLimit, searchText]
     );
 
     useEffect(() => {
-        debouncedDispatch(); // call debounced dispatch function
-        return debouncedDispatch.cancel; // cleanup the debounced function
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
 
 
@@ -56,18 +60,23 @@ export default function EmployeeList() {
     return (
         <div>
             <PageHeader
-                title='Employees'
-                searchPlaceholder='Search employees...'
+                title={isAgent ? 'Manage Banca Officer/Manager' : 'Employees'}
+                searchPlaceholder={`Search ${isAgent ? 'agents' : 'employees'}...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
-                headerRightSide={<NewButton element='New Employee' href='/employee/create' />}
+                headerRightSide={
+                    <NewButton
+                        href={isAgent ? '/banca/agent/create' : '/employee/create'}
+                        element={isAgent ? 'New Officer/Manager' : 'New Employee'}
+                    />
+                }
             />
 
             <PageContentList>
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Employee List" />
+                            <Loading loadingTitle={isAgent ? 'Agents...' : 'Employees...'} />
                         </div> :
                         <Table
                             column={columnData}
@@ -109,7 +118,9 @@ export default function EmployeeList() {
                                                 items={[
                                                     {
                                                         element: 'Edit',
-                                                        onClick: () => router.push(`/employee/edit?id=${data.id}`),
+                                                        onClick: () => router.push(
+                                                            `/${isAgent ? 'banca/agent' : 'employee'}/edit?id=${data.id}`
+                                                        ),
                                                         iconClass: 'pencil'
                                                     },
                                                     {
@@ -126,7 +137,7 @@ export default function EmployeeList() {
 
                             {
                                 employeeList && employeeList.length === 0 &&
-                                <NoTableDataFound colSpan={8}>No bank agents found ! Please create one.</NoTableDataFound>
+                                <NoTableDataFound colSpan={8}>No {isAgent ? 'officer/manager' : 'employee'} found ! Please create one.</NoTableDataFound>
                             }
                         </Table>
                 }

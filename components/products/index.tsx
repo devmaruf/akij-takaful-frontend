@@ -10,12 +10,10 @@ import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { useDebounced } from '@/hooks/use-debounce';
 import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { deleteProductAction, getProductDetailsAction, getProductListAction } from '@/redux/actions/product-action';
 import ProductForm from './ProductForm';
-import { getProjectListDropdown } from '@/redux/actions/project-action';
 import ProductDetails from './ProductDetails';
 
 export default function ProductList() {
@@ -48,10 +46,6 @@ export default function ProductList() {
     debouncedDispatch();
     return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
-
-  useDebounced(() => {
-    dispatch(getProjectListDropdown());
-  });
 
   const handleOpenModal = (id: number, type: string) => {
     if (type === "view") {
