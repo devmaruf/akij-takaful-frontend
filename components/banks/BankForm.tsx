@@ -66,7 +66,7 @@ function BankForm({
                 />
 
                 {
-                    defaultBanks.length > 0 && projectInput?.name?.length > 0
+                    defaultBanks !== undefined && defaultBanks.length > 0 && projectInput?.name?.length > 0
                     && projectInput.default_bank_id === null &&
                     <div className="bg-slate-100 p-3 max-h-[250px] absolute top-20 w-full overflow-y-auto">
                         {

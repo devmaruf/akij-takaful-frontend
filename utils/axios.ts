@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {Toaster} from "@/components/toaster";
+import { Toaster } from "@/components/toaster";
 import { getAuthToken, logout } from './auth';
 
 axios.defaults.baseURL = process.env.BASE_URL;
@@ -29,7 +29,23 @@ axios.interceptors.response.use(
             logout();
         } else {
             const responseLog = error.response;
-            Toaster('error', responseLog?.data?.message);
+
+            const logErrors = responseLog?.data?.errors ?? {};
+            if (Object.keys(logErrors).length > 0) {
+                let errorMessage = '';
+                Object.keys(logErrors).forEach(errorKey => {
+                    if (logErrors?.[errorKey]?.length > 0) {
+                        logErrors?.[errorKey]?.forEach(error => {
+                            errorMessage += error + '. ';
+                        })
+                    }
+                });
+
+                Toaster('error', errorMessage);
+            } else {
+                Toaster('error', responseLog?.data?.message);
+            }
+
             return Promise.reject(error);
         }
     }

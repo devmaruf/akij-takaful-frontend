@@ -157,7 +157,7 @@ export const deleteProject = (id: number, setShowDeleteModal) => (dispatch: Disp
 export const getDefaultBanksBySearch = (search: string = '') => (dispatch: Dispatch) => {
     axios.get(`/default-banks?perPage=10&search=${search}&orderBy=name&order=asc`)
         .then((res) => {
-            dispatch({ type: Types.GET_DEFAULT_BANKS, payload: res.data.data });
+            dispatch({ type: Types.GET_DEFAULT_BANKS, payload: res?.data?.data ?? [] });
         });
 }
 
