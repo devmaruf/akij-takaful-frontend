@@ -11,10 +11,10 @@ import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { printProposalAction } from "@/redux/actions/proposal-action";
 import { IProposalView } from "@/redux/interfaces";
 import { useDebounced } from "@/hooks/use-debounce";
+import BankSelect from "@/components/banks/BankSelect";
 
 export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
   const dispatch = useDispatch();
-  const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { printProposalList, isLoading } = useSelector((state: RootState) => state.proposal);
   const [noOfProposalPrint, setNoOfProposalPrint] = useState("1");
@@ -23,7 +23,6 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
   const [branchId, setBranchId] = useState<number>(0);
 
   useDebounced(() => {
-    dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
   });
 
@@ -96,15 +95,9 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
               inputChange={onHandleInputChange}
             />
           }
-          <Select
-            options={projectDropdownList}
-            isSearchable={true}
-            name="project_id"
-            label="Bank"
-            placeholder="Select Bank..."
-            isRequired={true}
-            defaultValue={projectId}
-            handleChangeValue={onHandleInputChange}
+          <BankSelect
+              defaultValue={projectId}
+              changeTextInput={onHandleInputChange}
           />
           <Select
             options={branchDropdownList}

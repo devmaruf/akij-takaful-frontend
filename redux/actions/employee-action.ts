@@ -227,7 +227,7 @@ export const getEmployeeRolesDropdownList = (isAgent: boolean = false) => (dispa
 }
 
 export const getAgentsDropdownList = () => (dispatch: Dispatch) => {
-    axios.get(`/employees/agents-dropdown/list`)
+    axios.get(`/agents/bank-executive/list`)
         .then((res) => {
             dispatch({ type: Types.GET_AGENT_DROPDOWN_LIST, payload: res.data });
         })

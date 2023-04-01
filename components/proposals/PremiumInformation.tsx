@@ -4,11 +4,11 @@ import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { IProposalFormSection } from "@/redux/interfaces";
+import BankSelect from "@/components/banks/BankSelect";
 
 export function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
-  const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
-  const { proposalInput, planDropdownList } = useSelector((state: RootState) => state.proposal);
+  const { proposalInput } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
   const { productDropdownList } = useSelector((state: RootState) => state.product);
 
@@ -27,17 +27,10 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           inputChange={onChangeText}
           errors={errors}
         />
-        <Select
-          options={projectDropdownList}
-          isSearchable={true}
-          name="project_id"
-          label="Bank"
-          defaultValue={proposalInput?.project_id}
-          placeholder="Select Bank..."
-          isRequired={true}
-          errors={errors}
-          handleChangeValue={onChangeText}
-        />
+        <BankSelect
+              defaultValue={proposalInput?.project_id}
+              changeTextInput={onChangeText}
+          />
         <Select
           options={branchDropdownList}
           isSearchable={false}
@@ -88,7 +81,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           isSearchable={true}
           isRequired={true}
           name="agent_id"
-          label="Agent"
+          label="Bank Corporate Executive"
           defaultValue={proposalInput?.agent_id}
           placeholder='Select Agent...'
           handleChangeValue={onChangeText}

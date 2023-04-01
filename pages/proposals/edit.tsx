@@ -12,10 +12,10 @@ import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { getAgentsDropdownList } from '@/redux/actions/employee-action';
-import { getProjectListDropdown } from '@/redux/actions/project-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
 import { useDebounced } from '@/hooks/use-debounce';
 import { getProductDropdownListAction } from '@/redux/actions/product-action';
+import BankSelect from '@/components/banks/BankSelect';
 
 export default function ProposalBasicEditPage() {
   const router = useRouter()
@@ -23,12 +23,10 @@ export default function ProposalBasicEditPage() {
   const dispatch = useDispatch();
   const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
-  const { projectDropdownList } = useSelector((state: RootState) => state.Project);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
   const { productDropdownList } = useSelector((state: RootState) => state.product);
 
   useDebounced(() => {
-    dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
     dispatch(getProductDropdownListAction());
@@ -79,15 +77,9 @@ export default function ProposalBasicEditPage() {
                   isRequired={true}
                   isDisabled={true}
                 />
-                <Select
-                  options={projectDropdownList}
-                  isSearchable={true}
-                  isRequired={true}
-                  name="project_id"
-                  label="Bank"
+                <BankSelect
                   defaultValue={proposalInput?.project_id ?? ''}
-                  placeholder="Select Bank..."
-                  handleChangeValue={handleChangeTextInput}
+                  changeTextInput={handleChangeTextInput}
                 />
                 <Select
                   options={branchDropdownList}
@@ -150,7 +142,7 @@ export default function ProposalBasicEditPage() {
                   options={agentsDropdownList}
                   isSearchable={true}
                   name="agent_id"
-                  label="Agent"
+                  label="Bank Corporate Executive"
                   defaultValue={proposalInput?.agent_id ?? ''}
                   placeholder='Select Agent...'
                   handleChangeValue={handleChangeTextInput}

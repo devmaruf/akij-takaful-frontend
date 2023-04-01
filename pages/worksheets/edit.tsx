@@ -17,7 +17,6 @@ import { PremiumInformation } from "@/components/proposals/PremiumInformation";
 import { AddressInformation } from "@/components/proposals/AddressInformation";
 import { GuardianInformation } from "@/components/proposals/GuardianInformation";
 import { BankInformation } from "@/components/proposals/BankInformation";
-import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 import { formValidation } from "@/utils/formValidation";
@@ -52,7 +51,6 @@ export default function EnlistmentPage() {
 
   useDebounced(() => {
     dispatch(getPlanDropdownList());
-    dispatch(getProjectListDropdown());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
     dispatch(getProductDropdownListAction());

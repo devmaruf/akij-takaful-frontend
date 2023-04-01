@@ -1,14 +1,16 @@
-import { handleSidebar } from "@/redux/actions/global-action";
-import { RootState } from "@/redux/store";
-import { getAuthData, logout } from "@/utils/auth";
 import { Dropdown } from "flowbite-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function Navbar() {
+import { handleSidebar } from "@/redux/actions/global-action";
+import { RootState } from "@/redux/store";
+import { getAuthData, logout } from "@/utils/auth";
 
+export default function Navbar() {
     const dispatch = useDispatch();
+    const router = useRouter();
     const { isOpenSidebar } = useSelector((state: RootState) => state.global);
     const userData = getAuthData();
 
@@ -49,8 +51,8 @@ export default function Navbar() {
                                     {userData.email}
                                 </span>
                             </Dropdown.Header>
-                            <Dropdown.Item className="py-2 px-4">
-                                <Link href={'/employee/profile'}>
+                            <Dropdown.Item className="py-2 px-4" onClick={() => router.push('/profile')}>
+                                <Link href={'/profile'}>
                                     <i className="bi bi-person-bounding-box"></i> &nbsp;&nbsp; Profile
                                 </Link>
                             </Dropdown.Item>

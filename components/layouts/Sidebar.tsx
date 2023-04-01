@@ -31,7 +31,6 @@ function Sidebar() {
     useEffect(() => {
         if (sideMenuList.length === 0) {
             debouncedDispatch();
-            console.log('called');
 
             return debouncedDispatch.cancel;
         }
