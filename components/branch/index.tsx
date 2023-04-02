@@ -27,7 +27,7 @@ export default function Branches() {
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
     const [branchID, setBranchID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [dataLimit, setDataLimit] = useState<number>(10);
+    const [dataLimit, setDataLimit] = useState<number>(20);
     const [searchText, setSearchText] = useState<string>('');
     const { branchInput, branchList, branchPaginationData, isLoading, isSubmitting, branchDetails, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.Branch);
 
@@ -79,6 +79,9 @@ export default function Branches() {
         }
     }
 
+    console.log('branchPaginationData', branchPaginationData);
+    
+
     return (
         <div>
             <PageHeader
@@ -108,7 +111,7 @@ export default function Branches() {
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             dataLimit={dataLimit}
-                            totalData={branchPaginationData.length > 0 && branchPaginationData.total}
+                            totalData={branchPaginationData?.total}
                         >
                             {branchList && branchList.length > 0 && branchList.map((data, index) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
