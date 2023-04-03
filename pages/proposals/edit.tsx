@@ -142,7 +142,7 @@ export default function ProposalBasicEditPage() {
                   options={agentsDropdownList}
                   isSearchable={true}
                   name="agent_id"
-                  label="Bank Corporate Executive"
+                  label="Introducer/Seller"
                   defaultValue={proposalInput?.agent_id ?? ''}
                   placeholder='Select Agent...'
                   handleChangeValue={handleChangeTextInput}

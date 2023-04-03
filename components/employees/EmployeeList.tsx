@@ -31,12 +31,13 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Name', id: 2 },
-        { title: "Email", id: 3 },
-        { title: "Phone", id: 4 },
-        { title: "Designation", id: 5 },
-        { title: "Avatar", id: 6 },
-        { title: "Status", id: 7 },
-        { title: "Action", id: 8 },
+        { title: 'Code', id: 3 },
+        { title: "Email", id: 4 },
+        { title: "Phone", id: 5 },
+        { title: "Designation", id: 6 },
+        { title: "Avatar", id: 7 },
+        { title: "Status", id: 8 },
+        { title: "Action", id: 9 },
     ];
 
     const debouncedDispatch = useCallback(
@@ -93,6 +94,9 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.first_name + ' ' + data.last_name}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                            {data.code}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                             {data.email}

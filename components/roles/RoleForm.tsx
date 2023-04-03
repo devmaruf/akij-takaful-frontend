@@ -23,9 +23,8 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
     const { inputData, isLoading } = useSelector((state: RootState) => state.role);
 
     useDebounced(() => {
-        dispatch(emptyRoleStatusMessage());
-
         if (pageType === 'create') {
+            dispatch(emptyRoleStatusMessage());
             dispatch(getPermissionGroups());
         }
     });
@@ -50,9 +49,7 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            if (id > 0) {
-                dispatch(getRoleDetailsDataAction(id));
-            }
+            dispatch(getRoleDetailsDataAction(id));
         }, 500),
         [id]
     );
@@ -76,6 +73,9 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
         customClass='px-6'
     />
 
+    console.log('inputData', inputData);
+    
+
     return (
         <div>
             <PageHeader
@@ -94,14 +94,36 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
                     !isLoading &&
                     <form method="post" autoComplete="off">
                         <div className="">
-                            <Input
-                                label="Role name"
-                                name="role"
-                                placeholder="Give a role name"
-                                value={inputData.role}
-                                isRequired={true}
-                                inputChange={changeRoleInput}
-                            />
+                            <div className="flex flex-row flex-wrap flex-1"> 
+                                <Input
+                                    label="Role name"
+                                    name="role"
+                                    placeholder="Give a role name"
+                                    value={inputData.role}
+                                    isRequired={true}
+                                    inputChange={changeRoleInput}
+                                    areaClassNames='flex-1'
+                                />
+                                <Input
+                                    label="Max sum assured limit"
+                                    name="sum_assured_limit"
+                                    placeholder="eg: 100000"
+                                    value={inputData.sum_assured_limit}
+                                    isRequired={true}
+                                    inputChange={changeRoleInput}
+                                    areaClassNames='flex-1 ml-5'
+                                />
+                                <Input
+                                    type='checkbox'
+                                    label="For head-office"
+                                    name="is_head_office"
+                                    value={inputData.is_head_office}
+                                    checked={inputData.is_head_office ? true : false}
+                                    inputChange={changeRoleInput}
+                                    areaClassNames='flex-1 ml-5'
+                                />
+                            </div>
+
                             {
                                 inputData.groupList.length > 0 &&
                                 <div className="flex items-center my-3">

@@ -222,6 +222,8 @@ export interface IRole {
     inputData: {
         id: number | string;
         role: string,
+        sum_assured_limit: number;
+        is_head_office: boolean;
         isLoading: boolean,
         groupList: []
     },

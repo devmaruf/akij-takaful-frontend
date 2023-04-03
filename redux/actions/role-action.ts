@@ -1,8 +1,9 @@
 import axios from "@/utils/axios";
 import { Toaster } from "@/components/toaster";
 import * as Types from "./../types/role-type";
+import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeRoleInputAction = (name, value) => (dispatch) => {
+export const changeRoleInputAction = (name, value) => (dispatch: Dispatch) => {
   const formData = {
     name: name,
     value: value
@@ -10,7 +11,7 @@ export const changeRoleInputAction = (name, value) => (dispatch) => {
   dispatch({ type: Types.CHANGE_ROLE_INPUT, payload: formData })
 }
 
-export const getRoleListAction = (page: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch) => {
+export const getRoleListAction = (page: number = 1, dataLimit: number = 10, searchText: string = '') => (dispatch: Dispatch) => {
   let url = `roles?page=${page}&perPage=${dataLimit}`;
 
   if (searchText !== '') {
@@ -40,14 +41,21 @@ export const getRoleListAction = (page: number = 1, dataLimit: number = 10, sear
     });
 };
 
-export const getRoleListDropdownAction = () => (dispatch) => {
+export const getRoleListDropdownAction = () => (dispatch: Dispatch) => {
   axios.get(`roles/dropdown/list`)
     .then((res: any) => {
       dispatch({ type: Types.GET_ROLE_LIST_DROPDOWN, payload: res.data });
     });
 };
 
-export const getRoleDetailsDataAction = (id) => (dispatch) => {
+export const getRoleDetailsDataAction = (id: number) => (dispatch: Dispatch) => {
+  if (id <= 0 || isNaN(id)) {
+    return;
+  }
+
+  console.log('come:' + id);
+  
+
   const response = {
     isLoading: true,
     data: {}
@@ -67,7 +75,7 @@ export const getRoleDetailsDataAction = (id) => (dispatch) => {
 };
 
 
-export const deleteRoleAction = (id: number) => (dispatch) => {
+export const deleteRoleAction = (id: number) => (dispatch: Dispatch) => {
   const response = {
     isLoading: true,
     data: {}
@@ -88,11 +96,11 @@ export const deleteRoleAction = (id: number) => (dispatch) => {
     })
 };
 
-export const emptyRoleStatusMessage = () => (dispatch) => {
+export const emptyRoleStatusMessage = () => (dispatch: Dispatch) => {
   dispatch({ type: Types.EMPTY_ROLE_STATUS, payload: null });
 }
 
-export const storeRoleAction = (inputData: any, router: any) => (dispatch) => {
+export const storeRoleAction = (inputData: any, router: any) => (dispatch: Dispatch) => {
   const response = {
     isLoading: true,
     status: false,
@@ -115,7 +123,7 @@ export const storeRoleAction = (inputData: any, router: any) => (dispatch) => {
     });
 };
 
-export const getPermissionGroups = () => (dispatch) => {
+export const getPermissionGroups = () => (dispatch: Dispatch) => {
   const response = {
     isLoading: true,
     status: false,
@@ -154,7 +162,7 @@ export const allpermissionCheckboxSelectAction = (status, inputData) => (dispatc
   dispatch({ type: Types.ROLE_ALL_CHECKED, payload: updatedInputData });
 };
 
-export const permissionGroupCheckboxSelectAction = (index, isGroupChecked, inputData) => (dispatch) => {
+export const permissionGroupCheckboxSelectAction = (index, isGroupChecked, inputData) => (dispatch: Dispatch) => {
   const { groupList } = inputData;
   const selectedGroup = groupList[index];
   const updatedPermissions = selectedGroup.permissions.map(permission => ({
@@ -179,7 +187,7 @@ export const permissionGroupCheckboxSelectAction = (index, isGroupChecked, input
   });
 }
 
-export const permissionCheckboxSelectAction = (checkboxStatus, indexChild, parentIndex, inputData) => (dispatch) => {
+export const permissionCheckboxSelectAction = (checkboxStatus, indexChild, parentIndex, inputData) => (dispatch: Dispatch) => {
   let { groupList } = inputData;
   const updatedGroupList = groupList.map((group, groupIndex) => {
     const updatedPermissions = group.permissions.map((permission, permissionIndex) => ({

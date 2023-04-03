@@ -12,6 +12,8 @@ const initialState: IRole = {
     inputData: {
         id: '',
         role: '',
+        sum_assured_limit: 0,
+        is_head_office: true,
         isLoading: false,
         groupList: []
     },
@@ -86,12 +88,23 @@ function roleReducer(state = initialState, action: any) {
             };
 
         case Types.GET_ROLE_DETAILS_DATA:
+            console.log('action.payload.data', action.payload.data);
+
+            if (action.payload.isLoading) {
+                return {
+                    ...state,
+                    isLoading: action.payload.isLoading,
+                }
+            }
+
             return {
                 ...state,
                 isLoading: action.payload.isLoading,
                 inputData: {
                     id: action.payload.data?.role?.id ?? 0,
                     role: action.payload.data?.role?.name ?? '',
+                    is_head_office: action.payload.data?.role?.is_head_office ?? true,
+                    sum_assured_limit: action.payload.data?.role?.sum_assured_limit ?? 0,
                     groupList: action.payload.data?.groups ?? [],
                 },
             };

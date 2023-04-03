@@ -15,15 +15,18 @@ import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { Toaster } from '@/components/toaster';
+import { formatCurrency } from '@/utils/currency';
 
 export default function Roles() {
     const dispatch = useDispatch();
     const router = useRouter();
     const columnData = [
-        { title: "SL", id: "01" },
-        { title: "Role", id: "02" },
-        { title: "Permissions", id: "03" },
-        { title: "Action", id: "05" },
+        { title: "SL", id: 1 },
+        { title: "Role", id: 2 },
+        { title: "Sum assured limit", id: 3 },
+        { title: "For Head-office", id: 4 },
+        { title: "Permissions", id: 5 },
+        { title: "Action", id: 6 },
     ]
 
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
@@ -81,6 +84,12 @@ export default function Roles() {
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words w-48">
                                             {data.name}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words w-48">
+                                            {formatCurrency(data.sum_assured_limit)}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words w-48">
+                                            {data.is_head_office ? 'Yes' : 'No'}
                                         </td>
                                         <td className="px-2 py-1 font-normal text-gray-900 break-words" >
                                             <div className='max-w-[500px]'>

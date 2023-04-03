@@ -81,7 +81,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           isSearchable={true}
           isRequired={true}
           name="agent_id"
-          label="Bank Corporate Executive"
+          label="Introducer/Seller"
           defaultValue={proposalInput?.agent_id}
           placeholder='Select Agent...'
           handleChangeValue={onChangeText}

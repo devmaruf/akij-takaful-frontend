@@ -64,12 +64,53 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
         { title: "Initial Premium", id: 6 },
         { title: "Status", id: 7 },
         { title: "Action", id: 8 },
-    ]
+    ];
+
+    const getActionItems = (data: any) => {
+        const actions = [
+            {
+                element: 'View',
+                onClick: () => showProposalDetails(data.id),
+                iconClass: 'eye'
+            },
+            {
+                element: 'Edit Proposal',
+                onClick: () => router.push(`/proposals/edit?id=${data.id}`),
+                iconClass: 'pencil'
+            }
+        ];
+
+        if (data.status !== 'creating') {
+            actions.push({
+                element: 'Edit Worksheet',
+                onClick: () => router.push(`/worksheets/edit?id=${data.id}`),
+                iconClass: 'list-task'
+            });
+            actions.push({
+                element: 'Underwriting',
+                onClick: () => router.push(`/under-writing?id=${data.id}`),
+                iconClass: 'send'
+            });
+            actions.push({
+                element: 'Stamps',
+                onClick: () => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`),
+                iconClass: 'person-fill-add'
+            });
+        }
+
+        actions.push({
+            element: 'Delete',
+            onClick: () => handleDeleteProposal(data.id),
+            iconClass: 'trash'
+        });
+
+        return actions;
+    }
 
     return (
         <div>
             <PageHeader
-                title={isWorksheet ? 'Worksheets' : 'Proposals'}
+                title={isWorksheet ? 'Manage Worksheets' : 'Manage Proposals'}
                 searchPlaceholder={`Please search ${isWorksheet ? 'worksheet' : 'proposal'} by proposal no, plan, status...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
@@ -130,40 +171,7 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
-                                            <ActionButtons
-                                                items={[
-                                                    {
-                                                        element: 'View',
-                                                        onClick: () => showProposalDetails(data.id),
-                                                        iconClass: 'eye'
-                                                    },
-                                                    {
-                                                        element: 'Edit Proposal',
-                                                        onClick: () => router.push(`/proposals/edit?id=${data.id}`),
-                                                        iconClass: 'pencil'
-                                                    },
-                                                    {
-                                                        element: 'Edit Worksheet',
-                                                        onClick: () => router.push(`/worksheets/edit?id=${data.id}`),
-                                                        iconClass: 'list-task'
-                                                    },
-                                                    {
-                                                        element: 'Underwriting',
-                                                        onClick: () => router.push(`/under-writing?id=${data.id}`),
-                                                        iconClass: 'send'
-                                                    },
-                                                    {
-                                                        element: 'Stamps',
-                                                        onClick: () => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`),
-                                                        iconClass: 'person-fill-add'
-                                                    },
-                                                    {
-                                                        element: 'Delete',
-                                                        onClick: () => handleDeleteProposal(data.id),
-                                                        iconClass: 'trash'
-                                                    }
-                                                ]}
-                                            />
+                                            <ActionButtons items={getActionItems(data)} />
                                         </td>
                                     </tr>
                                 ))

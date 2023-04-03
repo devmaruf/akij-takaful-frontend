@@ -16,6 +16,7 @@ interface IInput {
   areaClassNames?: string;
   hintText?: string;
   rows?: number;
+  checked?: boolean;
 }
 
 export default function Input({
@@ -33,6 +34,7 @@ export default function Input({
   areaClassNames = '',
   hintText = '',
   rows = 3,
+  checked = false
 }: IInput) {
 
   return (
@@ -60,7 +62,7 @@ export default function Input({
       }
 
       {
-        type !== 'textarea' &&
+        type !== 'textarea' && type !== 'checkbox' &&
         <input
           type={type}
           name={name}
@@ -72,6 +74,21 @@ export default function Input({
           className={`shadow-sm border border-gray-300 text-gray-900 sm: text-sm rounded-md focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2 my-2 ${isDisabled ? 'bg-gray-100' : 'bg-gray-50'}`}
           placeholder={placeholder}
           onChange={inputChange && ((e) => inputChange(name, e.target.value))}
+        />
+      }
+
+      {
+        type === 'checkbox' &&
+        <input
+          type={type}
+          name={name}
+          value={value}
+          disabled={isDisabled}
+          required={isRequired}
+          className={`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600`}
+          placeholder={placeholder}
+          checked={checked}
+          onChange={inputChange && ((e) => inputChange(name, e.target.checked ? 1 : 0))}
         />
       }
 
