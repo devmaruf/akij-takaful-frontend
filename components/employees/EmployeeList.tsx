@@ -141,7 +141,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
 
                             {
                                 employeeList && employeeList.length === 0 &&
-                                <NoTableDataFound colSpan={8}>No {isAgent ? 'officer/manager' : 'employee'} found ! Please create one.</NoTableDataFound>
+                                <NoTableDataFound colSpan={9}>No {isAgent ? 'officer/manager' : 'employee'} found ! Please create one.</NoTableDataFound>
                             }
                         </Table>
                 }

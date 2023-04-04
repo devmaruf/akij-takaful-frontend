@@ -35,8 +35,8 @@ export default function PageHeader({
                         <title>{title} | {getAppName()}</title>
                     </Head>
                 </div>
-                <div className="sm:flex mt-3">
-                    <div className="hidden sm:flex items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
+                <div className="flex mt-3 justify-between">
+                    <div className="sm:flex flex-1 items-center sm:divide-x sm:divide-gray-100 mb-3 sm:mb-0">
                         {
                             hasSearch &&
                             <form className="lg:pr-3" action="#" method="GET">
@@ -55,7 +55,7 @@ export default function PageHeader({
                             </form>
                         }
                     </div>
-                    <div className="flex items-center space-x-2 sm:space-x-3 ml-auto">
+                    <div className="flex flex-1 ml-2 sm:ml-auto justify-end space-x-2 sm:space-x-3">
                         {headerRightSide}
                     </div>
                 </div>
