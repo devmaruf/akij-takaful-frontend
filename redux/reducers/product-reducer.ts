@@ -9,7 +9,13 @@ const initialState: IProductReducer = {
     loadingDetails: false,
     productList: [],
     paginationData: [],
-    productDetails: {},
+    productDetails: {
+        id: 0,
+        name: "",
+        rates: [],
+        modes: [],
+        is_dps: 0
+    },
     productDropdownList: [],
     productInput: {
         name: "",
