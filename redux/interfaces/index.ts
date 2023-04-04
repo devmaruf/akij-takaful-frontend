@@ -323,6 +323,18 @@ export interface IProposalFormSection {
     areaList: any;
 }
 
+export interface IProductRate {
+    age: number;
+    term: number;
+    rate: number;
+}
+export interface IProductForm {
+    name: string;
+    rates: Array<IProductRate>;
+    modes: Array<string>;
+    is_dps: number;
+}
+
 export interface IProductReducer {
     isLoading: boolean;
     isSubmitting: boolean;
@@ -332,5 +344,5 @@ export interface IProductReducer {
     paginationData: any[];
     productDetails: any;
     productDropdownList: Array<ISelect2Item>
-    productInput: any
+    productInput: IProductForm
 }

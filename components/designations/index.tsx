@@ -158,7 +158,7 @@ export default function DesignationList() {
       </Modal>
 
 
-      <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
+      <Modal title="Delete designation" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
         <div className="text-gray-900 text-center flex flex-col justify-center items-center">
           <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 5.5C12.5523 5.5 13 5.94772 13 6.5L13 13.5C13 14.0523 12.5523 14.5 12 14.5C11.4477 14.5 11 14.0523 11 13.5L11 6.5C11 5.94772 11.4477 5.5 12 5.5Z" fill="red" />
@@ -173,7 +173,7 @@ export default function DesignationList() {
             title="Yes"
             customClass="inline py-2 px-3 rounded-md"
             loading={isDeleting}
-            loadingTitle="Deleting Product..."
+            loadingTitle="Deleting Designation..."
             onClick={() => dispatch(deleteDesignationAction(designationID, setShowDeleteModal))} />
           <Button title="No" customClass="bg-gray-900 inline py-2 px-3 rounded-md" onClick={() => setShowDeleteModal(false)} />
         </div>

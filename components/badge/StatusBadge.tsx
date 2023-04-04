@@ -1,8 +1,9 @@
 interface IStatusBadge {
     status: string;
+    className?: React.CSSProperties['className'];
 }
 
-export default function StatusBadge({ status = '' }: IStatusBadge) {
+export default function StatusBadge({ status = '', className }: IStatusBadge) {
     let colorClass, label;
 
     switch (status) {
@@ -35,7 +36,7 @@ export default function StatusBadge({ status = '' }: IStatusBadge) {
     label = status.toUpperCase();
 
     return (
-        <div className={`inline-block px-3 py-1 rounded text-xs ${colorClass}`}>
+        <div className={`inline-block px-3 py-1 rounded text-xs ${colorClass} ${className}`}>
             {label}
         </div>
     );

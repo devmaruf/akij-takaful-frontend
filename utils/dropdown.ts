@@ -11,3 +11,26 @@ export const generateDropdownList = (data: any[]) => {
     }
     return options;
 };
+
+export const productModesDropdown = [
+    {
+        label: 'Yearly',
+        value: 'yearly',
+    },
+    {
+        label: 'Half-Yearly',
+        value: 'half_yearly',
+    },
+    {
+        label: 'Quarterky',
+        value: 'quarterly',
+    },
+    {
+        label: 'Single',
+        value: 'single',
+    },
+    {
+        label: 'Monthly',
+        value: 'monthly',
+    }
+];

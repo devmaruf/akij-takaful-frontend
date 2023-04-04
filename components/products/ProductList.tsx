@@ -15,6 +15,8 @@ import NoTableDataFound from '@/components/table/NoDataFound';
 import { deleteProductAction, getProductDetailsAction, getProductListAction } from '@/redux/actions/product-action';
 import ProductForm from './ProductForm';
 import ProductDetails from './ProductDetails';
+import StatusBadge from '../badge/StatusBadge';
+import { Badge } from 'flowbite-react';
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -31,8 +33,12 @@ export default function ProductList() {
 
   const columnData: any[] = [
     { title: "Name", id: 1 },
-    { title: "Bank name", id: 2 },
-    { title: "Action", id: 3 },
+    { title: "Code", id: 2 },
+    { title: "Modes", id: 3 },
+    { title: "Total rates", id: 4 },
+    { title: "Is DPS", id: 5 },
+    { title: "Status", id: 6 },
+    { title: "Action", id: 7 },
   ]
 
   const debouncedDispatch = useCallback(
@@ -92,7 +98,26 @@ export default function ProductList() {
                     {data.name ?? "N/A"}
                   </th>
                   <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
-                    {data.project_name ?? "N/A"}
+                    {data.code}
+                  </th>
+                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    {
+                      data.modes.map((mode: string, index: number) => (
+                        <StatusBadge key={index} status={mode?.label ?? ''} className={'mr-2'} />
+                      ))
+                    }
+                    {data.modes.length === 0 ? '-' : ''}
+                  </th>
+                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    <div className=' flex'>
+                      <Badge size={'lg'}>{data.rates_count}</Badge>
+                    </div>
+                  </th>
+                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    {data.is_dps ? 'Yes' : 'No'}
+                  </th>
+                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    <StatusBadge status={data.status} />
                   </th>
 
                   <td className="px-2 py-3 flex gap-1">
@@ -140,7 +165,8 @@ export default function ProductList() {
 
       <Modal
         title={`Product Details`}
-        size="lg" show={showDetailsModal}
+        size="2xl"
+        show={showDetailsModal}
         handleClose={() => setShowDetailsModal(false)}
         isDismissible={false}
       >
@@ -156,15 +182,14 @@ export default function ProductList() {
         <ProductForm productID={productID} pageType="edit" closeModal={setShowUpdateModal} />
       </Modal>
 
-      <Modal title="Proposal Details" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
+      <Modal title="Delete product" size="md" show={showDeleteModal} handleClose={() => setShowDeleteModal(false)} isDismissible={false} isShowHeader={false}>
         <div className="text-gray-900 text-center flex flex-col justify-center items-center">
           <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 5.5C12.5523 5.5 13 5.94772 13 6.5L13 13.5C13 14.0523 12.5523 14.5 12 14.5C11.4477 14.5 11 14.0523 11 13.5L11 6.5C11 5.94772 11.4477 5.5 12 5.5Z" fill="red" />
             <path d="M12 18.5C12.8284 18.5 13.5 17.8284 13.5 17C13.5 16.1716 12.8284 15.5 12 15.5C11.1716 15.5 10.5 16.1716 10.5 17C10.5 17.8284 11.1716 18.5 12 18.5Z" fill="red" />
             <path fillRule="evenodd" clipRule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z" fill="red" />
           </svg>
-          <h2 className='text-2xl font-bold mt-2'> Are You Sure To Delete? </h2>
-
+          <h2 className='text-2xl font-bold mt-2'> Are you sure to delete the product ? </h2>
         </div>
         <div className='text-right flex justify-end gap-2'>
           <Button

@@ -12,8 +12,10 @@ const initialState: IProductReducer = {
     productDetails: {},
     productDropdownList: [],
     productInput: {
-        project_id: 0,
-        name: ""
+        name: "",
+        rates: [],
+        modes: [],
+        is_dps: 0
     },
 };
 
