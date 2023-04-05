@@ -17,6 +17,7 @@ import ActionButtons from '@/components/button/button-actions';
 import StatusBadge from '@/components/badge/StatusBadge';
 import { IProposalView } from '@/redux/interfaces';
 import NoTableDataFound from '@/components/table/NoDataFound';
+import { hasPermission } from '@/utils/permission';
 
 interface IProposalList {
     isWorksheet?: boolean
@@ -67,42 +68,57 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
     ];
 
     const getActionItems = (data: any) => {
-        const actions = [
-            {
+        const actions = [];
+
+        if (hasPermission('proposal.view')) {
+            actions.push({
                 element: 'View',
                 onClick: () => showProposalDetails(data.id),
                 iconClass: 'eye'
-            },
-            {
-                element: 'Edit Proposal',
-                onClick: () => router.push(`/proposals/edit?id=${data.id}`),
-                iconClass: 'pencil'
-            }
-        ];
-
-        if (data.status !== 'creating') {
-            actions.push({
-                element: 'Edit Worksheet',
-                onClick: () => router.push(`/worksheets/edit?id=${data.id}`),
-                iconClass: 'list-task'
-            });
-            actions.push({
-                element: 'Underwriting',
-                onClick: () => router.push(`/under-writing?id=${data.id}`),
-                iconClass: 'send'
-            });
-            actions.push({
-                element: 'Stamps',
-                onClick: () => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`),
-                iconClass: 'person-fill-add'
             });
         }
 
-        actions.push({
-            element: 'Delete',
-            onClick: () => handleDeleteProposal(data.id),
-            iconClass: 'trash'
-        });
+        if (hasPermission('proposal.edit')) {
+            actions.push({
+                element: 'Edit Proposal',
+                onClick: () => router.push(`/proposals/edit?id=${data.id}`),
+                iconClass: 'pencil'
+            });
+        }
+
+        if (data.status !== 'creating') {
+            if (hasPermission('proposal.edit')) {
+                actions.push({
+                    element: 'Edit Worksheet',
+                    onClick: () => router.push(`/worksheets/edit?id=${data.id}`),
+                    iconClass: 'list-task'
+                });
+            }
+
+            if (hasPermission('underwriting.edit')) {
+                actions.push({
+                    element: 'Underwriting',
+                    onClick: () => router.push(`/under-writing?id=${data.id}`),
+                    iconClass: 'send'
+                });
+            }
+
+            if (hasPermission('stamp_registry.edit')) {
+                actions.push({
+                    element: 'Stamps',
+                    onClick: () => router.push(`/stamps/edit?proposal_no=${data.proposal_no}`),
+                    iconClass: 'person-fill-add'
+                });
+            }
+        }
+
+        if (hasPermission('proposal.delete')) {
+            actions.push({
+                element: 'Delete',
+                onClick: () => handleDeleteProposal(data.id),
+                iconClass: 'trash'
+            });
+        }
 
         return actions;
     }

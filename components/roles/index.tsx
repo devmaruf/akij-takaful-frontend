@@ -152,7 +152,7 @@ export default function Roles() {
 
                             {
                                 roleList && roleList.length === 0 &&
-                                <NoTableDataFound colSpan={3}>No roles found ! Please create a role.</NoTableDataFound>
+                                <NoTableDataFound colSpan={6}>No roles found ! Please create a role.</NoTableDataFound>
                             }
                         </Table>
                 }
