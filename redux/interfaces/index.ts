@@ -346,3 +346,15 @@ export interface IProductReducer {
     productDropdownList: Array<ISelect2Item>
     productInput: IProductForm
 }
+
+export interface IStampStock {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    isLoadingDetails: boolean;
+    isDeleting: boolean;
+    stampStockList: any[];
+    stampStockPaginationData: any[];
+    stampStockDetails: any;
+    productDropdownList: Array<ISelect2Item>
+    stampStockForm: any
+}

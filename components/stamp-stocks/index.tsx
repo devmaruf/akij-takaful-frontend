@@ -1,0 +1,112 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import PageHeader from '@/components/layouts/PageHeader';
+import Table from '@/components/table';
+import Loading from '@/components/loading';
+import { PageContentList } from '../layouts/PageContentList';
+import { Dropdown } from 'flowbite-react';
+import { useRouter } from 'next/router';
+import StampCountView from './StampCountView';
+import NoTableDataFound from '../table/NoDataFound';
+import { IStampListItem } from '@/redux/interfaces';
+import StampViewModal from './StampViewModal';
+import { Dispatch } from '@reduxjs/toolkit';
+import NewButton from '../button/button-new';
+import { getStampStockListAction } from '@/redux/actions/stamp-stock-action';
+
+export default function StampStockList() {
+  const router = useRouter();
+  const dispatch: Dispatch = useDispatch();
+  const [searchText, setSearchText] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [dataLimit, setDataLimit] = useState<number>(10);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [stampDetails, setStampDetails] = useState<IStampListItem>();
+
+  const columnData: any[] = [
+    { title: "Challan No", id: 1 },
+    { title: "Stamps", id: 2 },
+    { title: "Action", id: 3 },
+  ]
+
+  const { stampStockList, stampStockPaginationData, isLoading } = useSelector((state: RootState) => state.stampStock);
+
+  useEffect(() => {
+    dispatch(getStampStockListAction(currentPage, dataLimit, searchText));
+  }, [currentPage, dataLimit, searchText, dispatch]);
+
+  const showStampDetails = (stamp: IStampListItem) => {
+    setShowModal(true);
+    setStampDetails(stamp);
+  }
+
+
+  return (
+    <div>
+      <PageHeader
+        title='Stamp Stock'
+        searchText={searchText}
+        searchPlaceholder={'Search stamps...'}
+        onSearchText={setSearchText}
+        headerRightSide={<NewButton href='/stamp-stock/create' element='New stamp' />}
+      />
+
+      <StampViewModal
+        showModal={showModal}
+        setShowModal={(value) => setShowModal(value)}
+        stamp={stampDetails}
+      />
+
+      <PageContentList>
+        {
+          isLoading ?
+            <div className="text-center">
+              <Loading loadingTitle="stamps" />
+            </div> :
+            <Table
+              column={columnData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              dataLimit={dataLimit}
+              totalData={stampStockPaginationData.total}
+            >
+              {stampStockList && stampStockList.length > 0 && stampStockList.map((stamp: IStampListItem, index: number) => (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
+                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    {stamp.challan_no}
+                  </th>
+                  <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    <StampCountView stamps={stamp} />
+                  </td>
+
+                  <td className="px-2 py-3 flex gap-1">
+                    <Dropdown
+                      label={
+                        <div className='mt-1'>
+                          <i className="bi bi-three-dots-vertical hover:text-blue-500"></i>
+                        </div>
+                      }
+                      inline={true}
+                      arrowIcon={false}
+                    >
+                      {/* <Dropdown.Item onClick={() => showStampDetails(stamp)}>
+                        <i className='bi bi-eye mr-4'></i> View
+                      </Dropdown.Item> */}
+                      <Dropdown.Item onClick={() => router.push(`/stamps/edit?proposal_no=${stamp.proposal_no}`)}>
+                        <i className='bi bi-pencil mr-4'></i> Edit
+                      </Dropdown.Item>
+                    </Dropdown>
+                  </td>
+                </tr>
+              ))}
+              {
+                stampStockList && stampStockList.length === 0 &&
+                <NoTableDataFound colSpan={3}>No stamps found</NoTableDataFound>
+              }
+            </Table>
+        }
+      </PageContentList>
+    </div>
+  );
+}
