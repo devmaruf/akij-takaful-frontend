@@ -133,7 +133,7 @@ export default function StampStockForm({ id, pageType }: IStampStockForm) {
                             <div className='mt-2 ml-2 md:ml-10 shadow-md bg-white p-3'>
                                 <div className="flex flex-row justify-center mb-3">
                                     <label htmlFor="qty_100" className='flex-1 mt-3 font-medium'>
-                                        Stamp of {formatCurrency(10)}
+                                        Stamp of {formatCurrency(100)}
                                     </label>
                                     <Input
                                         name='qty_100'
