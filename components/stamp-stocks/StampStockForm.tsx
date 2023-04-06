@@ -1,83 +1,86 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect } from 'react';
-import { debounce } from "lodash";
+import { Dispatch } from '@reduxjs/toolkit';
 
 import { RootState } from '@/redux/store';
-import { changeStampInputValue, getStampsByProposalAction, submitStampAction } from '@/redux/actions/stamp-action';
+import { changeStampStockInputValue, getStampStockDetail, submitStampStockAction } from '@/redux/actions/stamp-stock-action';
 import PageHeader from '@/components/layouts/PageHeader';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import { PageContent } from '@/components/layouts/PageContent';
-import { Dispatch } from '@reduxjs/toolkit';
-import { IStamp } from '@/redux/interfaces';
-import { defaultStampValue } from '@/redux/reducers/stamp-reducer';
+import { formatCurrency } from '@/utils/currency';
+import BankSelect from '@/components/banks/BankSelect';
+import Select from '@/components/select';
+import { useDebounced } from '@/hooks/use-debounce';
+import { getBranchDropdownList } from '@/redux/actions/branch-action';
+import { debounce } from 'lodash';
+import { useCallback, useEffect } from 'react';
 
-interface IStampForm {
-    proposalNo: string;
+interface IStampStockForm {
+    id: number;
     pageType: 'create' | 'edit';
 }
 
-export default function StampStock({ proposalNo, pageType }: IStampForm) {
+export default function StampStockForm({ id, pageType }: IStampStockForm) {
     const dispatch: Dispatch = useDispatch();
     const router = useRouter();
-    const { stampForm, isSubmitting, isSearching } = useSelector((state: RootState) => state.stamp);
+
+    const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
+    const { stampStockForm, isSubmitting } = useSelector((state: RootState) => state.stampStock);
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        dispatch(submitStampAction(stampForm, router));
+        dispatch(submitStampStockAction(stampStockForm, router, id));
     }
 
-    const onSearch = (e: any) => {
-        e.preventDefault();
-        dispatch(getStampsByProposalAction(stampForm.proposal_no));
-    }
-
-    const changeTextInput = (name: string, value: any, index = -1) => {
-        if (index >= 0) {
-            const stampsInputData = [
-                ...stampForm.stamps.slice(0, index),
-                { ...stampForm.stamps[index], [name]: value },
-                ...stampForm.stamps.slice(index + 1)
-            ]
-            dispatch(changeStampInputValue('stamps', stampsInputData));
-        } else {
-            dispatch(changeStampInputValue(name, value));
-        }
+    const changeTextInput = (name: string, value: any) => {
+        dispatch(changeStampStockInputValue(name, value));
     };
+
+    useDebounced(() => {
+        dispatch(getBranchDropdownList());
+    });
+
+    const getTotal = () => {
+        let total = 0;
+        if (stampStockForm.qty_100 > 0) {
+            total += stampStockForm.qty_100 * 100;
+        }
+        if (stampStockForm.qty_50 > 0) {
+            total += stampStockForm.qty_50 * 50;
+        }
+        if (stampStockForm.qty_30 > 0) {
+            total += stampStockForm.qty_30 * 30;
+        }
+        if (stampStockForm.qty_20 > 0) {
+            total += stampStockForm.qty_20 * 20;
+        }
+        if (stampStockForm.qty_10 > 0) {
+            total += stampStockForm.qty_10 * 10;
+        }
+        if (stampStockForm.qty_5 > 0) {
+            total += stampStockForm.qty_5 * 5;
+        }
+
+        return total;
+    }
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getStampsByProposalAction(proposalNo));
+            dispatch(getStampStockDetail(id));
         }, 1000),
-        []
+        [id]
     );
 
     useEffect(() => {
-        if (proposalNo?.length > 0) {
-            debouncedDispatch();
-            return debouncedDispatch.cancel;
-        }
-    }, [debouncedDispatch, proposalNo]);
-
-    const addNewDemoStamp = () => {
-        dispatch(changeStampInputValue('stamps', [
-            ...stampForm.stamps,
-            defaultStampValue
-        ]));
-    }
-
-    const deleteStamp = (index: number) => {
-        dispatch(changeStampInputValue('stamps', [
-            ...stampForm.stamps.slice(0, index),
-            ...stampForm.stamps.slice(index + 1)
-        ]));
-    }
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
+    }, [debouncedDispatch]);
 
     return (
         <div>
             <PageHeader
-                title={pageType === 'create' ? 'New stamp' : 'Edit stamp'}
+                title={pageType === 'create' ? 'New stamp stock' : 'Edit stamp stock'}
                 hasSearch={false}
             />
 
@@ -89,91 +92,182 @@ export default function StampStock({ proposalNo, pageType }: IStampForm) {
                     <div className="flex flex-col md:flex-row">
                         <div className='basis-1/4'>
                             <Input
-                                label="Search by proposal no"
-                                name="proposal_no"
-                                placeholder='eg: ATLI-20230101-10'
-                                isDisabled={stampForm.proposal_id > 0}
-                                value={stampForm.proposal_no ?? proposalNo}
+                                label="Challan no"
+                                name="challan_no"
+                                value={stampStockForm.challan_no}
                                 isRequired={true}
                                 inputChange={changeTextInput}
                             />
-                            <Button
-                                title="Search now"
-                                type='button'
-                                onClick={onSearch}
-                                position="text-left"
-                                loadingTitle="Searching..."
-                                loading={isSearching}
-                                iconRight={<i className='bi bi-search ml-2'></i>}
+                            <BankSelect
+                                defaultValue={stampStockForm.project_id}
+                                changeTextInput={changeTextInput}
+                            />
+                            <Select
+                                options={branchDropdownList}
+                                isSearchable={false}
+                                name="branch_id"
+                                label="Branch"
+                                defaultValue={stampStockForm?.branch_id}
+                                placeholder="Select Branch..."
+                                isRequired={true}
+                                handleChangeValue={changeTextInput}
+                            />
+                            <Input
+                                type='date'
+                                label="Purchase date"
+                                name="purchase_date"
+                                value={stampStockForm.purchase_date}
+                                isRequired={true}
+                                inputChange={changeTextInput}
+                            />
+                            <Input
+                                type='date'
+                                label="Receive date"
+                                name="receive_date"
+                                value={stampStockForm.receive_date}
+                                isRequired={true}
+                                inputChange={changeTextInput}
                             />
                         </div>
-                        {
-                            stampForm.proposal_id > 0 &&
-                            <div className='basis-3/4 relative'>
-                                <div className='mt-2 ml-2 md:ml-10 shadow-md bg-white p-3'>
-                                    <table className='w-full'>
-                                        <thead>
-                                            <tr>
-                                                <th className='p-3 text-sm text-left font-normal text-black'>Stamp Name</th>
-                                                <th className='p-3 text-sm text-left font-normal text-black'>
-                                                    <div className="flex justify-between">
-                                                        <div>
-                                                            Stamp Value
-                                                        </div>
-                                                        <div>
-                                                            <Button type='button' title='+' onClick={addNewDemoStamp} />
-                                                        </div>
-                                                    </div>
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                stampForm.stamps.map((stamp: IStamp, index: number) => (
-                                                    <tr key={index}>
-                                                        <td className='px-2 py-1'>
-                                                            <Input
-                                                                name='name'
-                                                                value={stamp?.name}
-                                                                label=''
-                                                                placeholder='eg: Stamp 1'
-                                                                inputChange={(name: string, value: any) => changeTextInput(name, value, index)}
-                                                            />
-                                                        </td>
-                                                        <td className='px-2 py-1'>
-                                                            <Input
-                                                                type='number'
-                                                                name='value'
-                                                                value={stamp?.value}
-                                                                label=''
-                                                                placeholder='eg: 10'
-                                                                inputChange={(name: string, value: any) => changeTextInput(name, value, index)}
-                                                            />
-                                                        </td>
-                                                        <td>
-                                                            <button type='button' onClick={() => deleteStamp(index)}>
-                                                                <i className='bi bi-trash text-red-500 cursor-pointer'></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
+                        <div className='basis-3/4 relative'>
+                            <div className='mt-2 ml-2 md:ml-10 shadow-md bg-white p-3'>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_100" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(10)}
+                                    </label>
+                                    <Input
+                                        name='qty_100'
+                                        value={stampStockForm?.qty_100}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_100 > 0 ? parseInt(stampStockForm?.qty_100) * 100 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
                                 </div>
-                                <div className='mt-4 ml-10'>
-                                    <Button
-                                        title="Save"
-                                        type='submit'
-                                        onClick={(e: any) => onSubmit(e)}
-                                        position="text-left"
-                                        loadingTitle="Saving..."
-                                        loading={isSubmitting}
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_50" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(50)}
+                                    </label>
+                                    <Input
+                                        name='qty_50'
+                                        value={stampStockForm?.qty_50}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_50 > 0 ? parseInt(stampStockForm?.qty_50) * 50 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
+                                </div>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_30" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(30)}
+                                    </label>
+                                    <Input
+                                        name='qty_30'
+                                        value={stampStockForm?.qty_30}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_30 > 0 ? parseInt(stampStockForm?.qty_30) * 30 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
+                                </div>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_20" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(20)}
+                                    </label>
+                                    <Input
+                                        name='qty_20'
+                                        value={stampStockForm?.qty_20}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_20 > 0 ? parseInt(stampStockForm?.qty_20) * 20 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
+                                </div>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_10" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(10)}
+                                    </label>
+                                    <Input
+                                        name='qty_10'
+                                        value={stampStockForm?.qty_10}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_10 > 0 ? parseInt(stampStockForm?.qty_10) * 10 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
+                                </div>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="qty_5" className='flex-1 mt-3 font-medium'>
+                                        Stamp of {formatCurrency(5)}
+                                    </label>
+                                    <Input
+                                        name='qty_5'
+                                        value={stampStockForm?.qty_5}
+                                        label=''
+                                        placeholder='eg: 5'
+                                        inputChange={(name: string, value: any) => changeTextInput(name, value)}
+                                        areaClassNames='flex-1'
+                                    />
+                                    <Input
+                                        isDisabled={true}
+                                        value={stampStockForm?.qty_5 > 0 ? parseInt(stampStockForm?.qty_5) * 5 : '0'}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
+                                    />
+                                </div>
+                                <div className="flex flex-row justify-center mb-3">
+                                    <label htmlFor="total" className='flex-1 mt-3 font-medium'>
+                                        Total
+                                    </label>
+                                    <Input
+                                        isDisabled={true}
+                                        value={getTotal()}
+                                        label=''
+                                        areaClassNames='flex-1 ml-3'
                                     />
                                 </div>
                             </div>
-                        }
+                            <div className='mt-4 ml-10'>
+                                <Button
+                                    title="Save"
+                                    type='submit'
+                                    onClick={(e: any) => onSubmit(e)}
+                                    position="text-left"
+                                    loadingTitle="Saving..."
+                                    loading={isSubmitting}
+                                />
+                            </div>
+                        </div>
                     </div>
                 </form>
             </PageContent>

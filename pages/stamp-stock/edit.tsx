@@ -1,13 +1,13 @@
-import StampForm from "@/components/stamps/StampForm";
+import StampStockForm from "@/components/stamp-stocks/StampStockForm";
 import { useRouter } from "next/router";
 
 export default function StampStockEditPage() {
     const router = useRouter()
-    const { proposal_no } = router.query;
+    const { id } = router.query;
 
     return (
-        <StampForm
-            proposalNo={proposal_no}
+        <StampStockForm
+            id={parseInt(id + '')}
             pageType="edit"
         />
     );

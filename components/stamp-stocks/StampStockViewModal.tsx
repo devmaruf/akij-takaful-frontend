@@ -2,13 +2,13 @@ import Modal from '@/components/modal';
 import { IStamp, IStampListItem } from '@/redux/interfaces';
 import { formatCurrency } from '@/utils/currency';
 
-export interface IStampViewModal {
+export interface IStampStockViewModal {
     showModal: boolean;
     setShowModal: (isShown: boolean) => void;
     stamp: IStampListItem | undefined
 }
 
-export default function StampViewModal({ showModal, setShowModal, stamp }: IStampViewModal) {
+export default function StampStockViewModal({ showModal, setShowModal, stamp }: IStampStockViewModal) {
     return (
         <>
             {stamp !== undefined &&

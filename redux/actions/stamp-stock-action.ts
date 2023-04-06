@@ -4,7 +4,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { Toaster } from "@/components/toaster";
 import { IStampForm } from "../interfaces";
 
-export const changeStampInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
+export const changeStampStockInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
     dispatch({
         type: Types.CHANGE_STAMP_STOCK_FORM, payload: {
             name: name,
@@ -43,8 +43,8 @@ export const getStampStockListAction = (currentPage: number = 1, dataLimit: numb
         })
 }
 
-export const getStampsByProposalAction = (proposalNo: string) => (dispatch: Dispatch) => {
-    if (proposalNo === undefined || proposalNo === '') {
+export const getStampStockDetail = (id: number) => (dispatch: Dispatch) => {
+    if (id === undefined || id === 0) {
         return;
     }
 
@@ -54,25 +54,34 @@ export const getStampsByProposalAction = (proposalNo: string) => (dispatch: Disp
         isLoading: true,
         data: {},
     };
-    dispatch({ type: Types.SET_STAMP_STOCK_FORM, payload: response });
+    dispatch({ type: Types.GET_STAMP_STOCK_DETAILS, payload: response });
 
-    axios.get(`stamps/proposals/${proposalNo}`)
+    axios.get(`stamp-stocks/${id}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
             response.data = res.data;
-            dispatch({ type: Types.SET_STAMP_STOCK_FORM, payload: response });
+            dispatch({ type: Types.GET_STAMP_STOCK_DETAILS, payload: response });
             Toaster('success', response.message);
         }).catch((error) => {
             response.isLoading = false;
-            dispatch({ type: Types.SET_STAMP_STOCK_FORM, payload: response })
+            dispatch({ type: Types.GET_STAMP_STOCK_DETAILS, payload: response })
         });
 }
 
-export const submitStampAction = (stampForm: IStampForm, router: any) => (dispatch: Dispatch) => {
-    if (stampForm.proposal_id === undefined || stampForm.proposal_id === 0) {
-        Toaster('error', 'Please search a proposal first.');
+export const submitStampStockAction = (stampForm: IStampForm, router: any, id: number = 0) => (dispatch: Dispatch) => {
+    if (stampForm.challan_no === undefined || stampForm.challan_no === "") {
+        Toaster('error', 'Please give challan no.');
+        return;
+    }
+    if (stampForm.project_id === undefined || stampForm.project_id === "" || stampForm.project_id === 0) {
+        Toaster('error', 'Please select bank.');
+        return;
+    }
+    if (stampForm.branch_id === undefined || stampForm.branch_id === "" || stampForm.branch_id === 0) {
+        Toaster('error', 'Please select branch.');
+        return;
     }
 
     let response = {
@@ -83,7 +92,11 @@ export const submitStampAction = (stampForm: IStampForm, router: any) => (dispat
     };
     dispatch({ type: Types.SAVE_STAMP_STOCK_FORM, payload: response });
 
-    axios.post(`stamps`, stampForm)
+    axios({
+        method: id === 0 ? 'POST' : 'PUT',
+        url: `stamp-stocks${id > 0 ? `/${id}` : ''}`,
+        data: stampForm
+    })
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -91,7 +104,7 @@ export const submitStampAction = (stampForm: IStampForm, router: any) => (dispat
             response.data = res.data;
             dispatch({ type: Types.SAVE_STAMP_STOCK_FORM, payload: response });
             Toaster('success', response.message);
-            router.push('/stamps');
+            router.push('/stamp-stock');
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.SAVE_STAMP_STOCK_FORM, payload: response })

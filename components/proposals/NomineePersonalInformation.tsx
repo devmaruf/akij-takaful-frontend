@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import { IBMI, calculateBMI } from "@/utils/calculation";
+
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
     identityLabel: any;
@@ -18,27 +17,10 @@ export interface IPersonalInformation {
 }
 
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
-
     const { identity_type } = useSelector((state: RootState) => state.proposal);
-
-    const [BMI, setBMI] = useState<IBMI>({
-        bmi: 0,
-        status: ''
-    });
-
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
-
-    const { height, height_inch, weight } = data;
-
-    useEffect(() => {
-        const { bmi, status } = calculateBMI(height, height_inch, weight);
-        setBMI({
-            bmi: bmi,
-            status: status
-        })
-    }, [height, height_inch, weight]);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -186,54 +168,6 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
-                <div className="flex flex-1 w-full">
-                    <Input
-                        areaClassNames='flex-1'
-                        label="Height Feet"
-                        name="height"
-                        type="number"
-                        placeholder="feet, eg: 5"
-                        value={data.height}
-                        isRequired={true}
-                        inputChange={changeNomineeInputVal}
-                        errors={errors}
-                    />
-                    <Input
-                        areaClassNames='flex-1 ml-1'
-                        label="Height Inch"
-                        name="height_inch"
-                        type="number"
-                        placeholder="inch, eg: 6"
-                        value={data.height_inch}
-                        isRequired={true}
-                        inputChange={changeNomineeInputVal}
-                        errors={errors}
-                    />
-                </div>
-                <div className="flex w-full">
-                    <Input
-                        areaClassNames='flex-1'
-                        label="Weight in KG"
-                        name="weight"
-                        type="number"
-                        placeholder="kg; eg: 65"
-                        value={data.weight}
-                        isRequired={true}
-                        inputChange={changeNomineeInputVal}
-                    />
-                    <Input
-                        areaClassNames='flex-1 ml-1 mt-1'
-                        label="(BMI)"
-                        name="bmi"
-                        placeholder="Body Mass Index(BMI)"
-                        value={BMI.bmi}
-                        isRequired={false}
-                        inputChange={changeNomineeInputVal}
-                        errors={errors}
-                        isDisabled={true}
-                        hintText={BMI.status !== '' ? BMI.status : ''}
-                    />
-                </div>
                 <Input
                     label="Allocation"
                     name="allocation"

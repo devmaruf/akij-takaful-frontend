@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Dropdown } from 'flowbite-react';
+import { useRouter } from 'next/router';
+
 import { RootState } from '@/redux/store';
 import PageHeader from '@/components/layouts/PageHeader';
 import Table from '@/components/table';
 import Loading from '@/components/loading';
-import { PageContentList } from '../layouts/PageContentList';
-import { Dropdown } from 'flowbite-react';
-import { useRouter } from 'next/router';
-import StampCountView from './StampCountView';
-import NoTableDataFound from '../table/NoDataFound';
+import { PageContentList } from '@/components/layouts/PageContentList';
+import NoTableDataFound from '@/components/table/NoDataFound';
 import { IStampListItem } from '@/redux/interfaces';
-import StampViewModal from './StampViewModal';
+import StampViewModal from './StampStockViewModal';
 import { Dispatch } from '@reduxjs/toolkit';
-import NewButton from '../button/button-new';
+import NewButton from '@/components/button/button-new';
 import { getStampStockListAction } from '@/redux/actions/stamp-stock-action';
+import { formatCurrency } from '@/utils/currency';
+import ActionButtons from '../button/button-actions';
+import { hasPermission } from '@/utils/permission';
 
 export default function StampStockList() {
   const router = useRouter();
@@ -26,8 +29,10 @@ export default function StampStockList() {
 
   const columnData: any[] = [
     { title: "Challan No", id: 1 },
-    { title: "Stamps", id: 2 },
-    { title: "Action", id: 3 },
+    { title: "Total Amount", id: 2 },
+    { title: "Purchase date", id: 3 },
+    { title: "Receive Date", id: 4 },
+    { title: "Action", id: 5 },
   ]
 
   const { stampStockList, stampStockPaginationData, isLoading } = useSelector((state: RootState) => state.stampStock);
@@ -36,20 +41,49 @@ export default function StampStockList() {
     dispatch(getStampStockListAction(currentPage, dataLimit, searchText));
   }, [currentPage, dataLimit, searchText, dispatch]);
 
-  const showStampDetails = (stamp: IStampListItem) => {
+  const showStampDetails = (stampStock) => {
     setShowModal(true);
-    setStampDetails(stamp);
+    setStampDetails(stampStock);
   }
 
+  const getActionItems = (stampStock) => {
+    const actions = [];
+
+    // if (hasPermission('stamp_stock.view')) {
+    //   actions.push({
+    //     element: 'View',
+    //     onClick: () => showStampDetails(stampStock),
+    //     iconClass: 'eye'
+    //   });
+    // }s
+
+    if (hasPermission('stamp_stock.edit')) {
+      actions.push({
+        element: 'Edit',
+        onClick: () => router.push(`/stamp-stock/edit?id=${stampStock.id}`),
+        iconClass: 'pencil'
+      });
+    }
+
+    // if (hasPermission('stamp_stock.delete')) {
+    //   actions.push({
+    //     element: 'Delete',
+    //     onClick: () => { },
+    //     iconClass: 'trash'
+    //   });
+    // }
+
+    return actions;
+  }
 
   return (
     <div>
       <PageHeader
         title='Stamp Stock'
         searchText={searchText}
-        searchPlaceholder={'Search stamps...'}
+        searchPlaceholder={'Search stamp stocks...'}
         onSearchText={setSearchText}
-        headerRightSide={<NewButton href='/stamp-stock/create' element='New stamp' />}
+        headerRightSide={<NewButton href='/stamp-stock/create' element='New stock' />}
       />
 
       <StampViewModal
@@ -62,7 +96,7 @@ export default function StampStockList() {
         {
           isLoading ?
             <div className="text-center">
-              <Loading loadingTitle="stamps" />
+              <Loading loadingTitle="Stamp stocks..." />
             </div> :
             <Table
               column={columnData}
@@ -71,38 +105,29 @@ export default function StampStockList() {
               dataLimit={dataLimit}
               totalData={stampStockPaginationData.total}
             >
-              {stampStockList && stampStockList.length > 0 && stampStockList.map((stamp: IStampListItem, index: number) => (
+              {stampStockList && stampStockList.length > 0 && stampStockList.map((stampStock: any, index: number) => (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
                   <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
-                    {stamp.challan_no}
+                    {stampStock.challan_no}
                   </th>
                   <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                    <StampCountView stamps={stamp} />
+                    {formatCurrency(stampStock.total)}
+                  </td>
+                  <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    {stampStock.purchase_date}
+                  </td>
+                  <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                    {stampStock.receive_date}
                   </td>
 
                   <td className="px-2 py-3 flex gap-1">
-                    <Dropdown
-                      label={
-                        <div className='mt-1'>
-                          <i className="bi bi-three-dots-vertical hover:text-blue-500"></i>
-                        </div>
-                      }
-                      inline={true}
-                      arrowIcon={false}
-                    >
-                      {/* <Dropdown.Item onClick={() => showStampDetails(stamp)}>
-                        <i className='bi bi-eye mr-4'></i> View
-                      </Dropdown.Item> */}
-                      <Dropdown.Item onClick={() => router.push(`/stamps/edit?proposal_no=${stamp.proposal_no}`)}>
-                        <i className='bi bi-pencil mr-4'></i> Edit
-                      </Dropdown.Item>
-                    </Dropdown>
+                    <ActionButtons items={getActionItems(stampStock)} />
                   </td>
                 </tr>
               ))}
               {
                 stampStockList && stampStockList.length === 0 &&
-                <NoTableDataFound colSpan={3}>No stamps found</NoTableDataFound>
+                <NoTableDataFound colSpan={5}>No stamp stocks found</NoTableDataFound>
               }
             </Table>
         }

@@ -1,8 +1,8 @@
-import StampForm from "@/components/stamps/StampForm";
+import StampStockForm from "@/components/stamp-stocks/StampStockForm";
 
 export default function StampStockCreatePage() {
     return (
-        <StampForm
+        <StampStockForm
             id={0}
             pageType="create"
         />

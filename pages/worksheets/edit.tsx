@@ -58,8 +58,8 @@ export default function EnlistmentPage() {
 
   const debouncedDispatch = useCallback(
     debounce(() => {
-      dispatch(getProposalDetails(id))
-    }, 2000),
+      dispatch(getProposalDetails(id));
+    }, 1000),
     [id]
   );
 

@@ -1,7 +1,6 @@
 import { IStampStock } from "../interfaces";
 import * as Types from "./../types/stamp-stock-types";
 
-
 const initialState: IStampStock = {
     isLoading: false,
     isDeleting: false,
@@ -14,14 +13,14 @@ const initialState: IStampStock = {
         project_id: 0,
         branch_id: 0,
         challan_no: "",
-        qty_100: "",
-        qty_50: "",
-        qty_30: "",
-        qty_20: "",
-        qty_10: "",
-        qty_5: "",
-        purchase_date: "",
-        receive_date: "",
+        qty_100: 0,
+        qty_50: 0,
+        qty_30: 0,
+        qty_20: 0,
+        qty_10: 0,
+        qty_5: 0,
+        purchase_date: new Date(),
+        receive_date: new Date(),
     },
 };
 
@@ -43,23 +42,18 @@ function StampStockReducer(state = initialState, action: any) {
                 stampStockForm,
             };
 
-        // case Types.SET_STAMP_STOCK_FORM:
-        //     return {
-        //         ...state,
-        //         isSearching: action.payload.isLoading,
-        //         stampForm: {
-        //             ...action.payload.data,
-        //             stamps: action.payload.data?.stamps?.length > 0 ?
-        //                 action.payload.data?.stamps :
-        //                 [defaultStampValue]
-        //         },
-        //     };
-
         case Types.SAVE_STAMP_STOCK_FORM:
             return {
                 ...state,
                 isSubmitting: action.payload.isLoading,
-                stampStockForm: action.payload.status ? initialState.stampStockForm  : state.stampStockForm
+                stampStockForm: action.payload.status ? initialState.stampStockForm : state.stampStockForm
+            };
+
+        case Types.GET_STAMP_STOCK_DETAILS:
+            return {
+                ...state,
+                stampStockDetails: action.payload.data,
+                stampStockForm: action.payload.data
             };
 
         default:

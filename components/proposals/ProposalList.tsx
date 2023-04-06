@@ -58,13 +58,12 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
 
     const columnData: any[] = [
         { title: "Proposal No", id: 1 },
-        { title: "Plan", id: 2 },
-        { title: "Proposer Info", id: 3 },
-        { title: "Agent", id: 4 },
-        { title: "Initial Sum Assured", id: 5 },
-        { title: "Initial Premium", id: 6 },
-        { title: "Status", id: 7 },
-        { title: "Action", id: 8 },
+        { title: "Proposer Info", id: 2 },
+        { title: "Introducer", id: 3 },
+        { title: "Initial Sum Assured", id: 4 },
+        { title: "Initial Premium", id: 5 },
+        { title: "Status", id: 6 },
+        { title: "Action", id: 7 },
     ];
 
     const getActionItems = (data: any) => {
@@ -161,9 +160,6 @@ export default function ProposalList({ isWorksheet = false }: IProposalList) {
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {data.proposal_no}
                                         </th>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {data.plan_name ?? '-'}
-                                        </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                             <b>{data.proposer_name ?? '-'}</b> <br />
                                             {

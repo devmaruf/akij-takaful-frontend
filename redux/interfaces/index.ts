@@ -355,6 +355,5 @@ export interface IStampStock {
     stampStockList: any[];
     stampStockPaginationData: any[];
     stampStockDetails: any;
-    productDropdownList: Array<ISelect2Item>
     stampStockForm: any
 }
