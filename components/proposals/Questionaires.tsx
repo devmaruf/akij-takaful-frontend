@@ -1,11 +1,13 @@
 import { Label, ToggleSwitch } from "flowbite-react";
 import { useSelector } from "react-redux";
+import ReactHtmlParser from 'react-html-parser';
+
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
 
 export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const { underwriting_questionnaires } = proposalInput;
+  const { proposal_personal_information, underwriting_questionnaires } = proposalInput;
 
   const onHandleChangeTextInput = (index: number, questionnaire: any, isChecked: boolean) => {
     const updatedQuestionnaires = [...underwriting_questionnaires];
@@ -28,7 +30,7 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
           <Label key={questionnaire.id}>
             <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
               <p className="basis-4/5">
-                {questionnaire.requirement_name_en}
+                {ReactHtmlParser(questionnaire.requirement_name_en)}
               </p>
               <div>
                 <ToggleSwitch
