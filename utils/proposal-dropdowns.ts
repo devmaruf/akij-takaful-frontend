@@ -23,8 +23,8 @@ export const GenderList = [
 
 export const identityTypeList = [
     { label: "NID", value: "nid" },
-    { label: "BRC", value: "brc" },
-    { label: "PASSPORT", value: "passport" },
+    { label: "Birth Certificate", value: "brc" },
+    { label: "Passport", value: "passport" },
 ];
 
 export const relationList = [

@@ -15,7 +15,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
-        Premium Information
+        Bank & Branch Information
       </h3>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
         <Input
@@ -42,7 +42,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           errors={errors}
           handleChangeValue={onChangeText}
         />
-        <Select
+        {/* <Select
           options={productDropdownList}
           isSearchable={true}
           name="product_id"
@@ -52,8 +52,8 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           isRequired={true}
           errors={errors}
           handleChangeValue={onChangeText}
-        />
-        <Input
+        /> */}
+        {/* <Input
           type="number"
           label="Initial Sum Assured"
           name="initial_sum_assured"
@@ -63,8 +63,8 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           inputChange={onChangeText}
           errors={errors}
           minValue={0}
-        />
-        <Input
+        /> */}
+        {/* <Input
           type="number"
           label="Initial Premium"
           name="initial_premium"
@@ -75,7 +75,7 @@ export function PremiumInformation({ onChangeText, errors }: IProposalFormSectio
           errors={errors}
           minValue={0}
           maxValue={proposalInput?.initial_sum_assured}
-        />
+        /> */}
         <Select
           options={agentsDropdownList}
           isSearchable={true}

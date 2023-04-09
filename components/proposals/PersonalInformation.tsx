@@ -11,11 +11,7 @@ import { IProposalFormSection } from "@/redux/interfaces";
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
   const personalInformation = proposalInput.proposal_personal_information;
-
-  const height = personalInformation.height;
-  const heightInch = personalInformation.height_inch;
-  const weight = personalInformation.weight;
-  const dob = personalInformation.dob;
+  const { height, height_inch: heightInch, weight, dob } = personalInformation;
   const [age, setAge] = useState(0);
   const [BMI, setBMI] = useState<IBMI>({
     bmi: 0,

@@ -37,6 +37,25 @@ export default function Input({
   checked = false
 }: IInput) {
 
+  const hasInputError = typeof errors !== "undefined" && errors !== null && errors[name];
+
+  const getInputClasses = () => {
+    return `shadow-sm 
+      border 
+      ${hasInputError ? 'bg-red-50 border border-red-500 text-red-900' :
+        'border-gray-300 text-gray-900 '}
+      sm:text-sm 
+      rounded-md 
+      focus:ring-cyan-600 
+      focus:border-cyan-600 
+      block 
+      w-full 
+      p-2 
+      my-2 
+      ${isDisabled ? 'bg-gray-100' : 'bg-gray-50'}
+      `;
+  }
+
   return (
     <div className={areaClassNames}>
       <label
@@ -50,11 +69,12 @@ export default function Input({
       {
         type === 'textarea' &&
         <textarea
+          id={name}
           name={name}
           value={value}
           disabled={isDisabled}
           required={isRequired}
-          className={`shadow-sm border border-gray-300 text-gray-900 sm: text-sm rounded-md focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2 my-2 ${isDisabled ? 'bg-gray-100' : 'bg-gray-50'}`}
+          className={getInputClasses()}
           placeholder={placeholder}
           onChange={inputChange && ((e) => inputChange(name, e.target.value))}
           rows={rows}
@@ -64,6 +84,7 @@ export default function Input({
       {
         type !== 'textarea' && type !== 'checkbox' &&
         <input
+          id={name}
           type={type}
           name={name}
           value={value}
@@ -71,7 +92,7 @@ export default function Input({
           required={isRequired}
           min={minValue && minValue}
           max={maxValue && maxValue}
-          className={`shadow-sm border border-gray-300 text-gray-900 sm: text-sm rounded-md focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2 my-2 ${isDisabled ? 'bg-gray-100' : 'bg-gray-50'}`}
+          className={getInputClasses()}
           placeholder={placeholder}
           onChange={inputChange && ((e) => inputChange(name, e.target.value))}
         />
@@ -80,6 +101,7 @@ export default function Input({
       {
         type === 'checkbox' &&
         <input
+          id={name}
           type={type}
           name={name}
           value={value}
@@ -93,10 +115,11 @@ export default function Input({
       }
 
       {
-        typeof errors !== "undefined" && errors !== null && errors[name] && (
+        hasInputError && (
           <ValidationMessage message={errors[name]} />
         )
       }
+
       {
         hintText !== '' &&
         <p className="text-gray-500 mt-1 text-xs">{hintText}</p>

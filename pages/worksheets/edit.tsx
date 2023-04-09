@@ -152,6 +152,17 @@ export default function EnlistmentPage() {
               />
 
               {
+                proposalInput.proposer_bank_information !== undefined &&
+                proposalInput.proposer_bank_information !== null &&
+                <BankInformation
+                  onChangeText={(name: string, value: any) => {
+                    onChangeFormSectionInput(name, value, 'proposer_bank_information')
+                  }}
+                  errors={errors}
+                />
+              }
+
+              {
                 proposalInput.proposal_personal_information !== undefined &&
                 proposalInput.proposal_personal_information !== null &&
                 <PersonalInformation
@@ -188,17 +199,6 @@ export default function EnlistmentPage() {
                 <GuardianInformation
                   onChangeText={(name: string, value: any) => {
                     onChangeFormSectionInput(name, value, 'proposer_guardian')
-                  }}
-                  errors={errors}
-                />
-              }
-
-              {
-                proposalInput.proposer_bank_information !== undefined &&
-                proposalInput.proposer_bank_information !== null &&
-                <BankInformation
-                  onChangeText={(name: string, value: any) => {
-                    onChangeFormSectionInput(name, value, 'proposer_bank_information')
                   }}
                   errors={errors}
                 />
