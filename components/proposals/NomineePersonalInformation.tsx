@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import { GenderList, getIdentityLabel, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -107,6 +107,8 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     name="mobile_no"
                     placeholder="Mobile No"
                     value={data.mobile_no}
+                    minLength={11}
+                    maxLength={11}
                     isRequired={true}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
@@ -124,14 +126,14 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
 
                 <div>
                     <Input
-                        label={identity_type.label}
+                        label={getIdentityLabel(data.identity_type)}
                         name="id_no"
-                        placeholder={identity_type.label}
-                        isDisabled={identity_type.isDisabledField}
+                        placeholder={`Enter ${getIdentityLabel(data.identity_type)}`}
+                        isDisabled={data.identity_type === ''}
                         value={data.id_no}
                         isRequired={true}
-                        minValue={identity_type.minLength}
-                        maxValue={identity_type.maxLength}
+                        // minValue={identity_type.minLength}
+                        // maxValue={identity_type.maxLength}
                         inputChange={changeNomineeInputVal}
                         errors={errors}
                         hintText={identity_type.message}

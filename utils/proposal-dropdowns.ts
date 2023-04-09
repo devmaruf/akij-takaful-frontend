@@ -27,6 +27,11 @@ export const identityTypeList = [
     { label: "Passport", value: "passport" },
 ];
 
+export const getIdentityLabel = (value: string) => {
+    const identity = identityTypeList.find((i) => i.value === value);
+    return identity ? identity.label : "NID";
+}
+
 export const relationList = [
     { label: "Father", value: "father" },
     { label: "Mother", value: "mother" },

@@ -14,6 +14,7 @@ interface IBankSelect {
     name?: string;
     label?: string;
     placeholder?: string;
+    isRequired?: boolean;
 }
 
 function BankSelect({
@@ -21,7 +22,8 @@ function BankSelect({
     changeTextInput,
     name = 'project_id',
     label = 'Bank',
-    placeholder = 'Select Bank...'
+    placeholder = 'Select Bank...',
+    isRequired = true
 }: IBankSelect) {
     const dispatch = useDispatch();
     const { projectDropdownList } = useSelector((state: RootState) => state.Project);
@@ -51,6 +53,7 @@ function BankSelect({
             isSearchable={true}
             name={name}
             label={label}
+            isRequired={isRequired}
             defaultValue={defaultValue}
             placeholder={placeholder}
             handleChangeValue={changeTextInput}

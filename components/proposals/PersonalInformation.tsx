@@ -119,6 +119,8 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           placeholder="Mobile No"
           value={personalInformation.mobile_no}
           isRequired={true}
+          minLength={11}
+          maxLength={11}
           inputChange={onChangeText}
           errors={errors}
         />

@@ -13,6 +13,8 @@ interface IInput {
   errors?: any;
   minValue?: any;
   maxValue?: any;
+  minLength?: any;
+  maxLength?: any;
   areaClassNames?: string;
   hintText?: string;
   rows?: number;
@@ -34,7 +36,9 @@ export default function Input({
   areaClassNames = '',
   hintText = '',
   rows = 3,
-  checked = false
+  checked = false,
+  minLength,
+  maxLength
 }: IInput) {
 
   const hasInputError = typeof errors !== "undefined" && errors !== null && errors[name];
@@ -93,6 +97,8 @@ export default function Input({
           min={minValue && minValue}
           max={maxValue && maxValue}
           className={getInputClasses()}
+          minLength={minLength && minLength}
+          maxLength={maxLength && maxLength}
           placeholder={placeholder}
           onChange={inputChange && ((e) => inputChange(name, e.target.value))}
         />
