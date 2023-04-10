@@ -417,3 +417,73 @@ export const isNomineeSameAddressCheck = (status: boolean, permanentAddress: any
 
     dispatch({ type: Types.IS_NOMINEE_SAME_ADDRESS, payload: { proposalInputUpdated, status } });
 }
+
+export const getConcurrentProposalsAction = (
+    mobileNo: string = '',
+    idType: string = '',
+    idNo: string = '',
+    currentPage: number = 1,
+) => (dispatch: Dispatch) => {
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: [],
+        paginationData: [],
+    };
+
+    dispatch({ type: Types.GET_CONCURRENT_PROPOSAL_LIST, payload: response });
+
+    axios.post(`/proposals/information/concurrent-proposals?page=${currentPage}`, {
+        "mobile_no": mobileNo,
+        "id_type": idType,
+        "id_no": idNo
+    })
+        .then(res => {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.data.message;
+            response.data = res.data.data;
+            response.paginationData = res.data;
+            dispatch({ type: Types.GET_CONCURRENT_PROPOSAL_LIST, payload: response });
+        })
+        .catch(error => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_CONCURRENT_PROPOSAL_LIST, payload: response });
+        });
+}
+
+export const getPreviousPoliciesAction = (
+    mobileNo: string = '',
+    idType: string = '',
+    idNo: string = '',
+    currentPage: number = 1,
+) => (dispatch: Dispatch) => {
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: [],
+        paginationData: [],
+    };
+
+    dispatch({ type: Types.GET_PREVIOUS_POLICY_LIST, payload: response });
+
+    axios.post(`/proposals/information/previous-policies?page=${currentPage}`, {
+        "mobile_no": mobileNo,
+        "id_type": idType,
+        "id_no": idNo
+    })
+        .then(res => {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.data.message;
+            response.data = res.data.data;
+            response.paginationData = res.data;
+            dispatch({ type: Types.GET_PREVIOUS_POLICY_LIST, payload: response });
+        })
+        .catch(error => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_PREVIOUS_POLICY_LIST, payload: response });
+        });
+}

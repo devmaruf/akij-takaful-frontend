@@ -28,6 +28,7 @@ import { NomineeForm } from "@/components/proposals/NomineeForm";
 import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
+import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -208,6 +209,8 @@ export default function EnlistmentPage() {
                 proposalInput.proposer_nominees !== undefined &&
                 <NomineeForm errors={errors} />
               }
+    
+              <PreviousConcurrentPolicyStatus />
 
               {
                 proposalInput.proposal_personal_information !== undefined &&

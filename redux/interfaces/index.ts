@@ -1,3 +1,7 @@
+export interface ITableColumnData {
+    id: number;
+    title: string;
+}
 
 export interface IAuthReducer {
     isLoading: boolean;
@@ -190,15 +194,25 @@ export interface IProposalView extends IProposalBasicInput {
 }
 
 export interface IProposal {
-    isLoading: boolean;
     isDeleting: boolean;
     isSubmitting: boolean;
     planDropdownList: any[];
+
     proposalsList: any[];
+    isLoading: boolean;
+    paginationData: any[];
+
+    concurrentProposalsList: any[];
+    isConcurrentListLoading: boolean;
+    concurrentPaginationData: any[];
+
+    previousPoliciesList: any[];
+    isPreviousPolicListLoading: boolean;
+    previousPaginationData: any[];
+
     loadingDetails: boolean;
     isSameAddress: boolean;
     isNomineeSameAddress: boolean;
-    paginationData: any[];
     proposalDetails: any;
     proposalInput: IProposalBasicInput;
     printProposalList: Array<IProposalBasicInput>,

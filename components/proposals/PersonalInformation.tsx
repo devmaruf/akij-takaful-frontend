@@ -43,7 +43,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={personalInformation.full_name}
+          value={personalInformation.full_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -52,7 +52,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Father Name"
           name="father_name"
           placeholder="Father Name"
-          value={personalInformation.father_name}
+          value={personalInformation.father_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -61,7 +61,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Mother Name"
           name="mother_name"
           placeholder="Mother Name"
-          value={personalInformation.mother_name}
+          value={personalInformation.mother_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -72,7 +72,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           name="gender"
           label="Gender"
-          defaultValue={personalInformation.gender}
+          defaultValue={personalInformation.gender ?? ''}
           placeholder="Gender"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -83,7 +83,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           label="Marital Status"
           name="marital_status"
-          defaultValue={personalInformation.marital_status}
+          defaultValue={personalInformation.marital_status ?? ''}
           placeholder="Marital Status"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -98,7 +98,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             placeholder={
               `${personalInformation?.gender === 'female' ? 'Husband' : 'Spouse'} name`
             }
-            value={personalInformation.spouse_name}
+            value={personalInformation.spouse_name ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -108,7 +108,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Email Address"
           name="email"
           placeholder="Email Address"
-          value={personalInformation.email}
+          value={personalInformation.email ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -117,7 +117,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Mobile No"
           name="mobile_no"
           placeholder="Mobile No"
-          value={personalInformation.mobile_no}
+          value={personalInformation.mobile_no ?? ''}
           isRequired={true}
           minLength={11}
           maxLength={11}
@@ -128,7 +128,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           options={identityTypeList}
           isSearchable={true}
           name="identity_type"
-          defaultValue={personalInformation.identity_type}
+          defaultValue={personalInformation.identity_type ?? ''}
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={onChangeText}
@@ -140,7 +140,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="id_no"
             placeholder={identity_type.label}
             isDisabled={identity_type.isDisabledField}
-            value={personalInformation.id_no}
+            value={personalInformation.id_no ?? ''}
             isRequired={true}
             minValue={identity_type.minLength}
             maxValue={identity_type.maxLength}
@@ -154,7 +154,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           name="dob"
           placeholder="Date of Birth"
           type="date"
-          value={personalInformation.dob}
+          value={personalInformation.dob ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -163,7 +163,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Occupation"
           name="occupation"
           placeholder="Occupation"
-          value={personalInformation.occupation}
+          value={personalInformation.occupation ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -181,7 +181,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isSearchable={true}
           name="religion"
           label="Religion"
-          defaultValue={personalInformation.religion}
+          defaultValue={personalInformation.religion ?? ''}
           placeholder="Select Religion"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -193,7 +193,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="height"
             type="number"
             placeholder="feet, eg: 5"
-            value={personalInformation.height}
+            value={personalInformation.height ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -204,7 +204,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="height_inch"
             type="number"
             placeholder="inch, eg: 6"
-            value={personalInformation.height_inch}
+            value={personalInformation.height_inch ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -217,7 +217,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="weight"
             type="number"
             placeholder="kg; eg: 65"
-            value={personalInformation.weight}
+            value={personalInformation.weight ?? ''}
             isRequired={true}
             inputChange={onChangeText}
           />
@@ -226,7 +226,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             label="Body Mass Index - (BMI)"
             name="bmi"
             placeholder="Body Mass Index(BMI)"
-            value={BMI.bmi}
+            value={BMI.bmi ?? ''}
             isRequired={false}
             inputChange={onChangeText}
             errors={errors}
@@ -239,7 +239,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Allocation"
           name="allocation"
           placeholder="Allocation"
-          value={personalInformation.allocation}
+          value={personalInformation.allocation ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}

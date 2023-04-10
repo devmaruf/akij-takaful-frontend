@@ -18,7 +18,7 @@ export function BankInformation({ onChangeText, errors }: IProposalFormSection) 
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={bankInformation.bank_name}
+          value={bankInformation.bank_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -28,7 +28,7 @@ export function BankInformation({ onChangeText, errors }: IProposalFormSection) 
           label="Branch Name"
           name="bank_branch_name"
           placeholder="Branch Name"
-          value={bankInformation.bank_branch_name}
+          value={bankInformation.bank_branch_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -39,7 +39,7 @@ export function BankInformation({ onChangeText, errors }: IProposalFormSection) 
           type="number"
           name="bank_account_no"
           placeholder="Account No"
-          value={bankInformation.bank_account_no}
+          value={bankInformation.bank_account_no ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -49,7 +49,7 @@ export function BankInformation({ onChangeText, errors }: IProposalFormSection) 
           label="Account Holder Name"
           name="bank_account_holder_name"
           placeholder="Account Holder Name"
-          value={bankInformation.bank_account_holder_name}
+          value={bankInformation.bank_account_holder_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
