@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { RootState } from "@/redux/store";
-import { IProposalFormSection } from "@/redux/interfaces";
 import Input from "@/components/input";
 import Select from "@/components/select";
+import { RootState } from "@/redux/store";
+import { IProposalFormSection } from "@/redux/interfaces";
 import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 
@@ -18,17 +18,15 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   const {
     proposal_personal_information,
     mode,
-    is_dps,
     rider_selection: riderSelection,
     rider_class: riderClass,
     term
   } = proposalInput;
   const { productDropdownList, productDetails, loadingDetails } = useSelector((state: RootState) => state.product);
-  const isDisabledBasicPremium = !is_dps;
-  const isDisabledSumAssured = is_dps;
+  const isDisabledBasicPremium = !productDetails?.is_dps;
+  const isDisabledSumAssured = productDetails?.is_dps;
   const riderSumAssured = proposalInput?.rider_sum_assured ?? proposalInput.initial_sum_assured;
   const { dob, age } = proposal_personal_information;
-  console.log('productDetails', productDetails);
 
   const onChangeRiderClass = (name: string, value: string) => {
     if (value === 'class1') {
@@ -54,7 +52,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   const debouncedDispatch = useCallback(
     debounce(() => {
       if (proposalInput.product_id > 0) {
-        console.log('called');
         dispatch(getProductDetailsAction(proposalInput.product_id));
       }
     }, 500),
@@ -91,14 +88,10 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       return null;
     }
 
-    console.log('productDetails?.rates', productDetails?.rates);
-    console.log('parseInt(age)',  parseInt(age));
-    console.log('proposalInput?.term',  proposalInput?.term);
-
     if (productDetails?.rates?.length > 0) {
       const rateDetail = productDetails.rates.find(obj =>
         parseInt(obj.age) === parseInt(age)
-        && parseInt(obj.term) === parseInt(proposalInput?.term)
+        && parseInt(obj.term) === parseInt(term)
       );
 
       return parseFloat(rateDetail?.rate ?? 0).toFixed(3);
@@ -142,12 +135,15 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     onChangeText('rider_premium', riderPremimum.toFixed(3));
   }
 
+  /**
+   * Calculate Basic Premium amount.
+   *
+   * Yearly&Single=(sum assured * rate)/1000 [Rate comes based on Product]
+   * halfYearly=(sum assured * rate)/1000*.525 [Rate comes based on Product]
+   * Quarterly=(sum assured * rate)/1000*.275 [Rate comes based on Product]
+   * monthly=(sum assured * rate)/1000*.0925 [Rate comes based on Product]
+   */
   const calculateBasicPremium = () => {
-    // Yearly&Single=(sum assured * rate)/1000 [Rate comes based on Product]
-    // halfYearly=(sum assured * rate)/1000*.525 [Rate comes based on Product]
-    // Quarterly=(sum assured * rate)/1000*.275 [Rate comes based on Product]
-    // monthly=(sum assured * rate)/1000*.0925 [Rate comes based on Product]
-
     let basicPremium = 0;
     const productRate = parseFloat(`${getProductRate() ?? 0}`);
     const sumAssured = proposalInput.initial_sum_assured;
@@ -165,6 +161,12 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     }
 
     onChangeText('initial_premium', basicPremium.toFixed(3));
+  }
+
+  const calculateSumAssured = () => {
+    let sumAssured = proposalInput.initial_premium * 12;
+
+    onChangeText('initial_sum_assured', sumAssured.toFixed(3));
   }
 
   /**
@@ -186,14 +188,30 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   }, [riderSelection, mode, riderSumAssured, riderClass]);
 
   useEffect(() => {
-    calculateBasicPremium();
+    if (isDisabledBasicPremium) {
+      calculateBasicPremium();
+    } else {
+      calculateSumAssured();
+    }
   }, [
     proposalInput.initial_sum_assured,
     proposalInput?.product_id,
     proposalInput?.term,
     age,
+    isDisabledBasicPremium
   ]);
 
+  useEffect(() => {
+    if (!isDisabledBasicPremium) {
+      calculateSumAssured();
+    }
+  }, [
+    proposalInput.initial_premium,
+    proposalInput?.product_id,
+    proposalInput?.term,
+    age,
+    isDisabledBasicPremium
+  ]);
 
   useEffect(() => {
     getTotalPremium();
@@ -203,6 +221,14 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     proposalInput.occupation_extra,
     proposalInput.extra_mortality,
   ]);
+
+  useEffect(() => {
+    if (isDisabledSumAssured) {
+      onChangeText('mode', 'monthly');
+    } else {
+      onChangeText('mode', '');
+    }
+  }, [isDisabledSumAssured]);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -273,13 +299,17 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           />
 
           <Select
-            options={productModesDropdown}
+            options={
+              (productDetails?.modes !== undefined && productDetails?.modes?.length > 0) ? 
+              productDetails?.modes : productModesDropdown
+            }
             isSearchable={false}
             name="mode"
             label="Mode"
             defaultValue={proposalInput?.mode}
             placeholder="Select Mode..."
             isRequired={true}
+            isDisabled={isDisabledSumAssured}
             errors={errors}
             handleChangeValue={onChangeText}
           />
@@ -450,9 +480,9 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           <Input
             type="number"
-            label="Initial Sum Assured"
+            label="Sum Assured"
             name="initial_sum_assured"
-            placeholder="Initial Sum Assured"
+            placeholder="Sum Assured"
             value={proposalInput?.initial_sum_assured}
             isRequired={true}
             isDisabled={isDisabledSumAssured}
