@@ -22,7 +22,7 @@ export const productModesDropdown = [
         value: 'half_yearly',
     },
     {
-        label: 'Quarterky',
+        label: 'Quarterly',
         value: 'quarterly',
     },
     {
@@ -34,3 +34,18 @@ export const productModesDropdown = [
         value: 'monthly',
     }
 ];
+
+export const riderClassDropdown = [
+    {
+        label: 'Class-01',
+        value: 'class1',
+    },
+    {
+        label: 'Class-02',
+        value: 'class2',
+    },
+    {
+        label: 'Class-03',
+        value: 'class3',
+    },
+]

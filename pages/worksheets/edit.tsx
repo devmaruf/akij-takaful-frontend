@@ -12,11 +12,11 @@ import {
   updateProposal,
 } from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
+import BankBranchInformation from "@/components/proposals/BankBranchInformation";
+import ClientBankInformation from "@/components/proposals/ClientBankInformation";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
-import { PremiumInformation } from "@/components/proposals/PremiumInformation";
 import { AddressInformation } from "@/components/proposals/AddressInformation";
 import { GuardianInformation } from "@/components/proposals/GuardianInformation";
-import { BankInformation } from "@/components/proposals/BankInformation";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 import { formValidation } from "@/utils/formValidation";
@@ -29,6 +29,7 @@ import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
 import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
+import PremiumInformation from "@/components/proposals/PremiumInformation";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -147,7 +148,7 @@ export default function EnlistmentPage() {
               onSubmit={(e) => handleSubmitProposal(e)}
               noValidate
             >
-              <PremiumInformation
+              <BankBranchInformation
                 onChangeText={handleChangeTextInput}
                 errors={errors}
               />
@@ -155,7 +156,7 @@ export default function EnlistmentPage() {
               {
                 proposalInput.proposer_bank_information !== undefined &&
                 proposalInput.proposer_bank_information !== null &&
-                <BankInformation
+                <ClientBankInformation
                   onChangeText={(name: string, value: any) => {
                     onChangeFormSectionInput(name, value, 'proposer_bank_information')
                   }}
@@ -209,8 +210,13 @@ export default function EnlistmentPage() {
                 proposalInput.proposer_nominees !== undefined &&
                 <NomineeForm errors={errors} />
               }
-    
+
               <PreviousConcurrentPolicyStatus />
+
+              <PremiumInformation
+                onChangeText={handleChangeTextInput}
+                errors={errors}
+              />
 
               {
                 proposalInput.proposal_personal_information !== undefined &&

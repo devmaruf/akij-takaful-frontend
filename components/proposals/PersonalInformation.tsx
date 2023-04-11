@@ -7,23 +7,17 @@ import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
+import { getCurrentDate } from "@/utils/date-helper";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
   const personalInformation = proposalInput.proposal_personal_information;
-  const { height, height_inch: heightInch, weight, dob } = personalInformation;
-  const [age, setAge] = useState(0);
+  const { height, height_inch: heightInch, weight, dob, age } = personalInformation;
+
   const [BMI, setBMI] = useState<IBMI>({
     bmi: 0,
     status: ''
   });
-
-  useEffect(() => {
-    if (typeof dob !== "undefined") {
-      const getAge = calculateAge(dob);
-      setAge(getAge);
-    }
-  }, [dob, age])
 
   useEffect(() => {
     const { bmi, status } = calculateBMI(height, heightInch, weight);
@@ -31,14 +25,28 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
       bmi: bmi,
       status: status
     })
-  }, [height, heightInch, weight])
+  }, [height, heightInch, weight]);
+
+  const onChangeDob = (name: string, value: string) => {
+    onChangeText(name, value);
+
+    if (typeof value !== "undefined") {
+      onChangeText('age', calculateAge(dob));
+    }
+  }
+
+  useEffect(() => {
+    if (typeof dob !== "undefined") {
+      onChangeText('age', calculateAge(dob));
+    }
+  }, [dob]);
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
+      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
         Personal Information
       </h3>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           label="Full Name"
           name="full_name"
@@ -156,8 +164,13 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           type="date"
           value={personalInformation.dob ?? ''}
           isRequired={true}
-          inputChange={onChangeText}
+          inputChange={onChangeDob}
           errors={errors}
+          maxValue={getCurrentDate()}
+          hintText={
+            isNaN(age) ? '' :
+              `Calculated age - ${age} year${age > 1 ? 's' : ''}`
+          }
         />
         <Input
           label="Occupation"
@@ -223,7 +236,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           />
           <Input
             areaClassNames='flex-1 ml-1 mt-1'
-            label="Body Mass Index - (BMI)"
+            label="BMI"
             name="bmi"
             placeholder="Body Mass Index(BMI)"
             value={BMI.bmi ?? ''}
