@@ -12,11 +12,11 @@ export function GuardianInformation({ onChangeText, errors }: IProposalFormSecti
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
+      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
         Guardian Information
       </h3>
 
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3" >
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-4" >
         <Input
           label="Guardian Name"
           name="name"

@@ -1,6 +1,6 @@
 import ValidationMessage from "../validationMessage";
 
-interface IInput {
+interface IReactHookFormInput {
   name?: string;
   value?: any;
   inputChange?: void | any;
@@ -13,15 +13,16 @@ interface IInput {
   errors?: any;
   minValue?: any;
   maxValue?: any;
-  minLength?: any;
-  maxLength?: any;
   areaClassNames?: string;
   hintText?: string;
   rows?: number;
   checked?: boolean;
+  register?: any;
+  validations?: any;
+  validationMessages?: any;
 }
 
-export default function Input({
+export default function ReactHookFormInput({
   name = "text",
   value,
   inputChange,
@@ -37,9 +38,10 @@ export default function Input({
   hintText = '',
   rows = 3,
   checked = false,
-  minLength,
-  maxLength
-}: IInput) {
+  register,
+  validations,
+  validationMessages
+}: IReactHookFormInput) {
 
   const hasInputError = typeof errors !== "undefined" && errors !== null && errors[name];
 
@@ -88,6 +90,12 @@ export default function Input({
       {
         type !== 'textarea' && type !== 'checkbox' &&
         <input
+          {
+          ...register(
+            name,
+            validations
+          )
+          }
           id={name}
           type={type}
           name={name}
@@ -97,10 +105,10 @@ export default function Input({
           min={minValue && minValue}
           max={maxValue && maxValue}
           className={getInputClasses()}
-          minLength={minLength && minLength}
-          maxLength={maxLength && maxLength}
           placeholder={placeholder}
-          onChange={inputChange && ((e) => inputChange(name, e.target.value))}
+          onChange={
+            inputChange && ((e) => inputChange(name, e.target.value))
+          }
         />
       }
 
@@ -120,9 +128,29 @@ export default function Input({
         />
       }
 
+      {/* {
+        hasInputError && (
+          <ValidationMessage
+            message={
+              errors[name]?.type === 'required' ?
+                validationMessages?.required :
+                errors[name]?.type === 'minLength' ?
+                  validationMessages?.minLength :
+                  errors[name]?.type === 'maxLength' ?
+                    validationMessages?.maxLength :
+                    errors[name]?.type === 'regex' ?
+                      validationMessages?.regex : ''
+            }
+          />
+        )
+      } */}
       {
         hasInputError && (
-          <ValidationMessage message={errors[name]} />
+          <ValidationMessage
+            message={
+              errors[name]?.message
+            }
+          />
         )
       }
 

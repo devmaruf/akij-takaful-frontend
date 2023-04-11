@@ -15,7 +15,7 @@ const defaultProposerNominee = {
         email: '',
         mobile_no: '',
         marital_status: '',
-        identity_type: '',
+        identity_type: 'nid',
         gender: '',
         id_no: '',
         dob: '',
@@ -83,6 +83,15 @@ const initialState: IProposal = {
     isSubmitting: false,
     proposalsList: [],
     paginationData: [],
+
+    concurrentProposalsList: [],
+    isConcurrentListLoading: false,
+    concurrentPaginationData: [],
+
+    previousPoliciesList: [],
+    isPreviousPolicListLoading: false,
+    previousPaginationData: [],
+
     loadingDetails: false,
     planDropdownList: [],
     proposalDetails: {},
@@ -99,7 +108,9 @@ const initialState: IProposal = {
         initial_premium: 0,
         proposer_name: '',
         phone_no: '',
-        proposal_personal_information: {},
+        proposal_personal_information: {
+            identity_type: 'nid'
+        },
         proposer_present_address: {},
         proposer_permanent_address: {},
         proposer_bank_information: {},
@@ -199,6 +210,22 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposalsList: action.payload.data,
                 paginationData: action.payload.paginationData,
                 isLoading: action.payload.isLoading,
+            };
+
+        case Types.GET_CONCURRENT_PROPOSAL_LIST:
+            return {
+                ...state,
+                concurrentProposalsList: action.payload.data,
+                concurrentPaginationData: action.payload.paginationData,
+                isConcurrentListLoading: action.payload.isLoading,
+            };
+
+        case Types.GET_PREVIOUS_POLICY_LIST:
+            return {
+                ...state,
+                previousPoliciesList: action.payload.data,
+                previousPaginationData: action.payload.paginationData,
+                isPreviousPolicListLoading: action.payload.isLoading,
             };
 
         case Types.GET_PROPOSAL_DETAILS:

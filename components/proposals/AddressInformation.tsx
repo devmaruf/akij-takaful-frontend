@@ -27,12 +27,12 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
+      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
         Address Information
       </h3>
 
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3 border-b pb-5">
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-4 border-b pb-5">
         <Select
           options={permanentDivisions}
           isSearchable={true}
@@ -107,7 +107,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
       // className={isSameAddress ? 'block' : 'hidden'}
       >
         <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
-        <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+        <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           <Select
             options={presentDivisions}
             isSearchable={true}

@@ -19,8 +19,8 @@ const initialState: IStampStock = {
         qty_20: 0,
         qty_10: 0,
         qty_5: 0,
-        purchase_date: new Date(),
-        receive_date: new Date(),
+        purchase_date: new Date().toISOString(),
+        receive_date: new Date().toISOString(),
     },
 };
 

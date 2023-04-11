@@ -73,7 +73,10 @@ export default function Select({
         className="text-sm font-medium text-gray-900 block mb-2"
       >
         {label}
-        {isRequired && <span className="text-red-600 text-base"> * </span>}
+        {isRequired ?
+          <span className="text-red-600 text-base"> * </span> :
+          <span className="text-red-600 text-base"> &nbsp; </span>
+        }
       </label>
 
       <div className="my-2">

@@ -7,27 +7,17 @@ import Select from "@/components/select";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
+import { getCurrentDate } from "@/utils/date-helper";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
   const personalInformation = proposalInput.proposal_personal_information;
+  const { height, height_inch: heightInch, weight, dob, age } = personalInformation;
 
-  const height = personalInformation.height;
-  const heightInch = personalInformation.height_inch;
-  const weight = personalInformation.weight;
-  const dob = personalInformation.dob;
-  const [age, setAge] = useState(0);
   const [BMI, setBMI] = useState<IBMI>({
     bmi: 0,
     status: ''
   });
-
-  useEffect(() => {
-    if (typeof dob !== "undefined") {
-      const getAge = calculateAge(dob);
-      setAge(getAge);
-    }
-  }, [dob, age])
 
   useEffect(() => {
     const { bmi, status } = calculateBMI(height, heightInch, weight);
@@ -35,19 +25,33 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
       bmi: bmi,
       status: status
     })
-  }, [height, heightInch, weight])
+  }, [height, heightInch, weight]);
+
+  const onChangeDob = (name: string, value: string) => {
+    onChangeText(name, value);
+
+    if (typeof value !== "undefined") {
+      onChangeText('age', calculateAge(dob));
+    }
+  }
+
+  useEffect(() => {
+    if (typeof dob !== "undefined") {
+      onChangeText('age', calculateAge(dob));
+    }
+  }, [dob]);
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-2xl">
+      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
         Personal Information
       </h3>
-      <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           label="Full Name"
           name="full_name"
           placeholder="Full Name"
-          value={personalInformation.full_name}
+          value={personalInformation.full_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -56,7 +60,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Father Name"
           name="father_name"
           placeholder="Father Name"
-          value={personalInformation.father_name}
+          value={personalInformation.father_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -65,7 +69,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Mother Name"
           name="mother_name"
           placeholder="Mother Name"
-          value={personalInformation.mother_name}
+          value={personalInformation.mother_name ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -76,7 +80,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           name="gender"
           label="Gender"
-          defaultValue={personalInformation.gender}
+          defaultValue={personalInformation.gender ?? ''}
           placeholder="Gender"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -87,7 +91,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           label="Marital Status"
           name="marital_status"
-          defaultValue={personalInformation.marital_status}
+          defaultValue={personalInformation.marital_status ?? ''}
           placeholder="Marital Status"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -102,7 +106,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             placeholder={
               `${personalInformation?.gender === 'female' ? 'Husband' : 'Spouse'} name`
             }
-            value={personalInformation.spouse_name}
+            value={personalInformation.spouse_name ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -112,7 +116,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Email Address"
           name="email"
           placeholder="Email Address"
-          value={personalInformation.email}
+          value={personalInformation.email ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -121,8 +125,10 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Mobile No"
           name="mobile_no"
           placeholder="Mobile No"
-          value={personalInformation.mobile_no}
+          value={personalInformation.mobile_no ?? ''}
           isRequired={true}
+          minLength={11}
+          maxLength={11}
           inputChange={onChangeText}
           errors={errors}
         />
@@ -130,7 +136,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           options={identityTypeList}
           isSearchable={true}
           name="identity_type"
-          defaultValue={personalInformation.identity_type}
+          defaultValue={personalInformation.identity_type ?? ''}
           label="Identity Type"
           placeholder="Identity Type"
           handleChangeValue={onChangeText}
@@ -142,7 +148,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="id_no"
             placeholder={identity_type.label}
             isDisabled={identity_type.isDisabledField}
-            value={personalInformation.id_no}
+            value={personalInformation.id_no ?? ''}
             isRequired={true}
             minValue={identity_type.minLength}
             maxValue={identity_type.maxLength}
@@ -156,16 +162,21 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           name="dob"
           placeholder="Date of Birth"
           type="date"
-          value={personalInformation.dob}
+          value={personalInformation.dob ?? ''}
           isRequired={true}
-          inputChange={onChangeText}
+          inputChange={onChangeDob}
           errors={errors}
+          maxValue={getCurrentDate()}
+          hintText={
+            isNaN(age) ? '' :
+              `Calculated age - ${age} year${age > 1 ? 's' : ''}`
+          }
         />
         <Input
           label="Occupation"
           name="occupation"
           placeholder="Occupation"
-          value={personalInformation.occupation}
+          value={personalInformation.occupation ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
@@ -183,7 +194,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isSearchable={true}
           name="religion"
           label="Religion"
-          defaultValue={personalInformation.religion}
+          defaultValue={personalInformation.religion ?? ''}
           placeholder="Select Religion"
           handleChangeValue={onChangeText}
           errors={errors}
@@ -195,7 +206,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="height"
             type="number"
             placeholder="feet, eg: 5"
-            value={personalInformation.height}
+            value={personalInformation.height ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -206,7 +217,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="height_inch"
             type="number"
             placeholder="inch, eg: 6"
-            value={personalInformation.height_inch}
+            value={personalInformation.height_inch ?? ''}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -219,16 +230,16 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             name="weight"
             type="number"
             placeholder="kg; eg: 65"
-            value={personalInformation.weight}
+            value={personalInformation.weight ?? ''}
             isRequired={true}
             inputChange={onChangeText}
           />
           <Input
             areaClassNames='flex-1 ml-1 mt-1'
-            label="Body Mass Index - (BMI)"
+            label="BMI"
             name="bmi"
             placeholder="Body Mass Index(BMI)"
-            value={BMI.bmi}
+            value={BMI.bmi ?? ''}
             isRequired={false}
             inputChange={onChangeText}
             errors={errors}
@@ -241,7 +252,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           label="Allocation"
           name="allocation"
           placeholder="Allocation"
-          value={personalInformation.allocation}
+          value={personalInformation.allocation ?? ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
