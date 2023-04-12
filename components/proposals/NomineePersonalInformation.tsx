@@ -1,10 +1,10 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, getIdentityLabel, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
-import { useEffect } from "react";
 import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
 
@@ -26,20 +26,12 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     }
 
     const onChangeDob = (name: string, value: string) => {
-        handleChangeTextInput(name, value, id, index)
+        changeNomineeInputVal(name, value);
 
         if (typeof value !== "undefined") {
-            handleChangeTextInput(
-                'age', calculateAge(value), id, index
-            )
+            changeNomineeInputVal('age', calculateAge(value));
         }
     }
-
-    useEffect(() => {
-        if (typeof data.dob !== "undefined") {
-            handleChangeTextInput('age', calculateAge(data.dob), id, index);
-        }
-    }, [data.dob]);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -56,6 +48,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Input
                     label="Father Name"
                     name="father_name"
@@ -65,6 +58,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Input
                     label="Mother Name"
                     name="mother_name"
@@ -74,6 +68,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Select
                     options={GenderList}
                     isSearchable={true}
@@ -85,6 +80,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Select
                     options={MaritalStatusList}
                     isSearchable={true}
