@@ -16,7 +16,6 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
     handleChangeTextInput(name, value, id, index)
   }
 
-
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
       <div className="bg-white text-cyan-600 mb-3 text-sm border border-gray-200">
@@ -38,7 +37,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           name="phone_no"
           placeholder="Mobile No"
           value={data.phone_no}
-          isRequired={true}
+          isRequired={false}
           inputChange={changeNomineeInputVal}
           errors={errors}
         />

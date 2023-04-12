@@ -337,6 +337,92 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
 
       <div>
         <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
+          Premium Information
+        </h3>
+        <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
+          <Input
+            type="number"
+            label="Sum Assured"
+            name="initial_sum_assured"
+            placeholder="Sum Assured"
+            value={proposalInput?.initial_sum_assured}
+            isRequired={true}
+            isDisabled={isDisabledSumAssured}
+            inputChange={onChangeText}
+            errors={errors}
+            minValue={0}
+          />
+
+          <Input
+            type="number"
+            label="Basic Premium"
+            name="initial_premium"
+            placeholder="Basic Premium"
+            value={proposalInput.initial_premium}
+            isRequired={true}
+            isDisabled={isDisabledBasicPremium}
+            inputChange={onChangeText}
+            errors={errors}
+            minValue={0}
+            maxValue={proposalInput.initial_sum_assured}
+          />
+
+          <div className="flex">
+            <Input
+              type="number"
+              label="Occupation extra (%)"
+              name="occupation_extra_percentage"
+              placeholder="Occupation extra (%)"
+              value={proposalInput.occupation_extra_percentage ?? 0}
+              isRequired={true}
+              inputChange={onChangeText}
+              errors={errors}
+              minValue={0}
+              areaClassNames="flex-1 mr-2"
+            />
+            <Input
+              type="number"
+              label="&nbsp;"
+              name="occupation_extra"
+              placeholder=""
+              value={proposalInput.occupation_extra ?? 0}
+              isRequired={false}
+              isDisabled={true}
+              inputChange={onChangeText}
+              errors={errors}
+              minValue={0}
+              areaClassNames="w-24 mt-1"
+            />
+          </div>
+
+          <Input
+            type="number"
+            label="Extra mortality"
+            name="extra_mortality"
+            placeholder="Extra mortality"
+            value={proposalInput.extra_mortality ?? 0}
+            isRequired={true}
+            inputChange={onChangeText}
+            errors={errors}
+            minValue={0}
+          />
+
+          <Input
+            type="number"
+            label="Sum at risk"
+            name="sum_at_risk"
+            placeholder="Sum at risk"
+            value={proposalInput.sum_at_risk ?? proposalInput.initial_sum_assured}
+            isRequired={true}
+            inputChange={onChangeText}
+            errors={errors}
+            minValue={0}
+          />
+        </div>
+      </div>
+
+      <div>
+        <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
           Rider Information
         </h3>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
@@ -485,92 +571,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             value={proposalInput?.rider_premium}
             isRequired={true}
             isDisabled={true}
-            inputChange={onChangeText}
-            errors={errors}
-            minValue={0}
-          />
-        </div>
-      </div>
-
-      <div>
-        <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-          Premium Information
-        </h3>
-        <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
-          <Input
-            type="number"
-            label="Sum Assured"
-            name="initial_sum_assured"
-            placeholder="Sum Assured"
-            value={proposalInput?.initial_sum_assured}
-            isRequired={true}
-            isDisabled={isDisabledSumAssured}
-            inputChange={onChangeText}
-            errors={errors}
-            minValue={0}
-          />
-
-          <Input
-            type="number"
-            label="Basic Premium"
-            name="initial_premium"
-            placeholder="Basic Premium"
-            value={proposalInput.initial_premium}
-            isRequired={true}
-            isDisabled={isDisabledBasicPremium}
-            inputChange={onChangeText}
-            errors={errors}
-            minValue={0}
-            maxValue={proposalInput.initial_sum_assured}
-          />
-
-          <div className="flex">
-            <Input
-              type="number"
-              label="Occupation extra (%)"
-              name="occupation_extra_percentage"
-              placeholder="Occupation extra (%)"
-              value={proposalInput.occupation_extra_percentage ?? 0}
-              isRequired={true}
-              inputChange={onChangeText}
-              errors={errors}
-              minValue={0}
-              areaClassNames="flex-1 mr-2"
-            />
-            <Input
-              type="number"
-              label="&nbsp;"
-              name="occupation_extra"
-              placeholder=""
-              value={proposalInput.occupation_extra ?? 0}
-              isRequired={false}
-              isDisabled={true}
-              inputChange={onChangeText}
-              errors={errors}
-              minValue={0}
-              areaClassNames="w-24 mt-1"
-            />
-          </div>
-
-          <Input
-            type="number"
-            label="Extra mortality"
-            name="extra_mortality"
-            placeholder="Extra mortality"
-            value={proposalInput.extra_mortality ?? 0}
-            isRequired={true}
-            inputChange={onChangeText}
-            errors={errors}
-            minValue={0}
-          />
-
-          <Input
-            type="number"
-            label="Sum at risk"
-            name="sum_at_risk"
-            placeholder="Sum at risk"
-            value={proposalInput.sum_at_risk ?? 0}
-            isRequired={true}
             inputChange={onChangeText}
             errors={errors}
             minValue={0}

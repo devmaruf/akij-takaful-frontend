@@ -195,7 +195,7 @@ export default function EnlistmentPage() {
                 />
               }
 
-              {
+              {/* {
                 proposalInput.proposer_guardian !== undefined &&
                 proposalInput.proposer_guardian !== null &&
                 <GuardianInformation
@@ -204,7 +204,7 @@ export default function EnlistmentPage() {
                   }}
                   errors={errors}
                 />
-              }
+              } */}
 
               {
                 proposalInput.proposer_nominees !== undefined &&
