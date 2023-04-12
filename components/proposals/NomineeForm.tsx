@@ -18,40 +18,21 @@ export interface IPersonalInformation {
 export function NomineeForm({ errors }: IPersonalInformation) {
     const dispatch = useDispatch();
 
-    const { proposalInput} = useSelector((state: RootState) => state.proposal);
-    const height = proposalInput?.proposal_personal_information?.height;
-    const weight = proposalInput?.proposal_personal_information?.weight;
-    const [dob, setDob] = useState(0);
-    const [age, setAge] = useState(0);
-    const [BMI, setBMI] = useState({});
+    const { proposalInput } = useSelector((state: RootState) => state.proposal);
     const [nomineeIndex, setNomineeIndex] = useState(0);
     const [nomineeView, setNomineeView] = useState(false);
     const [divisionList, setDivisionList] = useState({
         presentDivisions: [],
         permanentDivisions: []
-      });
-      const [cityList, setCityList] = useState({
+    });
+    const [cityList, setCityList] = useState({
         presentCities: [],
         permanentCities: []
-      });
-      const [areaList, setAreaList] = useState({
+    });
+    const [areaList, setAreaList] = useState({
         presentAreas: [],
         permanentAreas: []
-      });
-
-    useEffect(() => {
-        if (typeof dob !== "undefined") {
-            const getAge = calculateAge(dob);
-            setAge(getAge);
-        }
-        if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
-            const { bmi, status } = calculateBMI(height, weight, age);
-            setBMI({
-                bmi: bmi,
-                status: status
-            })
-        }
-    }, [height, weight, dob, age])
+    });
 
     const toggleNomineeForm = (status: boolean, index: number) => {
         setNomineeIndex(index);
@@ -60,65 +41,43 @@ export function NomineeForm({ errors }: IPersonalInformation) {
 
     const handleChangeProposalNomineeInfo = (name: string, value: any, key: string, index: number) => {
         dispatch(changeNomineeInputValue(name, value, key, index, proposalInput));
-        if (name === "dob") {
-            CalculateNomineeAge(value);
-            setDob(value);
-        }
-       
+
         if (key == "proposer_permanent_address" && name == "division_id") {
             getCitiesDropdownList(value).then((data) => {
-              const newCities = { ...cityList, permanentCities: data }
-              setAreaList({ ...areaList, permanentAreas: [] })
-              setCityList(newCities);
+                const newCities = { ...cityList, permanentCities: data }
+                setAreaList({ ...areaList, permanentAreas: [] })
+                setCityList(newCities);
             });
-          }
-          if (key == "proposer_present_address" && name == "division_id") {
+        }
+        if (key == "proposer_present_address" && name == "division_id") {
             getCitiesDropdownList(value).then((data) => {
-              const newCities = { ...cityList, presentCities: data }
-              setAreaList({ ...areaList, presentAreas: [] })
-              setCityList(newCities);
+                const newCities = { ...cityList, presentCities: data }
+                setAreaList({ ...areaList, presentAreas: [] })
+                setCityList(newCities);
             });
-          }
-          if (key == "proposer_permanent_address" && name == "district_id") {
+        }
+        if (key == "proposer_permanent_address" && name == "district_id") {
             getAreasDropdownList(value).then((data) => {
-              const newAreas = { ...areaList, permanentAreas: data };
-              setAreaList(newAreas);
+                const newAreas = { ...areaList, permanentAreas: data };
+                setAreaList(newAreas);
             });
-          }
-          if (key == "proposer_present_address" && name == "district_id") {
+        }
+        if (key == "proposer_present_address" && name == "district_id") {
             getAreasDropdownList(value).then((data) => {
-              const newAreas = { ...areaList, presentAreas: data };
-              setAreaList(newAreas);
+                const newAreas = { ...areaList, presentAreas: data };
+                setAreaList(newAreas);
             });
-          }
-
-    }
-
-    const CalculateNomineeAge = (dob: Date) => {
-        if (typeof dob !== "undefined") {
-            const getAge = calculateAge(dob);
-            setAge(getAge);
         }
     }
-
-    useEffect(() => {
-        if ((typeof height !== "undefined" && height !== null && height !== "") && (typeof weight !== "undefined" && weight !== null && weight !== "") && age !== 0) {
-            const { bmi, status } = calculateBMI(height, weight, age);
-            setBMI({
-                bmi: bmi,
-                status: status
-            })
-        }
-    }, [height, weight, dob, age]);
 
     useEffect(() => {
         getDivisionDropdownList().then((data) => {
-          const newDivisions = { permanentDivisions: data, presentDivisions: data }
-          setCityList({ presentCities: [], permanentCities: [] })
-          setAreaList({ presentAreas: [], permanentAreas: [] })
-          setDivisionList(newDivisions);
+            const newDivisions = { permanentDivisions: data, presentDivisions: data }
+            setCityList({ presentCities: [], permanentCities: [] })
+            setAreaList({ presentAreas: [], permanentAreas: [] })
+            setDivisionList(newDivisions);
         });
-      }, []);
+    }, []);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -174,10 +133,9 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                     errors={errors}
                                     id="proposal_personal_information"
                                     index={index}
-                                    age={age}
-                                    setAge={setAge}
                                     data={nominee.proposal_personal_information}
                                 />
+
                                 <NomineeAddressInformation
                                     handleChangeTextInput={handleChangeProposalNomineeInfo}
                                     errors={errors}
@@ -194,7 +152,11 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                     cityList={cityList}
                                     areaList={areaList}
                                 />
-                                {age !== 0 && age < 18 &&
+
+                                {
+                                    !isNaN(nominee.proposal_personal_information?.age)
+                                    && nominee.proposal_personal_information?.age >= 0
+                                    && nominee.proposal_personal_information?.age < 18 &&
                                     (
                                         <NomineeGuardianInformation
                                             handleChangeTextInput={handleChangeProposalNomineeInfo}

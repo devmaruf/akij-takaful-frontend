@@ -4,6 +4,9 @@ import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { GenderList, getIdentityLabel, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import { useEffect } from "react";
+import { calculateAge } from "@/utils/calculation";
+import { getCurrentDate } from "@/utils/date-helper";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -21,6 +24,22 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
+
+    const onChangeDob = (name: string, value: string) => {
+        handleChangeTextInput(name, value, id, index)
+
+        if (typeof value !== "undefined") {
+            handleChangeTextInput(
+                'age', calculateAge(value), id, index
+            )
+        }
+    }
+
+    useEffect(() => {
+        if (typeof data.dob !== "undefined") {
+            handleChangeTextInput('age', calculateAge(data.dob), id, index);
+        }
+    }, [data.dob]);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -147,9 +166,14 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     placeholder="Date of Birth"
                     type="date"
                     value={data.dob}
+                    maxValue={getCurrentDate()}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChangeDob}
                     errors={errors}
+                    hintText={
+                        isNaN(data.age) ? '' :
+                            `Calculated age - ${data.age} year${data.age > 1 ? 's' : ''}`
+                    }
                 />
 
                 <Input
