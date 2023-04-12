@@ -25,6 +25,9 @@ export const getAuthData = () => {
     return null;
 }
 
+export const isHeadOfficeUser = () => {
+    return getAuthData()?.is_head_office ?? false;
+}
 
 export const logout = () => {
     localStorage.removeItem(KEY_ACCESS_TOKEN);

@@ -10,7 +10,8 @@ import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 import { formatCurrency } from "@/utils/currency";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
-import { Toaster } from "../toaster";
+import { Toaster } from "@/components/toaster";
+import { isHeadOfficeUser } from "@/utils/auth";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
@@ -286,6 +287,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           placeholder="Policy issue date"
           value={proposalInput.policy_issue_date ?? getCurrentDate()}
           isRequired={true}
+          isDisabled={true}
           inputChange={onChangeText}
           errors={errors}
         />
@@ -297,6 +299,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           placeholder="Commencement date"
           value={getCommencementDate()}
           isRequired={true}
+          isDisabled={!isHeadOfficeUser()}
           inputChange={onChangeText}
           errors={errors}
         />
@@ -304,10 +307,11 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
         <Input
           type="date"
           label="Risk date"
-          name="policy_issue_date"
+          name="risk_date"
           placeholder="Risk date"
           value={proposalInput.policy_issue_date ?? getCurrentDate()}
           isRequired={true}
+          isDisabled={true}
           inputChange={onChangeText}
           errors={errors}
         />
