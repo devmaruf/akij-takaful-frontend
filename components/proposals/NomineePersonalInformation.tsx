@@ -150,6 +150,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Input
                     label="Occupation"
                     name="occupation"
@@ -170,12 +171,13 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     handleChangeValue={changeNomineeInputVal}
                     errors={errors}
                 />
+
                 <Input
                     label="Allocation"
                     name="allocation"
                     placeholder="Allocation"
                     value={data.allocation}
-                    isRequired={true}
+                    isRequired={false}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />

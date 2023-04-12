@@ -56,6 +56,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
+
         <Input
           label="Father Name"
           name="father_name"
@@ -65,6 +66,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
+
         <Input
           label="Mother Name"
           name="mother_name"
@@ -74,6 +76,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
+
         <Select
           options={GenderList}
           isSearchable={true}
@@ -85,6 +88,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           handleChangeValue={onChangeText}
           errors={errors}
         />
+
         <Select
           options={MaritalStatusList}
           isSearchable={true}
@@ -96,6 +100,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           handleChangeValue={onChangeText}
           errors={errors}
         />
+
         {
           personalInformation.marital_status === 'married' &&
           <Input
@@ -112,6 +117,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             errors={errors}
           />
         }
+
         <Input
           label="Email Address"
           name="email"
@@ -121,6 +127,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
+
         <Input
           label="Mobile No"
           name="mobile_no"
@@ -132,6 +139,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
+
         <Select
           options={identityTypeList}
           isSearchable={true}
@@ -157,6 +165,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             hintText={identity_type.message}
           />
         </div>
+
         <Input
           label="Date of Birth"
           name="dob"
@@ -172,6 +181,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
               `Calculated age - ${age} year${age > 1 ? 's' : ''}`
           }
         />
+
         <Input
           label="Occupation"
           name="occupation"
@@ -181,14 +191,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           inputChange={onChangeText}
           errors={errors}
         />
-        {/* <Input
-          label="Relation"
-          name="relation"
-          placeholder="Relation"
-          value={personalInformation.relation}
-          isRequired={true}
-          inputChange={onChangeText}
-        /> */}
+
         <Select
           options={religionList}
           isSearchable={true}
@@ -199,6 +202,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           handleChangeValue={onChangeText}
           errors={errors}
         />
+
         <div className="flex flex-1 w-full">
           <Input
             areaClassNames='flex-1'
@@ -211,6 +215,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             inputChange={onChangeText}
             errors={errors}
           />
+
           <Input
             areaClassNames='flex-1 ml-1'
             label="Height Inch"
@@ -223,17 +228,17 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             errors={errors}
           />
         </div>
+
+        <Input
+          label="Weight in KG"
+          name="weight"
+          type="number"
+          placeholder="kg; eg: 65"
+          value={personalInformation.weight ?? ''}
+          isRequired={true}
+          inputChange={onChangeText}
+        />
         <div className="flex w-full">
-          <Input
-            areaClassNames='flex-1'
-            label="Weight in KG"
-            name="weight"
-            type="number"
-            placeholder="kg; eg: 65"
-            value={personalInformation.weight ?? ''}
-            isRequired={true}
-            inputChange={onChangeText}
-          />
           <Input
             areaClassNames='flex-1 ml-1 mt-1'
             label="BMI"
@@ -244,7 +249,18 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             inputChange={onChangeText}
             errors={errors}
             isDisabled={true}
-            hintText={BMI.status !== '' ? BMI.status : ''}
+          />
+
+          <Input
+            areaClassNames='flex-1 ml-1 mt-1'
+            label="BMI status"
+            name="bmi_status"
+            placeholder=""
+            value={BMI.status ?? ''}
+            isRequired={false}
+            isDisabled={true}
+            inputChange={onChangeText}
+            errors={errors}
           />
         </div>
 
@@ -253,7 +269,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           name="allocation"
           placeholder="Allocation"
           value={personalInformation.allocation ?? ''}
-          isRequired={true}
+          isRequired={false}
           inputChange={onChangeText}
           errors={errors}
         />

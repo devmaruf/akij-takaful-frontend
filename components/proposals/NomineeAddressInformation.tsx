@@ -82,8 +82,8 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 isSearchable={true}
                 name="area_id"
                 defaultValue={data.permanent.area_id}
-                label="Area"
-                placeholder="Select Area..."
+                label="Police Station"
+                placeholder="Select Police station..."
                 handleChangeValue={changePermanentAddressAction}
                 errors={errors}
               />
@@ -99,9 +99,9 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               />
 
               <Input
-                label="Street address"
+                label="House No / Road no / Street / Village"
                 name="street_address"
-                placeholder="Street address"
+                placeholder="House No / Road no / Street / Village"
                 value={data.permanent.street_address}
                 isRequired={true}
                 inputChange={changePermanentAddressAction}
@@ -160,9 +160,9 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 options={presentAreas}
                 isSearchable={true}
                 name="area_id"
-                label="Area"
+                label="Police Station"
                 defaultValue={data.present.area_id}
-                placeholder="Select Area..."
+                placeholder="Select Police station..."
                 handleChangeValue={changePresentAddressAction}
                 errors={errors}
               />
@@ -178,9 +178,9 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 errors={errors}
               />
               <Input
-                label="Street address"
+                label="House No / Road no / Street / Village"
                 name="street_address"
-                placeholder="Street address"
+                placeholder="House No / Road no / Street / Village"
                 value={data.present.street_address}
                 isRequired={true}
                 isDisabled={isNomineeSameAddress}

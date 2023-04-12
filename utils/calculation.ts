@@ -38,8 +38,6 @@ export function calculateBMI(heightFeet: number, heightInches: number, weightKg:
   return { bmi: bmiRounded, status: status };
 }
 
-
-
 export const calculateAge = (birthDate: Date): number => {
   // if (!(birthDate instanceof Date) || isNaN(birthDate.getTime())) {
   //   throw new Error('Invalid birth date');
@@ -54,5 +52,5 @@ export const calculateAge = (birthDate: Date): number => {
     age--;
   }
 
-  return age;
+  return Math.round(age);
 }

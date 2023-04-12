@@ -59,8 +59,8 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           isSearchable={true}
           name="area_id"
           defaultValue={permanentAddress.area_id}
-          label="Area"
-          placeholder="Select Area..."
+          label="Police Station"
+          placeholder="Select Police station..."
           handleChangeValue={onChangePermanentAddress}
           errors={errors}
         />
@@ -76,9 +76,9 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         />
 
         <Input
-          label="Street address"
+          label="House No / Road no / Street / Village"
           name="street_address"
-          placeholder="Street address"
+          placeholder="House No / Road no / Street / Village"
           value={permanentAddress.street_address}
           isRequired={true}
           inputChange={onChangePermanentAddress}
@@ -134,9 +134,9 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
             options={presentAreas}
             isSearchable={true}
             name="area_id"
-            label="Area"
+            label="Police Station"
             defaultValue={presentAddress.area_id}
-            placeholder="Select Area..."
+            placeholder="Select Police station..."
             handleChangeValue={onChangePresentAddress}
             errors={errors}
           />
@@ -151,10 +151,11 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
             inputChange={onChangePresentAddress}
             errors={errors}
           />
+
           <Input
-            label="Street address"
+            label="House No / Road no / Street / Village"
             name="street_address"
-            placeholder="Street address"
+            placeholder="House No / Road no / Street / Village"
             value={presentAddress.street_address}
             isRequired={true}
             isDisabled={isSameAddress}
