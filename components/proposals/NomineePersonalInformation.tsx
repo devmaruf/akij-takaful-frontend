@@ -115,7 +115,8 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                 />
                 <Select
                     options={identityTypeList}
-                    isSearchable={true}
+                    isSearchable={false}
+                    isRequired={true}
                     name="identity_type"
                     defaultValue={data.identity_type}
                     label="Identity Type"
@@ -164,6 +165,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                 <Select
                     options={religionList}
                     isSearchable={true}
+                    isRequired={true}
                     name="religion"
                     label="Religion"
                     defaultValue={data.religion}

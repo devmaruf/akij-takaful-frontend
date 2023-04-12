@@ -135,7 +135,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
           data.present !== undefined && data.present !== null &&
           <div>
             <h4 className="my-2 text-black text-sm"> -- Present Address --</h4>
-            <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
+            <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
               <Select
                 options={presentDivisions}
                 isSearchable={true}

@@ -142,7 +142,8 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
         <Select
           options={identityTypeList}
-          isSearchable={true}
+          isSearchable={false}
+          isRequired={true}
           name="identity_type"
           defaultValue={personalInformation.identity_type ?? ''}
           label="Identity Type"
@@ -195,6 +196,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
         <Select
           options={religionList}
           isSearchable={true}
+          isRequired={true}
           name="religion"
           label="Religion"
           defaultValue={personalInformation.religion ?? ''}

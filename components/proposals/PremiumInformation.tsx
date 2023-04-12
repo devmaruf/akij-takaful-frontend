@@ -609,7 +609,8 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
 
       <div>
         <h3 className="mt-3 bg-slate-100 p-2 text-green-500 mb-3 text-md text-center">
-          Total Premium {formatCurrency(proposalInput?.total_premium ?? 0)}
+          Total Premium &nbsp;
+          {formatCurrency((isNaN(proposalInput?.total_premium) ? 0 : proposalInput?.total_premium) ?? 0)}
         </h3>
       </div>
     </div>
