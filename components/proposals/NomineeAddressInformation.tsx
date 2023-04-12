@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isNomineeSameAddressCheck } from "@/redux/actions/proposal-action";
-import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
@@ -39,9 +38,9 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
     handleChangeTextInput(name, value, ids.present, index)
   }
 
-  const {permanentDivisions, presentDivisions} = divisionList;
-  const {permanentCities, presentCities} = cityList;
-  const {permanentAreas, presentAreas} = areaList;
+  const { permanentDivisions, presentDivisions } = divisionList;
+  const { permanentCities, presentCities } = cityList;
+  const { permanentAreas, presentAreas } = areaList;
 
 
   return (
@@ -59,6 +58,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               <Select
                 options={permanentDivisions}
                 isSearchable={true}
+                isRequired={true}
                 name="division_id"
                 defaultValue={data.permanent.division_id}
                 label="Division"
@@ -70,6 +70,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               <Select
                 options={permanentCities}
                 isSearchable={true}
+                isRequired={true}
                 name="district_id"
                 label="District"
                 defaultValue={data.permanent.district_id}
@@ -77,9 +78,11 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 handleChangeValue={changePermanentAddressAction}
                 errors={errors}
               />
+
               <Select
                 options={permanentAreas}
                 isSearchable={true}
+                isRequired={true}
                 name="area_id"
                 defaultValue={data.permanent.area_id}
                 label="Police Station"
@@ -130,13 +133,13 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
 
         {
           data.present !== undefined && data.present !== null &&
-          <div // className={isSameAddress ? 'block' : 'hidden'}
-          >
+          <div>
             <h4 className="my-2 text-black text-sm"> -- Present Address --</h4>
             <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
               <Select
                 options={presentDivisions}
                 isSearchable={true}
+                isRequired={true}
                 name="division_id"
                 label="Division"
                 defaultValue={data.present.division_id}
@@ -148,6 +151,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               <Select
                 options={presentCities}
                 isSearchable={true}
+                isRequired={true}
                 name="district_id"
                 label="District"
                 defaultValue={data.present.district_id}
@@ -159,6 +163,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
               <Select
                 options={presentAreas}
                 isSearchable={true}
+                isRequired={true}
                 name="area_id"
                 label="Police Station"
                 defaultValue={data.present.area_id}
@@ -177,6 +182,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 inputChange={changePresentAddressAction}
                 errors={errors}
               />
+
               <Input
                 label="House No / Road no / Street / Village"
                 name="street_address"
@@ -190,10 +196,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
             </div>
           </div>
         }
-
       </div>
-
-
     </div>
   );
 }

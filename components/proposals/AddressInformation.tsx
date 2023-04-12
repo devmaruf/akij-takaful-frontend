@@ -36,6 +36,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         <Select
           options={permanentDivisions}
           isSearchable={true}
+          isRequired={true}
           name="division_id"
           defaultValue={permanentAddress.division_id}
           label="Division"
@@ -47,6 +48,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         <Select
           options={permanentCities}
           isSearchable={true}
+          isRequired={true}
           name="district_id"
           label="District"
           defaultValue={permanentAddress.district_id}
@@ -57,6 +59,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         <Select
           options={permanentAreas}
           isSearchable={true}
+          isRequired={true}
           name="area_id"
           defaultValue={permanentAddress.area_id}
           label="Police Station"
@@ -111,6 +114,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           <Select
             options={presentDivisions}
             isSearchable={true}
+            isRequired={true}
             name="division_id"
             label="Division"
             defaultValue={presentAddress.division_id}
@@ -122,6 +126,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           <Select
             options={presentCities}
             isSearchable={true}
+            isRequired={true}
             name="district_id"
             label="District"
             defaultValue={presentAddress.district_id}
@@ -133,6 +138,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           <Select
             options={presentAreas}
             isSearchable={true}
+            isRequired={true}
             name="area_id"
             label="Police Station"
             defaultValue={presentAddress.area_id}
