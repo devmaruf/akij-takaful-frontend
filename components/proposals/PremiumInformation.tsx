@@ -23,28 +23,28 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     rider_class: riderClass,
     term
   } = proposalInput;
-  const { productDropdownList, productDetails, loadingDetails } = useSelector((state: RootState) => state.product);
+  const { productDropdownList, productDetails } = useSelector((state: RootState) => state.product);
   const isDisabledBasicPremium = !productDetails?.is_dps;
   const isDisabledSumAssured = productDetails?.is_dps;
   const riderSumAssured = proposalInput?.rider_sum_assured ?? proposalInput.initial_sum_assured;
-  const { dob, age } = proposal_personal_information;
+  const { age } = proposal_personal_information;
 
   const onChangeRiderClass = (name: string, value: string) => {
     if (value === 'class1') {
-      onChangeText('adnd', '3.5');
-      onChangeText('adb', '1.5');
-      onChangeText('hi', '0');
-      onChangeText('ci', '0');
+      onChangeText('rider_adnd', '3.5');
+      onChangeText('rider_adb', '1.5');
+      onChangeText('rider_hi', '0');
+      onChangeText('rider_ci', '0');
     } else if (value === 'class2') {
-      onChangeText('adnd', '4.5');
-      onChangeText('adb', '2.5');
-      onChangeText('hi', '0');
-      onChangeText('ci', '0');
+      onChangeText('rider_adnd', '4.5');
+      onChangeText('rider_adb', '2.5');
+      onChangeText('rider_hi', '0');
+      onChangeText('rider_ci', '0');
     } else if (value === 'class3') {
-      onChangeText('adnd', '5.5');
-      onChangeText('adb', '3.5');
-      onChangeText('hi', '0');
-      onChangeText('ci', '0');
+      onChangeText('rider_adnd', '5.5');
+      onChangeText('rider_adb', '3.5');
+      onChangeText('rider_hi', '0');
+      onChangeText('rider_ci', '0');
     }
 
     onChangeText(name, value);
@@ -66,13 +66,13 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
 
   const onChangeRiderSelection = (name: string, value: string) => {
     if (name === 'rider_selection_hi') {
-      value = 'hi';
+      value = 'rider_hi';
     } else if (name === 'rider_selection_ci') {
-      value = 'ci';
+      value = 'rider_ci';
     } else if (name === 'rider_selection_adnd') {
-      value = 'adnd';
+      value = 'rider_adnd';
     } else if (name === 'rider_selection_adb') {
-      value = 'adb';
+      value = 'rider_adb';
     }
 
     onChangeText('rider_selection', value);
@@ -192,7 +192,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
    */
   const getTotalPremium = () => {
     onChangeText(
-      'total_premium',
+      'premium',
       parseFloat(proposalInput?.initial_premium ?? 0)
       + parseFloat(proposalInput?.rider_premium ?? 0)
       + parseFloat(proposalInput?.occupation_extra ?? 0)
@@ -472,7 +472,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 label="HI"
                 name="rider_selection_hi"
                 placeholder="HI"
-                checked={proposalInput.rider_selection === 'hi'}
+                checked={proposalInput.rider_selection === 'rider_hi'}
                 isRequired={false}
                 inputChange={onChangeRiderSelection}
                 errors={errors}
@@ -483,7 +483,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 label="CI"
                 name="rider_selection_ci"
                 placeholder="CI"
-                checked={proposalInput.rider_selection === 'ci'}
+                checked={proposalInput.rider_selection === 'rider_ci'}
                 isRequired={false}
                 inputChange={onChangeRiderSelection}
                 errors={errors}
@@ -494,7 +494,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 label="AD&D"
                 name="rider_selection_adnd"
                 placeholder="AD&D"
-                checked={proposalInput.rider_selection === 'adnd'}
+                checked={proposalInput.rider_selection === 'rider_adnd'}
                 isRequired={false}
                 inputChange={onChangeRiderSelection}
                 errors={errors}
@@ -506,7 +506,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 label="ADB"
                 name="rider_selection_adb"
                 placeholder="ADB"
-                checked={proposalInput.rider_selection === 'adb'}
+                checked={proposalInput.rider_selection === 'rider_adb'}
                 isRequired={false}
                 inputChange={onChangeRiderSelection}
                 errors={errors}
@@ -528,13 +528,13 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           />
 
           {
-            proposalInput.rider_selection === 'adnd' &&
+            proposalInput.rider_selection === 'rider_adnd' &&
             <Input
               type="number"
               label="AD&D"
-              name="adnd"
+              name="rider_adnd"
               placeholder="AD&D"
-              value={proposalInput.adnd}
+              value={proposalInput.rider_adnd}
               isRequired={true}
               isDisabled={true}
               inputChange={onChangeText}
@@ -543,7 +543,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           }
 
           {
-            proposalInput.rider_selection === 'adb' &&
+            proposalInput.rider_selection === 'rider_adb' &&
             <Input
               type="number"
               label="ADB"
@@ -558,7 +558,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           }
 
           {
-            proposalInput.rider_selection === 'hi' &&
+            proposalInput.rider_selection === 'rider_hi' &&
             <Input
               type="number"
               label="HI"
@@ -573,7 +573,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           }
 
           {
-            proposalInput.rider_selection === 'ci' &&
+            proposalInput.rider_selection === 'rider_ci' &&
             <Input
               type="number"
               label="CI"
@@ -616,7 +616,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       <div>
         <h3 className="mt-3 bg-slate-100 p-2 text-green-500 mb-3 text-md text-center">
           Total Premium &nbsp;
-          {formatCurrency((isNaN(proposalInput?.total_premium) ? 0 : proposalInput?.total_premium) ?? 0)}
+          {formatCurrency((isNaN(proposalInput?.premium) ? 0 : proposalInput?.premium) ?? 0)}
         </h3>
       </div>
     </div>

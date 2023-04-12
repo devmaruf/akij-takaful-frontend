@@ -16,7 +16,6 @@ import BankBranchInformation from "@/components/proposals/BankBranchInformation"
 import ClientBankInformation from "@/components/proposals/ClientBankInformation";
 import { PersonalInformation } from "@/components/proposals/PersonalInformation";
 import { AddressInformation } from "@/components/proposals/AddressInformation";
-import { GuardianInformation } from "@/components/proposals/GuardianInformation";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
 import { getAgentsDropdownList } from "@/redux/actions/employee-action";
 import { formValidation } from "@/utils/formValidation";
@@ -27,7 +26,6 @@ import { Questionaires } from "@/components/proposals/Questionaires";
 import { NomineeForm } from "@/components/proposals/NomineeForm";
 import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
-import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
 import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
 import PremiumInformation from "@/components/proposals/PremiumInformation";
 
@@ -39,7 +37,6 @@ export default function EnlistmentPage() {
   const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
 
   useDebounced(() => {
-    dispatch(getPlanDropdownList());
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
     dispatch(getProductDropdownListAction());
@@ -48,7 +45,7 @@ export default function EnlistmentPage() {
   const debouncedDispatch = useCallback(
     debounce(() => {
       dispatch(getProposalDetails(id));
-    }, 1000),
+    }, 500),
     [id]
   );
 
