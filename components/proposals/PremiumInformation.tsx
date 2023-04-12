@@ -83,6 +83,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       || proposalInput?.product_id === ''
       || proposalInput?.term === ''
       || proposalInput?.term === 0
+      || isNaN(age)
       || age === 0
       || age === ''
     ) {
