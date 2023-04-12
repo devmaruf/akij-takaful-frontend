@@ -13,12 +13,20 @@ export const getDivisionDropdownList = async () => {
 };
 
 export const getCitiesDropdownList = async (id: any) => {
+    if (isNaN(id) || id == undefined || id === 0) {
+        return;
+    }
+
     const res = await axios.get(`/cities/dropdown/list?division_id=${id}`);
     const cities = generateDropdownList(res.data);
     return cities
 };
 
 export const getAreasDropdownList = async (id: any) => {
+    if (isNaN(id) || id == undefined || id === 0) {
+        return;
+    }
+
     const res = await axios.get(`/areas/dropdown/list?city_id=${id}`);
     const cities = generateDropdownList(res.data);
     return cities

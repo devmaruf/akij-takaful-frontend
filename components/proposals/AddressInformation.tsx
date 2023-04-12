@@ -89,8 +89,23 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
   useEffect(() => {
     getDivisionDropdownList().then((data) => {
       setDivisionList({ permanentDivisions: data, presentDivisions: data });
-      setCityList({ presentCities: [], permanentCities: [] });
-      setAreaList({ presentAreas: [], permanentAreas: [] });
+      getCitiesDropdownList(permanentAddress.division_id ?? 0).then((data) => {
+        setAreaList({ ...areaList, permanentAreas: [] })
+        setCityList({ ...cityList, permanentCities: data });
+      });
+
+      getAreasDropdownList(permanentAddress.district_id ?? 0).then((data) => {
+        setAreaList({ ...areaList, permanentAreas: data });
+      });
+
+      getCitiesDropdownList(presentAddress.division_id ?? 0).then((data) => {
+        setAreaList({ ...areaList, presentAreas: [] })
+        setCityList({ ...cityList, presentCities: data });
+      });
+
+      getAreasDropdownList(presentAddress.district_id ?? 0).then((data) => {
+        setAreaList({ ...areaList, presentAreas: data });
+      });
     });
   }, []);
 
@@ -175,69 +190,71 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           </label>
         </div>
       </div>
+      {
+        !isSameAddress &&
+        <div>
+          <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
+          <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
+            <Select
+              options={presentDivisions}
+              isSearchable={true}
+              isRequired={true}
+              name="division_id"
+              label="Division"
+              defaultValue={presentAddress.division_id}
+              placeholder="Select Division..."
+              handleChangeValue={handlePresentAddressChange}
+              errors={errors}
+            />
 
-      <div>
-        <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
-        <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
-          <Select
-            options={presentDivisions}
-            isSearchable={true}
-            isRequired={true}
-            name="division_id"
-            label="Division"
-            defaultValue={presentAddress.division_id}
-            placeholder="Select Division..."
-            handleChangeValue={handlePresentAddressChange}
-            errors={errors}
-          />
+            <Select
+              options={presentCities}
+              isSearchable={true}
+              isRequired={true}
+              name="district_id"
+              label="District"
+              defaultValue={presentAddress.district_id}
+              placeholder="Select District..."
+              handleChangeValue={handlePresentAddressChange}
+              errors={errors}
+            />
 
-          <Select
-            options={presentCities}
-            isSearchable={true}
-            isRequired={true}
-            name="district_id"
-            label="District"
-            defaultValue={presentAddress.district_id}
-            placeholder="Select District..."
-            handleChangeValue={handlePresentAddressChange}
-            errors={errors}
-          />
+            <Select
+              options={presentAreas}
+              isSearchable={true}
+              isRequired={true}
+              name="area_id"
+              label="Police Station"
+              defaultValue={presentAddress.area_id}
+              placeholder="Select Police station..."
+              handleChangeValue={onChangePresentAddress}
+              errors={errors}
+            />
 
-          <Select
-            options={presentAreas}
-            isSearchable={true}
-            isRequired={true}
-            name="area_id"
-            label="Police Station"
-            defaultValue={presentAddress.area_id}
-            placeholder="Select Police station..."
-            handleChangeValue={onChangePresentAddress}
-            errors={errors}
-          />
+            <Input
+              label="Post Office Name"
+              name="post_office_name"
+              placeholder="Post Office Name"
+              value={presentAddress.post_office_name}
+              isRequired={true}
+              isDisabled={isSameAddress}
+              inputChange={onChangePresentAddress}
+              errors={errors}
+            />
 
-          <Input
-            label="Post Office Name"
-            name="post_office_name"
-            placeholder="Post Office Name"
-            value={presentAddress.post_office_name}
-            isRequired={true}
-            isDisabled={isSameAddress}
-            inputChange={onChangePresentAddress}
-            errors={errors}
-          />
-
-          <Input
-            label="House No / Road no / Street / Village"
-            name="street_address"
-            placeholder="House No / Road no / Street / Village"
-            value={presentAddress.street_address}
-            isRequired={true}
-            isDisabled={isSameAddress}
-            inputChange={onChangePresentAddress}
-            errors={errors}
-          />
+            <Input
+              label="House No / Road no / Street / Village"
+              name="street_address"
+              placeholder="House No / Road no / Street / Village"
+              value={presentAddress.street_address}
+              isRequired={true}
+              isDisabled={isSameAddress}
+              inputChange={onChangePresentAddress}
+              errors={errors}
+            />
+          </div>
         </div>
-      </div>
+      }
     </div>
   );
 }
