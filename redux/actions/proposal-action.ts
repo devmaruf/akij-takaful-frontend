@@ -5,7 +5,7 @@ import * as Types from "@/redux/types/proposal-type";
 import { Toaster } from "@/components/toaster";
 import { IProposal } from "@/redux/interfaces";
 import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
-import { areaList, districtList, divisionList } from "@/utils/proposal-dropdowns";
+import { areaList, districtList, divisionList, getIdentityValidationMessageList } from "@/utils/proposal-dropdowns";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     dispatch({
@@ -311,21 +311,21 @@ export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
     if (value == 'nid') {
         data.isDisabledField = false;
         data.label = "NID Number"
-        data.message = "NID minimum length must be 17/13 digits or 10 digit for smart card";
+        data.message = getIdentityValidationMessageList.nid;
         data.value = value;
         data.minLength = 10;
         data.maxLength = 17;
     } else if (value == 'passport') {
         data.isDisabledField = false;
         data.label = "Passport No"
-        data.message = "Passport minimum length must be 17 digits";
+        data.message = getIdentityValidationMessageList.passport;
         data.value = value;
         data.minLength = 17;
         data.maxLength = 20;
     } else if (value == 'brc') {
         data.isDisabledField = false;
         data.label = "Birth Certificate No"
-        data.message = "Birth certificate minimum length must be 17 digits";
+        data.message = getIdentityValidationMessageList.brc;
         data.value = value;
         data.minLength = 17;
         data.maxLength = 20;

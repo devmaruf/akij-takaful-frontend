@@ -1,10 +1,16 @@
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
-import { GenderList, getIdentityLabel, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
+import {
+    GenderList,
+    getIdentityLabel,
+    identityTypeList,
+    MaritalStatusList,
+    religionList,
+    getIdendityValidationMessage
+} from "@/utils/proposal-dropdowns";
 import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
 
@@ -152,7 +158,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                         // maxValue={identity_type.maxLength}
                         inputChange={changeNomineeInputVal}
                         errors={errors}
-                        hintText={identity_type.message}
+                        hintText={getIdendityValidationMessage(data.identity_type)}
                     />
                 </div>
 

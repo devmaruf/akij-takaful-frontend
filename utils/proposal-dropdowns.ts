@@ -32,6 +32,16 @@ export const getIdentityLabel = (value: string) => {
     return identity ? identity.label : "NID";
 }
 
+export const getIdentityValidationMessageList = {
+    nid: 'NID minimum length must be 17/13 digits or 10 digit for smart card',
+    passport: 'Both Alphanumeric code will require',
+    brc: 'Birth certificate minimum length must be 17 digits',
+}
+
+export const getIdendityValidationMessage = (identityType: string) => {
+    return getIdentityValidationMessageList[identityType] ?? '';
+}
+
 export const relationList = [
     { label: "Father", value: "father" },
     { label: "Mother", value: "mother" },
