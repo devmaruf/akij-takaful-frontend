@@ -1,9 +1,11 @@
-import * as React from "react";
-import Input from "@/components/input";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isNomineeSameAddressCheck } from "@/redux/actions/proposal-action";
+import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
 
 export interface IAddressInformation {
   handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
@@ -11,37 +13,86 @@ export interface IAddressInformation {
   ids: any;
   index?: any;
   data: any;
-  divisionList: any;
-  cityList: any;
-  areaList: any;
 }
 
-export function NomineeAddressInformation({ handleChangeTextInput, errors, index, ids, data, divisionList, cityList, areaList }: IAddressInformation) {
-
+export function NomineeAddressInformation({ handleChangeTextInput, errors, index, ids, data }: IAddressInformation) {
   const dispatch = useDispatch();
+  const [divisionList, setDivisionList] = useState({
+    presentDivisions: [],
+    permanentDivisions: []
+  });
+  const [cityList, setCityList] = useState({
+    presentCities: [],
+    permanentCities: []
+  });
+  const [areaList, setAreaList] = useState({
+    presentAreas: [],
+    permanentAreas: []
+  });
 
   const { proposalInput, isNomineeSameAddress } = useSelector((state: RootState) => state.proposal);
-
-  const trackNominee = proposalInput.proposer_nominees.find((item: any, prevIndex: number) => prevIndex === index);
+  const nomineeInfo = proposalInput.proposer_nominees.find((item: any, prevIndex: number) => prevIndex === index);
 
   const handleCheckedNomineeSameAddress = (event: any) => {
     const isChecked = event.target.checked;
-    dispatch(isNomineeSameAddressCheck(isChecked, trackNominee?.proposer_permanent_address, index, proposalInput))
-  }
+    dispatch(isNomineeSameAddressCheck(isChecked, nomineeInfo?.proposer_permanent_address, index, proposalInput));
 
+    if (isChecked
+      && nomineeInfo?.proposer_permanent_address?.division_id
+      && nomineeInfo?.proposer_permanent_address?.district_id
+      && nomineeInfo?.proposer_permanent_address?.area_id
+      && nomineeInfo?.proposer_permanent_address?.post_office_name
+      && nomineeInfo?.proposer_permanent_address?.street_address) {
+      setCityList({ presentCities: permanentCities, permanentCities });
+      setAreaList({ presentAreas: permanentAreas, permanentAreas });
+    }
+  }
 
   const changePermanentAddressAction = (name: string, value: any) => {
     handleChangeTextInput(name, value, ids.permanent, index);
+
+    if (name == "division_id") {
+      getCitiesDropdownList(value).then((data) => {
+        setCityList({ ...cityList, permanentCities: data });
+        setAreaList({ ...areaList, permanentAreas: [] });
+      });
+    }
+
+    if (name == "district_id") {
+      getAreasDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, permanentAreas: data });
+      });
+    }
   }
 
   const changePresentAddressAction = (name: string, value: any) => {
     handleChangeTextInput(name, value, ids.present, index)
+
+    if (name == "division_id") {
+      getCitiesDropdownList(value).then((data) => {
+        setCityList({ ...cityList, presentCities: data });
+        setAreaList({ ...areaList, presentAreas: [] });
+      });
+    }
+
+    if (name == "district_id") {
+      getAreasDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, presentAreas: data });
+      });
+    }
   }
 
   const { permanentDivisions, presentDivisions } = divisionList;
   const { permanentCities, presentCities } = cityList;
   const { permanentAreas, presentAreas } = areaList;
 
+  useEffect(() => {
+    getDivisionDropdownList().then((data) => {
+      setDivisionList({ permanentDivisions: data, presentDivisions: data });
+      setCityList({ presentCities: [], permanentCities: [] });
+      setAreaList({ presentAreas: [], permanentAreas: [] });
+    });
+  }, []);
 
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
@@ -111,7 +162,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 errors={errors}
               />
 
-              <div className="flex items-center mb-4 col-span-4">
+              <div className="mt-4">
                 <input
                   id={`same_as_nominee_permanent-${index}`}
                   type="checkbox"
@@ -120,6 +171,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                   onChange={(e) => handleCheckedNomineeSameAddress(e)}
                   className="w-4 h-4 text-cyan-600 bg-gray-100 border-gray-300 rounded focus:ring-cyan-500 focus:ring-2"
                 />
+                <br />
                 <label
                   htmlFor={`same_as_nominee_permanent-${index}`}
                   className="ml-2 text-sm font-medium text-gray-900"

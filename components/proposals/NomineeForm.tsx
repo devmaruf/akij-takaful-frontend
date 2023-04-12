@@ -21,19 +21,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const { proposalInput } = useSelector((state: RootState) => state.proposal);
     const [nomineeIndex, setNomineeIndex] = useState(0);
     const [nomineeView, setNomineeView] = useState(false);
-    const [divisionList, setDivisionList] = useState({
-        presentDivisions: [],
-        permanentDivisions: []
-    });
-    const [cityList, setCityList] = useState({
-        presentCities: [],
-        permanentCities: []
-    });
-    const [areaList, setAreaList] = useState({
-        presentAreas: [],
-        permanentAreas: []
-    });
-
     const toggleNomineeForm = (status: boolean, index: number) => {
         setNomineeIndex(index);
         setNomineeView(status);
@@ -41,43 +28,8 @@ export function NomineeForm({ errors }: IPersonalInformation) {
 
     const handleChangeProposalNomineeInfo = (name: string, value: any, key: string, index: number) => {
         dispatch(changeNomineeInputValue(name, value, key, index, proposalInput));
-
-        if (key == "proposer_permanent_address" && name == "division_id") {
-            getCitiesDropdownList(value).then((data) => {
-                const newCities = { ...cityList, permanentCities: data }
-                setAreaList({ ...areaList, permanentAreas: [] })
-                setCityList(newCities);
-            });
-        }
-        if (key == "proposer_present_address" && name == "division_id") {
-            getCitiesDropdownList(value).then((data) => {
-                const newCities = { ...cityList, presentCities: data }
-                setAreaList({ ...areaList, presentAreas: [] })
-                setCityList(newCities);
-            });
-        }
-        if (key == "proposer_permanent_address" && name == "district_id") {
-            getAreasDropdownList(value).then((data) => {
-                const newAreas = { ...areaList, permanentAreas: data };
-                setAreaList(newAreas);
-            });
-        }
-        if (key == "proposer_present_address" && name == "district_id") {
-            getAreasDropdownList(value).then((data) => {
-                const newAreas = { ...areaList, presentAreas: data };
-                setAreaList(newAreas);
-            });
-        }
     }
 
-    useEffect(() => {
-        getDivisionDropdownList().then((data) => {
-            const newDivisions = { permanentDivisions: data, presentDivisions: data }
-            setCityList({ presentCities: [], permanentCities: [] })
-            setAreaList({ presentAreas: [], permanentAreas: [] })
-            setDivisionList(newDivisions);
-        });
-    }, []);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -148,9 +100,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                         permanent: nominee.proposer_permanent_address,
                                         present: nominee.proposer_present_address
                                     }}
-                                    divisionList={divisionList}
-                                    cityList={cityList}
-                                    areaList={areaList}
                                 />
 
                                 {
