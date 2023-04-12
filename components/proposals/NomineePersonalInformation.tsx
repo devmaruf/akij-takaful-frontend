@@ -26,17 +26,16 @@ export interface IPersonalInformation {
 }
 
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
-    const { identity_type } = useSelector((state: RootState) => state.proposal);
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
 
     const onChangeDob = (name: string, value: string) => {
-        changeNomineeInputVal(name, value);
-
         if (typeof value !== "undefined") {
             changeNomineeInputVal('age', calculateAge(value));
         }
+
+        changeNomineeInputVal('dob', value);
     }
 
     return (
@@ -164,7 +163,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
 
                 <Input
                     label="Date of Birth"
-                    name="dob"
+                    name={`nominee_${index + 1}_dob`}
                     placeholder="Date of Birth"
                     type="date"
                     value={data.dob}

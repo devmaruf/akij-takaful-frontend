@@ -16,6 +16,10 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
     handleChangeTextInput(name, value, id, index)
   }
 
+  const onChangeGuardianDob = (name: string, value: any) => {
+    changeNomineeInputVal('dob', value);
+  }
+
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
       <div className="bg-white text-cyan-600 mb-3 text-sm border border-gray-200">
@@ -44,12 +48,12 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
 
         <Input
           label="Date of Birth"
-          name="dob"
+          name="guardian_dob"
           type="date"
           placeholder="Date of Birth"
           value={data.dob}
           isRequired={true}
-          inputChange={changeNomineeInputVal}
+          inputChange={onChangeGuardianDob}
           errors={errors}
         />
 
@@ -63,14 +67,6 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
           errors={errors}
         />
 
-        {/* <Input
-          label="Relation"
-          name="relation"
-          placeholder="Relation"
-          value={data.relation}
-          isRequired={true}
-          inputChange={changeNomineeInputVal}
-        /> */}
         <Select
           options={relationList}
           isSearchable={true}
