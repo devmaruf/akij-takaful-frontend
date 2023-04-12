@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { debounce } from "lodash";
 
 import Input from "@/components/input";
 import Select from "@/components/select";
@@ -7,9 +8,7 @@ import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
 import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
-
 import { formatCurrency } from "@/utils/currency";
-import { debounce } from "lodash";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
@@ -164,7 +163,16 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   }
 
   const calculateSumAssured = () => {
-    let sumAssured = proposalInput.initial_premium * 12;
+    let sumAssured = 0;
+
+    const productRate = parseFloat(`${getProductRate() ?? 0}`);
+    const basicPremium = proposalInput.initial_premium;
+
+    if (productRate === null) {
+      sumAssured = 0;
+    } else {
+      sumAssured = (productRate * 100 / basicPremium)
+    }
 
     onChangeText('initial_sum_assured', sumAssured.toFixed(3));
   }
@@ -229,6 +237,17 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       onChangeText('mode', '');
     }
   }, [isDisabledSumAssured]);
+
+  useEffect(() => {
+    const occupationExtraAmount = parseFloat(proposalInput.initial_sum_assured) * (parseFloat(proposalInput.occupation_extra_percentage) / 100)
+    onChangeText(
+      'occupation_extra',
+      occupationExtraAmount.toFixed(3)
+    );
+  }, [
+    proposalInput.initial_sum_assured,
+    proposalInput.occupation_extra_percentage
+  ]);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -300,8 +319,8 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
 
           <Select
             options={
-              (productDetails?.modes !== undefined && productDetails?.modes?.length > 0) ? 
-              productDetails?.modes : productModesDropdown
+              (productDetails?.modes !== undefined && productDetails?.modes?.length > 0) ?
+                productDetails?.modes : productModesDropdown
             }
             isSearchable={false}
             name="mode"
@@ -505,17 +524,33 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             maxValue={proposalInput.initial_sum_assured}
           />
 
-          <Input
-            type="number"
-            label="Occupation extra"
-            name="occupation_extra"
-            placeholder="Occupation extra"
-            value={proposalInput.occupation_extra ?? 0}
-            isRequired={true}
-            inputChange={onChangeText}
-            errors={errors}
-            minValue={0}
-          />
+          <div className="flex">
+            <Input
+              type="number"
+              label="Occupation extra (%)"
+              name="occupation_extra_percentage"
+              placeholder="Occupation extra (%)"
+              value={proposalInput.occupation_extra_percentage ?? 0}
+              isRequired={true}
+              inputChange={onChangeText}
+              errors={errors}
+              minValue={0}
+              areaClassNames="flex-1 mr-2"
+            />
+            <Input
+              type="number"
+              label="&nbsp;"
+              name="occupation_extra"
+              placeholder=""
+              value={proposalInput.occupation_extra ?? 0}
+              isRequired={false}
+              isDisabled={true}
+              inputChange={onChangeText}
+              errors={errors}
+              minValue={0}
+              areaClassNames="w-24 mt-1"
+            />
+          </div>
 
           <Input
             type="number"

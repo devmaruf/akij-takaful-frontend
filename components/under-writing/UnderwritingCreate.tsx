@@ -185,7 +185,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                             checked={parseInt(underwritingForm.accepted_standard_rate_for?.pdab) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-pdab`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
-                                                                            PDAB
+                                                                            AD&D
                                                                         </label>
                                                                     </div>
                                                                     <div className="flex items-center mb-4" key={`default-checkbox-${requirement.id}-diab`}>
@@ -198,7 +198,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                             checked={parseInt(underwritingForm.accepted_standard_rate_for?.diab) === 1}
                                                                         />
                                                                         <label htmlFor={`default-checkbox-${requirement.id}-hi`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
-                                                                            DIAB
+                                                                            ADB
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -235,7 +235,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                     />
                                                                     <Input
                                                                         type='number'
-                                                                        label="EM for PDAB (%)"
+                                                                        label="EM for AD&D (%)"
                                                                         name="em_pdab"
                                                                         placeholder='eg: 30'
                                                                         value={underwritingForm.em_pdab}
@@ -244,7 +244,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                     />
                                                                     <Input
                                                                         type='number'
-                                                                        label="EM for DIAB (%)"
+                                                                        label="EM for ADB (%)"
                                                                         name="em_diab"
                                                                         placeholder='eg: 30'
                                                                         value={underwritingForm.em_diab}
