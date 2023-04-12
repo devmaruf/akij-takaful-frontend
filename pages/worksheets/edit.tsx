@@ -35,20 +35,7 @@ export default function EnlistmentPage() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
-  const [errors, setErrors] = useState({})
-  const [divisionList, setDivisionList] = useState({
-    presentDivisions: [],
-    permanentDivisions: []
-  });
-  const [cityList, setCityList] = useState({
-    presentCities: [],
-    permanentCities: []
-  });
-  const [areaList, setAreaList] = useState({
-    presentAreas: [],
-    permanentAreas: []
-  });
-
+  const [errors, setErrors] = useState({});
   const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
 
   useDebounced(() => {
@@ -77,28 +64,6 @@ export default function EnlistmentPage() {
   const onChangeFormSectionInput = (name: string, value: any, sectionName: string) => {
     dispatch(changeInputValue(name, value, sectionName));
 
-    if (sectionName == "proposer_permanent_address" && name == "division_id") {
-      getCitiesDropdownList(value).then((data) => {
-        setAreaList({ ...areaList, permanentAreas: [] })
-        setCityList({ ...cityList, permanentCities: data });
-      });
-    }
-    if (sectionName == "proposer_present_address" && name == "division_id") {
-      getCitiesDropdownList(value).then((data) => {
-        setAreaList({ ...areaList, presentAreas: [] })
-        setCityList({ ...cityList, presentCities: data });
-      });
-    }
-    if (sectionName == "proposer_permanent_address" && name == "district_id") {
-      getAreasDropdownList(value).then((data) => {
-        setAreaList({ ...areaList, permanentAreas: data });
-      });
-    }
-    if (sectionName == "proposer_present_address" && name == "district_id") {
-      getAreasDropdownList(value).then((data) => {
-        setAreaList({ ...areaList, presentAreas: data });
-      });
-    }
     if (sectionName === 'proposal_personal_information' && name == 'identity_type') {
       dispatch(handleCheckIdentity(value))
     }
@@ -117,15 +82,6 @@ export default function EnlistmentPage() {
       }
     }
   };
-
-  useEffect(() => {
-    getDivisionDropdownList().then((data) => {
-      const newDivisions = { permanentDivisions: data, presentDivisions: data }
-      setCityList({ presentCities: [], permanentCities: [] })
-      setAreaList({ presentAreas: [], permanentAreas: [] })
-      setDivisionList(newDivisions);
-    });
-  }, []);
 
   return (
     <div>
@@ -189,22 +145,8 @@ export default function EnlistmentPage() {
                   }}
                   onChangeText={handleChangeTextInput}
                   errors={errors}
-                  divisionList={divisionList}
-                  cityList={cityList}
-                  areaList={areaList}
                 />
               }
-
-              {/* {
-                proposalInput.proposer_guardian !== undefined &&
-                proposalInput.proposer_guardian !== null &&
-                <GuardianInformation
-                  onChangeText={(name: string, value: any) => {
-                    onChangeFormSectionInput(name, value, 'proposer_guardian')
-                  }}
-                  errors={errors}
-                />
-              } */}
 
               {
                 proposalInput.proposer_nominees !== undefined &&

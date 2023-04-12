@@ -5,25 +5,94 @@ import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import { isSameAddressCheck } from "@/redux/actions/proposal-action";
 import { IProposalFormSection } from "@/redux/interfaces";
+import { useEffect, useState } from "react";
+import { getAreasDropdownList, getCitiesDropdownList, getDivisionDropdownList } from "@/utils/address-dropdown";
 
 export interface IAddressInformation extends IProposalFormSection {
   onChangePermanentAddress: (name: string, value: any) => void;
   onChangePresentAddress: (name: string, value: any) => void;
 }
 
-export function AddressInformation({ onChangeText, onChangePresentAddress, onChangePermanentAddress, errors, divisionList, cityList, areaList }: IAddressInformation) {
+export function AddressInformation({ onChangeText, onChangePresentAddress, onChangePermanentAddress, errors }: IAddressInformation) {
   const dispatch = useDispatch();
   const { proposalInput, isSameAddress } = useSelector((state: RootState) => state.proposal);
+  const [divisionList, setDivisionList] = useState({
+    presentDivisions: [],
+    permanentDivisions: []
+  });
+  const [cityList, setCityList] = useState({
+    presentCities: [],
+    permanentCities: []
+  });
+  const [areaList, setAreaList] = useState({
+    presentAreas: [],
+    permanentAreas: []
+  });
+
   const { proposer_permanent_address: permanentAddress, proposer_present_address: presentAddress } = proposalInput;
+
+  const { permanentDivisions, presentDivisions } = divisionList;
+  const { permanentCities, presentCities } = cityList;
+  const { permanentAreas, presentAreas } = areaList;
 
   const handleCheckedSameAddress = (e: any) => {
     const isChecked = e.target.checked;
-    dispatch(isSameAddressCheck(isChecked, permanentAddress))
+    dispatch(
+      isSameAddressCheck(isChecked, permanentAddress)
+    )
+
+    if (isChecked
+      && permanentAddress.division_id
+      && permanentAddress.district_id
+      && permanentAddress.area_id
+      && permanentAddress.post_office_name
+      && permanentAddress.street_address) {
+      setCityList({ presentCities: permanentCities, permanentCities });
+      setAreaList({ presentAreas: permanentAreas, permanentAreas });
+    }
   }
 
-  const {permanentDivisions, presentDivisions} = divisionList;
-  const {permanentCities, presentCities} = cityList;
-  const {permanentAreas, presentAreas} = areaList;
+  const handlePermanentAddressChange = (name: string, value: any) => {
+    if (name == "division_id") {
+      getCitiesDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, permanentAreas: [] })
+        setCityList({ ...cityList, permanentCities: data });
+      });
+    }
+
+    if (name == "district_id") {
+      getAreasDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, permanentAreas: data });
+      });
+    }
+
+    onChangePermanentAddress(name, value);
+  }
+
+  const handlePresentAddressChange = (name: string, value: any) => {
+    if (name == "division_id") {
+      getCitiesDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, presentAreas: [] })
+        setCityList({ ...cityList, presentCities: data });
+      });
+    }
+
+    if (name == "district_id") {
+      getAreasDropdownList(value).then((data) => {
+        setAreaList({ ...areaList, presentAreas: data });
+      });
+    }
+
+    onChangePresentAddress(name, value);
+  }
+
+  useEffect(() => {
+    getDivisionDropdownList().then((data) => {
+      setDivisionList({ permanentDivisions: data, presentDivisions: data });
+      setCityList({ presentCities: [], permanentCities: [] });
+      setAreaList({ presentAreas: [], permanentAreas: [] });
+    });
+  }, []);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
@@ -41,7 +110,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           defaultValue={permanentAddress.division_id}
           label="Division"
           placeholder="Select Division..."
-          handleChangeValue={onChangePermanentAddress}
+          handleChangeValue={handlePermanentAddressChange}
           errors={errors}
         />
 
@@ -53,9 +122,10 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
           label="District"
           defaultValue={permanentAddress.district_id}
           placeholder="Select District..."
-          handleChangeValue={onChangePermanentAddress}
+          handleChangeValue={handlePermanentAddressChange}
           errors={errors}
         />
+
         <Select
           options={permanentAreas}
           isSearchable={true}
@@ -106,9 +176,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
         </div>
       </div>
 
-      <div
-      // className={isSameAddress ? 'block' : 'hidden'}
-      >
+      <div>
         <h4 className="my-2 text-black mt-5 text-xl">Present Address</h4>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           <Select
@@ -119,7 +187,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
             label="Division"
             defaultValue={presentAddress.division_id}
             placeholder="Select Division..."
-            handleChangeValue={onChangePresentAddress}
+            handleChangeValue={handlePresentAddressChange}
             errors={errors}
           />
 
@@ -131,7 +199,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
             label="District"
             defaultValue={presentAddress.district_id}
             placeholder="Select District..."
-            handleChangeValue={onChangePresentAddress}
+            handleChangeValue={handlePresentAddressChange}
             errors={errors}
           />
 
