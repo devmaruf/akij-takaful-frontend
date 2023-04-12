@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
 
@@ -10,6 +10,7 @@ import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 import { formatCurrency } from "@/utils/currency";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
+import { Toaster } from "../toaster";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
@@ -93,9 +94,15 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
         && parseInt(obj.term) === parseInt(term)
       );
 
+      if (rateDetail === undefined || rateDetail === null) {
+        Toaster('error', 'Product rate not found for this age and term.');
+        return 0;
+      }
+
       return parseFloat(rateDetail?.rate ?? 0).toFixed(3);
     }
 
+    Toaster('error', 'Product rate not found for this age and term.');
     return 0;
   }
 
@@ -249,6 +256,23 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     proposalInput.occupation_extra_percentage
   ]);
 
+  const [termDropdownList, setTermDropdownList] = useState([]);
+  useEffect(() => {
+    if (productDetails?.rates !== undefined && productDetails?.rates?.length > 0) {
+      const rates = [];
+      productDetails.rates.forEach(rate => {
+        rates.push({
+          label: rate.term,
+          value: rate.term,
+        })
+      });
+      setTermDropdownList(rates);
+    } else {
+      setTermDropdownList([]);
+    }
+  }, [productDetails]);
+
+
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
@@ -306,15 +330,16 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             handleChangeValue={onChangeText}
           />
 
-          <Input
-            type="number"
-            label="Term"
+          <Select
+            options={termDropdownList}
+            isSearchable={true}
             name="term"
-            placeholder="Term"
-            value={proposalInput.term}
+            label="Term"
+            defaultValue={proposalInput?.term}
+            placeholder="Select term..."
             isRequired={true}
-            inputChange={onChangeText}
             errors={errors}
+            handleChangeValue={onChangeText}
           />
 
           <Select
