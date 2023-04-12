@@ -5,7 +5,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { RootState } from "@/redux/store";
 import { getConcurrentProposalsAction } from "@/redux/actions/proposal-action";
 import ProposalListTable from "./ProposalListTable";
-import Loading from "../loading";
+import Loading from "@/components/loading";
 
 interface IConcurrentProposal {
     phoneNo: string;

@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import "react-datepicker/dist/react-datepicker.css";
 
 import Layout from '@/components/layouts/Layout';
 import { store } from '@/redux/store';

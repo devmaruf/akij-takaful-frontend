@@ -1,3 +1,4 @@
+import DatePicker from "react-datepicker";
 import ValidationMessage from "../validationMessage";
 
 interface IInput {
@@ -86,7 +87,7 @@ export default function Input({
       }
 
       {
-        type !== 'textarea' && type !== 'checkbox' &&
+        type !== 'textarea' && type !== 'checkbox' && type !== 'date' &&
         <input
           id={name}
           type={type}
@@ -117,6 +118,36 @@ export default function Input({
           placeholder={placeholder}
           checked={checked}
           onChange={inputChange && ((e) => inputChange(name, e.target.checked ? 1 : 0))}
+        />
+      }
+
+      {
+        type === 'date' &&
+        // <input
+        //   id={name}
+        //   type={type}
+        //   name={name}
+        //   value={value}
+        //   disabled={isDisabled}
+        //   required={isRequired}
+        //   min={minValue && minValue}
+        //   max={maxValue && maxValue}
+        //   className={getInputClasses()}
+        //   minLength={minLength && minLength}
+        //   maxLength={maxLength && maxLength}
+        //   placeholder={placeholder}
+        //   onChange={inputChange && ((e) => inputChange(name, e.target.value))}
+        // />
+        <DatePicker
+        id={name}
+          dateFormat="dd/MM/yyyy"
+          selected={value !== undefined  && value !== null && value !== '' ? new Date(value) : new Date()}
+          onChange={(date) => inputChange(name, date)}
+          className={`${getInputClasses()} mt-0`}
+          maxDate={maxValue && new Date(maxValue)}
+          minDate={minValue && new Date(minValue)}
+          disabled={isDisabled}
+          required={isRequired}
         />
       }
 

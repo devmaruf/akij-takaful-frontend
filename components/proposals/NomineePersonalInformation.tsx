@@ -118,7 +118,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     name="email"
                     placeholder="Email Address"
                     value={data.email}
-                    isRequired={true}
+                    isRequired={false}
                     inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
@@ -196,16 +196,6 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     defaultValue={data.religion}
                     placeholder="Select Religion"
                     handleChangeValue={changeNomineeInputVal}
-                    errors={errors}
-                />
-
-                <Input
-                    label="Allocation"
-                    name="allocation"
-                    placeholder="Allocation"
-                    value={data.allocation}
-                    isRequired={false}
-                    inputChange={changeNomineeInputVal}
                     errors={errors}
                 />
             </div>

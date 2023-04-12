@@ -6,7 +6,7 @@ import Input from "@/components/input";
 import Select from "@/components/select";
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
-import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
+import { get28thDateOfCurrentMonth, getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 import { formatCurrency } from "@/utils/currency";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
@@ -287,6 +287,8 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           name="policy_issue_date"
           placeholder="Policy issue date"
           value={proposalInput.policy_issue_date ?? getCurrentDate()}
+          minValue={getCurrentDate()}
+          maxValue={getCurrentDate()}
           isRequired={true}
           isDisabled={true}
           inputChange={onChangeText}
@@ -299,6 +301,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           name="commencement_date"
           placeholder="Commencement date"
           value={getCommencementDate()}
+          maxValue={get28thDateOfCurrentMonth()}
           isRequired={true}
           isDisabled={!isHeadOfficeUser()}
           inputChange={onChangeText}
@@ -311,6 +314,8 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           name="risk_date"
           placeholder="Risk date"
           value={proposalInput.policy_issue_date ?? getCurrentDate()}
+          minValue={getCurrentDate()}
+          maxValue={getCurrentDate()}
           isRequired={true}
           isDisabled={true}
           inputChange={onChangeText}
@@ -404,7 +409,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
               name="occupation_extra_percentage"
               placeholder="Occupation extra (%)"
               value={proposalInput.occupation_extra_percentage ?? 0}
-              isRequired={true}
+              isRequired={false}
               inputChange={onChangeText}
               errors={errors}
               minValue={0}
@@ -431,7 +436,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             name="extra_mortality"
             placeholder="Extra mortality"
             value={proposalInput.extra_mortality ?? 0}
-            isRequired={true}
+            isRequired={false}
             inputChange={onChangeText}
             errors={errors}
             minValue={0}

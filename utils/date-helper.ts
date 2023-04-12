@@ -1,3 +1,5 @@
+import { setDate } from "date-fns";
+
 export function getCommencementDate() {
     const today = new Date();
     const date = today.getDate();
@@ -21,4 +23,9 @@ export function getCurrentDate() {
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // add 1 to zero-indexed month
     return `${year}-${month.toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+}
+
+export function get28thDateOfCurrentMonth() {
+  const currentDate = new Date();
+  return setDate(currentDate, 28);
 }

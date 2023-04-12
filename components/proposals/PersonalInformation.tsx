@@ -8,6 +8,7 @@ import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
 import { getCurrentDate } from "@/utils/date-helper";
+import { subYears } from "date-fns";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
@@ -123,7 +124,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           name="email"
           placeholder="Email Address"
           value={personalInformation.email ?? ''}
-          isRequired={true}
+          isRequired={false}
           inputChange={onChangeText}
           errors={errors}
         />
@@ -176,7 +177,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           inputChange={onChangeDob}
           errors={errors}
-          maxValue={getCurrentDate()}
+          maxValue={subYears(new Date(), 18)}
           hintText={
             isNaN(age) ? '' :
               `Calculated age - ${age} year${age > 1 ? 's' : ''}`
@@ -265,16 +266,6 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             errors={errors}
           />
         </div>
-
-        <Input
-          label="Allocation"
-          name="allocation"
-          placeholder="Allocation"
-          value={personalInformation.allocation ?? ''}
-          isRequired={false}
-          inputChange={onChangeText}
-          errors={errors}
-        />
       </div>
     </div>
   );
