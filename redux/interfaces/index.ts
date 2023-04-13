@@ -183,6 +183,27 @@ export interface IProposalBasicInput {
     proposer_nominees: any[];
     underwriting_questionnaires: any[];
     status: string;
+    basic_premium: number;
+    total_premium: number;
+    sum_at_risk: number;
+    total_sum_at_risk: number;
+    term: number;
+    policy_issue_date: string;
+    commencement_date: string;
+    risk_date: string;
+    mode: string;
+    rider_selection: string;
+    rider_class: string;
+    rider_adnd: number;
+    rider_adb: number;
+    rider_hi: number;
+    rider_ci: number;
+    sum_assured: number;
+    rider_premium: number;
+    rider_sum_assured: number;
+    occupation_extra: number;
+    extra_mortality: number;
+    product_rate: number;
 }
 
 export interface IProposalView extends IProposalBasicInput {
@@ -224,6 +245,7 @@ export interface IProposal {
         minLength: number,
         maxLength: number,
     };
+    productDetails: any;
 }
 
 export interface IRole {

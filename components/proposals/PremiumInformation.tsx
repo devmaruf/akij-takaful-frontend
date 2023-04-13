@@ -16,39 +16,9 @@ import { isHeadOfficeUser } from "@/utils/auth";
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
-  const {
-    proposal_personal_information,
-    mode,
-    rider_selection: riderSelection,
-    rider_class: riderClass,
-    term
-  } = proposalInput;
   const { productDropdownList, productDetails } = useSelector((state: RootState) => state.product);
   const isDisabledBasicPremium = !productDetails?.is_dps;
   const isDisabledSumAssured = productDetails?.is_dps;
-  const riderSumAssured = proposalInput?.rider_sum_assured ?? proposalInput.initial_sum_assured;
-  const { age } = proposal_personal_information;
-
-  const onChangeRiderClass = (name: string, value: string) => {
-    if (value === 'class1') {
-      onChangeText('rider_adnd', '3.5');
-      onChangeText('rider_adb', '1.5');
-      onChangeText('rider_hi', '0');
-      onChangeText('rider_ci', '0');
-    } else if (value === 'class2') {
-      onChangeText('rider_adnd', '4.5');
-      onChangeText('rider_adb', '2.5');
-      onChangeText('rider_hi', '0');
-      onChangeText('rider_ci', '0');
-    } else if (value === 'class3') {
-      onChangeText('rider_adnd', '5.5');
-      onChangeText('rider_adb', '3.5');
-      onChangeText('rider_hi', '0');
-      onChangeText('rider_ci', '0');
-    }
-
-    onChangeText(name, value);
-  }
 
   const debouncedDispatch = useCallback(
     debounce(() => {
@@ -63,200 +33,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
     debouncedDispatch();
     return debouncedDispatch.cancel;
   }, [debouncedDispatch]);
-
-  const onChangeRiderSelection = (name: string, value: string) => {
-    if (name === 'rider_selection_hi') {
-      value = 'rider_hi';
-    } else if (name === 'rider_selection_ci') {
-      value = 'rider_ci';
-    } else if (name === 'rider_selection_adnd') {
-      value = 'rider_adnd';
-    } else if (name === 'rider_selection_adb') {
-      value = 'rider_adb';
-    }
-
-    onChangeText('rider_selection', value);
-  }
-
-  const getProductRate = () => {
-    if (proposalInput?.product_id === 0
-      || proposalInput?.product_id === ''
-      || proposalInput?.term === ''
-      || proposalInput?.term === 0
-      || isNaN(age)
-      || age === 0
-      || age === ''
-    ) {
-      return null;
-    }
-
-    if (productDetails?.rates?.length > 0) {
-      const rateDetail = productDetails.rates.find(obj =>
-        parseInt(obj.age) === parseInt(age)
-        && parseInt(obj.term) === parseInt(term)
-      );
-
-      if (rateDetail === undefined || rateDetail === null) {
-        Toaster('error', 'Product rate not found for this age and term.');
-        return 0;
-      }
-
-      return parseFloat(rateDetail?.rate ?? 0).toFixed(3);
-    }
-
-    Toaster('error', 'Product rate not found for this age and term.');
-    return 0;
-  }
-
-  /**
-   * calculateRiderPremium
-   *
-   * Yearly & Single>>(sum assured * rider Rate)/1000 [Rate comes based on Rider Class]
-   * halfYearly >>(sum assured * rider  Rate)/1000*.525 [Rate comes based on Rider Class]
-   * quarterly=(sum assured * rider  rate)/1000*.275 [Rate comes based on Rider Class]
-   * monthly=(sum assured * rider  rate)/1000*.0925 [Rate comes based on Rider Class]
-   */
-  const calculateRiderPremium = () => {
-    let riderPremimum = 0;
-    const riderRate = proposalInput?.[riderSelection];
-
-    if (riderSumAssured === undefined
-      || !(riderSumAssured > 0)
-      || riderRate === undefined
-      || !(riderRate > 0)
-      || mode === undefined
-      || mode?.length <= 0
-    ) {
-      riderPremimum = 0;
-    } else {
-      if (mode === 'yearly' || mode === 'single') {
-        riderPremimum = (riderSumAssured * riderRate) / 1000;
-      } else if (mode === 'half_yearly') {
-        riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.525;
-      } else if (mode === 'quarterly') {
-        riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.275;
-      } else if (mode === 'monthly') {
-        riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.0925;
-      }
-    }
-
-    onChangeText('rider_premium', riderPremimum.toFixed(3));
-  }
-
-  /**
-   * Calculate Basic Premium amount.
-   *
-   * Yearly&Single=(sum assured * rate)/1000 [Rate comes based on Product]
-   * halfYearly=(sum assured * rate)/1000*.525 [Rate comes based on Product]
-   * Quarterly=(sum assured * rate)/1000*.275 [Rate comes based on Product]
-   * monthly=(sum assured * rate)/1000*.0925 [Rate comes based on Product]
-   */
-  const calculateBasicPremium = () => {
-    let basicPremium = 0;
-    const productRate = parseFloat(`${getProductRate() ?? 0}`);
-    const sumAssured = proposalInput.initial_sum_assured;
-
-    if (productRate === null) {
-      basicPremium = 0;
-    } else if (mode === 'yearly' || mode === 'single') {
-      basicPremium = (sumAssured * productRate) / 1000;
-    } else if (mode === 'half_yearly') {
-      basicPremium = (riderSumAssured * productRate) / 1000 * 0.525;
-    } else if (mode === 'quarterly') {
-      basicPremium = (riderSumAssured * productRate) / 1000 * 0.275;
-    } else if (mode === 'monthly') {
-      basicPremium = (riderSumAssured * productRate) / 1000 * 0.0925;
-    }
-
-    onChangeText('initial_premium', basicPremium.toFixed(3));
-  }
-
-  const calculateSumAssured = () => {
-    let sumAssured = 0;
-
-    const productRate = parseFloat(`${getProductRate() ?? 0}`);
-    const basicPremium = proposalInput.initial_premium;
-
-    if (productRate === null) {
-      sumAssured = 0;
-    } else {
-      sumAssured = (productRate * 100 / basicPremium)
-    }
-
-    onChangeText('initial_sum_assured', sumAssured.toFixed(3));
-  }
-
-  /**
-   * Basic Premium + Riders Premium
-   * + Occupation Extra + Extra Mortality Premium
-   */
-  const getTotalPremium = () => {
-    onChangeText(
-      'premium',
-      parseFloat(proposalInput?.initial_premium ?? 0)
-      + parseFloat(proposalInput?.rider_premium ?? 0)
-      + parseFloat(proposalInput?.occupation_extra ?? 0)
-      + parseFloat(proposalInput?.extra_mortality ?? 0)
-    );
-  }
-
-  useEffect(() => {
-    calculateRiderPremium();
-  }, [riderSelection, mode, riderSumAssured, riderClass]);
-
-  useEffect(() => {
-    if (isDisabledBasicPremium) {
-      calculateBasicPremium();
-    } else {
-      calculateSumAssured();
-    }
-  }, [
-    proposalInput.initial_sum_assured,
-    proposalInput?.product_id,
-    proposalInput?.term,
-    age,
-    isDisabledBasicPremium
-  ]);
-
-  useEffect(() => {
-    if (!isDisabledBasicPremium) {
-      calculateSumAssured();
-    }
-  }, [
-    proposalInput.initial_premium,
-    proposalInput?.product_id,
-    proposalInput?.term,
-    age,
-    isDisabledBasicPremium
-  ]);
-
-  useEffect(() => {
-    getTotalPremium();
-  }, [
-    proposalInput.initial_premium,
-    proposalInput.rider_premium,
-    proposalInput.occupation_extra,
-    proposalInput.extra_mortality,
-  ]);
-
-  useEffect(() => {
-    if (isDisabledSumAssured) {
-      onChangeText('mode', 'monthly');
-    } else {
-      onChangeText('mode', '');
-    }
-  }, [isDisabledSumAssured]);
-
-  useEffect(() => {
-    const occupationExtraAmount = parseFloat(proposalInput.initial_sum_assured) * (parseFloat(proposalInput.occupation_extra_percentage) / 100)
-    onChangeText(
-      'occupation_extra',
-      occupationExtraAmount.toFixed(3)
-    );
-  }, [
-    proposalInput.initial_sum_assured,
-    proposalInput.occupation_extra_percentage
-  ]);
 
   const [termDropdownList, setTermDropdownList] = useState([]);
   useEffect(() => {
@@ -273,7 +49,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       setTermDropdownList([]);
     }
   }, [productDetails]);
-
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -378,9 +153,9 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           <Input
             type="number"
             label="Sum Assured"
-            name="initial_sum_assured"
+            name="sum_assured"
             placeholder="Sum Assured"
-            value={proposalInput?.initial_sum_assured}
+            value={proposalInput?.sum_assured}
             isRequired={true}
             isDisabled={isDisabledSumAssured}
             inputChange={onChangeText}
@@ -391,15 +166,14 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           <Input
             type="number"
             label="Basic Premium"
-            name="initial_premium"
+            name="basic_premium"
             placeholder="Basic Premium"
-            value={proposalInput.initial_premium}
+            value={proposalInput.basic_premium}
             isRequired={true}
             isDisabled={isDisabledBasicPremium}
             inputChange={onChangeText}
             errors={errors}
             minValue={0}
-            maxValue={proposalInput.initial_sum_assured}
           />
 
           <div className="flex">
@@ -426,7 +200,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
               inputChange={onChangeText}
               errors={errors}
               minValue={0}
-              areaClassNames="w-24 mt-1"
+              areaClassNames="w-24 mt-0"
             />
           </div>
 
@@ -447,7 +221,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Sum at risk"
             name="sum_at_risk"
             placeholder="Sum at risk"
-            value={proposalInput.sum_at_risk ?? proposalInput.initial_sum_assured}
+            value={proposalInput.sum_at_risk ?? proposalInput.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -474,7 +248,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 placeholder="HI"
                 checked={proposalInput.rider_selection === 'rider_hi'}
                 isRequired={false}
-                inputChange={onChangeRiderSelection}
+                inputChange={onChangeText}
                 errors={errors}
                 areaClassNames="flex-1"
               />
@@ -485,7 +259,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 placeholder="CI"
                 checked={proposalInput.rider_selection === 'rider_ci'}
                 isRequired={false}
-                inputChange={onChangeRiderSelection}
+                inputChange={onChangeText}
                 errors={errors}
                 areaClassNames="flex-1"
               />
@@ -496,7 +270,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 placeholder="AD&D"
                 checked={proposalInput.rider_selection === 'rider_adnd'}
                 isRequired={false}
-                inputChange={onChangeRiderSelection}
+                inputChange={onChangeText}
                 errors={errors}
                 areaClassNames="flex-1"
               />
@@ -508,7 +282,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                 placeholder="ADB"
                 checked={proposalInput.rider_selection === 'rider_adb'}
                 isRequired={false}
-                inputChange={onChangeRiderSelection}
+                inputChange={onChangeText}
                 errors={errors}
                 areaClassNames="flex-1"
               />
@@ -524,7 +298,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             placeholder="Select Rider class..."
             isRequired={true}
             errors={errors}
-            handleChangeValue={onChangeRiderClass}
+            handleChangeValue={onChangeText}
           />
 
           {
@@ -549,7 +323,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
               label="ADB"
               name="adb"
               placeholder="ADB"
-              value={proposalInput.adb}
+              value={proposalInput.rider_adb}
               isRequired={true}
               isDisabled={true}
               inputChange={onChangeText}
@@ -564,7 +338,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
               label="HI"
               name="hi"
               placeholder="hi"
-              value={proposalInput.hi}
+              value={proposalInput.rider_hi}
               isRequired={true}
               isDisabled={true}
               inputChange={onChangeText}
@@ -579,7 +353,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
               label="CI"
               name="ci"
               placeholder="ci"
-              value={proposalInput.ci}
+              value={proposalInput.rider_ci}
               isRequired={true}
               isDisabled={true}
               inputChange={onChangeText}
@@ -592,7 +366,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Rider Sum Assured"
             name="rider_sum_assured"
             placeholder="Rider Sum Assured"
-            value={proposalInput?.rider_sum_assured ?? proposalInput.initial_sum_assured}
+            value={proposalInput?.rider_sum_assured ?? proposalInput.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -616,7 +390,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       <div>
         <h3 className="mt-3 bg-slate-100 p-2 text-green-500 mb-3 text-md text-center">
           Total Premium &nbsp;
-          {formatCurrency((isNaN(proposalInput?.premium) ? 0 : proposalInput?.premium) ?? 0)}
+          {formatCurrency((isNaN(proposalInput?.total_premium) ? 0 : proposalInput?.total_premium) ?? 0)}
         </h3>
       </div>
     </div>

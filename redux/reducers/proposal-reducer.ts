@@ -1,3 +1,4 @@
+// import { Toaster } from "@/components/toaster";
 import { IProposal, IProposalBasicInput } from "../interfaces";
 import * as Types from "../types/proposal-type";
 import { generateDropdownList } from "@/utils/dropdown";
@@ -118,6 +119,27 @@ const initialState: IProposal = {
         proposer_nominees: [defaultProposerNominee],
         underwriting_questionnaires: [],
         status: 'creating',
+        basic_premium: 0,
+        total_premium: 0,
+        sum_at_risk: 0,
+        total_sum_at_risk: 0,
+        term: 0,
+        policy_issue_date: '',
+        commencement_date: '',
+        risk_date: '',
+        mode: '',
+        rider_selection: '',
+        rider_class: '',
+        rider_adnd: 0,
+        rider_adb: 0,
+        rider_hi: 0,
+        rider_ci: 0,
+        product_rate: 0,
+        sum_assured: 0,
+        rider_premium: 0,
+        rider_sum_assured: 0,
+        occupation_extra: 0,
+        extra_mortality: 0,
     },
     printProposalList: [],
     identity_type: {
@@ -128,18 +150,25 @@ const initialState: IProposal = {
         minLength: 10,
         maxLength: 17,
     },
+    productDetails: {},
 };
-
 
 function ProposalsReducer(state = initialState, action: any) {
     switch (action.type) {
         case Types.CHANGE_INPUT_VALUE:
-            const updatedProposalInput: IProposalBasicInput = {
+            let updatedProposalInput: IProposalBasicInput = {
                 ...state.proposalInput
             }
 
             if (action.payload.key === '') {
                 updatedProposalInput[action.payload.data.name] = action.payload.data.value;
+                // Handle premium information changes
+                updatedProposalInput = handleProposalPremiumInformationChanges(
+                    action.payload.data.name,
+                    action.payload.data.value,
+                    updatedProposalInput,
+                    state.productDetails
+                )
             } else {
                 updatedProposalInput[action.payload.key] = {
                     ...updatedProposalInput[action.payload.key],
@@ -187,7 +216,7 @@ function ProposalsReducer(state = initialState, action: any) {
         case Types.GET_PLAN_LIST:
             return {
                 ...state,
-                planList: getPlanList(action.payload),
+                planList: generateDropdownList(action.payload),
             };
 
         case Types.SUBMIT_PROPOSAL:
@@ -231,24 +260,25 @@ function ProposalsReducer(state = initialState, action: any) {
         case Types.GET_PROPOSAL_DETAILS:
 
             const inputData = action.payload.inputData;
-            const proposalPrevInput = { ...state.proposalInput, inputData }
+            // const proposalPrevInput = { ...state.proposalInput, inputData }
 
-            let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
-                if (key in inputData) {
-                    obj[key] = inputData[key];
-                }
-                if (obj[key] == null) {
-                    obj[key] = proposalPrevInput[key]
-                }
-                return obj;
-            }, {});
+            // let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
+            //     if (key in inputData) {
+            //         obj[key] = inputData[key];
+            //     }
+            //     if (obj[key] == null) {
+            //         obj[key] = proposalPrevInput[key]
+            //     }
+            //     return obj;
+            // }, {});
 
             return {
                 ...state,
                 loadingDetails: action.payload.isLoading,
                 proposalInput: {
-                    ...intersectionObject,
-                    proposer_nominees: intersectionObject?.proposer_nominees?.length === 0 ? [defaultProposerNominee] : intersectionObject.proposer_nominees
+                    ...state.proposalInput,
+                    ...inputData,
+                    proposer_nominees: inputData?.proposer_nominees?.length === 0 ? [defaultProposerNominee] : inputData.proposer_nominees
                 },
                 proposalDetails: action.payload.data,
             };
@@ -308,24 +338,230 @@ function ProposalsReducer(state = initialState, action: any) {
                 proposalInput: getPreviousValue
             }
 
+        case 'GET_PRODUCT_DETAILS':
+            return {
+                ...state,
+                proposalInput: {
+                    ...state.proposalInput,
+                    productDetails: action.payload.data,
+                }
+            };
+
         default:
             break;
     }
     return state;
 }
 
-const getPlanList = (data: any[]) => {
-    let options: any[] = [];
-    if (data) {
-        data.forEach((item) => {
-            let itemData = {
-                value: item.id,
-                label: item.name,
-            };
-            options.push(itemData);
-        });
+const handleProposalPremiumInformationChanges = (name: string, value: any, proposalInput: IProposalBasicInput, productDetails) => {
+    let updatedProposalInput = {
+        ...proposalInput
+    };
+
+    console.log('name', name);
+    console.log('value', value);
+
+    // Update occupation extra percentage.
+    updatedProposalInput.occupation_extra = parseFloat(updatedProposalInput?.sum_assured) * (parseFloat(updatedProposalInput?.occupation_extra_percentage ?? 0) / 100)
+
+    if (name === 'rider_selection_hi' || name === 'rider_selection_ci' || name === 'rider_selection_adnd' || name === 'rider_selection_adb') {
+        updatedProposalInput.rider_selection = getRiderSelection(name, value);
     }
-    return options;
-};
+
+    if (name === 'rider_class' && (value === 'class1' || value === 'class2' || value === 'class3')) {
+        const values = getRiderSelectionValues(value);
+
+        updatedProposalInput.rider_adb = values?.rider_adb;
+        updatedProposalInput.rider_adnd = values?.rider_adnd;
+        updatedProposalInput.rider_hi = values?.rider_hi;
+        updatedProposalInput.rider_ci = values?.rider_ci;
+    }
+
+    if (productDetails.is_dps) {
+        updatedProposalInput.mode = 'monthly';
+    }
+
+    if (productDetails.is_dps) {
+        // Update sum assured
+        updatedProposalInput.sum_assured = getSumAssured(
+            updatedProposalInput,
+            productDetails
+        );
+    } else {
+        // Update basic premium
+        updatedProposalInput.basic_premium = getBasicPremium(
+            updatedProposalInput,
+            productDetails
+        );
+    }
+
+    // Calculdate rider premium
+    updatedProposalInput.rider_premium = getRiderPremium(
+        updatedProposalInput.rider_selection,
+        updatedProposalInput.mode,
+        updatedProposalInput.rider_class,
+        updatedProposalInput.rider_sum_assured,
+        updatedProposalInput
+    );
+
+    // Update total premium
+    updatedProposalInput.total_premium = parseFloat(updatedProposalInput?.basic_premium ?? 0)
+        + parseFloat(updatedProposalInput?.rider_premium ?? 0)
+        + parseFloat(updatedProposalInput?.occupation_extra ?? 0)
+        + parseFloat(updatedProposalInput?.extra_mortality ?? 0)
+
+    return updatedProposalInput;
+}
+
+const getRiderSelection = (name: string, value: string) => {
+    if (name === 'rider_selection_hi') {
+        value = 'rider_hi';
+    } else if (name === 'rider_selection_ci') {
+        value = 'rider_ci';
+    } else if (name === 'rider_selection_adnd') {
+        value = 'rider_adnd';
+    } else if (name === 'rider_selection_adb') {
+        value = 'rider_adb';
+    }
+
+    return value;
+}
+
+const getRiderSelectionValues = (value: string) => {
+    if (value === 'class1') {
+        return {
+            rider_adnd: '3.5',
+            rider_adb: '1.5',
+            rider_hi: '0',
+            rider_ci: '0',
+        }
+    } else if (value === 'class2') {
+        return {
+            rider_adnd: '4.5',
+            rider_adb: '2.5',
+            rider_hi: '0',
+            rider_ci: '0',
+        }
+    } else if (value === 'class3') {
+        return {
+            rider_adnd: '5.5',
+            rider_adb: '3.5',
+            rider_hi: '0',
+            rider_ci: '0',
+        }
+    }
+}
+
+/**
+   * getRiderPremium
+   *
+   * Yearly & Single>>(sum assured * rider Rate)/1000 [Rate comes based on Rider Class]
+   * halfYearly >>(sum assured * rider  Rate)/1000*.525 [Rate comes based on Rider Class]
+   * quarterly=(sum assured * rider  rate)/1000*.275 [Rate comes based on Rider Class]
+   * monthly=(sum assured * rider  rate)/1000*.0925 [Rate comes based on Rider Class]
+   */
+const getRiderPremium = (riderSelection, mode, riderClass, riderSumAssured, proposalInput) => {
+    let riderPremimum = 0;
+    const riderRate = proposalInput?.[riderSelection];
+
+    if (riderSumAssured === undefined
+        || !(riderSumAssured > 0)
+        || riderRate === undefined
+        || !(riderRate > 0)
+        || mode === undefined
+        || mode?.length <= 0
+    ) {
+        riderPremimum = 0;
+    } else {
+        if (mode === 'yearly' || mode === 'single') {
+            riderPremimum = (riderSumAssured * riderRate) / 1000;
+        } else if (mode === 'half_yearly') {
+            riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.525;
+        } else if (mode === 'quarterly') {
+            riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.275;
+        } else if (mode === 'monthly') {
+            riderPremimum = (riderSumAssured * riderRate) / 1000 * 0.0925;
+        }
+    }
+
+    return riderPremimum.toFixed(3);
+}
+
+/**
+ * Calculate Basic Premium amount.
+ *
+ * Yearly&Single=(sum assured * rate)/1000 [Rate comes based on Product]
+ * halfYearly=(sum assured * rate)/1000*.525 [Rate comes based on Product]
+ * Quarterly=(sum assured * rate)/1000*.275 [Rate comes based on Product]
+ * monthly=(sum assured * rate)/1000*.0925 [Rate comes based on Product]
+ */
+const getBasicPremium = (proposalInput: IProposalBasicInput, productDetails) => {
+    let basicPremium = 0;
+    const mode = proposalInput?.mode;
+    const productRate = parseFloat(`${getProductRate(proposalInput, productDetails) ?? 0}`);
+    const sumAssured = proposalInput.sum_assured;
+
+    if (productRate === null) {
+        basicPremium = 0;
+    } else if (mode === 'yearly' || mode === 'single') {
+        basicPremium = (sumAssured * productRate) / 1000;
+    } else if (mode === 'half_yearly') {
+        basicPremium = (sumAssured * productRate) / 1000 * 0.525;
+    } else if (mode === 'quarterly') {
+        basicPremium = (sumAssured * productRate) / 1000 * 0.275;
+    } else if (mode === 'monthly') {
+        basicPremium = (sumAssured * productRate) / 1000 * 0.0925;
+    }
+
+    return basicPremium.toFixed(3);
+}
+
+const getProductRate = (proposalInput, productDetails) => {
+    const age = proposalInput?.proposal_personal_information?.age;
+
+    if (proposalInput?.product_id === 0
+        || proposalInput?.product_id === ''
+        || proposalInput?.term === ''
+        || proposalInput?.term === 0
+        || isNaN(age)
+        || age === 0
+        || age === ''
+    ) {
+        return null;
+    }
+
+    if (productDetails?.rates?.length > 0) {
+        const rateDetail = productDetails.rates.find(obj =>
+            parseInt(obj.age) === parseInt(age)
+            && parseInt(obj.term) === parseInt(proposalInput?.term)
+        );
+
+        if (rateDetail === undefined || rateDetail === null) {
+            // Toaster('error', 'Product rate not found for this age and term.');
+            return proposalInput?.product_rate ?? 0;
+        }
+
+        // Toaster('success', 'Product rate found for this age and term.');
+        return parseFloat(rateDetail?.rate ?? 0).toFixed(3);
+    }
+
+    // Toaster('error', 'Product rate not found for this age and term.');
+    return proposalInput?.product_rate ?? 0;
+}
+
+const getSumAssured = (proposalInput, productDetails) => {
+    let sumAssured = 0;
+
+    const productRate = parseFloat(`${getProductRate(proposalInput, productDetails) ?? 0}`);
+    const basicPremium = proposalInput.basic_premium;
+
+    if (productRate === null) {
+        sumAssured = 0;
+    } else {
+        sumAssured = (productRate * 100 / basicPremium)
+    }
+
+    return sumAssured.toFixed(3);
+}
 
 export default ProposalsReducer;
