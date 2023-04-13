@@ -14,7 +14,6 @@ import { PageContent } from '@/components/layouts/PageContent';
 import { getAgentsDropdownList } from '@/redux/actions/employee-action';
 import { getBranchDropdownList } from '@/redux/actions/branch-action';
 import { useDebounced } from '@/hooks/use-debounce';
-import { getProductDropdownListAction } from '@/redux/actions/product-action';
 import BankSelect from '@/components/banks/BankSelect';
 
 export default function ProposalBasicEditPage() {
@@ -24,12 +23,10 @@ export default function ProposalBasicEditPage() {
   const { proposalInput, isSubmitting, loadingDetails } = useSelector((state: RootState) => state.proposal);
   const { agentsDropdownList } = useSelector((state: RootState) => state.employee);
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
-  const { productDropdownList } = useSelector((state: RootState) => state.product);
 
   useDebounced(() => {
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
-    dispatch(getProductDropdownListAction());
   });
 
 
@@ -89,16 +86,6 @@ export default function ProposalBasicEditPage() {
                   label="Branch"
                   defaultValue={proposalInput?.branch_id ?? ''}
                   placeholder="Select Branch..."
-                  handleChangeValue={handleChangeTextInput}
-                />
-                <Select
-                  options={productDropdownList}
-                  isSearchable={true}
-                  isRequired={true}
-                  name="product_id"
-                  label="Product"
-                  defaultValue={proposalInput?.product_id ?? ''}
-                  placeholder='Select a product...'
                   handleChangeValue={handleChangeTextInput}
                 />
                 <Input
