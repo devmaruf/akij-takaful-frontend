@@ -160,22 +160,21 @@ export default function EnlistmentPage() {
               {
                 proposalInput.proposal_personal_information !== undefined &&
                 proposalInput.proposal_personal_information !== null &&
-                <ProposerBMICalculation
-                  onChangeText={(name: string, value: any) => {
-                    onChangeFormSectionInput(name, value, 'proposal_personal_information')
-                  }}
-                  errors={errors}
-                />
-              }
+                <>
+                  <ProposerBMICalculation
+                    onChangeText={(name: string, value: any) => {
+                      onChangeFormSectionInput(name, value, 'proposal_personal_information')
+                    }}
+                    errors={errors}
+                  />
 
-              {
-                proposalInput.proposal_personal_information !== undefined &&
-                <Questionaires
-                  onChangeText={(name: string, value: any) => {
-                    onChangeFormSectionInput(name, value, '')
-                  }}
-                  errors={errors}
-                />
+                  <Questionaires
+                    onChangeText={(name: string, value: any) => {
+                      onChangeFormSectionInput(name, value, '')
+                    }}
+                    errors={errors}
+                  />
+                </>
               }
 
               <Button
