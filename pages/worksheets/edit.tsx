@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 
 import { RootState } from "@/redux/store";
 import {
-  getPlanDropdownList,
   changeInputValue,
   handleCheckIdentity,
   getProposalDetails,
