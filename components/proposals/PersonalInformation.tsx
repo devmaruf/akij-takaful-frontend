@@ -7,14 +7,13 @@ import { RootState } from "@/redux/store";
 import { GenderList, identityTypeList, MaritalStatusList, religionList } from "@/utils/proposal-dropdowns";
 import { IBMI, calculateAge, calculateBMI } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
-import { getCurrentDate } from "@/utils/date-helper";
 import { subYears } from "date-fns";
+import OccupationDropdown from "@/components/occupations/OccupationDropdown";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
   const personalInformation = proposalInput.proposal_personal_information;
   const { height, height_inch: heightInch, weight, dob, age } = personalInformation;
-
   const [BMI, setBMI] = useState<IBMI>({
     bmi: 0,
     status: ''
@@ -184,13 +183,10 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           }
         />
 
-        <Input
-          label="Occupation"
-          name="occupation"
-          placeholder="Occupation"
-          value={personalInformation.occupation ?? ''}
-          isRequired={true}
-          inputChange={onChangeText}
+        <OccupationDropdown
+          occupation={personalInformation.occupation ?? ''}
+          onChange={onChangeText}
+          onChangeOccupationId={(occupationId) => onChangeText('occupation_id', occupationId)}
           errors={errors}
         />
 
