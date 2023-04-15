@@ -27,6 +27,7 @@ import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
 import PremiumInformation from "@/components/proposals/PremiumInformation";
+import ProposerBMICalculation from "@/components/proposals/ProposerBMICalculation";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -155,6 +156,17 @@ export default function EnlistmentPage() {
                 onChangeText={handleChangeTextInput}
                 errors={errors}
               />
+
+              {
+                proposalInput.proposal_personal_information !== undefined &&
+                proposalInput.proposal_personal_information !== null &&
+                <ProposerBMICalculation
+                  onChangeText={(name: string, value: any) => {
+                    onChangeFormSectionInput(name, value, 'proposal_personal_information')
+                  }}
+                  errors={errors}
+                />
+              }
 
               {
                 proposalInput.proposal_personal_information !== undefined &&
