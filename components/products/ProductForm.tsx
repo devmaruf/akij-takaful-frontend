@@ -99,14 +99,39 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                             defaultValue={productInput.modes}
                             changeTextInput={changeTextInput}
                         />
-                        <Input
-                            type='checkbox'
-                            label="Is DPS ?"
-                            name="is_dps"
-                            checked={productInput?.is_dps}
-                            errors={errors}
-                            inputChange={changeTextInput}
-                        />
+
+                        <div className='flex flex-col md:flex-row'>
+                            <Input
+                                type='checkbox'
+                                label="Is DPS"
+                                name="is_dps"
+                                checked={productInput?.is_dps}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+
+                            <Input
+                                type='checkbox'
+                                label="Show ADB & AD&D"
+                                name="is_adb_enabled"
+                                checked={productInput?.is_adb_enabled}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+
+                            <Input
+                                type='checkbox'
+                                label="Is Child Health"
+                                name="is_child_health"
+                                checked={productInput?.is_child_health}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+                        </div>
+
                         <>
                             <label
                                 htmlFor={'rates_file'}

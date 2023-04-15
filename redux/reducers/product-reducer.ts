@@ -14,14 +14,18 @@ const initialState: IProductReducer = {
         name: "",
         rates: [],
         modes: [],
-        is_dps: 0
+        is_dps: 0,
+        is_adb_enabled: 1,
+        is_child_health: 0,
     },
     productDropdownList: [],
     productInput: {
         name: "",
         rates: [],
         modes: [],
-        is_dps: 0
+        is_dps: 0,
+        is_adb_enabled: 1,
+        is_child_health: 0,
     },
 };
 
