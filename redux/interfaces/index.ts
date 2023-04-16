@@ -369,6 +369,8 @@ export interface IProductForm {
     rates: Array<IProductRate>;
     modes: Array<string>;
     is_dps: number;
+    is_adb_enabled: number,
+    is_child_health: number,
 }
 
 export interface IProductReducer {
