@@ -10,7 +10,6 @@ import { get28thDateOfCurrentMonth, getCommencementDate, getCurrentDate } from "
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 import { formatCurrency } from "@/utils/currency";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
-import { Toaster } from "@/components/toaster";
 import { isHeadOfficeUser } from "@/utils/auth";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
@@ -75,7 +74,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           label="Commencement date"
           name="commencement_date"
           placeholder="Commencement date"
-          value={getCommencementDate()}
+          value={proposalInput?.commencement_date ?? getCommencementDate()}
           maxValue={get28thDateOfCurrentMonth()}
           isRequired={true}
           isDisabled={!isHeadOfficeUser()}
@@ -227,6 +226,19 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             errors={errors}
             minValue={0}
           />
+
+          <Input
+            type="number"
+            label="Total Sum at risk"
+            name="total_sum_at_risk"
+            placeholder="Total Sum at risk"
+            value={proposalInput.total_sum_at_risk}
+            isRequired={true}
+            inputChange={onChangeText}
+            isDisabled={true}
+            errors={errors}
+            minValue={0}
+          />
         </div>
       </div>
 
@@ -235,59 +247,65 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           Rider Information
         </h3>
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
-          <div>
-            <label htmlFor="rider_selection_hi" className="text-sm font-medium text-gray-900 block mb-1">
-              Rider Selection
-              <span className="text-red-600">*</span>
-            </label>
-            <div className="flex">
-              <Input
-                type="checkbox"
-                label="HI"
-                name="rider_selection_hi"
-                placeholder="HI"
-                checked={proposalInput.rider_selection === 'rider_hi'}
-                isRequired={false}
-                inputChange={onChangeText}
-                errors={errors}
-                areaClassNames="flex-1"
-              />
-              <Input
-                type="checkbox"
-                label="CI"
-                name="rider_selection_ci"
-                placeholder="CI"
-                checked={proposalInput.rider_selection === 'rider_ci'}
-                isRequired={false}
-                inputChange={onChangeText}
-                errors={errors}
-                areaClassNames="flex-1"
-              />
-              <Input
-                type="checkbox"
-                label="AD&D"
-                name="rider_selection_adnd"
-                placeholder="AD&D"
-                checked={proposalInput.rider_selection === 'rider_adnd'}
-                isRequired={false}
-                inputChange={onChangeText}
-                errors={errors}
-                areaClassNames="flex-1"
-              />
+          {
+            parseInt(productDetails?.is_adb_enabled) == 1 ?
+              <div>
+                <label htmlFor="rider_selection_hi" className="text-sm font-medium text-gray-900 block mb-1">
+                  Rider Selection
+                  <span className="text-red-600">*</span>
+                </label>
+                <div className="flex">
+                  <Input
+                    type="checkbox"
+                    label="HI"
+                    name="rider_selection_hi"
+                    placeholder="HI"
+                    checked={proposalInput.rider_selection === 'rider_hi'}
+                    isRequired={false}
+                    inputChange={onChangeText}
+                    errors={errors}
+                    areaClassNames="flex-1"
+                  />
 
-              <Input
-                type="checkbox"
-                label="ADB"
-                name="rider_selection_adb"
-                placeholder="ADB"
-                checked={proposalInput.rider_selection === 'rider_adb'}
-                isRequired={false}
-                inputChange={onChangeText}
-                errors={errors}
-                areaClassNames="flex-1"
-              />
-            </div>
-          </div>
+                  <Input
+                    type="checkbox"
+                    label="CI"
+                    name="rider_selection_ci"
+                    placeholder="CI"
+                    checked={proposalInput.rider_selection === 'rider_ci'}
+                    isRequired={false}
+                    inputChange={onChangeText}
+                    errors={errors}
+                    areaClassNames="flex-1"
+                  />
+
+                  <Input
+                    type="checkbox"
+                    label="AD&D"
+                    name="rider_selection_adnd"
+                    placeholder="AD&D"
+                    checked={proposalInput.rider_selection === 'rider_adnd'}
+                    isRequired={false}
+                    inputChange={onChangeText}
+                    errors={errors}
+                    areaClassNames="flex-1"
+                  />
+
+                  <Input
+                    type="checkbox"
+                    label="ADB"
+                    name="rider_selection_adb"
+                    placeholder="ADB"
+                    checked={proposalInput.rider_selection === 'rider_adb'}
+                    isRequired={false}
+                    inputChange={onChangeText}
+                    errors={errors}
+                    areaClassNames="flex-1"
+                  />
+                </div>
+              </div> :
+              <></>
+          }
 
           <Select
             options={riderClassDropdown}

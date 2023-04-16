@@ -358,9 +358,6 @@ const handleProposalPremiumInformationChanges = (name: string, value: any, propo
         ...proposalInput
     };
 
-    console.log('name', name);
-    console.log('value', value);
-
     // Update occupation extra percentage.
     updatedProposalInput.occupation_extra = parseFloat(updatedProposalInput?.sum_assured) * (parseFloat(updatedProposalInput?.occupation_extra_percentage ?? 0) / 100)
 
@@ -409,6 +406,10 @@ const handleProposalPremiumInformationChanges = (name: string, value: any, propo
         + parseFloat(updatedProposalInput?.rider_premium ?? 0)
         + parseFloat(updatedProposalInput?.occupation_extra ?? 0)
         + parseFloat(updatedProposalInput?.extra_mortality ?? 0)
+
+    // Update total sum at risk
+    updatedProposalInput.total_sum_at_risk = parseFloat(updatedProposalInput?.sum_at_risk ?? 0)
+        + 0;
 
     return updatedProposalInput;
 }
