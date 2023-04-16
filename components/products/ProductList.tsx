@@ -147,7 +147,7 @@ export default function ProductList() {
 
               {
                 paginationData && paginationData.length === 0 &&
-                <NoTableDataFound colSpan={5}>No products found ! Please add a new product.</NoTableDataFound>
+                <NoTableDataFound colSpan={7}>No products found ! Please add a new product.</NoTableDataFound>
               }
             </Table>
         }

@@ -12,6 +12,7 @@ import Loading from '@/components/loading';
 import Button from '@/components/button';
 import Input from '@/components/input';
 import ProductModeSelect from '@/components/products/ProductModeSelect';
+import ProductDemoFileInstruction from './ProductRateDemoFileInstruction';
 
 interface IProductForm {
     productID: number;
@@ -48,7 +49,6 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
         const text = await file.text();
 
         const headers = text.slice(0, text.indexOf("\n")).split(",");
-        console.table('headers', headers);
         const rates: { age: number; term: number; rate: number; }[] = [];
 
         if (typeof headers[1] === 'string') {
@@ -150,7 +150,7 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
 
                             <Input
                                 type='checkbox'
-                                label="Is Child Health"
+                                label="Is Child Education"
                                 name="is_child_health"
                                 checked={productInput?.is_child_health}
                                 errors={errors}
@@ -181,12 +181,8 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                                     {productInput.rates.length} entry selected.
                                 </Alert>
                             }
-                            <p className="text-gray-500 mt-1 text-xs">
-                                Upload a .csv file with age, term and rate. <br />
-                                <Link href={'/files/product-form-demo.csv'} className='text-blue-500'>
-                                    <i className='bi bi-download'></i> Download demo file
-                                </Link>
-                            </p>
+
+                            <ProductDemoFileInstruction />
                         </>
 
                         <Button

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+
 import { RootState } from '@/redux/store';
 import Loading from '@/components/loading';
 import StatusBadge from '@/components/badge/StatusBadge';
@@ -8,7 +9,7 @@ import { IProductRate } from '@/redux/interfaces';
 export default function ProductDetails() {
     const { productDetails, loadingDetails } = useSelector((state: RootState) => state.product);
     return (
-        <div>
+        <div className='overflow-y-auto max-h-[500px]'>
             {
                 loadingDetails === true ?
                     <div className="text-center">

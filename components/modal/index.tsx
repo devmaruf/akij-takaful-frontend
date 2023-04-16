@@ -7,26 +7,29 @@ interface IModal {
     size: string,
     handleClose: any,
     isShowHeader?: boolean,
+    className?: React.CSSProperties['className'],
 }
 
-export default function Modal({ title, children, isDismissible = false, show, size = "md", handleClose, isShowHeader = true }: IModal) {
+export default function Modal({ title, children, isDismissible = false, show, size = "md", handleClose, isShowHeader = true, className = '' }: IModal) {
 
     return (
-        <ModalComponent
-            show={show}
-            size={size}
-            position="center"
-            onClose={handleClose}
-            dismissible={isDismissible ? isDismissible : false}
-        >
-            {isShowHeader &&
-                <ModalComponent.Header>
-                    {title}
-                </ModalComponent.Header>
-            }
-            <ModalComponent.Body>
-                {children}
-            </ModalComponent.Body>
-        </ModalComponent>
+        <div className={className}>
+            <ModalComponent
+                show={show}
+                size={size}
+                position="center"
+                onClose={handleClose}
+                dismissible={isDismissible ? isDismissible : false}
+            >
+                {isShowHeader &&
+                    <ModalComponent.Header>
+                        {title}
+                    </ModalComponent.Header>
+                }
+                <ModalComponent.Body>
+                    {children}
+                </ModalComponent.Body>
+            </ModalComponent>
+        </div>
     )
 }
