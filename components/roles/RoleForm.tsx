@@ -73,9 +73,6 @@ const RoleForm = ({ id, pageType }: IRoleForm) => {
         customClass='px-6'
     />
 
-    console.log('inputData', inputData);
-    
-
     return (
         <div>
             <PageHeader

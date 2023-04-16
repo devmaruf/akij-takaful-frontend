@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "@/redux/store";
-import { calculateAge, calculateBMI } from "@/utils/calculation";
 import Button from '@/components/button';
 import { DeleteIconButton } from '@/components/button/delete-icon-button';
 import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
 import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
-import { getCitiesDropdownList, getDivisionDropdownList, getAreasDropdownList } from "@/utils/address-dropdown";
 
 export interface IPersonalInformation {
     errors?: any;
@@ -29,7 +27,6 @@ export function NomineeForm({ errors }: IPersonalInformation) {
     const handleChangeProposalNomineeInfo = (name: string, value: any, key: string, index: number) => {
         dispatch(changeNomineeInputValue(name, value, key, index, proposalInput));
     }
-
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">

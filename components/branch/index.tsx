@@ -79,9 +79,6 @@ export default function Branches() {
         }
     }
 
-    console.log('branchPaginationData', branchPaginationData);
-    
-
     return (
         <div>
             <PageHeader

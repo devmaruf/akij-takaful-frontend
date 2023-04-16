@@ -53,9 +53,6 @@ export const getRoleDetailsDataAction = (id: number) => (dispatch: Dispatch) => 
     return;
   }
 
-  console.log('come:' + id);
-  
-
   const response = {
     isLoading: true,
     data: {}

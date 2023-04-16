@@ -14,7 +14,7 @@ export const Toaster = (type: ToastType = 'success', message: string, autoClose 
     const options: ToastOptions = {
         autoClose,
         className,
-        position: toast.POSITION.TOP_RIGHT
+        position: toast.POSITION.BOTTOM_CENTER
     };
     if (type === 'success') {
         toast.success(message, options);

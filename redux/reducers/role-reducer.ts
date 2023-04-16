@@ -88,8 +88,6 @@ function roleReducer(state = initialState, action: any) {
             };
 
         case Types.GET_ROLE_DETAILS_DATA:
-            console.log('action.payload.data', action.payload.data);
-
             if (action.payload.isLoading) {
                 return {
                     ...state,

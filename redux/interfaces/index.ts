@@ -407,3 +407,20 @@ export interface IOccupationReducer {
     occupations: Array<IOccupation>
     occupationDropdownList: Array<ISelect2Item>
 }
+
+export interface IDivisionReducer {
+    isLoading: boolean;
+    divisions: Array<ISelect2Item>;
+}
+
+export interface ICityReducer {
+    isLoading: boolean;
+    cities: Array<ISelect2Item>;
+    nomineeDefaultCities: Array<ISelect2Item>;
+}
+
+export interface IAreaReducer {
+    isLoading: boolean;
+    areas: Array<ISelect2Item>;
+    nomineeDefaultAreas: Array<ISelect2Item>;
+}

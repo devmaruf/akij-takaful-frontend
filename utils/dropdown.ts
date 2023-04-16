@@ -3,6 +3,7 @@ export const generateDropdownList = (data: any[]) => {
     if (data) {
         data.forEach((item) => {
             let itemData = {
+                ...item,
                 value: item.id,
                 label: item.name,
             };

@@ -14,7 +14,9 @@ import ExpenseReducer from '@/redux/reducers/expense-reducer';
 import ProductReducer from "@/redux/reducers/product-reducer";
 import StampStockReducer from "@/redux/reducers/stamp-stock-reducer";
 import OccupationReducer from "@/redux/reducers/occupation-reducer";
-
+import DivisionReducer from "@/redux/reducers/division-reducer";
+import CityReducer from "@/redux/reducers/city-reducer";
+import AreaReducer from "@/redux/reducers/area-reducer";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +35,9 @@ export const store = configureStore({
     product: ProductReducer,
     stampStock: StampStockReducer,
     occupation: OccupationReducer,
+    division: DivisionReducer,
+    city: CityReducer,
+    area: AreaReducer,
   },
 });
 
