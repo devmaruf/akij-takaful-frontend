@@ -10,7 +10,9 @@ import { get28thDateOfCurrentMonth, getCommencementDate, getCurrentDate } from "
 import { productModesDropdown, riderClassDropdown } from "@/utils/dropdown";
 import { formatCurrency } from "@/utils/currency";
 import { getProductDetailsAction } from "@/redux/actions/product-action";
+import { changeInputValue } from "@/redux/actions/proposal-action";
 import { isHeadOfficeUser } from "@/utils/auth";
+import { ChildEducation } from "./ChildEducation";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
@@ -48,6 +50,10 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       setTermDropdownList([]);
     }
   }, [productDetails]);
+
+  const onChangeFormSectionInput = (name: string, value: any, sectionName: string) => {
+    dispatch(changeInputValue(name, value, sectionName));
+  };
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -143,6 +149,20 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
           />
         </div>
       </div>
+
+      {
+        (parseInt(productDetails?.is_child_health) === 1 &&
+          proposalInput.proposer_guardian !== undefined &&
+          proposalInput.proposer_guardian !== null) ?
+          <ChildEducation
+            onChangeText={(name: string, value: any) => {
+              onChangeFormSectionInput(name, value, 'proposer_guardian')
+            }}
+            errors={errors}
+          />
+          :
+          <></>
+      }
 
       <div>
         <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
