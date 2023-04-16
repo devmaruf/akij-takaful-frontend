@@ -1,11 +1,10 @@
-import { Label, ToggleSwitch } from "flowbite-react";
 import { useSelector } from "react-redux";
 import ReactHtmlParser from 'react-html-parser';
 
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
-import Button from "../button";
-import Input from "../input";
+import Button from "@/components/button";
+import Input from "@/components/input";
 
 export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
@@ -31,8 +30,6 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
     onChangeText('underwriting_questionnaires', updatedQuestionnaires);
   }
 
-  // male
-
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
       <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
@@ -41,11 +38,11 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
 
       {
         underwriting_questionnaires.map((questionnaire: any, index: number) => (
-          <>
+          <div key={questionnaire.id}>
             {
               (questionnaire.gender === proposal_personal_information.gender
                 || questionnaire.gender === 'both') &&
-              <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2" key={questionnaire.id}>
+              <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
                 <p className="basis-4/5">
                   {ReactHtmlParser(questionnaire.requirement_name_en)}
                 </p>
@@ -85,7 +82,7 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
                 </div>
               </div>
             }
-          </>
+          </div>
         ))
       }
     </div>

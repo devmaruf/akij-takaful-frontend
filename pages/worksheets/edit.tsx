@@ -5,7 +5,6 @@ import { debounce } from "lodash";
 
 import { RootState } from "@/redux/store";
 import {
-  getPlanDropdownList,
   changeInputValue,
   handleCheckIdentity,
   getProposalDetails,
@@ -28,6 +27,7 @@ import { useDebounced } from "@/hooks/use-debounce";
 import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
 import PremiumInformation from "@/components/proposals/PremiumInformation";
+import ProposerBMICalculation from "@/components/proposals/ProposerBMICalculation";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -159,12 +159,22 @@ export default function EnlistmentPage() {
 
               {
                 proposalInput.proposal_personal_information !== undefined &&
-                <Questionaires
-                  onChangeText={(name: string, value: any) => {
-                    onChangeFormSectionInput(name, value, '')
-                  }}
-                  errors={errors}
-                />
+                proposalInput.proposal_personal_information !== null &&
+                <>
+                  <ProposerBMICalculation
+                    onChangeText={(name: string, value: any) => {
+                      onChangeFormSectionInput(name, value, 'proposal_personal_information')
+                    }}
+                    errors={errors}
+                  />
+
+                  <Questionaires
+                    onChangeText={(name: string, value: any) => {
+                      onChangeFormSectionInput(name, value, '')
+                    }}
+                    errors={errors}
+                  />
+                </>
               }
 
               <Button

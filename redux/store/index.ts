@@ -1,18 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import AuthReducer from "../reducers/AuthReducer";
-import ProjectReducer from "../reducers/ProjectReducer";
-import BranchReducer from "./../reducers/BranchReducer";
-import employeeReducer from "../reducers/employee-reducer";
-import designationReducer from "../reducers/designation-reducer";
-import UnderwritingReducer from "../reducers/underwriting-reducer";
-import DashboardReducer from "../reducers/proposal-dashboard-reducer";
-import globalReducer from "../reducers/global-reducer";
-import ProposalsReducer from "../reducers/proposal-reducer";
-import RoleReducer from "../reducers/role-reducer";
-import StampReducer from "../reducers/stamp-reducer";
-import ExpenseReducer from './../reducers/expense-reducer';
-import ProductReducer from "../reducers/product-reducer";
-import StampStockReducer from "../reducers/stamp-stock-reducer";
+import AuthReducer from "@/redux/reducers/AuthReducer";
+import ProjectReducer from "@/redux/reducers/ProjectReducer";
+import BranchReducer from "@/redux/reducers/BranchReducer";
+import employeeReducer from "@/redux/reducers/employee-reducer";
+import designationReducer from "@/redux/reducers/designation-reducer";
+import UnderwritingReducer from "@/redux/reducers/underwriting-reducer";
+import DashboardReducer from "@/redux/reducers/proposal-dashboard-reducer";
+import globalReducer from "@/redux/reducers/global-reducer";
+import ProposalsReducer from "@/redux/reducers/proposal-reducer";
+import RoleReducer from "@/redux/reducers/role-reducer";
+import StampReducer from "@/redux/reducers/stamp-reducer";
+import ExpenseReducer from '@/redux/reducers/expense-reducer';
+import ProductReducer from "@/redux/reducers/product-reducer";
+import StampStockReducer from "@/redux/reducers/stamp-stock-reducer";
+import OccupationReducer from "@/redux/reducers/occupation-reducer";
 
 
 export const store = configureStore({
@@ -30,7 +31,8 @@ export const store = configureStore({
     role: RoleReducer,
     expense: ExpenseReducer,
     product: ProductReducer,
-    stampStock: StampStockReducer
+    stampStock: StampStockReducer,
+    occupation: OccupationReducer,
   },
 });
 

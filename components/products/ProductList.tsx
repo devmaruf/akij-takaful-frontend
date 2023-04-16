@@ -155,7 +155,7 @@ export default function ProductList() {
 
       <Modal
         title={`New Product`}
-        size="lg"
+        size="2xl"
         show={showModal}
         handleClose={() => setShowModal(false)}
         isDismissible={false}
@@ -175,7 +175,7 @@ export default function ProductList() {
 
       <Modal
         title={`Update Product`}
-        size="md" show={showUpdateModal}
+        size="2xl" show={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}
         isDismissible={false}
       >

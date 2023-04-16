@@ -1,16 +1,17 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from 'flowbite-react';
 import { Dispatch } from '@reduxjs/toolkit';
+import Link from 'next/link';
 
 import { RootState } from '@/redux/store';
-import Button from '@/components/button';
-import Input from '@/components/input';
 import { changeProductInputValue, submitProductAction, updateProductAction } from '@/redux/actions/product-action';
 import { formValidation } from '@/utils/formValidation';
+import { Toaster } from '@/components/toaster';
 import Loading from '@/components/loading';
-import ProductModeSelect from './ProductModeSelect';
-import Link from 'next/link';
-import { Alert } from 'flowbite-react';
+import Button from '@/components/button';
+import Input from '@/components/input';
+import ProductModeSelect from '@/components/products/ProductModeSelect';
 
 interface IProductForm {
     productID: number;
@@ -40,25 +41,51 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
         }
     }
 
-    const handleCSV = async (e) => {
+    const handleCSV = async (e: any) => {
         e.preventDefault();
 
         const file = e.target.files[0];
         const text = await file.text();
 
         const headers = text.slice(0, text.indexOf("\n")).split(",");
-        const rows = text.slice(text.indexOf("\n") + 1).split("\n");
+        console.table('headers', headers);
+        const rates: { age: number; term: number; rate: number; }[] = [];
 
-        const rates = rows.map((row) => {
-            const values = row.split(",");
-            return {
-                age: parseInt(values[0]),
-                term: parseInt(values[1]),
-                rate: parseFloat(values[2])
-            };
-        });
+        if (typeof headers[1] === 'string') {
+            headers.forEach((term: string, index: number) => {
+                if (index > 0) {
+                    const ageWithRates = text.slice(text.indexOf("\n") + 1).split("\n");
+                    term = parseInt(term.replace('\r', ''));
 
-        dispatch(changeProductInputValue('rates', rates));
+                    if (!isNaN(parseInt(term))) {
+                        ageWithRates.forEach((ageAndRate: string) => {
+                            const rows = ageAndRate.split(",");
+                            const age = parseInt(rows[0]);
+
+                            rows.forEach((rate: number, indexAge: number) => {
+                                if (indexAge > 0) {
+                                    rate = parseFloat(rate);
+
+                                    if (!isNaN(rate) && !isNaN(age)) {
+                                        rates.push({
+                                            age,
+                                            term,
+                                            rate
+                                        });
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+
+            dispatch(changeProductInputValue('rates', rates));
+            return;
+        }
+
+        Toaster('error', 'The CSV format is not valid.');
+        return;
     };
 
     return (
@@ -99,14 +126,39 @@ export default function ProductForm({ productID, pageType, closeModal }: IProduc
                             defaultValue={productInput.modes}
                             changeTextInput={changeTextInput}
                         />
-                        <Input
-                            type='checkbox'
-                            label="Is DPS ?"
-                            name="is_dps"
-                            checked={productInput?.is_dps}
-                            errors={errors}
-                            inputChange={changeTextInput}
-                        />
+
+                        <div className='flex flex-col md:flex-row'>
+                            <Input
+                                type='checkbox'
+                                label="Is DPS"
+                                name="is_dps"
+                                checked={productInput?.is_dps}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+
+                            <Input
+                                type='checkbox'
+                                label="Show ADB & AD&D"
+                                name="is_adb_enabled"
+                                checked={productInput?.is_adb_enabled}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+
+                            <Input
+                                type='checkbox'
+                                label="Is Child Health"
+                                name="is_child_health"
+                                checked={productInput?.is_child_health}
+                                errors={errors}
+                                inputChange={changeTextInput}
+                                areaClassNames="flex-1"
+                            />
+                        </div>
+
                         <>
                             <label
                                 htmlFor={'rates_file'}

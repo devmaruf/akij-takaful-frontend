@@ -393,3 +393,15 @@ export interface IStampStock {
     stampStockDetails: any;
     stampStockForm: any
 }
+
+export interface IOccupation {
+    id: number;
+    name: string;
+    class: string;
+    group: string;
+}
+
+export interface IOccupationReducer {
+    occupations: Array<IOccupation>
+    occupationDropdownList: Array<ISelect2Item>
+}

@@ -1,7 +1,4 @@
-import { useSelector } from "react-redux";
-
 import Input from "@/components/input";
-import { RootState } from "@/redux/store";
 import Select from "@/components/select";
 import {
     GenderList,
@@ -13,6 +10,7 @@ import {
 } from "@/utils/proposal-dropdowns";
 import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
+import OccupationDropdown from "@/components/occupations/OccupationDropdown";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -177,13 +175,12 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     }
                 />
 
-                <Input
-                    label="Occupation"
-                    name="occupation"
-                    placeholder="Occupation"
-                    value={data.occupation}
-                    isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                <OccupationDropdown
+                    name={`nominee_${index + 1}_occupation`}
+                    occupation={data.occupation ?? ''}
+                    onChange={(name, value) => {
+                        changeNomineeInputVal('occupation', value);
+                    }}
                     errors={errors}
                 />
 
