@@ -5,24 +5,15 @@ import { getAuthToken, logout } from './auth';
 
 axios.defaults.baseURL = process.env.BASE_URL;
 
-export const defaultHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': '*',
-    'Access-Control-Allow-Headers': '*',
-    'Accept': 'application/json',
-    'Authorization': `Bearer ${getAuthToken()}`
-};
-
-export const formFileHeaderConfig = {
-    ...defaultHeaders,
-    'Content-Type': 'multipart/form-data'
-};
-
 axios.interceptors.request.use((value) => {
     value.headers = {
-        ...defaultHeaders,
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*',
+        'Access-Control-Allow-Headers': '*',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
-    }
+        'Authorization': `Bearer ${getAuthToken()}`
+    };
 
     return value;
 });
