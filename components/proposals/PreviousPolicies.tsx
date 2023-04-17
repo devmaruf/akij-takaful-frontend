@@ -27,7 +27,7 @@ function PreviousPolicies({
     const debouncedDispatch = useCallback(
         debounce(() => {
             if (phoneNo?.length || (idType?.length && idNo?.length)) {
-                dispatch(getPreviousPoliciesAction(phoneNo, idType, idNo, currentPage, proposalId))
+                dispatch(getPreviousPoliciesAction(phoneNo, idType, idNo, proposalId, currentPage))
             }
         }, 500),
         [phoneNo, idType, idNo, currentPage, proposalId]

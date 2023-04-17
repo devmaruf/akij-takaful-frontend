@@ -405,9 +405,10 @@ const handleProposalPremiumInformationChanges = (name: string, value: any, propo
         + parseFloat(updatedProposalInput?.occupation_extra ?? 0)
         + parseFloat(updatedProposalInput?.extra_mortality ?? 0)
 
-    // Update total sum at risk
-    updatedProposalInput.total_sum_at_risk = parseFloat(updatedProposalInput?.sum_at_risk ?? 0)
-        + 0;
+    // Update total sum at risk ->
+    // It would be handled from ConcurrentProposal component.
+    // updatedProposalInput.total_sum_at_risk = parseFloat(updatedProposalInput?.sum_at_risk ?? 0)
+    //     + 0;
 
     return updatedProposalInput;
 }
