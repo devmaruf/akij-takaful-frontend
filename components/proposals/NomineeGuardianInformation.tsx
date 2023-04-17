@@ -1,7 +1,7 @@
-import * as React from "react";
 import Input from "@/components/input";
 import Select from "@/components/select";
 import { relationList } from "@/utils/proposal-dropdowns";
+
 export interface IGuardianInformation {
   handleChangeTextInput: (name: string, value: any, key: string, index: number) => void;
   errors?: any;
@@ -11,7 +11,6 @@ export interface IGuardianInformation {
 }
 
 export function NomineeGuardianInformation({ handleChangeTextInput, errors, index, id, data }: IGuardianInformation) {
-
   const changeNomineeInputVal = (name: string, value: any) => {
     handleChangeTextInput(name, value, id, index)
   }
@@ -23,7 +22,7 @@ export function NomineeGuardianInformation({ handleChangeTextInput, errors, inde
   return (
     <div className="border border-gray-200 rounded-md shadow-md mt-3">
       <div className="bg-white text-cyan-600 mb-3 text-sm border border-gray-200">
-        <h3 className="p-2">  Nominee Guardian Information</h3>
+        <h3 className="p-2"> Nominee Guardian Information</h3>
       </div>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2">
         <Input

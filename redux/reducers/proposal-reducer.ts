@@ -16,7 +16,7 @@ const defaultProposerNominee = {
         email: '',
         mobile_no: '',
         marital_status: '',
-        identity_type: 'nid',
+        identity_type: '',
         gender: '',
         id_no: '',
         dob: '',
@@ -109,9 +109,7 @@ const initialState: IProposal = {
         initial_premium: 0,
         proposer_name: '',
         phone_no: '',
-        proposal_personal_information: {
-            identity_type: 'nid'
-        },
+        proposal_personal_information: {},
         proposer_present_address: {},
         proposer_permanent_address: {},
         proposer_bank_information: {},
@@ -260,18 +258,6 @@ function ProposalsReducer(state = initialState, action: any) {
         case Types.GET_PROPOSAL_DETAILS:
 
             const inputData = action.payload.inputData;
-            // const proposalPrevInput = { ...state.proposalInput, inputData }
-
-            // let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
-            //     if (key in inputData) {
-            //         obj[key] = inputData[key];
-            //     }
-            //     if (obj[key] == null) {
-            //         obj[key] = proposalPrevInput[key]
-            //     }
-            //     return obj;
-            // }, {});
-
             return {
                 ...state,
                 loadingDetails: action.payload.isLoading,
@@ -407,9 +393,10 @@ const handleProposalPremiumInformationChanges = (name: string, value: any, propo
         + parseFloat(updatedProposalInput?.occupation_extra ?? 0)
         + parseFloat(updatedProposalInput?.extra_mortality ?? 0)
 
-    // Update total sum at risk
-    updatedProposalInput.total_sum_at_risk = parseFloat(updatedProposalInput?.sum_at_risk ?? 0)
-        + 0;
+    // Update total sum at risk ->
+    // It would be handled from ConcurrentProposal component.
+    // updatedProposalInput.total_sum_at_risk = parseFloat(updatedProposalInput?.sum_at_risk ?? 0)
+    //     + 0;
 
     return updatedProposalInput;
 }

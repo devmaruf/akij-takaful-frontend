@@ -39,11 +39,16 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   useEffect(() => {
     if (productDetails?.rates !== undefined && productDetails?.rates?.length > 0) {
       const rates = [];
+      const termSet = new Set();
+
       productDetails.rates.forEach(rate => {
-        rates.push({
-          label: rate.term,
-          value: rate.term,
-        })
+        if (!termSet.has(rate.term)) {
+          termSet.add(rate.term);
+          rates.push({
+            label: rate.term,
+            value: rate.term,
+          });
+        }
       });
       setTermDropdownList(rates);
     } else {

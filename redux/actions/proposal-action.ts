@@ -294,7 +294,6 @@ export const printProposalAction = (proposalPrintData: object) => (dispatch: Dis
         });
 }
 
-
 export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
     const data = {
         isDisabledField: true,
@@ -418,6 +417,7 @@ export const getConcurrentProposalsAction = (
     mobileNo: string = '',
     idType: string = '',
     idNo: string = '',
+    proposalId: number = 0,
     currentPage: number = 1,
 ) => (dispatch: Dispatch) => {
     let response = {
@@ -433,7 +433,8 @@ export const getConcurrentProposalsAction = (
     axios.post(`/proposals/information/concurrent-proposals?page=${currentPage}`, {
         "mobile_no": mobileNo,
         "id_type": idType,
-        "id_no": idNo
+        "id_no": idNo,
+        "proposal_id": proposalId
     })
         .then(res => {
             response.isLoading = false;
@@ -453,6 +454,7 @@ export const getPreviousPoliciesAction = (
     mobileNo: string = '',
     idType: string = '',
     idNo: string = '',
+    proposalId: number = 0,
     currentPage: number = 1,
 ) => (dispatch: Dispatch) => {
     let response = {
@@ -468,7 +470,8 @@ export const getPreviousPoliciesAction = (
     axios.post(`/proposals/information/previous-policies?page=${currentPage}`, {
         "mobile_no": mobileNo,
         "id_type": idType,
-        "id_no": idNo
+        "id_no": idNo,
+        "proposal_id": proposalId
     })
         .then(res => {
             response.isLoading = false;

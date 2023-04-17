@@ -10,7 +10,6 @@ import NoTableDataFound from '@/components/table/NoDataFound';
 import Loading from '@/components/loading';
 import Button from '@/components/button';
 import { hasPermission } from '@/utils/permission';
-import { IProposalView } from '@/redux/interfaces';
 import { formatCurrency } from '@/utils/currency';
 import { proposalColumns } from '@/utils/table-columns';
 import { RootState } from '@/redux/store';
@@ -118,6 +117,7 @@ export default function ProposalListTable({
                             <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                 {proposal.proposal_no}
                             </th>
+
                             <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                 <b>{proposal.proposer_name ?? '-'}</b> <br />
                                 {
@@ -127,15 +127,31 @@ export default function ProposalListTable({
                                     </a>
                                 }
                             </td>
+
                             <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                 {proposal.agent_name}
                             </td>
+
                             <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                {formatCurrency(proposal.initial_sum_assured)}
+                                Initial - {formatCurrency(proposal.initial_sum_assured)}
+                                <br />
+                                Given - {formatCurrency(proposal.sum_assured)}
                             </td>
+
                             <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                {formatCurrency(proposal.initial_premium)}
+                                Initial - {formatCurrency(proposal.initial_premium)}
+                                <br />
+                                Basic - {formatCurrency(proposal.basic_premium)}
+                                <br />
+                                Total - {formatCurrency(proposal.total_premium)}
                             </td>
+
+                            <td className="px-2 py-3 font-normal text-gray-900 break-words">
+                                Given - {formatCurrency(proposal.sum_at_risk)}
+                                <br />
+                                Total - {formatCurrency(proposal.total_sum_at_risk)}
+                            </td>
+
                             <td className="px-2 py-3 font-normal text-gray-900 break-words">
                                 <StatusBadge status={proposal.status} />
                             </td>

@@ -13,7 +13,7 @@ axios.interceptors.request.use((value) => {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${getAuthToken()}`
-    }
+    };
 
     return value;
 });

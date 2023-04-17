@@ -71,25 +71,28 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
       setAreaList({ ...areaList, presentAreas: getAreasByCity(value, areas) });
     }
   }
+
   const { permanentCities, presentCities } = cityList;
   const { permanentAreas, presentAreas } = areaList;
 
   useEffect(() => {
-    setAreaList({ ...areaList, permanentAreas: [] });
-    setCityList({ ...cityList, permanentCities: getCitiesByDivision(nomineeInfo?.proposer_permanent_address.division_id ?? 0, cities) });
-    setAreaList({ ...areaList, permanentAreas: getAreasByCity(nomineeInfo?.proposer_permanent_address.district_id ?? 0, areas) });
+    setCityList({ 
+      ...cityList,
+      permanentCities: getCitiesByDivision(nomineeInfo?.proposer_permanent_address?.division_id ?? 0, cities),
+      presentCities: getCitiesByDivision(nomineeInfo?.proposer_present_address?.division_id ?? 0, cities)
+    });
+    setAreaList({
+      ...areaList,
+      permanentAreas: getAreasByCity(nomineeInfo?.proposer_permanent_address?.district_id ?? 0, areas),
+      presentAreas: getAreasByCity(nomineeInfo?.proposer_present_address?.district_id ?? 0, areas)
+    });
   }, [
-    nomineeInfo?.proposer_permanent_address.division_id,
-    nomineeInfo?.proposer_permanent_address.district_id,
-  ]);
-
-  useEffect(() => {
-    setAreaList({ ...areaList, presentAreas: [] });
-    setCityList({ ...cityList, presentCities: getCitiesByDivision(nomineeInfo?.proposer_present_address.division_id ?? 0, cities) });
-    setAreaList({ ...areaList, presentAreas: getAreasByCity(nomineeInfo?.proposer_present_address.district_id ?? 0, areas) });
-  }, [
-    nomineeInfo?.proposer_present_address.division_id,
-    nomineeInfo?.proposer_present_address.district_id,
+    nomineeInfo?.proposer_present_address?.division_id,
+    nomineeInfo?.proposer_present_address?.district_id,
+    nomineeInfo?.proposer_permanent_address?.division_id,
+    nomineeInfo?.proposer_permanent_address?.district_id,
+    cities,
+    areas
   ]);
 
   return (
@@ -194,6 +197,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 defaultValue={data.present.division_id}
                 placeholder="Select Division..."
                 handleChangeValue={changePresentAddressAction}
+                isDisabled={isNomineeSameAddress}
                 errors={errors}
               />
 
@@ -206,6 +210,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 defaultValue={data.present.district_id}
                 placeholder="Select District..."
                 handleChangeValue={changePresentAddressAction}
+                isDisabled={isNomineeSameAddress}
                 errors={errors}
               />
 
@@ -218,6 +223,7 @@ export function NomineeAddressInformation({ handleChangeTextInput, errors, index
                 defaultValue={data.present.area_id}
                 placeholder="Select Police station..."
                 handleChangeValue={changePresentAddressAction}
+                isDisabled={isNomineeSameAddress}
                 errors={errors}
               />
 
