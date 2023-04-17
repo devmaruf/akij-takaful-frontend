@@ -31,11 +31,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     const onChange = (nameAppendedNominee: string, value: any) => {
         const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
 
-        if(name === 'dob') {
+        changeNomineeInputVal(name, value);
+
+        if (name === 'dob') {
             changeNomineeInputVal('age', calculateAge(value));
         }
-
-        changeNomineeInputVal(name, value);
     }
 
     return (

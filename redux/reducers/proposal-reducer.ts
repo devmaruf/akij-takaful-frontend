@@ -258,18 +258,6 @@ function ProposalsReducer(state = initialState, action: any) {
         case Types.GET_PROPOSAL_DETAILS:
 
             const inputData = action.payload.inputData;
-            // const proposalPrevInput = { ...state.proposalInput, inputData }
-
-            // let intersectionObject = Object.keys(proposalPrevInput).reduce((obj, key) => {
-            //     if (key in inputData) {
-            //         obj[key] = inputData[key];
-            //     }
-            //     if (obj[key] == null) {
-            //         obj[key] = proposalPrevInput[key]
-            //     }
-            //     return obj;
-            // }, {});
-
             return {
                 ...state,
                 loadingDetails: action.payload.isLoading,

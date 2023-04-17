@@ -102,7 +102,7 @@ export function NomineeForm({ errors }: IPersonalInformation) {
                                 {
                                     !isNaN(nominee.proposal_personal_information?.age)
                                     && nominee.proposal_personal_information?.age >= 0
-                                    && nominee.proposal_personal_information?.age < 18 &&
+                                    && nominee.proposal_personal_information?.age <= 18 &&
                                     (
                                         <NomineeGuardianInformation
                                             handleChangeTextInput={handleChangeProposalNomineeInfo}
