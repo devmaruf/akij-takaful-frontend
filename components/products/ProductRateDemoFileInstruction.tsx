@@ -12,6 +12,8 @@ export default function ProductDemoFileInstruction() {
                     <Accordion.Content>
                         <p className="text-gray-500 mt-1 text-xs">
                             Upload a .csv file with age, term and rate. <br />
+                            Left column = age, Top row = term
+                            <br />
                             <Link href={'/files/product-form-demo.csv'} className='text-blue-500'>
                                 <i className='bi bi-download'></i> Download demo file
                             </Link>
