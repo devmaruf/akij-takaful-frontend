@@ -28,12 +28,14 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
         handleChangeTextInput(name, value, id, index)
     }
 
-    const onChangeDob = (name: string, value: string) => {
-        if (typeof value !== "undefined") {
+    const onChange = (nameAppendedNominee: string, value: any) => {
+        const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
+
+        if(name === 'dob') {
             changeNomineeInputVal('age', calculateAge(value));
         }
 
-        changeNomineeInputVal('dob', value);
+        changeNomineeInputVal(name, value);
     }
 
     return (
@@ -44,31 +46,31 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
             <div className="grid gap-2 grid-cols-1 md:grid-cols-4 p-2">
                 <Input
                     label="Full Name"
-                    name="full_name"
+                    name={`nominee_${index}_full_name`}
                     placeholder="Full Name"
                     value={data.full_name}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChange}
                     errors={errors}
                 />
 
                 <Input
                     label="Father Name"
-                    name="father_name"
+                    name={`nominee_${index}_father_name`}
                     placeholder="Father Name"
                     value={data.father_name}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChange}
                     errors={errors}
                 />
 
                 <Input
                     label="Mother Name"
-                    name="mother_name"
+                    name={`nominee_${index}_mother_name`}
                     placeholder="Mother Name"
                     value={data.mother_name}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChange}
                     errors={errors}
                 />
 
@@ -76,11 +78,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     options={GenderList}
                     isSearchable={true}
                     isRequired={true}
-                    name="gender"
+                    name={`nominee_${index}_gender`}
                     label="Gender"
                     defaultValue={data.gender}
                     placeholder="Gender"
-                    handleChangeValue={changeNomineeInputVal}
+                    handleChangeValue={onChange}
                     errors={errors}
                 />
 
@@ -89,71 +91,74 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isSearchable={true}
                     isRequired={true}
                     label="Marital Status"
-                    name="marital_status"
+                    name={`nominee_${index}_marital_status`}
                     defaultValue={data.marital_status}
                     placeholder="Marital Status"
-                    handleChangeValue={changeNomineeInputVal}
+                    handleChangeValue={onChange}
                     errors={errors}
                 />
+
                 {
                     data.marital_status === 'married' &&
                     <Input
                         label={
                             `${data?.gender === 'female' ? 'Husband' : 'Spouse'} name`
                         }
-                        name="spouse_name"
+                        name={`nominee_${index}_spouse_name`}
                         placeholder={
                             `${data?.gender === 'female' ? 'Husband' : 'Spouse'} name`
                         }
                         value={data.spouse_name}
                         isRequired={true}
-                        inputChange={changeNomineeInputVal}
+                        inputChange={onChange}
                         errors={errors}
                     />
                 }
+
                 <Input
                     label="Email Address"
-                    name="email"
+                    name={`nominee_${index}_email`}
                     placeholder="Email Address"
                     value={data.email}
                     isRequired={false}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChange}
                     errors={errors}
                 />
+
                 <Input
                     label="Mobile No"
-                    name="mobile_no"
+                    name={`nominee_${index}_mobile_no`}
                     placeholder="Mobile No"
                     value={data.mobile_no}
                     minLength={11}
                     maxLength={11}
                     isRequired={true}
-                    inputChange={changeNomineeInputVal}
+                    inputChange={onChange}
                     errors={errors}
                 />
                 <Select
                     options={identityTypeList}
                     isSearchable={false}
                     isRequired={true}
-                    name="identity_type"
+                    name={`nominee_${index}_identity_type`}
                     defaultValue={data.identity_type}
                     label="Identity Type"
                     placeholder="Identity Type"
-                    handleChangeValue={changeNomineeInputVal}
+                    handleChangeValue={onChange}
                     errors={errors}
                 />
 
                 <div>
                     <Input
                         label={getIdentityLabel(data.identity_type)}
-                        name="id_no"
+                        name={`nominee_${index}_id_no`}
                         placeholder={`Enter ${getIdentityLabel(data.identity_type)}`}
                         isDisabled={data.identity_type === ''}
                         value={data.id_no}
                         isRequired={true}
                         // minValue={identity_type.minLength}
                         // maxValue={identity_type.maxLength}
-                        inputChange={changeNomineeInputVal}
+                        inputChange={onChange}
                         errors={errors}
                         hintText={getIdendityValidationMessage(data.identity_type)}
                     />
@@ -161,13 +166,13 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
 
                 <Input
                     label="Date of Birth"
-                    name={`nominee_${index + 1}_dob`}
+                    name={`nominee_${index}_dob`}
                     placeholder="Date of Birth"
                     type="date"
                     value={data.dob}
                     maxValue={getCurrentDate()}
                     isRequired={true}
-                    inputChange={onChangeDob}
+                    inputChange={onChange}
                     errors={errors}
                     hintText={
                         isNaN(data.age) ? '' :
@@ -188,11 +193,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     options={religionList}
                     isSearchable={true}
                     isRequired={true}
-                    name="religion"
+                    name={`nominee_${index}_religion`}
                     label="Religion"
                     defaultValue={data.religion}
                     placeholder="Select Religion"
-                    handleChangeValue={changeNomineeInputVal}
+                    handleChangeValue={onChange}
                     errors={errors}
                 />
             </div>

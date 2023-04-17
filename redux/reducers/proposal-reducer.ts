@@ -16,7 +16,7 @@ const defaultProposerNominee = {
         email: '',
         mobile_no: '',
         marital_status: '',
-        identity_type: 'nid',
+        identity_type: '',
         gender: '',
         id_no: '',
         dob: '',
@@ -109,9 +109,7 @@ const initialState: IProposal = {
         initial_premium: 0,
         proposer_name: '',
         phone_no: '',
-        proposal_personal_information: {
-            identity_type: 'nid'
-        },
+        proposal_personal_information: {},
         proposer_present_address: {},
         proposer_permanent_address: {},
         proposer_bank_information: {},

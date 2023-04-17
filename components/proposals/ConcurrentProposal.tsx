@@ -11,12 +11,14 @@ interface IConcurrentProposal {
     phoneNo: string;
     idType: string;
     idNo: string;
+    proposalId: number;
 }
 
 function ConcurrentProposal({
     phoneNo = '',
     idType = '',
     idNo = '',
+    proposalId = 0
 }: IConcurrentProposal) {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -25,10 +27,10 @@ function ConcurrentProposal({
     const debouncedDispatch = useCallback(
         debounce(() => {
             if (phoneNo?.length || (idType?.length && idNo?.length)) {
-                dispatch(getConcurrentProposalsAction(phoneNo, idType, idNo, currentPage))
+                dispatch(getConcurrentProposalsAction(phoneNo, idType, idNo, currentPage, proposalId))
             }
         }, 500),
-        [phoneNo, idType, idNo, currentPage]
+        [phoneNo, idType, idNo, currentPage, proposalId]
     );
 
     useEffect(() => {

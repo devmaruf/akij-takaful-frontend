@@ -93,16 +93,18 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
   }
 
   useEffect(() => {
-    // Permanent address
-    setAreaList({ ...areaList, permanentAreas: [] });
-    setCityList({ ...cityList, permanentCities: getCitiesByDivision(permanentAddress.division_id ?? 0, cities) });
-    setAreaList({ ...areaList, permanentAreas: getAreasByCity(permanentAddress.district_id ?? 0, areas) });
+    setCityList({
+      ...cityList,
+      permanentCities: getCitiesByDivision(permanentAddress.division_id ?? 0, cities),
+      presentCities: getCitiesByDivision(presentAddress.division_id ?? 0, cities),
+    });
 
-    // Present address
-    setAreaList({ ...areaList, presentAreas: [] });
-    setCityList({ ...cityList, presentCities: getCitiesByDivision(presentAddress.division_id ?? 0, cities) });
-    setAreaList({ ...areaList, presentAreas: getAreasByCity(presentAddress.district_id ?? 0, areas) });
-  }, []);
+    setAreaList({
+      ...areaList,
+      permanentAreas: getAreasByCity(permanentAddress.district_id ?? 0, areas),
+      presentAreas: getAreasByCity(presentAddress.district_id ?? 0, areas)
+    });
+  }, [cities, areas]);
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">

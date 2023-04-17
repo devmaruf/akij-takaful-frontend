@@ -18,6 +18,7 @@ export function PreviousConcurrentPolicyStatus() {
         phoneNo={personalInformation?.mobile_no}
         idType={personalInformation?.identity_type}
         idNo={personalInformation?.id_no}
+        proposalId={proposalInput?.id}
       />
 
       <hr />
@@ -26,6 +27,7 @@ export function PreviousConcurrentPolicyStatus() {
         phoneNo={personalInformation?.mobile_no}
         idType={personalInformation?.identity_type}
         idNo={personalInformation?.id_no}
+        proposalId={proposalInput?.id}
       />
     </div>
   );

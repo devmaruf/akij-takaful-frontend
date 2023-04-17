@@ -1,5 +1,6 @@
 import DatePicker from "react-datepicker";
 import ValidationMessage from "../validationMessage";
+import { format } from "date-fns";
 
 interface IInput {
   name?: string;
@@ -139,10 +140,12 @@ export default function Input({
         //   onChange={inputChange && ((e) => inputChange(name, e.target.value))}
         // />
         <DatePicker
-        id={name}
+          id={name}
           dateFormat="dd/MM/yyyy"
-          selected={value !== undefined  && value !== null && value !== '' ? new Date(value) : new Date()}
-          onChange={(date) => inputChange(name, date)}
+          selected={value !== undefined && value !== null && value !== '' ? new Date(value) : new Date()}
+          onChange={(date) => {
+            inputChange(name, format(date, 'yyyy-MM-dd'));
+          }}
           className={`${getInputClasses()} mt-0`}
           maxDate={maxValue && new Date(maxValue)}
           minDate={minValue && new Date(minValue)}

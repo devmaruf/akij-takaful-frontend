@@ -11,12 +11,14 @@ interface IPreviousPolicies {
     phoneNo: string;
     idType: string;
     idNo: string;
+    proposalId: number;
 }
 
 function PreviousPolicies({
     phoneNo = '',
     idType = '',
     idNo = '',
+    proposalId = 0
 }: IPreviousPolicies) {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -25,10 +27,10 @@ function PreviousPolicies({
     const debouncedDispatch = useCallback(
         debounce(() => {
             if (phoneNo?.length || (idType?.length && idNo?.length)) {
-                dispatch(getPreviousPoliciesAction(phoneNo, idType, idNo, currentPage))
+                dispatch(getPreviousPoliciesAction(phoneNo, idType, idNo, currentPage, proposalId))
             }
         }, 500),
-        [phoneNo, idType, idNo, currentPage]
+        [phoneNo, idType, idNo, currentPage, proposalId]
     );
 
     useEffect(() => {
