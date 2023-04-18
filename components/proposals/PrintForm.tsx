@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 
@@ -6,12 +6,13 @@ import Input from "@/components/input";
 import Select from "@/components/select";
 import Button from "@/components/button";
 import { RootState } from "@/redux/store";
-import { getProjectListDropdown } from "@/redux/actions/project-action";
 import { getBranchDropdownList } from "@/redux/actions/branch-action";
-import { printProposalAction } from "@/redux/actions/proposal-action";
 import { IProposalView } from "@/redux/interfaces";
 import { useDebounced } from "@/hooks/use-debounce";
 import BankSelect from "@/components/banks/BankSelect";
+import AllottedProposalListTable from "./AllottedProposalListTable";
+import { allotProposalAction, getAllotedProposalAction } from "@/redux/actions/proposal-allotment-action";
+import { Toaster } from "@/components/toaster";
 
 export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
   const dispatch = useDispatch();
@@ -57,7 +58,17 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
       project_id: projectId,
       branch_id: branchId,
     }
-    dispatch(printProposalAction(formData));
+
+    dispatch(allotProposalAction(formData));
+  }
+
+  const onReportView = (e: any) => {
+    if (projectId > 0 && branchId > 0) {
+      dispatch(getAllotedProposalAction(projectId, branchId));
+      return;
+    }
+
+    Toaster('error', 'Please select bank and branch.');
   }
 
   const divRef = useRef(null);
@@ -75,49 +86,81 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
   return (
     <>
       <form action="" onSubmit={onFormSubmit}>
-        <div className="grid gap-2 grid-cols-1 md:grid-cols-3 ">
-          <Input
-            label={isAssign ? 'Start proposal no.' : 'Proposal Print No'}
-            name="proposal_print_no"
-            placeholder="eg: 10"
-            isRequired={true}
-            value={noOfProposalPrint}
-            inputChange={onHandleInputChange}
-          />
-          {
-            isAssign &&
-            <Input
-              label="End proposal no."
-              name="proposal_print_no_to"
-              placeholder="eg: 20"
-              isRequired={true}
-              value={noOfProposalPrintTo}
-              inputChange={onHandleInputChange}
-            />
-          }
-          <BankSelect
-              defaultValue={projectId}
-              changeTextInput={onHandleInputChange}
-          />
-          <Select
-            options={branchDropdownList}
-            isSearchable={false}
-            name="branch_id"
-            label="Branch"
-            placeholder="Select Branch..."
-            isRequired={true}
-            defaultValue={branchId}
-            handleChangeValue={onHandleInputChange}
-          />
+        <div className="flex flex-col md:flex-row mb-3">
+          <div className="flex flex-1 pr-2">
+            <div className="flex-1 pr-2">
+              <BankSelect
+                defaultValue={projectId}
+                changeTextInput={onHandleInputChange}
+              />
+            </div>
+
+            <div className="flex-1">
+              <Select
+                options={branchDropdownList}
+                isSearchable={false}
+                name="branch_id"
+                label="Branch"
+                placeholder="Select Branch..."
+                isRequired={true}
+                defaultValue={branchId}
+                handleChangeValue={onHandleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-1 bg-slate-100 px-3">
+            <div className="flex-1 pr-2">
+              <Input
+                label={isAssign ? 'Start proposal no.' : 'Proposal Print No'}
+                name="proposal_print_no"
+                placeholder="eg: 10"
+                isRequired={true}
+                value={noOfProposalPrint}
+                inputChange={onHandleInputChange}
+              />
+            </div>
+
+            <div className="flex-1">
+              {
+                isAssign &&
+                <Input
+                  label="End proposal no."
+                  name="proposal_print_no_to"
+                  placeholder="eg: 20"
+                  isRequired={true}
+                  value={noOfProposalPrintTo}
+                  inputChange={onHandleInputChange}
+                />
+              }
+            </div>
+          </div>
         </div>
 
-        <Button
-          type="submit"
-          title='Preview'
-          loadingTitle="Generating Preview..."
-          loading={isLoading}
-          customClass='px-6 mt-4'
-        />
+        <div className="flex justify-between mb-5">
+          <Button
+            type="button"
+            variant="default"
+            title='Report'
+            loadingTitle="Loading Report..."
+            loading={isLoading}
+            iconLeft={<i className="bi bi-list mr-3"></i>}
+            customClass='px-6 mt-4 mr-3'
+            onClick={onReportView}
+            disabled={
+              !(projectId > 0 && branchId > 0)
+            }
+          />
+
+          <Button
+            type="submit"
+            title='Allot Proposal'
+            loadingTitle="Allotting proposals..."
+            loading={isLoading}
+            iconLeft={<i className="bi bi-plus-circle mr-3"></i>}
+            customClass='px-6 mt-4'
+          />
+        </div>
       </form>
 
       {
@@ -248,17 +291,9 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
 
       {
         isAssign && printProposalList !== undefined && printProposalList.length > 0 &&
-        <>
-          {
-            printProposalList.map((proposal: IProposalView) => (
-              <div className="border-b border-dotted py-6" key={proposal.id}>
-                <h2 className="text-lg font-bold">Proposal No: {proposal.proposal_no}</h2>
-                <h2>Project Name: {proposal.project_name}</h2>
-                <h2>Branch Name: {proposal.branch_name}</h2>
-              </div>
-            ))
-          }
-        </>
+        <div className="mt-4">
+          <AllottedProposalListTable />
+        </div>
       }
     </>
   );

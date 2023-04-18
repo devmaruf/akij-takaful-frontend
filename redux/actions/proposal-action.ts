@@ -270,30 +270,6 @@ export const isSameAddressCheck = (status: boolean, permanentAddress: any) => (d
     dispatch({ type: Types.IS_SAME_ADDRESS_STATUS, payload: data });
 }
 
-export const printProposalAction = (proposalPrintData: object) => (dispatch: Dispatch) => {
-    let response = {
-        status: false,
-        message: "",
-        isLoading: true,
-        data: [],
-    };
-    dispatch({ type: Types.PRINT_PROPOSAL, payload: response });
-
-    axios.post(`/proposals/print`, proposalPrintData)
-        .then((res) => {
-            response.status = true;
-            response.isLoading = false;
-            response.message = res.message;
-            response.data = res.data;
-            Toaster('success', response.message);
-            dispatch({ type: Types.PRINT_PROPOSAL, payload: response });
-        })
-        .catch((error) => {
-            response.isLoading = false;
-            dispatch({ type: Types.PRINT_PROPOSAL, payload: response });
-        });
-}
-
 export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
     const data = {
         isDisabledField: true,

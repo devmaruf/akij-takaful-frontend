@@ -293,6 +293,7 @@ function ProposalsReducer(state = initialState, action: any) {
             return {
                 ...state,
                 printProposalList: action.payload.data,
+                paginationData: action.payload.paginationData,
                 isLoading: action.payload.isLoading,
             };
 
