@@ -1,5 +1,6 @@
-import { IStampStock } from "../interfaces";
-import * as Types from "./../types/stamp-stock-types";
+import { getCurrentDate } from "@/utils/date-helper";
+import { IStampStock } from "@/redux/interfaces";
+import * as Types from "@/redux/types/stamp-stock-types";
 
 const initialState: IStampStock = {
     isLoading: false,
@@ -19,8 +20,8 @@ const initialState: IStampStock = {
         qty_20: 0,
         qty_10: 0,
         qty_5: 0,
-        purchase_date: new Date().toISOString(),
-        receive_date: new Date().toISOString(),
+        purchase_date: getCurrentDate(),
+        receive_date: getCurrentDate(),
     },
 };
 
