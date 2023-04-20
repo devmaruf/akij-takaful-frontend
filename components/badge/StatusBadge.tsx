@@ -1,9 +1,11 @@
 interface IStatusBadge {
     status: string;
     className?: React.CSSProperties['className'];
+    left?: React.ReactNode;
+    right?: React.ReactNode;
 }
 
-export default function StatusBadge({ status = '', className }: IStatusBadge) {
+export default function StatusBadge({ status = '', className, left = <></>, right = <></> }: IStatusBadge) {
     let colorClass, label;
 
     switch (status) {
@@ -37,7 +39,9 @@ export default function StatusBadge({ status = '', className }: IStatusBadge) {
 
     return (
         <div className={`inline-block px-3 py-1 rounded text-xs ${colorClass} ${className}`}>
+            {left}
             {label}
+            {right}
         </div>
     );
 }
