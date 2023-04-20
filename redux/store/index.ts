@@ -9,7 +9,7 @@ import DashboardReducer from "@/redux/reducers/proposal-dashboard-reducer";
 import globalReducer from "@/redux/reducers/global-reducer";
 import ProposalsReducer from "@/redux/reducers/proposal-reducer";
 import RoleReducer from "@/redux/reducers/role-reducer";
-import StampReducer from "@/redux/reducers/stamp-reducer";
+import StampRegisterReducer from "@/redux/reducers/stamp-register-reducer";
 import ExpenseReducer from '@/redux/reducers/expense-reducer';
 import ProductReducer from "@/redux/reducers/product-reducer";
 import StampStockReducer from "@/redux/reducers/stamp-stock-reducer";
@@ -29,7 +29,7 @@ export const store = configureStore({
     underwriting: UnderwritingReducer,
     global: globalReducer,
     dashboard: DashboardReducer,
-    stamp: StampReducer,
+    stamp: StampRegisterReducer,
     role: RoleReducer,
     expense: ExpenseReducer,
     product: ProductReducer,
