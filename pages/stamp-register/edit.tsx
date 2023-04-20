@@ -1,4 +1,4 @@
-import StampForm from "@/components/stamps/StampForm";
+import StampForm from "@/components/stamps/StampRegisterForm";
 import { useRouter } from "next/router";
 
 export default function StampEditPage() {
