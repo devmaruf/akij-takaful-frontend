@@ -1,12 +1,23 @@
 import axios from "@/utils/axios";
-import * as Types from "./../types/stamp-stock-types";
+import * as Types from "@/redux/types/stamp-stock-types";
 import { Dispatch } from "@reduxjs/toolkit";
 import { Toaster } from "@/components/toaster";
-import { IStampForm } from "../interfaces";
+import { IStampForm } from "@/redux/interfaces";
 
 export const changeStampStockInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
     dispatch({
-        type: Types.CHANGE_STAMP_STOCK_FORM, payload: {
+        type: Types.CHANGE_STAMP_STOCK_FORM,
+        payload: {
+            name: name,
+            value: value,
+        }
+    });
+};
+
+export const changeStampStockAllotmentInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
+    dispatch({
+        type: Types.CHANGE_STAMP_STOCK_ALLOTMENT_FORM,
+        payload: {
             name: name,
             value: value,
         }
@@ -14,7 +25,7 @@ export const changeStampStockInputValue = (name: string, value: any) => (dispatc
 };
 
 export const getStampStockListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
-    let url = `stamp-stocks?perPage=${dataLimit}&page=${currentPage}`
+    let url = `stamp-purchase?perPage=${dataLimit}&page=${currentPage}`
 
     if (searchText !== '') {
         url += `&search=${searchText}`;
@@ -56,7 +67,7 @@ export const getStampStockDetail = (id: number) => (dispatch: Dispatch) => {
     };
     dispatch({ type: Types.GET_STAMP_STOCK_DETAILS, payload: response });
 
-    axios.get(`stamp-stocks/${id}`)
+    axios.get(`stamp-purchase/${id}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -94,7 +105,7 @@ export const submitStampStockAction = (stampForm: IStampForm, router: any, id: n
 
     axios({
         method: id === 0 ? 'POST' : 'PUT',
-        url: `stamp-stocks${id > 0 ? `/${id}` : ''}`,
+        url: `stamp-purchase${id > 0 ? `/${id}` : ''}`,
         data: stampForm
     })
         .then((res) => {

@@ -17,8 +17,7 @@ export function getCommencementDate() {
     return formattedDate;
 }
 
-export function getCurrentDate() {
-    const today = new Date();
+export function getCurrentDate(today = new Date()) {
     const date = today.getDate();
     const year = today.getFullYear();
     const month = today.getMonth() + 1; // add 1 to zero-indexed month
@@ -27,5 +26,5 @@ export function getCurrentDate() {
 
 export function get28thDateOfCurrentMonth() {
   const currentDate = new Date();
-  return setDate(currentDate, 28);
+  return getCurrentDate(setDate(currentDate, 28));
 }

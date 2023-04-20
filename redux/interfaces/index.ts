@@ -55,6 +55,27 @@ export interface IBranch {
 }
 
 export interface IEmployee {
+    first_name: string;
+    last_name: string;
+    email: string;
+    designation_id: number;
+    role_id: number;
+    project_id: number;
+    branch_ids: Array<Number>;
+    phone: string;
+    avatar: string | null;
+    password: string;
+    confirm_password: string;
+}
+
+export interface IEmployeeView extends IEmployee {
+    id: number;
+    code: string;
+    designation_name: string;
+    status: string;
+}
+
+export interface IEmployeeReducer {
     isLoading: boolean;
     isDeleting: boolean;
     isLoadingDetails: boolean;
@@ -64,19 +85,7 @@ export interface IEmployee {
     employeeDetails: any;
     rolesDropdownList: Array<ISelect2Item>
     agentsDropdownList: Array<ISelect2Item>
-    employeeInput: {
-        first_name: string;
-        last_name: string;
-        email: string;
-        designation_id: number;
-        role_id: number;
-        project_id: number;
-        branch_ids: Array<Number>;
-        phone: string;
-        avatar: string | null;
-        password: string;
-        confirm_password: string;
-    }
+    employeeInput: IEmployee
 }
 
 export interface IDesignation {
@@ -270,10 +279,22 @@ export interface IStampForm {
     project_id: number;
     branch_id: number;
     proposal_no: string;
-    stamps: Array<object>;
+    qty_100: number;
+    qty_50: number;
+    qty_30: number;
+    qty_20: number;
+    qty_10: number;
+    qty_5: number;
+    is_duplicate: boolean;
+    stamp_used: number;
+    stamp_used_amounnt: number;
+    balance: number;
+    schedule_date: string;
+    business_date: string;
+    remarks: string;
 }
 
-export interface IStamp {
+export interface IStampReducer {
     isLoading: boolean;
     stampList: any[];
     stampPaginationData: any[];
@@ -385,6 +406,39 @@ export interface IProductReducer {
     productInput: IProductForm
 }
 
+export interface IStampStockForm {
+    project_id: number;
+    branch_id: number;
+    challan_no: string;
+    qty_100: number;
+    qty_50: number;
+    qty_30: number;
+    qty_20: number;
+    qty_10: number;
+    qty_5: number;
+    purchase_date: string;
+    receive_date: string;
+}
+
+export interface IStampStockAllotmentForm {
+    employee_id: number;
+    qty_100: number;
+    qty_50: number;
+    qty_30: number;
+    qty_20: number;
+    qty_10: number;
+    qty_5: number;
+}
+
+export interface IStampBalace {
+    qty_100: number;
+    qty_50: number;
+    qty_30: number;
+    qty_20: number;
+    qty_10: number;
+    qty_5: number;
+}
+
 export interface IStampStock {
     isLoading: boolean;
     isSubmitting: boolean;
@@ -393,7 +447,9 @@ export interface IStampStock {
     stampStockList: any[];
     stampStockPaginationData: any[];
     stampStockDetails: any;
-    stampStockForm: any
+    stampStockForm: IStampStockForm,
+    isLoadingBalance: boolean;
+    stampBalance: IStampBalace;
 }
 
 export interface IOccupation {

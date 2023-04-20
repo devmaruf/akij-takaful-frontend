@@ -23,6 +23,24 @@ const initialState: IStampStock = {
         purchase_date: getCurrentDate(),
         receive_date: getCurrentDate(),
     },
+    isLoadingBalance: false,
+    stampBalance: {
+        qty_100: 0,
+        qty_50: 0,
+        qty_30: 0,
+        qty_20: 0,
+        qty_10: 0,
+        qty_5: 0,
+    },
+    stampStockAllotmentForm: {
+        employee_id: 0,
+        qty_100: 0,
+        qty_50: 0,
+        qty_30: 0,
+        qty_20: 0,
+        qty_10: 0,
+        qty_5: 0,
+    },
 };
 
 function StampStockReducer(state = initialState, action: any) {
@@ -36,11 +54,21 @@ function StampStockReducer(state = initialState, action: any) {
             };
 
         case Types.CHANGE_STAMP_STOCK_FORM:
-            const stampStockForm = { ...state.stampStockForm };
-            stampStockForm[action.payload.name] = action.payload.value;
             return {
                 ...state,
-                stampStockForm,
+                stampStockForm: {
+                    ...state.stampStockForm,
+                    [action.payload.name]: action.payload.value
+                },
+            };
+
+        case Types.CHANGE_STAMP_STOCK_ALLOTMENT_FORM:
+            return {
+                ...state,
+                stampStockAllotmentForm: {
+                    ...state.stampStockAllotmentForm,
+                    [action.payload.name]: action.payload.value
+                },
             };
 
         case Types.SAVE_STAMP_STOCK_FORM:
@@ -50,11 +78,29 @@ function StampStockReducer(state = initialState, action: any) {
                 stampStockForm: action.payload.status ? initialState.stampStockForm : state.stampStockForm
             };
 
+        case Types.SUBMIT_EMPLOYEE_STAMP_ALLOTMENT:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+                stampStockAllotmentForm: action.payload.status ? {
+                    ...initialState.stampStockAllotmentForm
+                } : {
+                    ...state.stampStockAllotmentForm
+                }
+            };
+
         case Types.GET_STAMP_STOCK_DETAILS:
             return {
                 ...state,
                 stampStockDetails: action.payload.data,
                 stampStockForm: action.payload.data
+            };
+
+        case Types.GET_STAMP_BALANCE:
+            return {
+                ...state,
+                isLoadingBalance: action.payload.isLoading,
+                stampBalance: action.payload.data
             };
 
         default:

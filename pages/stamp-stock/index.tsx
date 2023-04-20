@@ -1,7 +1,7 @@
-import StampStockList from "@/components/stamp-stocks/StampStockList";
+import StampPurchaseList from "@/components/stamp-stocks/StampPurchaseList";
 
-export default function StampStockPage() {
+export default function StampPurchasePage() {
     return (
-        <StampStockList />
+        <StampPurchaseList />
     );
 }

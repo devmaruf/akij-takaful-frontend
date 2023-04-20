@@ -99,6 +99,10 @@ export const getEmployeeListAction = (currentPage: number = 1, dataLimit: number
 }
 
 export const getEmployeeDetails = (id: number | string, isAgent: boolean = false) => (dispatch: Dispatch) => {
+    if (isNaN(id)) {
+        return;
+    }
+
     let response = {
         status: false,
         message: "",

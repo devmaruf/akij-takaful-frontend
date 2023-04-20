@@ -3,16 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/router';
 
-import { RootState } from '@/redux/store';
 import Table from '@/components/table';
 import Loading from '@/components/loading';
-import { getEmployeeListAction } from '@/redux/actions/employee-action';
 import PageHeader from '@/components/layouts/PageHeader';
 import NewButton from '@/components/button/button-new';
-import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
 import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
+import { RootState } from '@/redux/store';
+import { PageContentList } from '@/components/layouts/PageContentList';
+import { getEmployeeListAction } from '@/redux/actions/employee-action';
+import { IEmployeeView } from '@/redux/interfaces';
+import { hasPermission } from '@/utils/permission';
 
 interface IEmployeeList {
     isAgent?: boolean;
@@ -58,6 +60,38 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
         setEmployeeID(id);
     }
 
+    const getActionButtons = (employee: IEmployeeView) => {
+        const actions = [];
+
+        if (hasPermission('employee.edit')) {
+            actions.push({
+                element: 'Edit',
+                onClick: () => router.push(
+                    `/${isAgent ? 'banca/agent' : 'employee'}/edit?id=${employee.id}`
+                ),
+                iconClass: 'pencil'
+            });
+        }
+
+        if (hasPermission('stamps.allocate')) {
+            actions.push({
+                element: 'Allocate stamp stock',
+                onClick: () => router.push(`/employee/stock-allotment?employee_id=${employee.id}`),
+                iconClass: 'plus-circle'
+            });
+        }
+
+        if (hasPermission('employee.delete')) {
+            actions.push({
+                element: 'Delete',
+                onClick: () => handleDeleteEmployeeModal(employee.id),
+                iconClass: 'trash'
+            });
+        }
+
+        return actions;
+    }
+
     return (
         <div>
             <PageHeader
@@ -87,52 +121,39 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                             totalData={employeePaginationData.total}
                         >
                             {
-                                employeeList && employeeList.length > 0 && employeeList.map((data, index) => (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
+                                employeeList && employeeList.length > 0 && employeeList.map((employee: IEmployeeView, index: index) => (
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={employee.id}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {index + 1}
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {data.first_name + ' ' + data.last_name}
+                                            {employee.first_name + ' ' + employee.last_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {data.code}
+                                            {employee.code}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {data.email}
+                                            {employee.email}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {data.phone}
+                                            {employee.phone}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {data.designation_name}
+                                            {employee.designation_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {
-                                                (typeof data.avatar !== 'undefined' && data.avatar !== null) ?
-                                                    <img src={data.avatar} alt={data.first_name} className="h-8 w-8" /> : "N / A"
+                                                (typeof employee.avatar !== 'undefined' && employee.avatar !== null) ?
+                                                    <img src={employee.avatar} alt={employee.first_name} className="h-8 w-8" /> : "N / A"
                                             }
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            <StatusBadge status={data.status} />
+                                            <StatusBadge status={employee.status} />
                                         </td>
 
                                         <td className="px-2 py-3 flex gap-1">
                                             <ActionButtons
-                                                items={[
-                                                    {
-                                                        element: 'Edit',
-                                                        onClick: () => router.push(
-                                                            `/${isAgent ? 'banca/agent' : 'employee'}/edit?id=${data.id}`
-                                                        ),
-                                                        iconClass: 'pencil'
-                                                    },
-                                                    {
-                                                        element: 'Delete',
-                                                        onClick: () => handleDeleteEmployeeModal(data.id),
-                                                        iconClass: 'trash'
-                                                    }
-                                                ]}
+                                                items={getActionButtons(employee)}
                                             />
                                         </td>
                                     </tr>

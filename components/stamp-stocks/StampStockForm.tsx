@@ -80,7 +80,7 @@ export default function StampStockForm({ id, pageType }: IStampStockForm) {
     return (
         <div>
             <PageHeader
-                title={pageType === 'create' ? 'New stamp stock' : 'Edit stamp stock'}
+                title={'Stamp stock'}
                 hasSearch={false}
             />
 

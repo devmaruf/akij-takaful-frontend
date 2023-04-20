@@ -1,8 +1,8 @@
-import StampForm from "@/components/stamps/StampForm";
+import StampRegisterForm from "@/components/stamps/StampRegisterForm";
 
 export default function StampCreatePage() {
     return (
-        <StampForm
+        <StampRegisterForm
             proposalNo={''}
             pageType="create"
         />

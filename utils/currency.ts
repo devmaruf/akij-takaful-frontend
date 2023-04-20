@@ -18,7 +18,12 @@ export function formatCurrency(value: number | bigint | string, isSymbol = true)
         maximumFractionDigits: 2,
     });
 
+    if (isNaN(value)) {
+        value = '0';
+    }
+
     const formattedValue = formatter.format(parseFloat(value + ''));
+
     if (isSymbol) {
         return formattedValue.replace(currencyCode, currencySymbol);
     }

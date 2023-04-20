@@ -1,8 +1,8 @@
 import { generateDropdownList } from "@/utils/dropdown";
-import { IEmployee } from "../interfaces";
-import * as Types from "./../types/employee-type";
+import { IEmployeeReducer } from "@/redux/interfaces";
+import * as Types from "@/redux/types/employee-type";
 
-const initialState: IEmployee = {
+const initialState: IEmployeeReducer = {
     isLoading: false,
     isDeleting: false,
     isLoadingDetails: false,
