@@ -74,6 +74,12 @@ export default function StampRegisterReducer(state = initialState, action: any) 
                 }
             };
 
+        case Types.STAMP_REGISTER_REPORT:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+            };
+
         default:
             break;
     }

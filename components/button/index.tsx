@@ -55,8 +55,8 @@ export default function Button({
                 disabled={loading}
                 onClick={onClick}
             >
-                {loading ? loadingTitle + '...' : ''}
                 {iconLeft}
+                {loading ? loadingTitle + '...' : ''}
                 {(!loading && typeof title !== "undefined" && title !== null) ? title : children}
                 {iconRight}
             </button>

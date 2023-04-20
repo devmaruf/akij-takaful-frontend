@@ -60,8 +60,8 @@ export const getStampsByProposalAction = (proposalNo: string) => (dispatch: Disp
             response.message = res.message;
             response.data = res.data;
             dispatch({ type: Types.SET_STAMP_FORM, payload: response });
-            dispatch({ 
-                type: Types.CHANGE_STAMP_REGISTER_FORM, 
+            dispatch({
+                type: Types.CHANGE_STAMP_REGISTER_FORM,
                 payload: {
                     name: 'proposal_id',
                     value: res.data.proposal_id
@@ -103,5 +103,48 @@ export const submitProposalStampRegisterAction = (
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.SAVE_STAMP_FORM, payload: response })
+        });
+}
+
+export const stampRegistarReportDownload = (
+    startDate: string,
+    endDate: string,
+) => (dispatch: Dispatch) => {
+    if (startDate === undefined || startDate === '') {
+        Toaster('error', 'Please give first date');
+        return;
+    }
+
+    if (endDate === undefined || endDate === '') {
+        Toaster('error', 'Please give end date');
+        return;
+    }
+
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: {},
+    };
+    dispatch({ type: Types.STAMP_REGISTER_REPORT, payload: response });
+
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    axios.get(`policy-stamp-register-report?start_date=${startDate}&end_date=${endDate}`, {
+        responseType: 'blob',
+    })
+        .then((response) => {
+            response.isLoading = false;
+            dispatch({ type: Types.STAMP_REGISTER_REPORT, payload: {} });
+            const url = window.URL.createObjectURL(new Blob([response]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Bima-Stamp-Register-${startDate}-${endDate}.xlsx`;
+            link.click();
+        }).catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.STAMP_REGISTER_REPORT, payload: response })
         });
 }

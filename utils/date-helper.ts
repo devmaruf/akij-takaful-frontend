@@ -1,4 +1,5 @@
-import { setDate } from "date-fns";
+import { startOfMonth, setDate, format, subMonths } from "date-fns";
+
 
 export function getCommencementDate() {
     const today = new Date();
@@ -25,6 +26,16 @@ export function getCurrentDate(today = new Date()) {
 }
 
 export function get28thDateOfCurrentMonth() {
-  const currentDate = new Date();
-  return getCurrentDate(setDate(currentDate, 28));
+    const currentDate = new Date();
+    return getCurrentDate(setDate(currentDate, 28));
+}
+
+export function getFirstDateOfMonth() {
+    const date = new Date(); // replace with your desired date
+    return getCurrentDate(startOfMonth(date));
+}
+
+export function getDateBeforeMonth(month: number) {
+    const today = new Date();
+    return getCurrentDate(subMonths(today, month));
 }
