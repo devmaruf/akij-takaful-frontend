@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dropdown } from 'flowbite-react';
 import { useRouter } from 'next/router';
 
-import { RootState } from '@/redux/store';
+import ActionButtons from '@/components/button/button-actions';
 import PageHeader from '@/components/layouts/PageHeader';
 import Table from '@/components/table';
 import Loading from '@/components/loading';
-import { PageContentList } from '@/components/layouts/PageContentList';
 import NoTableDataFound from '@/components/table/NoDataFound';
-import { IStampListItem } from '@/redux/interfaces';
 import StampViewModal from './StampStockViewModal';
-import { Dispatch } from '@reduxjs/toolkit';
 import NewButton from '@/components/button/button-new';
 import { getStampStockListAction } from '@/redux/actions/stamp-stock-action';
 import { formatCurrency } from '@/utils/currency';
-import ActionButtons from '../button/button-actions';
 import { hasPermission } from '@/utils/permission';
+import { RootState } from '@/redux/store';
+import { Dispatch } from '@reduxjs/toolkit';
+import { IStampListItem } from '@/redux/interfaces';
+import { PageContentList } from '@/components/layouts/PageContentList';
 
-export default function StampStockList() {
+export default function StampPurchaseList() {
   const router = useRouter();
   const dispatch: Dispatch = useDispatch();
   const [searchText, setSearchText] = useState<string>('');
@@ -49,23 +48,23 @@ export default function StampStockList() {
   const getActionItems = (stampStock) => {
     const actions = [];
 
-    // if (hasPermission('stamp_stock.view')) {
+    // if (hasPermission('stamp_purchase.view')) {
     //   actions.push({
     //     element: 'View',
     //     onClick: () => showStampDetails(stampStock),
     //     iconClass: 'eye'
     //   });
-    // }s
+    // }
 
-    if (hasPermission('stamp_stock.edit')) {
-      actions.push({
-        element: 'Edit',
-        onClick: () => router.push(`/stamp-stock/edit?id=${stampStock.id}`),
-        iconClass: 'pencil'
-      });
-    }
+    // if (hasPermission('stamp_purchase.edit')) {
+    //   actions.push({
+    //     element: 'Edit',
+    //     onClick: () => router.push(`/stamp-stock/edit?id=${stampStock.id}`),
+    //     iconClass: 'pencil'
+    //   });
+    // }
 
-    // if (hasPermission('stamp_stock.delete')) {
+    // if (hasPermission('stamp_purchase.delete')) {
     //   actions.push({
     //     element: 'Delete',
     //     onClick: () => { },
