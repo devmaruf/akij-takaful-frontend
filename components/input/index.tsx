@@ -17,7 +17,7 @@ interface IInput {
   maxValue?: any;
   minLength?: any;
   maxLength?: any;
-  areaClassNames?: string;
+  areaClassNames?: React.CSSProperties['className'];
   hintText?: string;
   rows?: number;
   checked?: boolean;
