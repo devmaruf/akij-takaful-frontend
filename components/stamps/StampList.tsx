@@ -85,7 +85,7 @@ export default function StampList() {
               ))}
               {
                 stampList && stampList.length === 0 &&
-                <NoTableDataFound colSpan={6}>No stamp registration found</NoTableDataFound>
+                <NoTableDataFound colSpan={7}>No stamp registration found</NoTableDataFound>
               }
             </Table>
         }

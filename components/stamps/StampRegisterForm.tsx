@@ -13,7 +13,7 @@ import { Dispatch } from '@reduxjs/toolkit';
 import { formatCurrency } from '@/utils/currency';
 import { getStampBalanceDetail } from '@/redux/actions/stamp-allotment-action';
 import { Toaster } from '@/components/toaster';
-import { get28thDateOfCurrentMonth } from '@/utils/date-helper';
+import { get28thDateOfCurrentMonth, getCommencementDate } from '@/utils/date-helper';
 import StatusBadge from '@/components/badge/StatusBadge';
 
 interface IStampForm {
@@ -370,7 +370,7 @@ export default function StampRegisterForm({ proposalNo }: IStampForm) {
                                                     isDisabled={true}
                                                     type='date'
                                                     name='businness_date'
-                                                    value={get28thDateOfCurrentMonth()}
+                                                    value={getCommencementDate()}
                                                     maxValue={get28thDateOfCurrentMonth()}
                                                     label='Business month'
                                                     inputChange={changeTextInput}

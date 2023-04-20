@@ -1,6 +1,6 @@
 import { IStampForm, IStampReducer } from "@/redux/interfaces";
 import * as Types from "@/redux/types/stamp-types";
-import { get28thDateOfCurrentMonth, getCurrentDate } from "@/utils/date-helper";
+import { getCommencementDate, getCurrentDate } from "@/utils/date-helper";
 
 const initialState: IStampReducer = {
     isLoading: false,
@@ -24,7 +24,7 @@ const initialState: IStampReducer = {
         stamp_used: 0,
         balance: 0,
         schedule_date: getCurrentDate(),
-        business_date: get28thDateOfCurrentMonth(),
+        business_date: getCommencementDate(),
         remarks: '',
     },
 };
