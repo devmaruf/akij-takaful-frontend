@@ -12,7 +12,7 @@ export const changeInputValue = (name: string, value: any) => (dispatch: any) =>
     dispatch({ type: Types.CHANGE_AUTH_INPUT_VALUE, payload: data });
 };
 
-export const handleLogin = (loginInput) => (dispatch: any) => {
+export const handleLogin = (loginInput: { email: string; password: string; }) => (dispatch: any) => {
     if (loginInput.email === "") {
         Toaster("error", "Please give email.");
         return false;

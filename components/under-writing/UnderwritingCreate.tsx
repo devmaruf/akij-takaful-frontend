@@ -96,7 +96,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                         :
                         <form method="post" autoComplete="off">
                             {
-                                underwritingForm !== undefined &&
+                                underwritingForm !== undefined && underwritingForm.length !== 0 &&
                                 underwritingForm.types.map((type: IUnderwritingType) => (
                                     <div key={type.id} className='mb-3'>
                                         <h2 className='font-bold my-2'>{type.name_en}</h2>
