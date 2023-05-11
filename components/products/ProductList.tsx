@@ -35,7 +35,7 @@ export default function ProductList() {
     { title: "Name", id: 1 },
     { title: "Code", id: 2 },
     { title: "Modes", id: 3 },
-    { title: "Total rates", id: 4 },
+    // { title: "Total rates", id: 4 },
     { title: "Is DPS", id: 5 },
     { title: "Status", id: 6 },
     { title: "Action", id: 7 },
@@ -108,11 +108,11 @@ export default function ProductList() {
                     }
                     {data.modes.length === 0 ? '-' : ''}
                   </th>
-                  <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                  {/* <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                     <div className=' flex'>
                       <Badge size={'lg'}>{data.rates_count}</Badge>
                     </div>
-                  </th>
+                  </th> */}
                   <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                     {data.is_dps ? 'Yes' : 'No'}
                   </th>
