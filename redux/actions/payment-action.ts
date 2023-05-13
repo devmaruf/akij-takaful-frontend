@@ -3,6 +3,15 @@ import * as Types from "@/redux/types/payment-type";
 import { Toaster } from "@/components/toaster";
 import { Dispatch } from "@reduxjs/toolkit";
 
+
+export const changeInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
+  let data = {
+      name: name,
+      value: value,
+  }
+  dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+};
+
 export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch: Dispatch) => {
   let response = {
       status: false,
@@ -20,7 +29,6 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
           // dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
 
           console.log('SSL res::', res);
-
           setTimeout(() => {
             if(res.data?.redirectGatewayURL !== null) {
               window.location.href = res.data.redirectGatewayURL
