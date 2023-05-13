@@ -17,6 +17,7 @@ import OccupationReducer from "@/redux/reducers/occupation-reducer";
 import DivisionReducer from "@/redux/reducers/division-reducer";
 import CityReducer from "@/redux/reducers/city-reducer";
 import AreaReducer from "@/redux/reducers/area-reducer";
+import paymentReducer from "@/redux/reducers/payment-reducer";
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     division: DivisionReducer,
     city: CityReducer,
     area: AreaReducer,
+    payment: paymentReducer,
   },
 });
 

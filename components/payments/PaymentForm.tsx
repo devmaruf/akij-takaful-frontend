@@ -9,12 +9,7 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
-import { useDebounced } from '@/hooks/use-debounce';
-import { getDesignationDropdownList } from '@/redux/actions/designation-action';
-import { getBranchDropdownList } from '@/redux/actions/branch-action';
-import { changeInputValue, createEmployee, getEmployeeDetails, getEmployeeRolesDropdownList, updateEmployee } from '@/redux/actions/employee-action';
-import Select from '@/components/select';
-import BankSelect from '@/components/banks/BankSelect';
+import { submitPaymentAction } from '@/redux/actions/payment-action';
 
 interface IPaymentForm {
     id: number;
@@ -25,52 +20,16 @@ interface IPaymentForm {
 export default function PaymentForm({ id, pageType, isAgent = false }: IPaymentForm) {
     const router = useRouter();
     const dispatch = useDispatch();
-    const defaultPassword = 'AKIJTakaful@$@123';
-
-    const { designationDropdownList } = useSelector((state: RootState) => state.designation);
-    const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
-    const { employeeInput, isSubmitting, isLoadingDetails, rolesDropdownList } = useSelector((state: RootState) => state.employee);
-
-    useDebounced(() => {
-        dispatch(getDesignationDropdownList());
-        dispatch(getBranchDropdownList());
-        dispatch(getEmployeeRolesDropdownList(isAgent));
-    });
-
-    const debouncedDispatch = useCallback(
-        debounce(() => {
-            if (id > 0) {
-                dispatch(getEmployeeDetails(id, isAgent));
-            }
-        }, 500),
-        [id, isAgent]
-    );
-
-    useEffect(() => {
-        debouncedDispatch();
-        return debouncedDispatch.cancel;
-    }, [debouncedDispatch]);
-
-    const handleChangeTextInput = (name: string, value: any) => {
-        dispatch(changeInputValue(name, value));
-    };
+    const { paymentInput, isSubmitting } = useSelector((state: RootState) => state.payment);
 
     const onSubmit = (e: any) => {
         e.preventDefault();
-        const formattedInputObject = {
-            ...employeeInput,
-            branch_ids: employeeInput.branch_ids.map(branch => branch.value)
-        }
-
-        if (pageType === 'create') {
-            dispatch(createEmployee(formattedInputObject, router, isAgent));
-        } else {
-            dispatch(updateEmployee(formattedInputObject, router, pageType, isAgent));
-        }
+        // dispatch(updateEmployee(formattedInputObject, router, pageType, isAgent));
+        // Hit API and send data and get redirect URL
+        dispatch(submitPaymentAction(paymentInput, router));
     }
 
     const getMainPageTitle = () => {
-
         return 'Payment';
     }
 
@@ -94,23 +53,13 @@ export default function PaymentForm({ id, pageType, isAgent = false }: IPaymentF
                 hasSearch={false}
             />
             <PageContent>
-                {
-                    isLoadingDetails &&
-                    <div className="text-center">
-                        <Loading
-                            loadingTitle={`${getMainPageTitle()} Details...`}
-                        />
-                    </div>
-                }
-
-                {isLoadingDetails === false && typeof employeeInput !== "undefined" && employeeInput !== null && (
-                    <form
-                        method="post"
-                        autoComplete="off"
-                        encType="multipart/form-data"
-                    >
-                        <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
-                            {/* <div className="col-span-2">
+                <form
+                    method="post"
+                    autoComplete="off"
+                    encType="multipart/form-data"
+                >
+                    <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
+                        {/* <div className="col-span-2">
                                 <label htmlFor={''} className="text-sm font-medium text-gray-900 block mb-2">
                                     {pageType === 'profile' ? 'Profile' : 'Employee'} Photo
                                 </label>
@@ -126,21 +75,19 @@ export default function PaymentForm({ id, pageType, isAgent = false }: IPaymentF
                                 </div>
                             </div> */}
 
-                            <div className='md:ml-4 col-span-4'>
-                                
-                            </div>
+                        <div className='md:ml-4 col-span-4'>
 
                         </div>
 
-                        <Button
-                            title='Pay Now'
-                            loadingTitle="Loading..."
-                            onClick={(e) => onSubmit(e)}
-                            loading={isSubmitting}
-                        />
-                    </form>
-                )
-                }
+                    </div>
+
+                    <Button
+                        title='Pay Now'
+                        loadingTitle="Loading..."
+                        onClick={(e) => onSubmit(e)}
+                        // loading={isSubmitting}
+                    />
+                </form>
             </PageContent>
         </>
     )

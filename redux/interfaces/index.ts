@@ -480,3 +480,15 @@ export interface IAreaReducer {
     areas: Array<ISelect2Item>;
     nomineeDefaultAreas: Array<ISelect2Item>;
 }
+
+interface IPaymentInput {
+    proposal_no: string;
+    amount: number;
+    type: string | null;
+}
+
+export interface IPaymentReducer {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    paymentInput: IPaymentInput
+}
