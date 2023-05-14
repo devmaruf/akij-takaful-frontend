@@ -9,7 +9,6 @@ export const handleSidebar = (isToggle: boolean = false) => (dispatch: Dispatch)
 export const getSidebarMenuList = () => (dispatch: Dispatch) => {
     axios.get('menu')
         .then(res => {
-            console.log('SideBarMenu', res)
             dispatch({ type: Types.SIDEBAR_MENU_LIST, payload: res.data ?? [] });
         })
         .catch(error => {

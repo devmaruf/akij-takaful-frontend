@@ -9,7 +9,7 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
-import { submitPaymentAction,changeInputValue } from '@/redux/actions/payment-action';
+import { submitPaymentAction, changeInputValue } from '@/redux/actions/payment-action';
 
 interface IPaymentForm {
     id: number;
@@ -65,23 +65,32 @@ export default function PaymentForm({ id, pageType, isAgent = false }: IPaymentF
                     <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
 
                         <div className='md:ml-4 col-span-4'>
-                            <Input
-                                label="Amount"
-                                name="amount"
-                                placeholder='Amount'
-                                value={paymentInput.amount}
-                                isRequired={true}
-                                inputChange={handleChangeTextInput}
-                            />
+                            <div className='grid gap-2 grid-cols-1 md:grid-cols-2'>
+                                <Input
+                                    label="Amount"
+                                    name="amount"
+                                    placeholder='Amount'
+                                    value={paymentInput.amount}
+                                    isRequired={true}
+                                    inputChange={handleChangeTextInput}
+                                />
+                                <Input
+                                    label="Proposal No"
+                                    name="proposal_no"
+                                    placeholder='Proposal No'
+                                    value={paymentInput.proposal_no}
+                                    isRequired={true}
+                                    inputChange={handleChangeTextInput}
+                                />
+                            </div>
                         </div>
-
                     </div>
 
                     <Button
                         title='Pay Now'
                         loadingTitle="Loading..."
                         onClick={(e) => onSubmit(e)}
-                    // loading={isSubmitting}
+                        loading={isSubmitting}
                     />
                 </form>
             </PageContent>

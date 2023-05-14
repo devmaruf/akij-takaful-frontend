@@ -1,9 +1,11 @@
 import * as Types from "@/redux/types/payment-type";
 import { IPaymentReducer } from "@/redux/interfaces";
 
-const initialState : IPaymentReducer = {
+const initialState: IPaymentReducer = {
     isLoading: false,
     isSubmitting: false,
+    paymentList:[],
+    paymentPaginationData: [],
     paymentInput: {
         proposal_no: '',
         amount: 0,
@@ -24,6 +26,14 @@ function paymentReducer(state = initialState, action: any) {
             return {
                 ...state,
                 isSubmitting: action.payload.isLoading,
+            };
+
+        case Types.GET_PAYMENT_LIST:
+            return {
+                ...state,
+                isLoading: action.payload.isLoading,
+                paymentList: action.payload.data,
+                paymentPaginationData: action.payload.paginationData,
             };
 
         default:

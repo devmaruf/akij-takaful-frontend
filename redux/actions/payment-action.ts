@@ -27,11 +27,9 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
           response.message = res.message;
           Toaster('success', response.message);
           // dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
-
-          console.log('SSL res::', res);
           setTimeout(() => {
-            if(res.data?.redirectGatewayURL !== null) {
-              window.location.href = res.data.redirectGatewayURL
+            if(res.data?.GatewayPageURL !== null) {
+              window.location.href = res.data.GatewayPageURL
             }
           }, 1000);
       })
@@ -39,4 +37,31 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
           response.isLoading = false;
           dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
       });
+}
+
+export const getPaymentListAction = (currentPage: number = 1, dataLimit: number = 10, searchText: string = '', isAgent: boolean = false) => (dispatch: Dispatch) => {
+  let response = {
+      status: false,
+      message: "",
+      isLoading: true,
+      data: [],
+      paginationData: [],
+  };
+  dispatch({ type: Types.GET_PAYMENT_LIST, payload: response });
+
+  const resourceUrl = isAgent ? 'agents' : 'employees';
+
+  axios.get(`/payment/index?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+      .then((res) => {
+          response.isLoading = false;
+          response.status = true;
+          response.message = res.message;
+          response.data = res.data.data;
+          response.paginationData = res.data;
+          dispatch({ type: Types.GET_PAYMENT_LIST, payload: response });
+      }).catch((error) => {
+          response.isLoading = false;
+          dispatch({ type: Types.GET_PAYMENT_LIST, payload: response })
+      })
+
 }

@@ -490,5 +490,7 @@ interface IPaymentInput {
 export interface IPaymentReducer {
     isLoading: boolean;
     isSubmitting: boolean;
-    paymentInput: IPaymentInput
+    paymentInput: IPaymentInput;
+    paymentList: any[];
+    paymentPaginationData:any[];
 }
