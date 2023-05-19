@@ -18,6 +18,7 @@ import DivisionReducer from "@/redux/reducers/division-reducer";
 import CityReducer from "@/redux/reducers/city-reducer";
 import AreaReducer from "@/redux/reducers/area-reducer";
 import paymentReducer from "@/redux/reducers/payment-reducer";
+import MedicalReducer from "../reducers/medical-reducer";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     stamp: StampRegisterReducer,
     role: RoleReducer,
     expense: ExpenseReducer,
+    medical:MedicalReducer,
     product: ProductReducer,
     stampStock: StampStockReducer,
     occupation: OccupationReducer,

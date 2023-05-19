@@ -406,6 +406,24 @@ export interface IProductReducer {
     productInput: IProductForm
 }
 
+export interface IMedicalTestForm {
+    name: string;
+    min_age:number;
+    max_age:number;
+    min_amount:number;
+    max_amount:number;
+}
+export interface IMedicalReducer {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    loadingDetails: boolean;
+    isDeleting: boolean;
+    medicalTestList: any[];
+    medicalTestPaginationData: any[];
+    medicalTestDetails: any;
+    medicalTestInput: IMedicalTestForm
+}
+
 export interface IStampStockForm {
     project_id: number;
     branch_id: number;
