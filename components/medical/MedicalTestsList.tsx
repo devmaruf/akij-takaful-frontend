@@ -12,7 +12,7 @@ import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { RootState } from '@/redux/store';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { IEmployeeView } from '@/redux/interfaces';
+import { IEmployeeView, IMedicalTestView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getPaymentListAction } from '@/redux/actions/payment-action';
 import { getMedicalTestListAction } from '@/redux/actions/medicaltest-action';
@@ -25,7 +25,7 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
     const dispatch = useDispatch();
     const router = useRouter();
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-    const [employeeID, setEmployeeID] = useState<number | null>(null);
+    const [medicalTestID, setMedicalTestID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const { medicalTestList,medicalTestPaginationData, isLoading, } = useSelector((state: RootState) => state.medical);
@@ -38,7 +38,8 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
         { title: 'Minimum Age', id: 3 },
         { title: "Maximum Age", id: 4 },
         { title: "Minimum Amount", id: 5 },
-        { title: "Maximum Amount", id: 6 }
+        { title: "Maximum Amount", id: 6 },
+        { title: "Action", id: 7 }
     ];
 
     const debouncedDispatch = useCallback(
@@ -52,6 +53,36 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
         debouncedDispatch();
         return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
+
+    const handleDeleteEmployeeModal = (id: number) => {
+        setShowDeleteModal(true);
+        setMedicalTestID(id);
+    }
+
+    const getActionButtons = (medicalTest: IMedicalTestView) => {
+        const actions = [];
+
+        if (hasPermission('medicalTest.edit')) {
+            actions.push({
+                element: 'Edit',
+                onClick: () => router.push(
+                    `/medical-tests/edit?id=${medicalTest.id}`
+                ),
+                iconClass: 'pencil'
+            });
+        }
+
+
+        if (hasPermission('medicalTest.delete')) {
+            actions.push({
+                element: 'Delete',
+                onClick: () => handleDeleteEmployeeModal(medicalTest.id),
+                iconClass: 'trash'
+            });
+        }
+
+        return actions;
+    }
 
 
     return (
@@ -102,6 +133,12 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {medicalTest.max_amount}
+                                        </td>
+
+                                        <td className="px-2 py-3 flex gap-1">
+                                            <ActionButtons
+                                                items={getActionButtons(medicalTest)}
+                                            />
                                         </td>
                                     </tr>
                                 ))

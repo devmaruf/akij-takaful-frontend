@@ -75,6 +75,14 @@ export interface IEmployeeView extends IEmployee {
     status: string;
 }
 
+export interface IMedicalTestView extends IMedicalTestForm {
+    id: number;
+    name1:string;
+    min_age: number;
+    max_age: number;
+    min_amount: number;
+    max_amount: number;
+}
 export interface IEmployeeReducer {
     isLoading: boolean;
     isDeleting: boolean;

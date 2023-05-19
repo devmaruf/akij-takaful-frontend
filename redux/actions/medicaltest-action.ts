@@ -11,7 +11,7 @@ export const changeMedicalTestInputValue = (name: string, value: any) => (dispat
     dispatch({ type: Types.CHANGE_MEDICAL_TEST_INPUT, payload: data });
 };
 
-export const submitMedicalTestAction = (productInput: any, closeModal: any) => (dispatch: Dispatch) => {
+export const submitMedicalTestAction = (medicalTestInput: any) => (dispatch: Dispatch) => {
 
     let response = {
         status: false,
@@ -21,16 +21,16 @@ export const submitMedicalTestAction = (productInput: any, closeModal: any) => (
     };
     dispatch({ type: Types.SUBMIT_MEDICAL_TEST, payload: response });
 
-    axios.post(`/products`, productInput)
+    axios.post(`/medical-tests`, medicalTestInput)
         .then((res) => {
+            console.log('medicalTest repsponse', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
             response.data = res.data;
             dispatch({ type: Types.SUBMIT_MEDICAL_TEST, payload: response });
             Toaster('success', response.message);
-            dispatch(getMedicalTestListAction())
-            closeModal(false);
+            dispatch(getMedicalTestListAction());
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.SUBMIT_MEDICAL_TEST, payload: response })
