@@ -62,7 +62,7 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
     const getActionButtons = (medicalTest: IMedicalTestView) => {
         const actions = [];
 
-        if (hasPermission('medicalTest.edit')) {
+        if (hasPermission('medical.edit')) {
             actions.push({
                 element: 'Edit',
                 onClick: () => router.push(
@@ -73,7 +73,7 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
         }
 
 
-        if (hasPermission('medicalTest.delete')) {
+        if (hasPermission('medical.delete')) {
             actions.push({
                 element: 'Delete',
                 onClick: () => handleDeleteEmployeeModal(medicalTest.id),
