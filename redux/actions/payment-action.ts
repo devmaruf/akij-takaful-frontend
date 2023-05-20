@@ -65,3 +65,30 @@ export const getPaymentListAction = (currentPage: number = 1, dataLimit: number 
       })
 
 }
+
+// export const paymentStatusChangeAction = (paymentForm: any, router: any) => (dispatch: Dispatch) => {
+//   let response = {
+//       status: false,
+//       message: "",
+//       isLoading: true,
+//   };
+//   dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
+
+//   axios.post(`/payment`, paymentForm)
+//       .then((res) => {
+//           response.status = true;
+//           response.isLoading = false;
+//           response.message = res.message;
+//           Toaster('success', response.message);
+//           // dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
+//           setTimeout(() => {
+//             if(res.data?.GatewayPageURL !== null) {
+//               window.location.href = res.data.GatewayPageURL
+//             }
+//           }, 1000);
+//       })
+//       .catch((error) => {
+//           response.isLoading = false;
+//           dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
+//       });
+// }

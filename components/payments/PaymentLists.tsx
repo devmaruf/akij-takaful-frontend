@@ -23,26 +23,23 @@ interface IPaymentList {
 export default function PaymentList({ isAgent = false }: IPaymentList) {
     const dispatch = useDispatch();
     const router = useRouter();
-    const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-    const [employeeID, setEmployeeID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const { paymentList,paymentPaginationData, isLoading, } = useSelector((state: RootState) => state.payment);
     const [searchText, setSearchText] = useState<string>('');
-
-
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Project ID', id: 2 },
         { title: 'Transaction Refrance', id: 3 },
         { title: "Transaction Amount", id: 4 },
         { title: "Status", id: 5 },
-        { title: "Transaction Date", id: 6 }
+        { title: "Transaction Date", id: 6 },
+        { title: "Action", id: 7 }
     ];
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getPaymentListAction(currentPage, dataLimit, searchText,))
+            dispatch(getPaymentListAction(currentPage, dataLimit, searchText))
         }, 500),
         [currentPage, dataLimit, searchText]
     );
@@ -53,9 +50,30 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
     }, [debouncedDispatch]);
 
 
-    const handleDeleteEmployeeModal = (id: number) => {
-        setShowDeleteModal(true);
-        setEmployeeID(id);
+    
+
+    const getActionButtons = (payment: any) => {
+        const actions = [];
+
+        if (hasPermission('payment.status')) {
+            actions.push({
+                element: 'Approve',
+                onClick: () => router.push(
+                    `/payment/status-change?id=${payment.id} status=${"is_approve"}`
+                ),
+                iconClass: 'bi bi-check'
+            });
+
+            actions.push({
+                element: 'Cancel',
+                onClick: () => router.push(
+                    `/payment/status-change?id=${payment.id} status=${"is_cancel"}`
+                ),
+                iconClass: 'bi bi-x'
+            });
+        }
+
+        return actions;
     }
 
     return (
@@ -106,6 +124,11 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {payment.transaction_date}
+                                        </td>
+                                        <td className="px-2 py-3 flex gap-1">
+                                            <ActionButtons
+                                                items={getActionButtons(payment)}
+                                            />
                                         </td>
                                     </tr>
                                 ))
