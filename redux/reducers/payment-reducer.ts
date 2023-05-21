@@ -9,10 +9,12 @@ const initialState: IPaymentReducer = {
     paymentPaginationData: [],
     paymentInput: {
         proposal_no: '',
+        proposal_id: null,
         proposal: null,
         payment_media: 'online',
         amount: 0,
         type: 'registration-payment',
+        attachment: null,
     }
 };
 
@@ -46,7 +48,8 @@ function paymentReducer(state = initialState, action: any) {
                 paymentInput: {
                     ...state.paymentInput,
                     proposal: action.payload.data,
-                    amount: action.payload?.data?.total_premium ?? 0
+                    amount: action.payload?.data?.total_premium ?? 0,
+                    proposal_id: action.payload?.data?.id ?? null
                 },
             };
 

@@ -63,7 +63,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                 hasSearch={false}
             />
             <PageContent>
-                <form method="post" autoComplete="off">
+                <form method="post" autoComplete="off" encType="multipart/form-data">
                     <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
                         <div className='md:ml-4 col-span-4'>
                             <div className='grid gap-2 grid-cols-1 md:grid-cols-3'>
@@ -118,6 +118,32 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                             placeholder='Select Payment media...'
                                             handleChangeValue={handleChangeTextInput}
                                         />
+
+                                        {
+                                            paymentInput.payment_media === 'manual' &&
+                                            <>
+                                                <div className='bg-gray-100 border-t-2 border-t-blue-600'>
+                                                    <h2 className="border-b text-lg p-3">
+                                                        Bank Information
+                                                    </h2>
+                                                    <div className='p-3'>
+                                                        <h2>Bank Name: [XXXX]</h2>
+                                                        <h2>Bank Account No: XXXXXXXX</h2>
+                                                        <h2>Bank Address: XXXXXXXX</h2>
+                                                    </div>
+                                                </div>
+                                                <Input
+                                                    label="Attachment"
+                                                    name="attachment"
+                                                    placeholder='Attachment'
+                                                    value={paymentInput.attachment}
+                                                    isDisabled={true}
+                                                    isRequired={true}
+                                                    inputChange={handleChangeTextInput}
+                                                />
+                                            </>
+                                        }
+
                                     </>
                                 }
                             </div>

@@ -28,8 +28,8 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
           Toaster('success', response.message);
           dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
           setTimeout(() => {
-            if(res.data?.GatewayPageURL !== null) {
-              window.location.href = res.data.GatewayPageURL
+            if(res.data?.forwarding_url !== null) {
+              window.location.href = res.data.forwarding_url
             }
           }, 1000);
       })

@@ -509,10 +509,12 @@ export interface IAreaReducer {
 
 interface IPaymentInput {
     proposal_no: string;
+    proposal_id: number | null;
     proposal: object | null;
     payment_media: 'online' | 'manual';
     amount: number;
     type: string | null;
+    attachment: any;
 }
 
 export interface IPaymentReducer {
