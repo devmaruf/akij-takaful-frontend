@@ -12,7 +12,6 @@ import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { RootState } from '@/redux/store';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { IEmployeeView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getPaymentListAction } from '@/redux/actions/payment-action';
 
