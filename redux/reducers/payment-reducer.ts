@@ -3,11 +3,14 @@ import { IPaymentReducer } from "@/redux/interfaces";
 
 const initialState: IPaymentReducer = {
     isLoading: false,
+    isSearching: false,
     isSubmitting: false,
-    paymentList:[],
+    paymentList: [],
     paymentPaginationData: [],
     paymentInput: {
         proposal_no: '',
+        proposal: null,
+        payment_media: 'online',
         amount: 0,
         type: 'registration-payment',
     }
@@ -34,6 +37,17 @@ function paymentReducer(state = initialState, action: any) {
                 isLoading: action.payload.isLoading,
                 paymentList: action.payload.data,
                 paymentPaginationData: action.payload.paginationData,
+            };
+
+        case Types.SEARCH_PAYMENT_PROPOSAL:
+            return {
+                ...state,
+                isSearching: action.payload.isLoading,
+                paymentInput: {
+                    ...state.paymentInput,
+                    proposal: action.payload.data,
+                    amount: action.payload?.data?.total_premium ?? 0
+                },
             };
 
         default:

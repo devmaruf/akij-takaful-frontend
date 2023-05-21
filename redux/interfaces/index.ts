@@ -509,12 +509,15 @@ export interface IAreaReducer {
 
 interface IPaymentInput {
     proposal_no: string;
+    proposal: object | null;
+    payment_media: 'online' | 'manual';
     amount: number;
     type: string | null;
 }
 
 export interface IPaymentReducer {
     isLoading: boolean;
+    isSearching: boolean;
     isSubmitting: boolean;
     paymentInput: IPaymentInput;
     paymentList: any[];
