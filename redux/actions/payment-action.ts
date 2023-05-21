@@ -26,10 +26,10 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
           response.isLoading = false;
           response.message = res.message;
           Toaster('success', response.message);
-          // dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
+          dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
           setTimeout(() => {
-            if(res.data?.GatewayPageURL !== null) {
-              window.location.href = res.data.GatewayPageURL
+            if(res.data?.forwarding_url !== null) {
+              window.location.href = res.data.forwarding_url
             }
           }, 1000);
       })
@@ -92,3 +92,27 @@ export const getPaymentListAction = (currentPage: number = 1, dataLimit: number 
 //           dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
 //       });
 // }
+
+export const searchPaymentProposalAction = (proposalNo: string = '') => (dispatch: Dispatch) => {
+  let response = {
+      status: false,
+      message: "",
+      isLoading: true,
+      data: {},
+  };
+
+  dispatch({ type: Types.SEARCH_PAYMENT_PROPOSAL, payload: response });
+
+  axios.get(`/payment/search-by-proposal-no?proposal_no=${proposalNo}`)
+      .then((res) => {
+          response.isLoading = false;
+          response.status = true;
+          response.message = res.message;
+          response.data = res.data;
+          dispatch({ type: Types.SEARCH_PAYMENT_PROPOSAL, payload: response });
+      }).catch((error) => {
+          response.isLoading = false;
+          dispatch({ type: Types.SEARCH_PAYMENT_PROPOSAL, payload: response })
+      })
+
+}
