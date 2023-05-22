@@ -8,6 +8,8 @@ import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { submitPaymentAction, changeInputValue, searchPaymentProposalAction } from '@/redux/actions/payment-action';
+import { useEffect } from 'react';
+import { Toaster } from '../toaster';
 
 interface IPaymentForm {
     id: number;
@@ -17,6 +19,7 @@ interface IPaymentForm {
 
 export default function PaymentForm({ id, pageType }: IPaymentForm) {
     const router = useRouter();
+    const paymentCompleted = router.query?.payment_completed ?? false;
     const dispatch = useDispatch();
     const { paymentInput, isSubmitting, isSearching } = useSelector((state: RootState) => state.payment);
 
@@ -30,21 +33,8 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
         dispatch(submitPaymentAction(paymentInput, router));
     }
 
-    const getMainPageTitle = () => {
-        return 'Pay Now';
-    }
-
     const getPageTitle = () => {
-        let title = '';
-        if (pageType === 'create') {
-            title += 'New ';
-        } else if (pageType === 'edit' || pageType === 'profile') {
-            title += 'Edit ';
-        }
-
-        title += getMainPageTitle();
-
-        return title;
+        return 'Pay Now'
     }
 
     const onSearch = (e: any) => {
@@ -54,7 +44,12 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
 
     const hasProposalFound = paymentInput.proposal?.id !== undefined;
 
-    console.log('paymentInput', paymentInput)
+    useEffect(() => {
+        if (paymentCompleted) {
+            Toaster('success', 'Your payment has been processed successfully.');
+            router.push('/pay-now');
+        }
+    }, [paymentCompleted, router]);
 
     return (
         <>
@@ -133,11 +128,11 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     </div>
                                                 </div>
                                                 <Input
+                                                    type="file"
                                                     label="Attachment"
                                                     name="attachment"
                                                     placeholder='Attachment'
                                                     value={paymentInput.attachment}
-                                                    isDisabled={true}
                                                     isRequired={true}
                                                     inputChange={handleChangeTextInput}
                                                 />

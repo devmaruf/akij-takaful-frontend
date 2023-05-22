@@ -15,6 +15,7 @@ import { PageContentList } from '@/components/layouts/PageContentList';
 import { IEmployeeView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getPaymentListAction } from '@/redux/actions/payment-action';
+import { formatCurrency } from '@/utils/currency';
 
 interface IPaymentList {
     isAgent?: boolean;
@@ -25,12 +26,12 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
-    const { paymentList,paymentPaginationData, isLoading, } = useSelector((state: RootState) => state.payment);
+    const { paymentList, paymentPaginationData, isLoading, } = useSelector((state: RootState) => state.payment);
     const [searchText, setSearchText] = useState<string>('');
     const columnData: any[] = [
         { title: "SL", id: 1 },
-        { title: 'Project ID', id: 2 },
-        { title: 'Transaction Refrance', id: 3 },
+        { title: 'Proposal No', id: 2 },
+        { title: 'Payment via', id: 3 },
         { title: "Transaction Amount", id: 4 },
         { title: "Status", id: 5 },
         { title: "Transaction Date", id: 6 },
@@ -48,9 +49,6 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
         debouncedDispatch();
         return debouncedDispatch.cancel;
     }, [debouncedDispatch]);
-
-
-    
 
     const getActionButtons = (payment: any) => {
         const actions = [];
@@ -79,14 +77,14 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
     return (
         <div>
             <PageHeader
-                title={isAgent ? 'Manage Banca Officer/Manager' : 'Payments'}
-                searchPlaceholder={`Search ${isAgent ? 'agents' : 'payments'}...`}
+                title={'Payments'}
+                searchPlaceholder={`Search payments...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
                 headerRightSide={
                     <NewButton
-                        href={isAgent ? '/banca/agent/create' : '/payment/create'}
-                        element={isAgent ? 'New Officer/Manager' : 'New Payment'}
+                        href={'/pay-now'}
+                        element={'Pay now'}
                     />
                 }
             />
@@ -111,16 +109,16 @@ export default function PaymentList({ isAgent = false }: IPaymentList) {
                                             {index + 1}
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {payment.project_id}
+                                            {payment.proposal_no}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {payment.ref_transaction_id}
+                                            {payment.gateway_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {payment.amount}
+                                            {formatCurrency(payment.amount)}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        <StatusBadge status={payment.status} />
+                                            <StatusBadge status={payment.status} />
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {payment.transaction_date}
