@@ -63,6 +63,15 @@ export default function ProposalListTable({
                 });
             }
 
+            if (hasPermission('proposal.view')) {
+                actions.push({
+                    element: 'Worksheet Summary',
+                    onClick: () => router.push(`/worksheets/worksheet-summary?id=${data.id}`),
+                    iconClass: 'list-task'
+                });
+            }
+
+
             if (hasPermission('underwriting.edit')) {
                 actions.push({
                     element: 'Underwriting',
