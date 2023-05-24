@@ -525,3 +525,22 @@ export interface IPaymentReducer {
     paymentList: any[];
     paymentPaginationData:any[];
 }
+
+
+export interface IUnderwritingQues {
+    isLoading: boolean;
+    isDeleting: boolean;
+    isLoadingDetails: boolean;
+    isSubmitting: boolean;
+    underwritingQuesList: any[];
+    underwritingQuesPaginationData: any[];
+    underwritingQuesDetails: any;
+    underwritingQuesInput: {
+        requirement_name_en: string;
+        requirement_name_bn: string;
+        code: string;
+        type_id: number | null;
+        input_type: string;
+        gender: string;
+    };
+}
