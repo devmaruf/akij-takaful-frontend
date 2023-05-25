@@ -19,6 +19,7 @@ import CityReducer from "@/redux/reducers/city-reducer";
 import AreaReducer from "@/redux/reducers/area-reducer";
 import paymentReducer from "@/redux/reducers/payment-reducer";
 import MedicalReducer from "../reducers/medical-reducer";
+import UnderwritingQuestionnaireReducer from "@/redux/reducers/underwriting-questionnaire-reducer";
 
 export const store = configureStore({
   reducer: {
@@ -42,6 +43,7 @@ export const store = configureStore({
     city: CityReducer,
     area: AreaReducer,
     payment: paymentReducer,
+    underwritingQues: UnderwritingQuestionnaireReducer,
   },
 });
 
