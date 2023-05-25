@@ -23,7 +23,6 @@ export const submitMedicalTestAction = (medicalTestInput: any) => (dispatch: Dis
 
     axios.post(`/medical-tests`, medicalTestInput)
         .then((res) => {
-            console.log('medicalTest repsponse', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
@@ -55,7 +54,6 @@ export const getMedicalTestListAction = (currentPage: number = 1, dataLimit: num
 
     axios.get(url)
         .then((res) => {
-            console.log('MedicalTest Reposne', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;

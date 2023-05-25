@@ -14,12 +14,10 @@ export default function Login() {
     const { loginInput, isSubmitting, otpStatus, otpInput } = useSelector((state: RootState) => state.Auth);
 
     const changeTextInput = (name: string, value: any) => {
-        console.log('name', name, "value", value)
         dispatch(changeInputValue(name, value));
     };
 
     const changeOtpTextInput = (name: string, value: any) => {
-        console.log('name', name, "value", value)
         dispatch(changeOtpInputValue(name, value));
     };
 
