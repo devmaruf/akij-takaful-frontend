@@ -89,7 +89,7 @@ export default function MedicalTestsList({ isAgent = false }: IPaymentList) {
         <div>
             <PageHeader
                 title={'Medical Tests'}
-                searchPlaceholder={`Search 'medical-tests'}...`}
+                searchPlaceholder={`Search medical tests...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
                 headerRightSide={

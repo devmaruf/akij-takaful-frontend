@@ -5,6 +5,11 @@ const initialState: IAuthReducer = {
     isLoading: false,
     isSubmitting: false,
     loginData: null,
+    otpStatus: false,
+    otpExpireTime: '',
+    otpInput: {
+        otp: ''
+    },
     loginInput: {
         email: "admin@example.com",
         password: "12345678",
@@ -22,12 +27,49 @@ function AuthReducer(state = initialState, action: any) {
                 loginInput,
             };
 
+        case Types.CHANGE_OTP_INPUT_VALUE:
+            const otpInput = { ...state.otpInput };
+            // @ts-ignore
+            otpInput[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                otpInput,
+            };
+
         case Types.SUBMIT_LOGIN:
             if (action.payload.status === true) {
                 return {
                     ...state,
                     isSubmitting: action.payload.isLoading,
                     loginInput: initialState.loginInput
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+        case Types.OTP_LOGIN:
+            if (action.payload.otpStatus === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    otpStatus: action.payload.otpStatus,
+                    otpExpireTime: action.payload.otpExpireTime
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+
+        case Types.OTP_SUBMIT:
+            if (action.payload.otpStatus === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    otp: action.payload.otp
                 };
             } else {
                 return {

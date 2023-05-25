@@ -26,7 +26,6 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
       response.isLoading = false;
       response.message = res.message;
       Toaster('success', response.message);
-      console.log('res.data', res.data)
       setTimeout(() => {
         if (res.data?.forwarding_url !== null) {
           window.location.href = res.data.forwarding_url
