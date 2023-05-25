@@ -75,7 +75,7 @@ export const getUnderwritingQuestionnairesList = (currentPage: number = 1, dataL
 
     dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_LIST, payload: response });
 
-    axios.get(`underwriting-questionnaires?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+    axios.get(`underwritings-questionnaires?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -102,7 +102,7 @@ export const getUnderwritingQuesDetails = (id: number | string) => (dispatch: Di
     };
     dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_DETAILS, payload: response });
 
-    axios.get(`/underwriting-questionnaire/${id}`)
+    axios.get(`/underwritings-questionnaire/${id}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -133,7 +133,7 @@ export const handleUpdateUnderwritingQues = (underwritingQuesInput, setShowUpdat
     };
     dispatch({ type: Types.SUBMIT_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
 
-    axios.put(`/underwriting-questionnaire/${underwritingQuesInput.id}`, underwritingQuesInput)
+    axios.put(`/underwritings-questionnaire/${underwritingQuesInput.id}`, underwritingQuesInput)
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
@@ -155,7 +155,7 @@ export const deleteUnderwritingQue = (id: number, setShowDeleteModal: any) => (d
         isLoading: true,
     };
     dispatch({ type: Types.DELETE_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
-    axios.delete(`/underwriting-questionnaire/${id}`)
+    axios.delete(`/underwritings-questionnaire/${id}`)
         .then((res) => {
             responseData.isLoading = false;
             responseData.status = true;
