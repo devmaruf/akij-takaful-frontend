@@ -75,7 +75,7 @@ export const getUnderwritingQuestionnairesList = (currentPage: number = 1, dataL
 
     dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_LIST, payload: response });
 
-    axios.get(`underwritings-questionnaires?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+    axios.get(`underwriting-questionnaires?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
