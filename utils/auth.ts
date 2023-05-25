@@ -19,6 +19,7 @@ export const getAuthToken = () => {
 export const getAuthData = () => {
     const userData = localStorage.getItem(KEY_USER_DATA);
    // console.log('userData', userData)
+
     if (userData !== undefined && userData !== null) {
         return JSON.parse(userData);
     }

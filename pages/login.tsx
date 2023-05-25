@@ -5,19 +5,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Link from 'next/link';
-import { changeInputValue, handleLogin } from '@/redux/actions/auth-action';
+import { changeInputValue, changeOtpInputValue, handleLogin, handleOtpLogin } from '@/redux/actions/auth-action';
 
 export default function Login() {
     const dispatch = useDispatch();
+    const [showModal, setShowModal] = useState<boolean>(false);
     const [viewMoreCredential, setViewMoreCredential] = useState<boolean>(false);
-    const { loginInput, isSubmitting } = useSelector((state: RootState) => state.Auth);
+    const { loginInput, isSubmitting, otpStatus, otpInput } = useSelector((state: RootState) => state.Auth);
 
     const changeTextInput = (name: string, value: any) => {
         dispatch(changeInputValue(name, value));
     };
 
+    const changeOtpTextInput = (name: string, value: any) => {
+        dispatch(changeOtpInputValue(name, value));
+    };
+
     const onSubmit = (e: any) => {
         dispatch(handleLogin(loginInput));
+        e.preventDefault();
+    }
+
+    const onOtpSubmit = (e: any) => {
+        dispatch(handleOtpLogin(loginInput, otpInput));
         e.preventDefault();
     }
 
@@ -80,15 +90,38 @@ export default function Login() {
                                 ></i>
                             </div>
                         </div>
-                        <div className="text-center lg:text-left">
-                            <Button
-                                title="Login"
-                                onClick={(e) => onSubmit(e)}
-                                position="text-left"
-                                loadingTitle="Logging"
-                                loading={isSubmitting}
+                        {otpStatus &&
+
+                            <Input
+                                label='OTP'
+                                placeholder='place otp'
+                                name="otp"
+                                value={otpInput.otp}
+                                type="otp"
+                                inputChange={changeOtpTextInput}
                             />
-                        </div>
+                        }
+                        {otpStatus == true ?
+
+                            <div className="text-center lg:text-left">
+                                <Button
+                                    title="Submit OTP and Login"
+                                    onClick={(e) => onOtpSubmit(e)}
+                                    position="text-left"
+                                    loadingTitle="Logging"
+                                    loading={isSubmitting}
+                                />
+                            </div> :
+                            <div className="text-center lg:text-left">
+                                <Button
+                                    title="Login"
+                                    onClick={(e) => onSubmit(e)}
+                                    position="text-left"
+                                    loadingTitle="Logging"
+                                    loading={isSubmitting}
+                                />
+                            </div>
+                        }
 
                         {
                             viewMoreCredential &&

@@ -6,10 +6,15 @@ export interface ITableColumnData {
 export interface IAuthReducer {
     isLoading: boolean;
     isSubmitting: boolean;
+    otpStatus: boolean;
+    otpExpireTime: string;
     loginData: any;
     loginInput: {
         email: string;
         password: string
+    }
+    otpInput: {
+        otp: string;
     }
 }
 
@@ -77,7 +82,7 @@ export interface IEmployeeView extends IEmployee {
 
 export interface IMedicalTestView extends IMedicalTestForm {
     id: number;
-    name1:string;
+    name1: string;
     min_age: number;
     max_age: number;
     min_amount: number;
@@ -416,10 +421,10 @@ export interface IProductReducer {
 
 export interface IMedicalTestForm {
     name: string;
-    min_age:number;
-    max_age:number;
-    min_amount:number;
-    max_amount:number;
+    min_age: number;
+    max_age: number;
+    min_amount: number;
+    max_amount: number;
 }
 export interface IMedicalReducer {
     isLoading: boolean;

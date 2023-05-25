@@ -1,2 +1,5 @@
 export const CHANGE_AUTH_INPUT_VALUE = "CHANGE_AUTH_INPUT_VALUE";
-export const SUBMIT_LOGIN       = "SUBMIT_LOGIN ";
+export const CHANGE_OTP_INPUT_VALUE = "CHANGE_OTP_INPUT_VALUE";
+export const SUBMIT_LOGIN = "SUBMIT_LOGIN ";
+export const OTP_LOGIN = "OTP_LOGIN ";
+export const OTP_SUBMIT = "OTP_SUBMIT";
