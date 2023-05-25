@@ -43,7 +43,6 @@ export const handleLogin = (loginInput: { email: string; password: string; }) =>
 
     axios.post(`/login`, loginInput)
         .then((res: any) => {
-            console.log('res', res)
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.message;
@@ -51,7 +50,6 @@ export const handleLogin = (loginInput: { email: string; password: string; }) =>
             responseData.userData = res.data.user;
             if (responseData.status == true) {
                 sendOtp(responseData.userData.phone, responseData.userData.id).then((data) => {
-                    console.log('data', data)
                     responseData.message = data.data.original.message;
                     responseData.otpStatus = data.data.original.status;
                     responseData.otpExpireTime = data.data.original.expire_date;
@@ -93,7 +91,6 @@ export const handleOtpLogin = (loginInput: { email: string; password: string; },
     }
     axios.post(`/otp-check`, otpData)
         .then((res: any) => {
-            console.log('OtpReponse', res)
             if (res.data === false) {
                 Toaster('error', 'Invalid OTP');
                 responseData.isLoading = false;

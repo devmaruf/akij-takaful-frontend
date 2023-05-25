@@ -54,7 +54,6 @@ export const getPaymentListAction = (currentPage: number = 1, dataLimit: number 
 
   axios.get(`/payment/index?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
     .then((res) => {
-      console.log('res', res)
       response.isLoading = false;
       response.status = true;
       response.message = res.message;

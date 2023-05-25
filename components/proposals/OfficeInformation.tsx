@@ -2,8 +2,6 @@ import Table from "../table";
 
 export function OfficeInformation({ data }: any) {
 
-    console.log('data :>> ', data);
-
     return (
         <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
             <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-xl text-center">
