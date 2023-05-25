@@ -26,7 +26,6 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
       response.isLoading = false;
       response.message = res.message;
       Toaster('success', response.message);
-      console.log('res.data', res.data)
       setTimeout(() => {
         if (res.data?.forwarding_url !== null) {
           window.location.href = res.data.forwarding_url
@@ -55,6 +54,7 @@ export const getPaymentListAction = (currentPage: number = 1, dataLimit: number 
 
   axios.get(`/payment/index?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
     .then((res) => {
+      console.log('res', res)
       response.isLoading = false;
       response.status = true;
       response.message = res.message;
