@@ -57,7 +57,6 @@ export const handleLogin = (loginInput: { email: string; password: string; }) =>
                     responseData.otpExpireTime = data.data.original.expire_date;
                     Toaster('success', responseData.message);
                     dispatch({ type: Types.OTP_LOGIN, payload: responseData });
-
                 })
             } else {
                 responseData.isLoading = false;
@@ -110,7 +109,7 @@ export const handleOtpLogin = (loginInput: { email: string; password: string; },
                 dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData });
                 window.location.href = '/';
             }
-            
+
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.SUBMIT_LOGIN, payload: responseData })
@@ -118,12 +117,10 @@ export const handleOtpLogin = (loginInput: { email: string; password: string; },
 }
 
 export const sendOtp = async (phone: string, id: number) => {
-    let otpinput = {
+    return await axios.post(`/otp`, {
         phone_no: phone,
         id: id
-    }
-    const res = await axios.post(`/otp`, otpinput);
-    return res;
+    });
 }
 
 
