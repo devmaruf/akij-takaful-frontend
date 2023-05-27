@@ -17,7 +17,7 @@ export function ProposerPersonalInformation({ data }: any) {
                         Name
                     </th>
                     <td className="basis-3/4 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                        {data.proposal_personal_information.full_name ?? "N/A"}
+                        {data.proposal_personal_information?.full_name ?? "N/A"}
                     </td>
                 </tr>
 
@@ -26,13 +26,13 @@ export function ProposerPersonalInformation({ data }: any) {
                         Mobile
                     </th>
                     <td className="basis-1/4 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                        {data.proposal_personal_information.mobile_no ?? "N/A"}
+                        {data.proposal_personal_information?.mobile_no ?? "N/A"}
                     </td>
                     <th scope="row" className="basis-1/4 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
                         Email
                     </th>
                     <td className="basis-1/4 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                        {data.proposal_personal_information.email ?? "N/A"}
+                        {data.proposal_personal_information?.email ?? "N/A"}
                     </td>
                 </tr>
 
@@ -43,7 +43,7 @@ export function ProposerPersonalInformation({ data }: any) {
                         Address
                     </th>
                     <td className="basis-3/4 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                        {data.proposer_present_address.street_address}, {data.proposer_present_address.area_name}, {data.proposer_present_address.post_office_name}, {data.proposer_present_address.district_name}, {data.proposer_present_address.division_name}
+                        {data.proposer_present_address?.street_address}, {data.proposer_present_address?.area_name}, {data.proposer_present_address?.post_office_name}, {data.proposer_present_address?.district_name}, {data.proposer_present_address?.division_name}
                     </td>
                 </tr>
                 <tr className="flex text-left">
