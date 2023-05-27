@@ -199,7 +199,7 @@ export default function ProductForm({
               value={productInput?.rates_file}
               onChange={handleCSV}
             />
-            {productInput?.rates.length > 0 && productInput.rates.length (
+            {productInput?.rates?.length > 0 && (
               <Alert className="my-2">
                 {productInput.rates.length} entry selected.
               </Alert>
