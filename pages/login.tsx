@@ -65,7 +65,7 @@ export default function Login() {
         e.preventDefault();
     }
 
-    
+
     const formatTime = (time: number): string => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -144,7 +144,7 @@ export default function Login() {
                                 ></i>
                             </div>
                         </div>
-                        {otpStatus && remainingTime > 0 &&
+                        {otpStatus === true && remainingTime > 0 &&
 
                             <div>
                                 <Input
@@ -170,29 +170,15 @@ export default function Login() {
                                         loading={isSubmitting}
                                     />
                                 </div> :
-                                <>
-                                    {
-                                        (otpStatus === false && remainingTime === 0) ?
-                                            <div className="text-center lg:text-left">
-                                                <Button
-                                                    title="Login"
-                                                    onClick={(e) => onSubmit(e)}
-                                                    position="text-left"
-                                                    loadingTitle="Logging"
-                                                    loading={isSubmitting}
-                                                />
-                                            </div> :
-                                            <div className="text-center lg:text-left">
-                                                <Button
-                                                    title="Login Again"
-                                                    onClick={(e) => onSubmit(e)}
-                                                    position="text-left"
-                                                    loadingTitle="Logging"
-                                                    loading={isSubmitting}
-                                                />
-                                            </div>
-                                    }
-                                </>
+                                <div className="text-center lg:text-left">
+                                    <Button
+                                        title={(otpStatus === false && remainingTime === 0) ? "Login" : "Login Again"}
+                                        onClick={(e: React.FormEvent) => onSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Logging"
+                                        loading={isSubmitting}
+                                    />
+                                </div>
                         }
 
 
