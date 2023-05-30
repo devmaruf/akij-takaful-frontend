@@ -198,7 +198,7 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
     })
         .then(res => {
             console.log('res', res.data.med_id)
-            if(res.data.med_id){
+            if (res.data.med_id) {
                 router.push(`/medical/edit?id=${res.data.med_id}`);
             }
             responseData.status = true;
@@ -206,7 +206,9 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
             responseData.message = res.data.message;
             Toaster('success', responseData.message);
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
-            router.push('/proposals');
+            if (!res.data.med_id) {
+                router.push('/proposals');
+            }
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
