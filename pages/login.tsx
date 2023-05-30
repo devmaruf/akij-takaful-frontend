@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Input from '@/components/input';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +9,10 @@ import { changeInputValue, changeOtpInputValue, handleLogin, handleOtpLogin } fr
 
 export default function Login() {
     const dispatch = useDispatch();
-    const [showModal, setShowModal] = useState<boolean>(false);
     const [viewMoreCredential, setViewMoreCredential] = useState<boolean>(false);
-    const { loginInput, isSubmitting, otpStatus, otpInput } = useSelector((state: RootState) => state.Auth);
+    const { loginInput, isSubmitting, otpStatus, otpExpireTime, otpInput } = useSelector((state: RootState) => state.Auth);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [remainingTime, setRemainingTime] = useState<number>(0);
 
     const changeTextInput = (name: string, value: any) => {
         dispatch(changeInputValue(name, value));
@@ -26,10 +27,55 @@ export default function Login() {
         e.preventDefault();
     }
 
+    useEffect(() => {
+        if (otpExpireTime) {
+            const remainingSeconds = convertDatetimeToSeconds(otpExpireTime);
+            setRemainingTime(remainingSeconds);
+        }
+    }, [otpExpireTime]);
+
+
+    function convertDatetimeToSeconds(datetimeString) {
+        const expirationDateFromDatabase = new Date(datetimeString);
+        const currentDateTime = new Date();
+        const remainingSeconds = Math.floor(
+            (expirationDateFromDatabase.getTime() - currentDateTime.getTime()) / 1000
+        );
+        return remainingSeconds;
+    }
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+
+        if (remainingTime > 0) {
+            timer = setInterval(() => {
+                setRemainingTime((prevTime) => prevTime - 1);
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(timer);
+        };
+
+    }, [remainingTime]);
+
+
     const onOtpSubmit = (e: any) => {
         dispatch(handleOtpLogin(loginInput, otpInput));
         e.preventDefault();
     }
+
+
+    const formatTime = (time: number): string => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+
+        return `${formattedMinutes}:${formattedSeconds}`;
+    };
+
 
     return (
         <section className="md:h-screen py-4 px-6 md:px-10 bg-white text-gray-900 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
@@ -38,7 +84,7 @@ export default function Login() {
                     <img
                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                         className="w-[90%]"
-                        alt=""
+                        alt="Image"
                     />
                 </div>
                 <div className="basis-1 md:basis-1/2">
@@ -57,14 +103,22 @@ export default function Login() {
                             value={loginInput.email}
                             inputChange={changeTextInput}
                         />
-                        <Input
-                            label='Password'
-                            placeholder='Password'
-                            name="password"
-                            value={loginInput.password}
-                            type="password"
-                            inputChange={changeTextInput}
-                        />
+                        <div className="relative">
+                            <Input
+                                label='Password'
+                                placeholder='Password'
+                                name="password"
+                                value={loginInput.password}
+                                type={showPassword ? "text" : "password"}
+                                inputChange={changeTextInput}
+                            />
+                            <span className="absolute top-[50%] right-3 cursor-pointer text-xl" onClick={() => setShowPassword(!showPassword)}>
+                                {
+                                    showPassword ? <i className="bi bi-eye-slash-fill"></i> : <i className="bi bi-eye-fill"></i>
+                                }
+                            </span>
+
+                        </div>
                         <div className="flex justify-between items-center mb-6">
                             <div className="form-group form-check">
                                 <input
@@ -90,38 +144,43 @@ export default function Login() {
                                 ></i>
                             </div>
                         </div>
-                        {otpStatus &&
+                        {otpStatus === true && remainingTime > 0 &&
 
-                            <Input
-                                label='OTP'
-                                placeholder='place otp'
-                                name="otp"
-                                value={otpInput.otp}
-                                type="otp"
-                                inputChange={changeOtpTextInput}
-                            />
-                        }
-                        {otpStatus == true ?
-
-                            <div className="text-center lg:text-left">
-                                <Button
-                                    title="Submit OTP and Login"
-                                    onClick={(e) => onOtpSubmit(e)}
-                                    position="text-left"
-                                    loadingTitle="Logging"
-                                    loading={isSubmitting}
+                            <div>
+                                <Input
+                                    label='OTP'
+                                    placeholder='Type otp'
+                                    name="otp"
+                                    value={otpInput.otp}
+                                    type="otp"
+                                    inputChange={changeOtpTextInput}
                                 />
-                            </div> :
-                            <div className="text-center lg:text-left">
-                                <Button
-                                    title="Login"
-                                    onClick={(e) => onSubmit(e)}
-                                    position="text-left"
-                                    loadingTitle="Logging"
-                                    loading={isSubmitting}
-                                />
+                                <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
                             </div>
                         }
+                        {
+                            (otpStatus == true && remainingTime > 0) ?
+
+                                <div className="text-center lg:text-left">
+                                    <Button
+                                        title="Submit OTP and Login"
+                                        onClick={(e) => onOtpSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Logging"
+                                        loading={isSubmitting}
+                                    />
+                                </div> :
+                                <div className="text-center lg:text-left">
+                                    <Button
+                                        title={(otpStatus === false && remainingTime === 0) ? "Login" : "Login Again"}
+                                        onClick={(e: React.FormEvent) => onSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Logging"
+                                        loading={isSubmitting}
+                                    />
+                                </div>
+                        }
+
 
                         {
                             viewMoreCredential &&
