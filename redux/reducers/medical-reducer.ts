@@ -18,6 +18,13 @@ const initialState: IMedicalReducer = {
         is_adb_enabled: 1,
         is_child_health: 0,
     },
+    medicalDetails: {
+        id: 0,
+        status: "",
+        proposal_id: [],
+        extra_info_requirement: '',
+        further_requirement: 0,
+    },
     medicalTestInput: {
         name: '',
         min_age:0,
@@ -66,6 +73,14 @@ export default function MedicalReducer(state = initialState, action: any) {
             return {
                 ...state,
                 isDeleting: action.payload.isLoading,
+            };
+
+            case Types.GET_MEDICAL_DETAILS:
+            return {
+                ...state,
+                medicalDetails: action.payload.data,
+                medicalInput: action.payload.data,
+                loadingDetails: action.payload.isLoading,
             };
 
         default:

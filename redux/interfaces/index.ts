@@ -434,6 +434,7 @@ export interface IMedicalReducer {
     medicalTestList: any[];
     medicalTestPaginationData: any[];
     medicalTestDetails: any;
+    medicalDetails: any;
     medicalTestInput: IMedicalTestForm
 }
 

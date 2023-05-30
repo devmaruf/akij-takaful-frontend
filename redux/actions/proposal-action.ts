@@ -197,6 +197,10 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         id
     })
         .then(res => {
+            console.log('res', res.data.med_id)
+            if(res.data.med_id){
+                router.push(`/medical/edit?id=${res.data.med_id}`);
+            }
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.data.message;
