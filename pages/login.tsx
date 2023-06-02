@@ -6,7 +6,6 @@ import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Link from 'next/link';
 import { changeInputValue, changeOtpInputValue, handleLogin, handleOtpLogin } from '@/redux/actions/auth-action';
-import Login from './login';
 
 export default function Login() {
     const dispatch = useDispatch();
