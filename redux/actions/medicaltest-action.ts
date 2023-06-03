@@ -1,6 +1,6 @@
 import { Dispatch } from "@reduxjs/toolkit";
 import axios from "@/utils/axios";
-import * as Types from "@/redux/types/medical-type";
+import * as Types from "@/redux/types/medical-test-type";
 import { Toaster } from "@/components/toaster";
 
 export const changeMedicalTestInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
@@ -37,12 +37,8 @@ export const submitMedicalTestAction = (medicalTestInput: any) => (dispatch: Dis
 }
 
 export const getMedicalTestListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
-    let url = `medical-tests?perPage=${dataLimit}&page=${currentPage}`
-
-    if (searchText !== '') {
-        url += `&search=${searchText}`;
-    }
-
+   
+    
     let response = {
         status: false,
         message: "",
@@ -51,8 +47,8 @@ export const getMedicalTestListAction = (currentPage: number = 1, dataLimit: num
         medicalTestPaginationData: [],
     };
     dispatch({ type: Types.GET_MEDICAL_TEST_LIST, payload: response });
-
-    axios.get(url)
+    
+    axios.get(`medical-tests?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;

@@ -88,6 +88,23 @@ export interface IMedicalTestView extends IMedicalTestForm {
     min_amount: number;
     max_amount: number;
 }
+
+export interface IMedicalForm {
+    id: number;
+    proposal_no: string;
+    status: string;
+    extra_info_requirement: string;
+    further_requirement: number;
+}
+
+
+export interface IMedicalView extends IMedicalForm {
+    id: number;
+    proposal_no: string;
+    status: string;
+    extra_info_requirement: string;
+    further_requirement: number;
+}
 export interface IEmployeeReducer {
     isLoading: boolean;
     isDeleting: boolean;
@@ -426,7 +443,7 @@ export interface IMedicalTestForm {
     min_amount: number;
     max_amount: number;
 }
-export interface IMedicalReducer {
+export interface IMedicalTestReducer {
     isLoading: boolean;
     isSubmitting: boolean;
     loadingDetails: boolean;
@@ -434,7 +451,20 @@ export interface IMedicalReducer {
     medicalTestList: any[];
     medicalTestPaginationData: any[];
     medicalTestDetails: any;
+    medicalDetails: any;
     medicalTestInput: IMedicalTestForm
+}
+
+export interface IMedicalReducer {
+    isLoading: boolean;
+    isSubmitting: boolean;
+    loadingDetails: boolean;
+    isDeleting: boolean;
+    medicalList: any[];
+    medicalTestList: any[];
+    medicalPaginationData: any[];
+    medicalDetails: any;
+    medicalInput: IMedicalForm
 }
 
 export interface IStampStockForm {

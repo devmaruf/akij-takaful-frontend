@@ -16,11 +16,11 @@ interface IMedicalTestsForm {
     pageType: 'create' | 'edit' | 'profile';
 }
 
-export default function MedicalTestsForm({ id, pageType }: IMedicalTestsForm) {
+export default function MedicalForm({ id, pageType }: IMedicalTestsForm) {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const { medicalTestInput, isSubmitting,isLoading } = useSelector((state: RootState) => state.medicalTest);
+    const { medicalTestInput, isSubmitting,isLoading } = useSelector((state: RootState) => state.medical);
 
     const handleChangeTextInput = (name: string, value: any) => {
         dispatch(changeMedicalTestInputValue(name, value));
