@@ -30,7 +30,6 @@ export default function EmployeeForm({ id, pageType, isAgent = false }: IEmploye
     const { designationDropdownList } = useSelector((state: RootState) => state.designation);
     const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
     const { employeeInput, isSubmitting, isLoadingDetails, rolesDropdownList } = useSelector((state: RootState) => state.employee);
-
     useDebounced(() => {
         dispatch(getDesignationDropdownList());
         dispatch(getBranchDropdownList());

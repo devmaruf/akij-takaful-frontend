@@ -155,7 +155,7 @@ export default function Login() {
                                     type="otp"
                                     inputChange={changeOtpTextInput}
                                 />
-                                <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
+                                <div className="text-right mt-2 text-rose-600">OTP will be expire after {formatTime(remainingTime)} minutes</div>
                             </div>
                         }
                         {

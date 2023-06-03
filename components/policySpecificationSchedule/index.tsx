@@ -13,7 +13,7 @@ export default function PolicySpecificationSchedule() {
     return (
         <div>
             <PageHeader
-                title="Worksheet Summary"
+                title="Policy Specification Schedule"
                 hasSearch={false}
             />
 

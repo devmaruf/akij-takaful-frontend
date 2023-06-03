@@ -1,87 +1,94 @@
 import { Dispatch } from "@reduxjs/toolkit";
-
 import axios from "@/utils/axios";
 import * as Types from "@/redux/types/medical-type";
 import { Toaster } from "@/components/toaster";
-import { IProposal } from "@/redux/interfaces";
-import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
-import { areaList, districtList, divisionList, getIdentityValidationMessageList } from "@/utils/proposal-dropdowns";
 
-export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
-    dispatch({
-        type: Types.CHANGE_INPUT_VALUE, payload: {
-            data: {
-                name: name,
-                value: value,
-            },
-            key
-        }
-    });
+export const changeMedicalInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
+    let data = {
+        name: name,
+        value: value,
+    }
+    dispatch({ type: Types.CHANGE_MEDICAL_INPUT, payload: data });
 };
 
+export const submitMedicalAction = (medicalTestInput: any) => (dispatch: Dispatch) => {
 
-
-export const submitProposal = (proposalInput: IProposal, router: any) => (dispatch: any) => {
     let response = {
         status: false,
         message: "",
         isLoading: true,
+        data: {},
     };
-    dispatch({ type: Types.SUBMIT_PROPOSAL, payload: response });
+    dispatch({ type: Types.SUBMIT_MEDICAL, payload: response });
 
-    axios({
-        method: 'POST',
-        url: `/proposals`,
-        data: proposalInput
-    })
+    axios.post(`/medical-tests`, medicalTestInput)
         .then((res) => {
+            response.isLoading = false;
             response.status = true;
-            response.isLoading = false;
             response.message = res.message;
+            response.data = res.data;
+            dispatch({ type: Types.SUBMIT_MEDICAL, payload: response });
             Toaster('success', response.message);
-            // dispatch(getBranchList(1, 5));
-
-            router.push('/proposals');
-            dispatch({ type: Types.SUBMIT_PROPOSAL, payload: response });
-        })
-        .catch((error) => {
+            dispatch(getMedicalListAction());
+        }).catch((error) => {
             response.isLoading = false;
-            dispatch({ type: Types.SUBMIT_PROPOSAL, payload: response });
+            dispatch({ type: Types.SUBMIT_MEDICAL, payload: response })
         });
 }
 
-export const getMedicalList = (
-    currentPage: number = 1,
-    dataLimit: number = 10,
-    search: string = '',
-    isWorksheet: boolean = false
-) => (dispatch: Dispatch) => {
+export const getMedicalListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
+   
+    
     let response = {
         status: false,
         message: "",
         isLoading: true,
         data: [],
-        paginationData: [],
+        medicalPaginationData: [],
     };
-
-    dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-
-    axios.get(`/proposals?perPage=${dataLimit}&page=${currentPage}&search=${search}&type=${isWorksheet ? 'worksheet' : 'proposal'}`)
-        .then(res => {
+    dispatch({ type: Types.GET_MEDICAL_LIST, payload: response });
+    
+    axios.get(`medical?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+        .then((res) => {
+            console.log('medical', res)
             response.isLoading = false;
             response.status = true;
-            response.message = res.data.message;
+            response.message = res.message;
             response.data = res.data.data;
-            response.paginationData = res.data;
-            dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-        })
-        .catch(error => {
+            response.medicalPaginationData = res.data;
+            dispatch({ type: Types.GET_MEDICAL_LIST, payload: response });
+        }).catch((error) => {
             response.isLoading = false;
-            dispatch({ type: Types.GET_PROPOSAL_LIST, payload: response });
-        });
+            dispatch({ type: Types.GET_MEDICAL_LIST, payload: response })
+        })
 }
 
-export const getMedicalDetails = (id: number | string) => (dispatch: Dispatch) => {
+export const getMedicalTestByAgeListAction = (proposal_id:number) => (dispatch: Dispatch) => {
+   
+    
+    let response = {
+        status: false,
+        message: "",
+        isLoading: true,
+        data: [],
+    };
+    dispatch({ type: Types.GET_MEDICAL_TEST_LIST_BY_AGE, payload: response });
+    
+    axios.get(`medical-test-list?posposal_id=${proposal_id}`)
+        .then((res) => {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data;
+            dispatch({ type: Types.GET_MEDICAL_TEST_LIST_BY_AGE, payload: response });
+        }).catch((error) => {
+            response.isLoading = false;
+            dispatch({ type: Types.GET_MEDICAL_TEST_LIST_BY_AGE, payload: response })
+        })
+}
+
+
+export const getMedicalDetailsAction = (id: number | string) => (dispatch: Dispatch) => {
     if (isNaN(parseInt(id + ''))) {
         return;
     }
@@ -99,10 +106,8 @@ export const getMedicalDetails = (id: number | string) => (dispatch: Dispatch) =
         .then(res => {
             response.isLoading = false;
             response.status = true;
-            response.message = res.data.message;
+            response.message = res.message;
             response.data = res.data;
-
-            response.inputData = res.data;
             dispatch({ type: Types.GET_MEDICAL_DETAILS, payload: response });
         })
         .catch(error => {
@@ -111,130 +116,52 @@ export const getMedicalDetails = (id: number | string) => (dispatch: Dispatch) =
         });
 }
 
-export const updateMedical = (proposalInput: proposalInputType, id: number, router) => (dispatch: any) => {
-    if (proposalInput.proposal_no === "") {
-        Toaster("error", "Proposal No can't be blank!");
-        return false;
-    }
-    if (proposalInput.project_id === "") {
-        Toaster("error", "Please select a bank.");
-        return false;
-    }
-    if (proposalInput.branch_id === "") {
-        Toaster("error", "Please select a branch.");
-        return false;
-    }
-    if (proposalInput.initial_sum_assured === "") {
-        Toaster("error", "Please give initial sum assured.");
-        return false;
-    }
-    if (proposalInput.premium === "") {
-        Toaster("error", "Please give initial premium.");
-        return false;
-    }
-    if (proposalInput.agent_id === "") {
-        Toaster("error", "Please select an agent.");
-        return false;
-    }
-
-    let responseData = {
+export const updateMedicalAction = (medicalInput: any, id: number, closeModal: any) => (dispatch: Dispatch) => {
+    let response = {
         status: false,
         message: "",
         isLoading: true,
+        data: {},
     };
-    dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
+    dispatch({ type: Types.UPDATE_MEDICAL, payload: response });
 
-    axios.put(`/proposals/${id}`, {
-        ...proposalInput,
-        id
-    })
-        .then(res => {
-            console.log('res', res)
-            if(res.data.data.med_id){
-                router.push(`/medical/edit?id=${res.data.data.med_id}`);
-            }
-            responseData.status = true;
-            responseData.isLoading = false;
-            responseData.message = res.data.message;
-            Toaster('success', responseData.message);
-            dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
-            router.push('/proposals');
+    console.log('medicalInput', medicalInput)
+    axios.put(`/medical/${id}`, medicalInput)
+        .then((res) => {
+            response.isLoading = false;
+            response.status = true;
+            response.message = res.message;
+            response.data = res.data;
+            dispatch({ type: Types.UPDATE_MEDICAL, payload: response });
+            Toaster('success', response.message);
+            dispatch(getMedicalTestListAction())
+            closeModal(false);
         }).catch((error) => {
-            responseData.isLoading = false;
-            dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })
-        })
+            response.isLoading = false;
+            dispatch({ type: Types.UPDATE_MEDICAL, payload: response })
+        });
 }
 
-export const deleteMedical = (id, setShowDeleteModal) => (dispatch: Dispatch) => {
+export const deleteMedicalAction = (id: any, setShowDeleteModal: any) => (dispatch: Dispatch) => {
     let responseData = {
         status: false,
         message: "",
         isLoading: true,
     };
-    dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData });
+    dispatch({ type: Types.DELETE_MEDICAL, payload: responseData });
 
-    axios.delete(`/proposals/${id}`)
+    axios.delete(`/products/${id}`)
         .then(res => {
             responseData.isLoading = false;
             responseData.status = true;
-            responseData.message = res.data.message;
+            responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
-            dispatch(getProposalList());
-            dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData });
+            dispatch(getMedicalListAction());
+            dispatch({ type: Types.DELETE_MEDICAL, payload: responseData });
         })
         .catch(error => {
             responseData.isLoading = false;
-            dispatch({ type: Types.DELETE_PROPOSAL, payload: responseData })
+            dispatch({ type: Types.DELETE_MEDICAL, payload: responseData })
         });
-}
-
-export const getPlanDropdownList = () => (dispatch: Dispatch) => {
-    axios.get(`/plans/dropdown/list`)
-        .then((res) => {
-            dispatch({ type: Types.GET_PLAN_DROPDOWN, payload: res.data });
-        });
-};
-
-
-
-export const handleCheckIdentity = (value: any) => (dispatch: Dispatch) => {
-    const data = {
-        isDisabledField: true,
-        label: "",
-        message: "",
-        value: "",
-        minLength: 1,
-        maxLength: 100
-    }
-    if (value == 'nid') {
-        data.isDisabledField = false;
-        data.label = "NID Number"
-        data.message = getIdentityValidationMessageList.nid;
-        data.value = value;
-        data.minLength = 10;
-        data.maxLength = 17;
-    } else if (value == 'passport') {
-        data.isDisabledField = false;
-        data.label = "Passport No"
-        data.message = getIdentityValidationMessageList.passport;
-        data.value = value;
-        data.minLength = 17;
-        data.maxLength = 20;
-    } else if (value == 'brc') {
-        data.isDisabledField = false;
-        data.label = "Birth Certificate No"
-        data.message = getIdentityValidationMessageList.brc;
-        data.value = value;
-        data.minLength = 17;
-        data.maxLength = 20;
-    } else {
-        data.isDisabledField = true;
-        data.label = "ID No"
-        data.message = "Please select identity type first";
-        data.value = value;
-        data.minLength = 10;
-        data.maxLength = 17;
-    }
-    dispatch({ type: Types.CHECKED_IDENTITY, payload: data });
 }

@@ -1,81 +1,78 @@
-import { IMedicalReducer } from "@/redux/interfaces";
 import * as Types from "@/redux/types/medical-type";
-import { generateDropdownList } from "@/utils/dropdown";
+import { IMedicalReducer } from "../interfaces";
 
 const initialState: IMedicalReducer = {
     isLoading: false,
     isDeleting: false,
     isSubmitting: false,
     loadingDetails: false,
-    medicalTestList: [],
-    medicalTestPaginationData: [],
-    medicalTestDetails: {
-        id: 0,
-        name: "",
-        rates: [],
-        modes: [],
-        is_dps: 0,
-        is_adb_enabled: 1,
-        is_child_health: 0,
-    },
+    medicalList: [],
+    medicalTestList:[],
+    medicalPaginationData: [],
     medicalDetails: {
         id: 0,
         status: "",
-        proposal_id: [],
+        proposal_no: '',
         extra_info_requirement: '',
         further_requirement: 0,
     },
-    medicalTestInput: {
-        name: '',
-        min_age:0,
-        max_age:0,
-        min_amount:0,
-        max_amount:0
+    medicalInput: {
+        id: 0,
+        proposal_no: '',
+        status: '',
+        extra_info_requirement: '',
+        further_requirement: 0
     },
 };
 
 export default function MedicalReducer(state = initialState, action: any) {
     switch (action.type) {
-        case Types.CHANGE_MEDICAL_TEST_INPUT:
-            const medicalTestInput = { ...state.medicalTestInput };
-            medicalTestInput[action.payload.name] = action.payload.value;
+        case Types.CHANGE_MEDICAL_INPUT:
+            const medicalInput = { ...state.medicalInput };
+            medicalInput[action.payload.name] = action.payload.value;
             return {
                 ...state,
-                medicalTestInput,
+                medicalInput,
             };
-        case Types.SUBMIT_MEDICAL_TEST:
+        case Types.SUBMIT_MEDICAL:
             return {
                 ...state,
                 isSubmitting: action.payload.isLoading,
-                medicalTestInput: action.payload.status ? initialState.medicalTestInput : state.medicalTestInput
+                medicalInput: action.payload.status ? initialState.medicalInput : state.medicalInput
             };
-        case Types.GET_MEDICAL_TEST_LIST:
+        case Types.GET_MEDICAL_LIST:
+            return {
+                ...state,
+                medicalList: action.payload.data,
+                medicalPaginationData: action.payload.medicalPaginationData,
+                isLoading: action.payload.isLoading,
+            };
+        case Types.GET_MEDICAL_TEST_LIST_BY_AGE:
             return {
                 ...state,
                 medicalTestList: action.payload.data,
-                medicalTestPaginationData: action.payload.medicalTestPaginationData,
                 isLoading: action.payload.isLoading,
             };
-        case Types.GET_MEDICAL_TEST_DETAILS:
+        case Types.GET_MEDICAL_DETAILS:
             return {
                 ...state,
-                medicalTestDetails: action.payload.data,
-                medicalTestInput: action.payload.data,
+                medicalDetails: action.payload.data,
+                medicalInput: action.payload.data,
                 loadingDetails: action.payload.isLoading,
             };
-            case Types.UPDATE_MEDICAL_TEST:
-                return {
-                    ...state,
-                    isSubmitting: action.payload.isLoading,
-                    medicalTestInput: action.payload.status ? initialState.medicalTestInput : state.medicalTestInput
-                };
-        case Types.DELETE_MEDICAL_TEST:
+        case Types.UPDATE_MEDICAL:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+                medicalInput: action.payload.status ? initialState.medicalInput : state.medicalInput
+            };
+        case Types.DELETE_MEDICAL:
             return {
                 ...state,
                 isDeleting: action.payload.isLoading,
             };
 
-            case Types.GET_MEDICAL_DETAILS:
+        case Types.GET_MEDICAL_DETAILS:
             return {
                 ...state,
                 medicalDetails: action.payload.data,
