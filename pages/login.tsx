@@ -88,41 +88,8 @@ export default function Login() {
                         <div className="flex justify-center items-center mb-10">
                             <Image src={'/images/banner.png'} alt={''} height={80} width={300} unoptimized />
                         </div>
-                        {otpStatus === true && remainingTime > 0 ?
-                            <div>
-                                <div className="flex items-center mb-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                                    <p className="text-center font-semibold mx-4 mb-0">
-                                        Login With OTP
-                                    </p>
-                                </div>
-                                <Input
-                                    label='OTP'
-                                    placeholder='Type otp'
-                                    name="otp"
-                                    value={otpInput.otp}
-                                    type="otp"
-                                    inputChange={changeOtpTextInput}
-                                />
-                                <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
-                                <div className="text-center lg:text-left flex gap-2">
-                                    <Button
-                                        title="Submit OTP"
-                                        onClick={(e: React.FormEvent) => onOtpSubmit(e)}
-                                        position="text-left"
-                                        loadingTitle="Submitting"
-                                        loading={isSubmitting}
-                                    />
-                                    <Button
-                                        title="Resend Code"
-                                        onClick={(e: React.FormEvent) => onSubmit(e)}
-                                        position="text-left"
-                                        loadingTitle="Resending..."
-                                        loading={isSubmitting}
-                                        variant="default"
-                                    />
-                                </div>
-                            </div> :
-                            <div>
+                        {otpStatus === false && remainingTime === 0
+                            ? <div>
                                 <div className="flex items-center mb-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
                                     <p className="text-center font-semibold mx-4 mb-0">
                                         Login
@@ -181,14 +148,49 @@ export default function Login() {
 
                                 <div className="text-center lg:text-left">
                                     <Button
-                                        title={(otpStatus === false && remainingTime === 0) ? "Login" : "Login Again"}
+                                        title="Login"
                                         onClick={(e: React.FormEvent) => onSubmit(e)}
                                         position="text-left"
                                         loadingTitle="Logging"
                                         loading={isSubmitting}
                                     />
                                 </div>
+                            </div> :
+                            <div>
+                                <div className="flex items-center mb-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
+                                    <p className="text-center font-semibold mx-4 mb-0">
+                                        Login With OTP
+                                    </p>
+                                </div>
+                                <Input
+                                    label='OTP'
+                                    placeholder='Type otp'
+                                    name="otp"
+                                    value={otpInput.otp}
+                                    type="otp"
+                                    inputChange={changeOtpTextInput}
+                                />
+                                <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
+                                <div className="text-center lg:text-left flex gap-2">
+                                    <Button
+                                        title="Submit OTP"
+                                        onClick={(e: React.FormEvent) => onOtpSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Submitting"
+                                        loading={((isSubmitting && remainingTime > 0) ? true : false)}
+                                    />
+                                    <Button
+                                        title={remainingTime === 0 ? "Resend Code" : "Please wait to resend code again!"}
+                                        onClick={(e: React.FormEvent) => onSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Resending..."
+                                        loading={(isSubmitting && remainingTime === 0) ? true : false}
+                                        disabled={remainingTime === 0 ? false : true}
+                                        variant="default"
+                                    />
+                                </div>
                             </div>
+
                         }
 
                         {

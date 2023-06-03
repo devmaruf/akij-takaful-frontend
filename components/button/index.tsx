@@ -52,7 +52,7 @@ export default function Button({
                 }
                 name={name}
                 type={type}
-                disabled={loading}
+                disabled={loading || disabled}
                 onClick={onClick}
             >
                 {iconLeft}
