@@ -72,7 +72,7 @@ export const getUnderwritingByProposalAction = (proposalId: number) => (dispatch
             response.status = true;
             response.message = res.message;
             response.data = res.data;
-            res.data.total_premium = res.data?.initial_sum_assured ?? 0;
+            res.data.total_premium = res.data?.total_premium ?? 0;
             res.data.accepted_standard_rate_for = JSON.parse(res.data.accepted_standard_rate_for);
             dispatch({ type: Types.GET_UNDERWRITING_CONFIGURATIONS, payload: response });
         }).catch((error) => {

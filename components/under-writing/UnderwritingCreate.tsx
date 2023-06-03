@@ -79,7 +79,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
         return `${formatCurrency(
             calculateUnderwritingRateBy(
                 value ?? 0,
-                underwritingForm?.initial_sum_assured ?? 0
+                underwritingForm?.total_premium ?? 0
             )
         )}`;
     }
