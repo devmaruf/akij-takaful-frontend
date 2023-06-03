@@ -60,9 +60,9 @@ export default function Login() {
     }, [remainingTime]);
 
 
-    const onOtpSubmit = (e: any) => {
-        dispatch(handleOtpLogin(loginInput, otpInput));
+    const onOtpSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        dispatch(handleOtpLogin(loginInput, otpInput));
     }
 
 
@@ -104,13 +104,21 @@ export default function Login() {
                                     inputChange={changeOtpTextInput}
                                 />
                                 <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
-                                <div className="text-center lg:text-left">
+                                <div className="text-center lg:text-left flex gap-2">
                                     <Button
                                         title="Submit OTP"
-                                        onClick={(e) => onOtpSubmit(e)}
+                                        onClick={(e: React.FormEvent) => onOtpSubmit(e)}
                                         position="text-left"
                                         loadingTitle="Submitting"
                                         loading={isSubmitting}
+                                    />
+                                    <Button
+                                        title="Resend Code"
+                                        onClick={(e: React.FormEvent) => onSubmit(e)}
+                                        position="text-left"
+                                        loadingTitle="Resending..."
+                                        loading={isSubmitting}
+                                        variant="default"
                                     />
                                 </div>
                             </div> :
