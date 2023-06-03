@@ -28,8 +28,7 @@ export const changeUnderwritingInputAction = (name: string, value: any, underwri
             (parseFloat(underwritingForm.em_pdab + '') ?? 0) +
             (parseFloat(underwritingForm.em_diab + '') ?? 0);
 
-        // (((2.03+2.03)*xxx%)*Sum at risk)/1000
-        const totalEm = (((2.03 + 2.03) * (totalAccepted / 100)) * sumAtRisk) / 1000;
+        const totalEm = calculateUnderwritingRateBy(totalAccepted, sumAtRisk);
 
         dispatch({
             type: Types.CHANGE_UNDERWRITING_INPUT,
@@ -43,11 +42,16 @@ export const changeUnderwritingInputAction = (name: string, value: any, underwri
             type: Types.CHANGE_UNDERWRITING_INPUT,
             payload: {
                 name: 'total_premium',
-                value: sumAtRisk,
+                value: (parseFloat((sumAtRisk + '')) + parseFloat((totalEm + ''))).toFixed(3),
             }
         });
     }
 };
+
+export const calculateUnderwritingRateBy = (totalAccepted: number, sumAtRisk: number) => {
+    // (((2.03+2.03)*xxx%) * Sum at risk)/1000
+    return (((2.03 + 2.03) * (totalAccepted / 100)) * sumAtRisk) / 1000;
+}
 
 export const getUnderwritingByProposalAction = (proposalId: number) => (dispatch: Dispatch) => {
     if (isNaN(parseInt(proposalId + ''))) {
@@ -68,6 +72,7 @@ export const getUnderwritingByProposalAction = (proposalId: number) => (dispatch
             response.status = true;
             response.message = res.message;
             response.data = res.data;
+            res.data.total_premium = res.data?.initial_sum_assured ?? 0;
             res.data.accepted_standard_rate_for = JSON.parse(res.data.accepted_standard_rate_for);
             dispatch({ type: Types.GET_UNDERWRITING_CONFIGURATIONS, payload: response });
         }).catch((error) => {

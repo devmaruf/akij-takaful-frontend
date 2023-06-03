@@ -8,12 +8,13 @@ import { Dispatch } from '@reduxjs/toolkit';
 import Input from '@/components/input';
 import Button from '@/components/button';
 import { RootState } from '@/redux/store';
-import { changeUnderwritingInputAction, getUnderwritingByProposalAction, setUnderwritingConfigurationsAction, submitUnderwritingAction } from '@/redux/actions/underwriting-action';
+import { calculateUnderwritingRateBy, changeUnderwritingInputAction, getUnderwritingByProposalAction, setUnderwritingConfigurationsAction, submitUnderwritingAction } from '@/redux/actions/underwriting-action';
 import Loading from '@/components/loading';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
 import { IUnderwritingRequirement, IUnderwritingType } from '@/redux/interfaces';
 import { CustomUnderwritingMessage } from './CustomMessage';
+import { formatCurrency } from '@/utils/currency';
 
 export function UnderwritingCreate({ id }: { id: number }) {
     const router = useRouter();
@@ -72,6 +73,15 @@ export function UnderwritingCreate({ id }: { id: number }) {
         };
         parentInputData[name] = value;
         changeUnderwritingInput(parentName, parentInputData);
+    }
+
+    const getHintTextForSpecific = (value: number) => {
+        return `${formatCurrency(
+            calculateUnderwritingRateBy(
+                value ?? 0,
+                underwritingForm?.initial_sum_assured ?? 0
+            )
+        )}`;
     }
 
     return (
@@ -214,6 +224,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         value={underwritingForm.em_life}
                                                                         isRequired={true}
                                                                         inputChange={changeUnderwritingInput}
+                                                                        hintText={getHintTextForSpecific(underwritingForm.em_life)}
                                                                     />
                                                                     <Input
                                                                         type='number'
@@ -223,6 +234,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         value={underwritingForm.em_hi}
                                                                         isRequired={true}
                                                                         inputChange={changeUnderwritingInput}
+                                                                        hintText={getHintTextForSpecific(underwritingForm.em_hi)}
                                                                     />
                                                                     <Input
                                                                         type='number'
@@ -232,6 +244,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         value={underwritingForm.em_ci}
                                                                         isRequired={true}
                                                                         inputChange={changeUnderwritingInput}
+                                                                        hintText={getHintTextForSpecific(underwritingForm.em_ci)}
                                                                     />
                                                                     <Input
                                                                         type='number'
@@ -241,6 +254,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         value={underwritingForm.em_pdab}
                                                                         isRequired={true}
                                                                         inputChange={changeUnderwritingInput}
+                                                                        hintText={getHintTextForSpecific(underwritingForm.em_pdab)}
                                                                     />
                                                                     <Input
                                                                         type='number'
@@ -250,6 +264,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                         value={underwritingForm.em_diab}
                                                                         isRequired={true}
                                                                         inputChange={changeUnderwritingInput}
+                                                                        hintText={getHintTextForSpecific(underwritingForm.em_diab)}
                                                                     />
                                                                     <Input
                                                                         type='number'
