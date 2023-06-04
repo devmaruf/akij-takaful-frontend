@@ -11,6 +11,36 @@ export const changeMedicalInputValue = (name: string, value: any) => (dispatch: 
     dispatch({ type: Types.CHANGE_MEDICAL_INPUT, payload: data });
 };
 
+export const changeMedicalFileInputValue = (name: string, value: any,e:any,medicalId:number,medicalTestId:number) => (dispatch: Dispatch) => {
+    let data = {
+        name: name,
+        file: value,
+        medical_id:0,
+        test_id:0
+    }
+    dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: data });
+
+    if (name === "file") {
+        let reader = new FileReader();
+        const file = e.target.files[0];
+        reader.onloadend = () => {
+            // data.name = "imagePreviewUrl";
+            data.file = reader.result;
+            data.medical_id = medicalId;
+            data.test_id = medicalTestId;
+            axios.post(`/medical-test-results`, data)
+        .then((res) => {
+            console.log('fileReponse', res)
+            return
+            dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response });
+        }).catch((error) => {
+            dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response })
+        });
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
 export const submitMedicalAction = (medicalTestInput: any) => (dispatch: Dispatch) => {
 
     let response = {

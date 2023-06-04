@@ -4,10 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
 
 import { RootState } from "@/redux/store";
-import {
-    changeInputValue,
-    handleCheckIdentity,
-} from "@/redux/actions/proposal-action";
 import Button from "@/components/button";
 import { formValidation } from "@/utils/formValidation";
 import PageHeader from "@/components/layouts/PageHeader";
@@ -15,8 +11,9 @@ import { PageContentList } from "@/components/layouts/PageContentList";
 import Loading from "@/components/loading";
 import Input from "@/components/input";
 import Select from "@/components/select";
-import { changeMedicalInputValue, getMedicalDetailsAction, getMedicalTestByAgeListAction, updateMedicalAction } from "@/redux/actions/medical-action";
+import { changeMedicalFileInputValue, changeMedicalInputValue, getMedicalDetailsAction, getMedicalTestByAgeListAction, updateMedicalAction } from "@/redux/actions/medical-action";
 import Table from "@/components/table";
+import NoTableDataFound from "@/components/table/NoDataFound";
 
 export default function EnlistmentPage() {
     const dispatch = useDispatch();
@@ -24,16 +21,12 @@ export default function EnlistmentPage() {
     const { id } = router.query;
     const [errors, setErrors] = useState();
     const [isChecked, setIsChecked] = useState({});
-    const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList } = useSelector((state: RootState) => state.medical);
+    const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, medicalFileInput } = useSelector((state: RootState) => state.medical);
 
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Test Name', id: 2 },
-        { title: 'Minimum Age', id: 3 },
-        { title: 'Maximum Age', id: 4 },
-        { title: 'Minimum Amount', id: 5 },
-        { title: 'Maximum Amount', id: 6 },
-        { title: 'Test File', id: 7 },
+        { title: 'Test File', id: 3 },
     ];
 
     const medicalStatus = [
@@ -54,8 +47,11 @@ export default function EnlistmentPage() {
     }, [debouncedDispatch]);
 
     const handleChangeTextInput = (name: string, value: any) => {
-        console.log('value', value)
         dispatch(changeMedicalInputValue(name, value, ""));
+    };
+
+    const handleChangeFileInput = (name: string, value: any, event: any, medicalId: number, medicalTestId: number) => {
+        dispatch(changeMedicalFileInputValue(name, value, event, medicalId, medicalTestId));
     };
 
 
@@ -79,15 +75,15 @@ export default function EnlistmentPage() {
                 title="Medical"
                 hasSearch={false}
             />
-
             <PageContentList>
-                <div className="flex space-x-6">
-                    {
-                        loadingDetails ?
-                            <div className="text-center">
-                                <Loading loadingTitle="Medical information" />
-                            </div>
-                            :
+                {
+                    loadingDetails ?
+                        <div className="text-center">
+                            <Loading loadingTitle="Medical information" />
+                        </div>
+                        :
+                        <div className="flex space-x-6">
+
                             <form
                                 method="post"
                                 autoComplete="off"
@@ -132,10 +128,10 @@ export default function EnlistmentPage() {
                                                         type="checkbox"
                                                         value=""
                                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                        onChange={handleChangeTextInput}
+                                                        inputChange={handleChangeTextInput}
                                                         checked={parseInt(medicalDetails.further_requirement) === 1}
                                                     />
-                                                    <label  className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
+                                                    <label className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                         Futher Requirement
                                                     </label>
                                                 </div>
@@ -153,57 +149,51 @@ export default function EnlistmentPage() {
                                     customClass="mt-4"
                                 />
                             </form>
-                    }
-                    <Table
-                        column={columnData}
-                        currentPage={10}
-                        setCurrentPage={1}
-                        dataLimit={10}
-                        totalData={10}
-                    >
-                        {
-                            medicalTestList && medicalTestList.length > 0 && medicalTestList.map((medicalTest: any, index: any) => (
-                                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={medicalTest.id}>
-                                    <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {index + 1}
-                                    </th>
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {medicalTest.name}
-                                    </td>
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {medicalTest.min_age}
-                                    </td>
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {medicalTest.max_age}
-                                    </td>
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                        {medicalTest.min_amount}
-                                    </td>
+                            <Table
+                                column={columnData}
+                                currentPage={10}
+                                setCurrentPage={1}
+                                dataLimit={10}
+                                totalData={10}
+                            >
+                                {
+                                    medicalTestList && medicalTestList.length > 0 && medicalTestList.map((medicalTest: any, index: any) => (
+                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={medicalTest.id}>
+                                            <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                                {index + 1}
+                                            </th>
+                                            <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                                {medicalTest.name}
+                                            </td>
 
-                                    <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                        {medicalTest.max_amount}
-                                    </td>
+                                            <td className="px-2 py-3 flex gap-1">
+                                                <input
+                                                    type="file"
+                                                    name="attachment"
+                                                    placeholder='Attachment'
+                                                    // value={medicalInput.attachment}
+                                                    required
+                                                    onChange={(e: any) => handleChangeFileInput(
+                                                        "file",
+                                                        e.target.files[0],
+                                                        e,
+                                                        medicalDetails?.id,
+                                                        medicalTest.id
+                                                    )}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                                {
+                                    medicalTestList && medicalTestList.length === 0 &&
+                                    <NoTableDataFound colSpan={9}>No {'medical item'} found ! Please create one.</NoTableDataFound>
+                                }
+                            </Table>
 
-                                    <td className="px-2 py-3 flex gap-1">
-                                        <Input
-                                            type="file"
-                                            label="Attachment"
-                                            name="attachment"
-                                            placeholder='Attachment'
-                                            value={medicalInput.attachment}
-                                            isRequired={false}
-                                            inputChange={handleChangeTextInput}
-                                        />
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                        {/* {
-                                            medicalList && medicalList.length === 0 &&
-                                            <NoTableDataFound colSpan={9}>No {'medical item'} found ! Please create one.</NoTableDataFound>
-                                        } */}
-                    </Table>
-                </div>
+
+                        </div>
+                }
             </PageContentList>
         </div>
     );
