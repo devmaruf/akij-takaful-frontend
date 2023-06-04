@@ -71,6 +71,15 @@ export default function ProposalListTable({
                 });
             }
 
+            if (hasPermission('proposal.view')) {
+                actions.push({
+                    element: 'Policy Specification Schedule',
+                    onClick: () => router.push(`/worksheets/policy-specification-schedule?id=${data.id}`),
+                    iconClass: 'shield-lock'
+                });
+            }
+
+
 
             if (hasPermission('underwriting.edit')) {
                 actions.push({
