@@ -11,7 +11,7 @@ export const changeMedicalTestInputValue = (name: string, value: any) => (dispat
     dispatch({ type: Types.CHANGE_MEDICAL_TEST_INPUT, payload: data });
 };
 
-export const submitMedicalTestAction = (medicalTestInput: any) => (dispatch: Dispatch) => {
+export const submitMedicalTestAction = (medicalTestInput: any,router:any) => (dispatch: Dispatch) => {
 
     let response = {
         status: false,
@@ -29,7 +29,7 @@ export const submitMedicalTestAction = (medicalTestInput: any) => (dispatch: Dis
             response.data = res.data;
             dispatch({ type: Types.SUBMIT_MEDICAL_TEST, payload: response });
             Toaster('success', response.message);
-            dispatch(getMedicalTestListAction());
+            router.push('/medical-tests');
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.SUBMIT_MEDICAL_TEST, payload: response })
@@ -77,8 +77,9 @@ export const getMedicalTestDetailsAction = (id: number | string) => (dispatch: D
     };
     dispatch({ type: Types.GET_MEDICAL_TEST_DETAILS, payload: response });
 
-    axios.get(`/products/${parseInt(id + '')}`)
+    axios.get(`/medical-tests/${parseInt(id + '')}`)
         .then(res => {
+            console.log('res', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
@@ -91,7 +92,7 @@ export const getMedicalTestDetailsAction = (id: number | string) => (dispatch: D
         });
 }
 
-export const updateMedicalTestAction = (productInput: any, id: number, closeModal: any) => (dispatch: Dispatch) => {
+export const updateMedicalTestAction = (medicalTestInput: any, id: number, router: any) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -99,17 +100,17 @@ export const updateMedicalTestAction = (productInput: any, id: number, closeModa
         data: {},
     };
     dispatch({ type: Types.UPDATE_MEDICAL_TEST, payload: response });
-
-    axios.put(`/products/${id}`, productInput)
+console.log('id', id)
+    axios.put(`/medical-tests/${parseInt(id + '')}`, medicalTestInput)
         .then((res) => {
+            console.log('MedicalTest', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
             response.data = res.data;
             dispatch({ type: Types.UPDATE_MEDICAL_TEST, payload: response });
             Toaster('success', response.message);
-            dispatch(getMedicalTestListAction())
-            closeModal(false);
+            router.push('/medical-tests');
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.UPDATE_MEDICAL_TEST, payload: response })

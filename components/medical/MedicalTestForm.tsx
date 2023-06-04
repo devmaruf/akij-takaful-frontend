@@ -9,22 +9,33 @@ import Button from '@/components/button';
 import Input from '@/components/input';
 import PageHeader from '@/components/layouts/PageHeader';
 import { PageContent } from '@/components/layouts/PageContent';
-import { changeMedicalTestInputValue, submitMedicalTestAction, updateMedicalTestAction } from '@/redux/actions/medicaltest-action';
+import { changeMedicalTestInputValue, getMedicalTestDetailsAction, submitMedicalTestAction, updateMedicalTestAction } from '@/redux/actions/medicaltest-action';
 
 interface IMedicalTestsForm {
     id: number;
-    pageType: 'create' | 'edit' | 'profile';
+    pageType: 'create' | 'edit';
 }
 
 export default function MedicalTestsForm({ id, pageType }: IMedicalTestsForm) {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    const { medicalTestInput, isSubmitting,isLoading } = useSelector((state: RootState) => state.medicalTest);
+    const { medicalTestInput, isSubmitting,isLoading,medicalTestDetails } = useSelector((state: RootState) => state.medicalTest);
 
     const handleChangeTextInput = (name: string, value: any) => {
         dispatch(changeMedicalTestInputValue(name, value));
     };
+    const debouncedDispatch = useCallback(
+        debounce(() => {
+            dispatch(getMedicalTestDetailsAction(id));
+        }, 500),
+        [id]
+    );
+
+    useEffect(() => {
+        debouncedDispatch();
+        return debouncedDispatch.cancel;
+    }, [debouncedDispatch]);
 
     const onSubmit = (e: any) => {
         e.preventDefault();
@@ -36,9 +47,10 @@ export default function MedicalTestsForm({ id, pageType }: IMedicalTestsForm) {
         if (pageType === 'create') {
             dispatch(submitMedicalTestAction(medicalTestInput, router));
         } else {
-            dispatch(updateMedicalTestAction(medicalTestInput, router, pageType));
+            dispatch(updateMedicalTestAction(medicalTestInput, id,router));
         }
     }
+    
 
     const getMainPageTitle = () => {
             return 'Medical Test';
