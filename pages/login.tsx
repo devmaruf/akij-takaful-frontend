@@ -179,15 +179,18 @@ export default function Login() {
                                         loadingTitle="Submitting"
                                         loading={((isSubmitting && remainingTime > 0) ? true : false)}
                                     />
-                                    <Button
-                                        title={remainingTime === 0 ? "Resend Code" : "Please wait to resend code again!"}
-                                        onClick={(e: React.FormEvent) => onSubmit(e)}
-                                        position="text-left"
-                                        loadingTitle="Resending..."
-                                        loading={(isSubmitting && remainingTime === 0) ? true : false}
-                                        disabled={remainingTime === 0 ? false : true}
-                                        variant="default"
-                                    />
+                                    <div>
+                                        <Button
+                                            title={"Resend Code"}
+                                            onClick={(e: React.FormEvent) => onSubmit(e)}
+                                            position="text-left"
+                                            loadingTitle="Resending..."
+                                            loading={isSubmitting}
+                                            disabled={remainingTime > 0}
+                                            variant="default"
+                                        />
+                                        <p className="text-xs text-blue-400">{remainingTime > 0 && "Please wait to resend code again!"}</p>
+                                    </div>
                                 </div>
                             </div>
 
