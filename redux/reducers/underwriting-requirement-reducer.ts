@@ -20,7 +20,7 @@ const initialState: IUnderwritingQues = {
 };
 
 
-export default function UnderwritingQuestionnaireReducer(state = initialState, action: any) {
+export default function UnderwritingRequirementReducer(state = initialState, action: any) {
     switch (action.type) {
         case Types.CHANGE_UNDERWRITING_QUESTIONNAIRE_INPUT_VALUE:
             const underwritingQuesInput = { ...state.underwritingQuesInput };
@@ -56,21 +56,8 @@ export default function UnderwritingQuestionnaireReducer(state = initialState, a
                 ...state,
                 isLoading: action.payload.isLoading,
                 underwritingQuesList: action.payload.data,
-                // underwritingQuesPaginationData: action.payload.paginationData,
-                // projectOptionList: getDropdownList(action.payload.data),
+                underwritingQuesPaginationData: action.payload.paginationData,
             };
-
-        // case Types.GET_PROJECT_DROPDOWN:
-        //     return {
-        //         ...state,
-        //         projectDropdownList: getDropdownList(action.payload),
-        //     };
-
-        // case Types.GET_DEFAULT_BANKS:
-        //     return {
-        //         ...state,
-        //         defaultBanks: action.payload,
-        //     };
 
         case Types.GET_UNDERWRITING_QUESTIONNAIRE_DETAILS:
             return {

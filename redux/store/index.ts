@@ -18,7 +18,7 @@ import DivisionReducer from "@/redux/reducers/division-reducer";
 import CityReducer from "@/redux/reducers/city-reducer";
 import AreaReducer from "@/redux/reducers/area-reducer";
 import paymentReducer from "@/redux/reducers/payment-reducer";
-import UnderwritingQuestionnaireReducer from "@/redux/reducers/underwriting-questionnaire-reducer";
+import UnderwritingRequirementReducer from "@/redux/reducers/underwriting-requirement-reducer";
 import MedicalTestReducer from "../reducers/medical-test-reducer";
 import MedicalReducer from "../reducers/medical-reducer";
 
@@ -45,7 +45,7 @@ export const store = configureStore({
     city: CityReducer,
     area: AreaReducer,
     payment: paymentReducer,
-    underwritingQues: UnderwritingQuestionnaireReducer,
+    underwritingQues: UnderwritingRequirementReducer,
   },
 });
 

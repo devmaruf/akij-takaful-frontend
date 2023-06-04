@@ -24,6 +24,29 @@ function UnderWritingQuesForm({
         onChangeText(name, value);
     }
 
+    const underwritingTypes = [
+        {
+            label: 'Underwriting Requirements',
+            value: 1
+        },
+        {
+            label: 'Upload required documents',
+            value: 2
+        },
+        {
+            label: 'Underwriting questionnaires [For Worksheet]',
+            value: 3
+        },
+        {
+            label: 'Health questionnaires',
+            value: 4
+        },
+        {
+            label: 'Underwriting Decisions',
+            value: 5
+        },
+    ]
+
     return (
         <form
             method="post"
@@ -50,14 +73,16 @@ function UnderWritingQuesForm({
                 isRequired={false}
                 inputChange={handleInputChange}
             />
-            <Input
-                type="input"
-                label="Type ID"
+
+            <Select
+                options={underwritingTypes}
+                isSearchable={true}
+                isRequired={true}
                 name="type_id"
-                placeholder="eg: 3"
-                value={underwritingQuesInput.type_id}
-                isRequired={false}
-                inputChange={handleInputChange}
+                label="Type"
+                defaultValue={underwritingQuesInput.type_id}
+                placeholder="Type"
+                handleChangeValue={handleInputChange}
             />
 
             <Select
@@ -78,13 +103,7 @@ function UnderWritingQuesForm({
                 handleChangeValue={handleInputChange}
             />
             <Select
-                options={
-                    [
-                        { label: "Male", value: "male" },
-                        { label: "female", value: "female" },
-                        { label: "Both", value: "both" },
-                    ]
-                }
+                options={GenderList}
                 isSearchable={true}
                 isRequired={true}
                 name="gender"

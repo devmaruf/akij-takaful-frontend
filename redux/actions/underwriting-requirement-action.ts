@@ -15,7 +15,7 @@ export const emptyUnderwritingQuesInputAction = () => (dispatch: Dispatch) => {
     dispatch({ type: Types.EMPTY_UNDERWRITING_QUESTIONNAIRE_INPUT, payload: {} });
 };
 
-export const handleSubmitUnderwritingQues = (underwritingQuesInput, setShowModal) => (dispatch: Dispatch) => {
+export const submitUnderwritingRequirementAction = (underwritingQuesInput, setShowModal) => (dispatch: Dispatch) => {
    
     if (underwritingQuesInput.requirement_name_en === "") {
         Toaster("error", "Please input requirement name in en.");
@@ -50,14 +50,14 @@ export const handleSubmitUnderwritingQues = (underwritingQuesInput, setShowModal
     };
     dispatch({ type: Types.SUBMIT_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
 
-    axios.post(`/underwritings-questionnaire`, underwritingQuesInput)
+    axios.post(`/underwriting-requirements`, underwritingQuesInput)
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowModal(false);
-            dispatch(getUnderwritingQuestionnairesList());
+            dispatch(getUnderwritingRequirementsListAction());
             dispatch({ type: Types.SUBMIT_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
@@ -65,22 +65,24 @@ export const handleSubmitUnderwritingQues = (underwritingQuesInput, setShowModal
         })
 }
 
-export const getUnderwritingQuestionnairesList = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
+export const getUnderwritingRequirementsListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
         isLoading: true,
         data: [],
+        paginationData: {},
     };
 
     dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_LIST, payload: response });
 
-    axios.get(`underwriting-questionnaires?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
+    axios.get(`underwriting-requirements?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
-            response.data = res.data;
+            response.data = res.data.data;
+            response.paginationData = res.data;
             dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_LIST, payload: response });
         }).catch((error) => {
             response.isLoading = false;
@@ -102,7 +104,7 @@ export const getUnderwritingQuesDetails = (id: number | string) => (dispatch: Di
     };
     dispatch({ type: Types.GET_UNDERWRITING_QUESTIONNAIRE_DETAILS, payload: response });
 
-    axios.get(`/underwritings-questionnaire/${id}`)
+    axios.get(`/underwriting-requirements/${id}`)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
@@ -133,14 +135,14 @@ export const handleUpdateUnderwritingQues = (underwritingQuesInput, setShowUpdat
     };
     dispatch({ type: Types.SUBMIT_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
 
-    axios.put(`/underwritings-questionnaire/${underwritingQuesInput.id}`, underwritingQuesInput)
+    axios.put(`/underwriting-requirements/${underwritingQuesInput.id}`, underwritingQuesInput)
         .then(res => {
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowUpdateModal(false);
-            dispatch(getUnderwritingQuestionnairesList());
+            dispatch(getUnderwritingRequirementsListAction());
             dispatch({ type: Types.SUBMIT_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
@@ -155,14 +157,14 @@ export const deleteUnderwritingQue = (id: number, setShowDeleteModal: any) => (d
         isLoading: true,
     };
     dispatch({ type: Types.DELETE_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
-    axios.delete(`/underwritings-questionnaire/${id}`)
+    axios.delete(`/underwriting-requirements/${id}`)
         .then((res) => {
             responseData.isLoading = false;
             responseData.status = true;
             responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
-            dispatch(getUnderwritingQuestionnairesList());
+            dispatch(getUnderwritingRequirementsListAction());
             dispatch({ type: Types.DELETE_UNDERWRITING_QUESTIONNAIRE, payload: responseData });
         }).catch((error) => {
             responseData.isLoading = false;
