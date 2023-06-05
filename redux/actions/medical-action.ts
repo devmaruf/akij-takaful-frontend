@@ -11,31 +11,39 @@ export const changeMedicalInputValue = (name: string, value: any) => (dispatch: 
     dispatch({ type: Types.CHANGE_MEDICAL_INPUT, payload: data });
 };
 
-export const changeMedicalFileInputValue = (name: string, value: any,e:any,medicalId:number,medicalTestId:number) => (dispatch: Dispatch) => {
-    let data = {
+export const changeMedicalFileInputValue = (name: string, value: any, e: any, medicalId: number, medicalTestId: number) => (dispatch: Dispatch) => {
+    let response = {
         name: name,
         file: value,
-        medical_id:0,
-        test_id:0
+        medical_id: 0,
+        test_id: 0,
+        status: false,
+        message: "",
+        isLoading: true,
+        data: {}
     }
-    dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: data });
+    // dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response });
 
     if (name === "file") {
         let reader = new FileReader();
         const file = e.target.files[0];
         reader.onloadend = () => {
             // data.name = "imagePreviewUrl";
-            data.file = reader.result;
-            data.medical_id = medicalId;
-            data.test_id = medicalTestId;
-            axios.post(`/medical-test-results`, data)
-        .then((res) => {
-            console.log('fileReponse', res)
-            return
-            dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response });
-        }).catch((error) => {
-            dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response })
-        });
+            response.file = reader.result;
+            response.medical_id = medicalId;
+            response.test_id = medicalTestId;
+            axios.post(`/medical-test-results`, response)
+                .then((res) => {
+                    console.log('res', res)
+                    response.isLoading = false;
+                    response.status = true;
+                    response.message = res.message;
+                    response.data = res.data;
+                    Toaster('success', response.message);
+                    dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response });
+                }).catch((error) => {
+                    dispatch({ type: Types.CHANGE_MEDICAL_FILE_INPUT, payload: response })
+                });
         };
         reader.readAsDataURL(file);
     }
@@ -67,8 +75,8 @@ export const submitMedicalAction = (medicalTestInput: any) => (dispatch: Dispatc
 }
 
 export const getMedicalListAction = (currentPage: number = 1, dataLimit: number = 10, searchText = '') => (dispatch: Dispatch) => {
-   
-    
+
+
     let response = {
         status: false,
         message: "",
@@ -77,7 +85,7 @@ export const getMedicalListAction = (currentPage: number = 1, dataLimit: number 
         medicalPaginationData: [],
     };
     dispatch({ type: Types.GET_MEDICAL_LIST, payload: response });
-    
+
     axios.get(`medical?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
             console.log('medical', res)
@@ -93,9 +101,9 @@ export const getMedicalListAction = (currentPage: number = 1, dataLimit: number 
         })
 }
 
-export const getMedicalTestByAgeListAction = (proposal_id:number) => (dispatch: Dispatch) => {
-   
-    
+export const getMedicalTestByAgeListAction = (proposal_id: number) => (dispatch: Dispatch) => {
+
+
     let response = {
         status: false,
         message: "",
@@ -103,7 +111,7 @@ export const getMedicalTestByAgeListAction = (proposal_id:number) => (dispatch: 
         data: [],
     };
     dispatch({ type: Types.GET_MEDICAL_TEST_LIST_BY_AGE, payload: response });
-    
+
     axios.get(`medical-test-list?posposal_id=${proposal_id}`)
         .then((res) => {
             response.isLoading = false;
@@ -146,7 +154,7 @@ export const getMedicalDetailsAction = (id: number | string) => (dispatch: Dispa
         });
 }
 
-export const updateMedicalAction = (medicalInput: any, id: number, closeModal: any) => (dispatch: Dispatch) => {
+export const updateMedicalAction = (medicalInput: any, id: number, router: any) => (dispatch: Dispatch) => {
     let response = {
         status: false,
         message: "",
@@ -155,17 +163,26 @@ export const updateMedicalAction = (medicalInput: any, id: number, closeModal: a
     };
     dispatch({ type: Types.UPDATE_MEDICAL, payload: response });
 
-    console.log('medicalInput', medicalInput)
-    axios.put(`/medical/${id}`, medicalInput)
+    let medicalData={
+        extra_info_requirement:medicalInput.extra_info_requirement,
+        further_requirement:medicalInput.further_requirement,
+        proposal_id:medicalInput.proposal_id,
+        proposal_no:medicalInput.proposal_no,
+        status:medicalInput.status,
+        plan_name:medicalInput.plan_name,
+        is_approve:parseInt(medicalInput.is_approve),
+        id:medicalInput.id,
+    }
+
+    axios.put(`/medical/${id}`, medicalData)
         .then((res) => {
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
             response.data = res.data;
             dispatch({ type: Types.UPDATE_MEDICAL, payload: response });
+            window.location.reload();
             Toaster('success', response.message);
-            dispatch(getMedicalTestListAction())
-            closeModal(false);
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.UPDATE_MEDICAL, payload: response })

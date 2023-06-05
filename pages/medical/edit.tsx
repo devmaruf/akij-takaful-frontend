@@ -22,16 +22,22 @@ export default function EnlistmentPage() {
     const [errors, setErrors] = useState();
     const [isChecked, setIsChecked] = useState({});
     const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, medicalFileInput } = useSelector((state: RootState) => state.medical);
-
+    
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Test Name', id: 2 },
-        { title: 'Test File', id: 3 },
+        { title: 'Upload File', id: 3 },
+        { title: 'Test File', id: 4 },
     ];
 
     const medicalStatus = [
         { id: 1, label: 'Standard', name: 'Standard', value: 'standard' },
         { id: 2, label: 'Sub Standard', name: 'Sub Standard', value: 'sub-standard' },
+    ];
+
+    const approveStatus = [
+        { id: 1, label: 'Approve', name: 'approve', value: '1' },
+        { id: 2, label: 'Cancel', name: 'cancel', value: '0' },
     ];
     const debouncedDispatch = useCallback(
         debounce(() => {
@@ -112,6 +118,16 @@ export default function EnlistmentPage() {
                                                 placeholder='Select Status...'
                                                 handleChangeValue={handleChangeTextInput}
                                             />
+
+                                            <Select
+                                                options={approveStatus}
+                                                isSearchable={true}
+                                                name="is_approve"
+                                                label="Approve Status"
+                                                defaultValue={medicalInput?.is_approve==0?'0':'1'}
+                                                placeholder='Select Status...'
+                                                handleChangeValue={handleChangeTextInput}
+                                            />
                                             <Input
                                                 label="Extra Info Requirement"
                                                 name="extra_info_requirement"
@@ -181,6 +197,15 @@ export default function EnlistmentPage() {
                                                         medicalTest.id
                                                     )}
                                                 />
+                                            </td>
+                                            <td className="px-2 py-3 flex gap-1">
+                                                {/* <img
+                                                    src={
+                                                        `http://127.0.0.1:8000`+medicalTest.file_url
+                                                    }
+                                                    alt=""
+                                                    className="transition-all scale-100 group-hover:scale-110 cursor-pointer rounded rounded-b-none w-full h-60"
+                                                /> */}
                                             </td>
                                         </tr>
                                     ))
