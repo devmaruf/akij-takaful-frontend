@@ -29,7 +29,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     const [dataLimit, setDataLimit] = useState<number>(10);
     const { employeeList, employeePaginationData, isLoading, } = useSelector((state: RootState) => state.employee);
     const [searchText, setSearchText] = useState<string>('');
-
+    
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Name', id: 2 },
@@ -144,7 +144,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {
                                                 (typeof employee.avatar !== 'undefined' && employee.avatar !== null) ?
-                                                    <img src={employee.avatar} alt={employee.first_name} className="h-8 w-8" /> : "N / A"
+                                                    <img src={`${process.env.REACT_APP_PUBLIC_URL}/storage/employees/avatars/`+employee.avatar} alt={employee.first_name} className="h-8 w-8" /> : "N / A"
                                             }
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >

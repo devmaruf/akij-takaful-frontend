@@ -3,12 +3,39 @@ import * as Types from "../types/employee-type";
 import { Toaster } from "@/components/toaster";
 import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeInputValue = (name: string, value: any) => (dispatch: Dispatch) => {
+export const changeInputValue = (name: string, value: any,e:any) => (dispatch: Dispatch) => {
+    console.log('value', value)
     let data = {
         name: name,
         value: value,
     }
     dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+
+    if (name === "avatar") {
+        let reader = new FileReader();
+        const file = e.target.files[0];
+        reader.onloadend = () => {
+            // data.name = "avatar";
+            data.value = reader.result;
+            dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+        };
+        reader.readAsDataURL(file);
+    }
+    // if (name === 'image') {
+    //     let reader = new FileReader();
+    //     const file = e.target.files[0];
+    //     reader.onloadend = () => {
+    //         if (name === "image") {
+    //             data.name = 'avatar';
+    //         } 
+    //         data.value = reader.result;
+    //         dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+
+    //         data.value = reader.result;
+    //         dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
+    //     }
+    //     reader.readAsDataURL(file)
+    // }
 };
 
 export const validateEmployeeForm = (employeeInput) => {
@@ -58,6 +85,7 @@ export const createEmployee = (employeeInput, router, isAgent: boolean = false) 
 
     axios.post(`/${isAgent ? 'agents' : 'employees'}`, employeeInput)
         .then((res) => {
+            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
@@ -208,6 +236,7 @@ export const updateEmployee = (employeeInput, router: any, pageType: string = 'e
 
     axios.put(`/${isAgent ? 'agents' : 'employees'}/${employeeInput.id}`, employeeInput)
         .then((res) => {
+            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
