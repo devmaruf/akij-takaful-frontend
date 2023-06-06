@@ -142,7 +142,7 @@ export default function MedicalList() {
 
                             {
                                 medicalList && medicalList.length === 0 &&
-                                <NoTableDataFound colSpan={9}>No {'medical item'} found ! Please create one.</NoTableDataFound>
+                                <NoTableDataFound colSpan={9}>No proposal found in medical medical category ! Please create one.</NoTableDataFound>
                             }
                         </Table>
                 }

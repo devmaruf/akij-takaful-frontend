@@ -97,6 +97,12 @@ export interface IMedicalForm {
     further_requirement: number;
 }
 
+export interface IMedicalFileForm {
+    medical_id: number;
+    test_id: number;
+    file: string;
+}
+
 
 export interface IMedicalView extends IMedicalForm {
     id: number;
@@ -465,6 +471,7 @@ export interface IMedicalReducer {
     medicalPaginationData: any[];
     medicalDetails: any;
     medicalInput: IMedicalForm
+    medicalFileInput: IMedicalFileForm
 }
 
 export interface IStampStockForm {

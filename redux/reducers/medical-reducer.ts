@@ -7,7 +7,7 @@ const initialState: IMedicalReducer = {
     isSubmitting: false,
     loadingDetails: false,
     medicalList: [],
-    medicalTestList:[],
+    medicalTestList: [],
     medicalPaginationData: [],
     medicalDetails: {
         id: 0,
@@ -23,6 +23,11 @@ const initialState: IMedicalReducer = {
         extra_info_requirement: '',
         further_requirement: 0
     },
+    medicalFileInput:{
+        medical_id:0,
+        test_id:0,
+        file:''
+        }
 };
 
 export default function MedicalReducer(state = initialState, action: any) {
@@ -33,6 +38,13 @@ export default function MedicalReducer(state = initialState, action: any) {
             return {
                 ...state,
                 medicalInput,
+            };
+        case Types.CHANGE_MEDICAL_FILE_INPUT:
+            const medicalFileInput = { ...state.medicalFileInput };
+            medicalFileInput[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                medicalFileInput,
             };
         case Types.SUBMIT_MEDICAL:
             return {

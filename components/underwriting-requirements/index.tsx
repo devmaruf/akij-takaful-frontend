@@ -11,12 +11,12 @@ import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
-import { emptyUnderwritingQuesInputAction, getUnderwritingQuestionnairesList, changeInputValue, handleSubmitUnderwritingQues, handleUpdateUnderwritingQues, getUnderwritingQuesDetails, deleteUnderwritingQue } from '@/redux/actions/underwriting-questionnaire-action';
+import { emptyUnderwritingQuesInputAction, getUnderwritingRequirementsListAction, changeInputValue, submitUnderwritingRequirementAction, handleUpdateUnderwritingQues, getUnderwritingQuesDetails, deleteUnderwritingQue } from '@/redux/actions/underwriting-requirement-action';
 import UnderwritingQuesForm from './UnderwritingQuesForm';
 import PermissionModal from '../permissionModal';
 import UnderwritingQuesDetails from './UnderwritingQuesDetails';
 
-export default function UnderwritingQuestionnaires() {
+export default function UnderwritingRequirements() {
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showDetailsModal, setShowDetailsModal] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function UnderwritingQuestionnaires() {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
-    const { underwritingQuesInput, underwritingQuesList, underwritingQuesDetails, isLoading, isSubmitting, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.underwritingQues);
+    const { underwritingQuesInput, underwritingQuesPaginationData, underwritingQuesList, underwritingQuesDetails, isLoading, isSubmitting, isLoadingDetails, isDeleting } = useSelector((state: RootState) => state.underwritingQues);
 
     const columnData: any[] = [
         { title: "Requirement Name (en)", id: 1 },
@@ -38,7 +38,7 @@ export default function UnderwritingQuestionnaires() {
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getUnderwritingQuestionnairesList(currentPage, dataLimit, searchText));
+            dispatch(getUnderwritingRequirementsListAction(currentPage, dataLimit, searchText));
         }, 500),
         [currentPage, dataLimit, searchText]
     );
@@ -70,17 +70,17 @@ export default function UnderwritingQuestionnaires() {
         if (type === "edit") {
             dispatch(handleUpdateUnderwritingQues(underwritingQuesInput, setShowUpdateModal));
         } else {
-            dispatch(handleSubmitUnderwritingQues(underwritingQuesInput, setShowModal));
+            dispatch(submitUnderwritingRequirementAction(underwritingQuesInput, setShowModal));
         }
     }
 
     return (
         <div>
             <PageHeader
-                title='Underwriting Questionnaire'
+                title='Underwriting Requirements'
                 searchText={searchText}
                 onSearchText={setSearchText}
-                searchPlaceholder='Search underwriting questionnaire by code, name, short code, address...'
+                searchPlaceholder='Search underwriting Requirement by name ...'
                 headerRightSide={
                     <NewButton onClick={() => {
                         setShowModal(true);
@@ -93,7 +93,7 @@ export default function UnderwritingQuestionnaires() {
                 {
                     isLoading ?
                         <div className="text-center">
-                            <Loading loadingTitle="Underwriting Questionnaires" />
+                            <Loading loadingTitle="Underwriting Requirements" />
                         </div> :
 
                         <Table
@@ -101,7 +101,7 @@ export default function UnderwritingQuestionnaires() {
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             dataLimit={dataLimit}
-                        // totalData={}
+                            totalData={underwritingQuesPaginationData?.total ?? 0}
                         >
                             {underwritingQuesList && underwritingQuesList.length > 0 && underwritingQuesList.map((data, index: number) => (
                                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={index + 1}>
@@ -145,13 +145,13 @@ export default function UnderwritingQuestionnaires() {
 
                             {
                                 underwritingQuesList && underwritingQuesList.length === 0 &&
-                                <NoTableDataFound colSpan={5}>No banks found ! Please enlist a bank.</NoTableDataFound>
+                                <NoTableDataFound colSpan={5}>No underwriting requirement found ! Please create.</NoTableDataFound>
                             }
                         </Table>
                 }
             </PageContentList>
 
-            <Modal title={`Underwriting Questionnaire`} size="2xl" show={showModal} handleClose={() => setShowModal(false)} isDismissible={true}>
+            <Modal title={`Underwriting Requirement`} size="2xl" show={showModal} handleClose={() => setShowModal(false)} isDismissible={true}>
                 <UnderwritingQuesForm
                     onChangeText={changeTextInput}
                     onSubmit={onSubmit}
@@ -159,11 +159,11 @@ export default function UnderwritingQuestionnaires() {
                 />
             </Modal>
 
-            <Modal title={`Underwriting Questionnaire`} size="lg" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
+            <Modal title={`Underwriting Requirement`} size="lg" show={showDetailsModal} handleClose={() => setShowDetailsModal(false)} isDismissible={false}>
                 {
                     isLoadingDetails === true ?
                         <div className="text-center">
-                            <Loading loadingTitle="Underwriting Questionnaire" />
+                            <Loading loadingTitle="Underwriting Requirement" />
                         </div> :
                         <div className="text-gray-900">
 

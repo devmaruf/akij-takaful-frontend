@@ -1,5 +1,5 @@
 // import { Toaster } from "@/components/toaster";
-import { IProposal, IProposalBasicInput } from "../interfaces";
+import { IProductForm, IProposal, IProposalBasicInput } from "../interfaces";
 import * as Types from "../types/proposal-type";
 import { generateDropdownList } from "@/utils/dropdown";
 
@@ -165,13 +165,18 @@ function ProposalsReducer(state = initialState, action: any) {
                     action.payload.data.name,
                     action.payload.data.value,
                     updatedProposalInput,
-                    state.productDetails
                 )
             } else {
                 updatedProposalInput[action.payload.key] = {
                     ...updatedProposalInput[action.payload.key],
                     [action.payload.data.name]: action.payload.data.value
                 };
+
+                // updatedProposalInput = handleProposalPremiumInformationChanges(
+                //     'something',
+                //     'value',
+                //     updatedProposalInput,
+                // )
             }
 
             return {
@@ -326,12 +331,26 @@ function ProposalsReducer(state = initialState, action: any) {
             }
 
         case 'GET_PRODUCT_DETAILS':
+            setProductDetail(action.payload.data);
+            if (action.payload?.isLoading) {
+                return {
+                    ...state,
+                }
+            }
+
+            let updatedProposalInputData: IProposalBasicInput = {
+                ...state.proposalInput,
+            }
+
+            updatedProposalInputData = handleProposalPremiumInformationChanges(
+                'product_details',
+                action.payload.data,
+                updatedProposalInputData
+            );
+
             return {
                 ...state,
-                proposalInput: {
-                    ...state.proposalInput,
-                    productDetails: action.payload.data,
-                }
+                proposalInput: updatedProposalInputData,
             };
 
         default:
@@ -340,7 +359,13 @@ function ProposalsReducer(state = initialState, action: any) {
     return state;
 }
 
-const handleProposalPremiumInformationChanges = (name: string, value: any, proposalInput: IProposalBasicInput, productDetails) => {
+const handleProposalPremiumInformationChanges = (
+    name: string,
+    value: any,
+    proposalInput: IProposalBasicInput,
+) => {
+    const productDetails = getProductDetail();
+
     let updatedProposalInput = {
         ...proposalInput
     };
@@ -361,21 +386,19 @@ const handleProposalPremiumInformationChanges = (name: string, value: any, propo
         updatedProposalInput.rider_ci = values?.rider_ci;
     }
 
-    if (productDetails.is_dps) {
+    if (productDetails?.is_dps) {
         updatedProposalInput.mode = 'monthly';
     }
 
-    if (productDetails.is_dps) {
+    if (productDetails?.is_dps) {
         // Update sum assured
         updatedProposalInput.sum_assured = getSumAssured(
             updatedProposalInput,
-            productDetails
         );
     } else {
         // Update basic premium
         updatedProposalInput.basic_premium = getBasicPremium(
-            updatedProposalInput,
-            productDetails
+            updatedProposalInput
         );
     }
 
@@ -484,11 +507,15 @@ const getRiderPremium = (riderSelection, mode, riderClass, riderSumAssured, prop
  * Quarterly=(sum assured * rate)/1000*.275 [Rate comes based on Product]
  * monthly=(sum assured * rate)/1000*.0925 [Rate comes based on Product]
  */
-const getBasicPremium = (proposalInput: IProposalBasicInput, productDetails) => {
+const getBasicPremium = (proposalInput: IProposalBasicInput) => {
     let basicPremium = 0;
     const mode = proposalInput?.mode;
-    const productRate = parseFloat(`${getProductRate(proposalInput, productDetails) ?? 0}`);
+    const productRate = parseFloat(`${getProductRate(proposalInput) ?? 0}`);
     const sumAssured = proposalInput.sum_assured;
+
+    if (sumAssured == 0) {
+        console.error('No sum assured entered yet.');
+    }
 
     if (productRate === null) {
         basicPremium = 0;
@@ -505,8 +532,9 @@ const getBasicPremium = (proposalInput: IProposalBasicInput, productDetails) => 
     return basicPremium.toFixed(3);
 }
 
-const getProductRate = (proposalInput, productDetails) => {
+const getProductRate = (proposalInput) => {
     const age = proposalInput?.proposal_personal_information?.age;
+    const productDetails = getProductDetail();
 
     if (proposalInput?.product_id === 0
         || proposalInput?.product_id === ''
@@ -520,9 +548,9 @@ const getProductRate = (proposalInput, productDetails) => {
     }
 
     if (productDetails?.rates?.length > 0) {
-        const rateDetail = productDetails.rates.find(obj =>
-            parseInt(obj.age) === parseInt(age)
-            && parseInt(obj.term) === parseInt(proposalInput?.term)
+        const rateDetail = productDetails.rates.find((rate: any) =>
+            parseInt(rate.age) === parseInt(age)
+            && parseInt(rate.term) === parseInt(proposalInput?.term)
         );
 
         if (rateDetail === undefined || rateDetail === null) {
@@ -538,10 +566,10 @@ const getProductRate = (proposalInput, productDetails) => {
     return proposalInput?.product_rate ?? 0;
 }
 
-const getSumAssured = (proposalInput, productDetails) => {
+const getSumAssured = (proposalInput: IProposalBasicInput) => {
     let sumAssured = 0;
 
-    const productRate = parseFloat(`${getProductRate(proposalInput, productDetails) ?? 0}`);
+    const productRate = parseFloat(`${getProductRate(proposalInput) ?? 0}`);
     const basicPremium = proposalInput.basic_premium;
 
     if (productRate === null) {
@@ -551,6 +579,19 @@ const getSumAssured = (proposalInput, productDetails) => {
     }
 
     return sumAssured.toFixed(3);
+}
+
+const getProductDetail = () => {
+    const worksheetSelectedProduct = localStorage.getItem('worksheetSelectedProduct');
+
+    return worksheetSelectedProduct ? JSON.parse(worksheetSelectedProduct) : {};
+}
+
+const setProductDetail = (worksheetSelectedProduct: IProductForm) => {
+    localStorage.setItem(
+        'worksheetSelectedProduct',
+        JSON.stringify(worksheetSelectedProduct)
+    );
 }
 
 export default ProposalsReducer;

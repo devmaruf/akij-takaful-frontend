@@ -12,6 +12,8 @@ module.exports = {
     PORT: process.env.PORT,
     APP_NAME: process.env.APP_NAME,
     APP_DOMAIN: process.env.APP_DOMAIN,
+    REACT_APP_PUBLIC_URL: process.env.REACT_APP_PUBLIC_URL,
+    REACT_APP_PUBLIC_API_URL: process.env.REACT_APP_PUBLIC_API_URL,
   },
   typescript: {
     // @TODO: Remove this line in near future after implementing all in typescript
