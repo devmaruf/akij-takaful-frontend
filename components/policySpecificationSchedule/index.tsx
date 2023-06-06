@@ -51,274 +51,294 @@ export default function PolicySpecificationSchedule() {
                             </h3>
                             {
                                 typeof proposalDetails !== "undefined" && proposalDetails !== null &&
-                                <Table
-                                    column={[]}
-                                >
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Policy Number
-                                        </th>
-                                        <td className="basis-[28.57%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            34343
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Age
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            {proposalDetails.age ?? 0} Years
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Risk Date
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            {proposalDetails.risk_date ?? "N/A"}
-                                        </td>
-                                    </tr>
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Date of Application
-                                        </th>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            26-05-2023
-                                        </td>
-                                        <td className="basis-[28.57%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Date of Commencement
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            {proposalDetails.commencement_date ?? "N/A"}
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Date of Maturity
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            26-05-2023
-                                        </td>
-                                    </tr>
+                                <div className="uppercase">
+                                    <Table
+                                        column={[]}
+                                    >
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Policy Number
+                                            </th>
+                                            <td className="basis-[28.57%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                34343
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Age
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                {proposalDetails.age ?? 0} Years
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Risk Date
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                {proposalDetails.risk_date ?? "N/A"}
+                                            </td>
+                                        </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Date of Application
+                                            </th>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                26-05-2023
+                                            </td>
+                                            <td className="basis-[28.57%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Date of Commencement
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                {proposalDetails.commencement_date ?? "N/A"}
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Date of Maturity
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                26-05-2023
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Life Insured
-                                        </th>
-                                        <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            {proposalDetails.proposer_name ?? "N/A"}
-                                        </td>
-                                    </tr>
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Owner
-                                        </th>
-                                        <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            {proposalDetails.proposer_name ?? "N/A"}
-                                        </td>
-                                    </tr>
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Address of correspondence
-                                        </th>
-                                        <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Mohakhali, Dhaka-1208, Dhaka, Bangladesh.
-                                        </td>
-                                    </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Life Insured
+                                            </th>
+                                            <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                {proposalDetails.proposer_name ?? "N/A"}
+                                            </td>
+                                        </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Owner
+                                            </th>
+                                            <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                {proposalDetails.proposer_name ?? "N/A"}
+                                            </td>
+                                        </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Address of correspondence
+                                            </th>
+                                            <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Mohakhali, Dhaka-1208, Dhaka, Bangladesh.
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Policy Type
-                                        </th>
-                                        <td className="basis-[40.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Plan Name
-                                        </td>
-                                        <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Sum Assured (BDT)
-                                        </td>
-                                        <td className="basis-[15.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Policy Type
+                                            </th>
+                                            <td className="basis-[40.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Plan Name
+                                            </td>
+                                            <td className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Sum Assured (BDT)
+                                            </td>
+                                            <td className="basis-[15.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
 
-                                        </td>
-                                        <td className="basis-[15.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Premium (BDT)
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td className="basis-[15.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Premium (BDT)
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th rowSpan={3} className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center">
-                                            Basic Policy
-                                        </th>
-                                        <td rowSpan={3} className="basis-[40.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center">
-                                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad vel accusantium nulla corrupti, recusandae deleniti.
-                                        </td>
-                                        <td rowSpan={3} className="basis-[14.29%] px-2 py-3 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
-                                            10000000
-                                        </td>
-                                        <td className="basis-[30.57%] font-normal text-gray-900 break-words border border-slate-300">
-                                            <table className="w-full">
-                                                <tbody>
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Basic
-                                                        </td>
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
-                                                            {proposalDetails.basic_premium ?? 0}
-                                                        </td>
-                                                    </tr>
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            OCC Extra
-                                                        </td>
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
-                                                            {proposalDetails.occupation_extra_percentage ?? "N/A"}
-                                                        </td>
-                                                    </tr>
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Mortality Extra
-                                                        </td>
-                                                        <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
-                                                            {proposalDetails.extra_mortality ?? 0}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
+                                        <tr className="flex text-left">
+                                            <th rowSpan={3} className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center">
+                                                Basic Policy
+                                            </th>
+                                            <td rowSpan={3} className="basis-[40.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center">
+                                                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ad vel accusantium nulla corrupti, recusandae deleniti.
+                                            </td>
+                                            <td rowSpan={3} className="basis-[14.29%] px-2 py-3 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
+                                                10000000
+                                            </td>
+                                            <td className="basis-[30.57%] font-normal text-gray-900 break-words border border-slate-300">
+                                                <table className="w-full">
+                                                    <tbody>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Basic
+                                                            </td>
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
+                                                                {proposalDetails.basic_premium ?? 0}
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                OCC Extra
+                                                            </td>
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
+                                                                {proposalDetails.occupation_extra_percentage ?? "N/A"}
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Mortality Extra
+                                                            </td>
+                                                            <td className="basis-1/2 px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300">
+                                                                {proposalDetails.extra_mortality ?? 0}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center" >
-                                            Supplementary Contracts Attached
-                                        </th>
-                                        <td rowSpan={3} className="basis-[85.74%] font-normal text-gray-900 break-words border border-slate-300">
-                                            <table className="w-full">
-                                                <tbody>
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, beatae.
-                                                        </td>
-                                                        <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
-                                                            10000
-                                                        </td>
-                                                        <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
-                                                            350
-                                                        </td>
-                                                    </tr>
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, beatae.
-                                                        </td>
-                                                        <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
-                                                            10000
-                                                        </td>
-                                                        <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
-                                                            350
-                                                        </td>
-                                                    </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex items-center" >
+                                                Supplementary Contracts Attached
+                                            </th>
+                                            <td rowSpan={3} className="basis-[85.74%] font-normal text-gray-900 break-words border border-slate-300">
+                                                <table className="w-full">
+                                                    <tbody>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                AD(Need modify) FROM GLSC-102 EXPIRY DATE: 25 Aug, 2035
+                                                            </td>
+                                                            <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
+                                                                10000
+                                                            </td>
+                                                            <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
+                                                                350
+                                                            </td>
+                                                        </tr>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                CI FROM GLSC-103 EXPIRY DATE: 25 Aug, 2030
+                                                            </td>
+                                                            <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
+                                                                10000
+                                                            </td>
+                                                            <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
+                                                                350
+                                                            </td>
+                                                        </tr>
 
-                                                    <tr className="flex text-left">
-                                                        <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, beatae.
-                                                        </td>
-                                                        <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
-                                                            10000
-                                                        </td>
-                                                        <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
-                                                            350
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                        <tr className="flex text-left">
+                                                            <td className="basis-[47.65%] px-2 py-1 font-normal text-gray-900 break-words border border-slate-300">
+                                                                HI-FROM GLSC-104 EXPIRY DATE: 28-06-2026
+                                                            </td>
+                                                            <td className="basis-[16.75%] px-2 py-1 font-normal text-center text-gray-900 break-words border border-slate-300 flex items-center justify-center">
+                                                                10000
+                                                            </td>
+                                                            <td className="basis-[35.6%] px-2 py-1 font-normal text-right text-gray-900 break-words border border-slate-300 flex items-center justify-end">
+                                                                350
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Assured Event
-                                        </th>
-                                        <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            See Endorsments
-                                        </td>
-                                        <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex justify-between">
-                                            <p>Net Premium Payable </p>
-                                            <p>100000 </p>
-                                        </td>
-                                    </tr>
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Mode of Payment
-                                        </th>
-                                        <td className="basis-[21.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Yearly
-                                        </td>
-                                        <td className="basis-[21.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            When Payable
-                                        </td>
-                                        <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime, repellendus?
-                                        </td>
-                                    </tr>
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            NON FCR feature Option
-                                        </th>
-                                        <td className="basis-[11.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            C
-                                        </td>
-                                        <td className="basis-[31.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Lorem ipsum dolor sit amet.
-                                        </td>
-                                        <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime, repellendus?
-                                        </td>
-                                    </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Assured Event
+                                            </th>
+                                            <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                See Endorsments
+                                            </td>
+                                            <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300 flex justify-between">
+                                                <p>Net Premium Payable </p>
+                                                <p>100000 </p>
+                                            </td>
+                                        </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Mode of Payment
+                                            </th>
+                                            <td className="basis-[21.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Yearly
+                                            </td>
+                                            <td className="basis-[21.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                When Payable
+                                            </td>
+                                            <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime, repellendus?
+                                            </td>
+                                        </tr>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                NON FCR feature Option
+                                            </th>
+                                            <td className="basis-[11.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                C
+                                            </td>
+                                            <td className="basis-[31.44%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                period during which payable
+                                            </td>
+                                            <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime, repellendus?
+                                            </td>
+                                        </tr>
 
-                                    <tr className="flex text-left">
-                                        <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                            Beneficiary (IES)
-                                        </th>
-                                        <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                            The applicant or his/her assign (s) in the event of death of the life insured to:
-                                            <p className="font-bold mt-3">Nominee & Guardian </p>
-                                            <table className="w-full">
-                                                <tbody>
-                                                    <tr className='flex text-left'>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            SL
-                                                        </td>
-                                                        <td className="basis-[40%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Name
-                                                        </td>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Age
-                                                        </td>
-                                                        <td className="basis-[30%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Relation
-                                                        </td>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Share
-                                                        </td>
-                                                    </tr>
-                                                    <tr className='flex text-left'>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            01
-                                                        </td>
-                                                        <td className="basis-[40%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Irfan Hossen
-                                                        </td>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            16
-                                                        </td>
-                                                        <td className="basis-[30%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            Brother
-                                                        </td>
-                                                        <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
-                                                            85%
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </td>
+                                        <tr className="flex text-left">
+                                            <th className="basis-[14.29%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Beneficiary (IES)
+                                            </th>
+                                            <td className="basis-[85.74%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                The applicant or his/her assign (s) in the event of death of the life insured to:
+                                                <p className="font-bold mt-3">Nominee & Guardian </p>
+                                                <table className="w-full">
+                                                    <tbody>
+                                                        <tr className='flex text-left'>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                SL
+                                                            </td>
+                                                            <td className="basis-[40%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Name
+                                                            </td>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Age
+                                                            </td>
+                                                            <td className="basis-[30%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Relation
+                                                            </td>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Share
+                                                            </td>
+                                                        </tr>
+                                                        <tr className='flex text-left'>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                01
+                                                            </td>
+                                                            <td className="basis-[40%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Irfan Hossen
+                                                            </td>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                16
+                                                            </td>
+                                                            <td className="basis-[30%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                Brother
+                                                            </td>
+                                                            <td className="basis-[10%] px-2 py-2 font-normal text-gray-900 break-words border border-slate-300">
+                                                                85%
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
 
-                                    </tr>
+                                        </tr>
+                                    </Table>
 
-                                </Table>
+                                 <div className="mt-5">
+                                    <h4 className="text-center font-semibold text-slate-900 mb-5"> Endorsments (To be made by company only )</h4>
+                                 <Table
+                                        column={[]}
+                                    >
+                                        <tr className="flex">
+                                            <th className="basis-1/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                Guardian Probriddhi Provision assured event
+                                            </th>
+                                            <td className="basis-4/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                <p> a) in the event of the issured's survival the fulll sum assured will be paid on the maturity date. </p>
+                                                <p> b) in the event of the issured's death at any time before the maturity date, the full sum assured will be paid. </p>
+                                                <p> c) accured bonus will be payable on maturity date or earlier death of insured as per the policy provisions. </p>
+                                            </td>
+                                        </tr>
+                                    </Table>
 
+                                    <p className="text-slate-900 mt-3 capitalize"> Date of Issue: 4 June, 2023</p>
+                                 </div>
+                                </div>
                             }
 
                         </div>
