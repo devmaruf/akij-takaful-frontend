@@ -26,8 +26,8 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     const { paymentInput, isSubmitting, isSearching } = useSelector((state: RootState) => state.payment);
     console.log('paymentInput', paymentInput)
 
-    const handleChangeTextInput = (name: string, value: any,e:any) => {
-        dispatch(changeInputValue(name, value,e));
+    const handleChangeTextInput = (name: string, value: any, e: any) => {
+        dispatch(changeInputValue(name, value, e));
     }
 
     const onSubmit = (e: any) => {
@@ -60,38 +60,6 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                 title={getPageTitle()}
                 hasSearch={false}
             />
-            <PageContent>
-                <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
-                    <div className='md:ml-4 col-span-4'>
-                        <div className='grid gap-2 grid-cols-1 md:grid-cols-3'>
-
-                            {
-                                hasProposalFound &&
-                                <>
-                                    <h1> <span className='font-bold'>Proposal No:</span> {paymentInput.proposal_no}</h1>
-
-                                    <h1> <span className='font-bold'>Agent Name: </span>{paymentInput.proposal.agent_name}</h1>
-                                    <h1> <span className='font-bold'>Current Date: </span>{getCurrentDate()}</h1>
-
-                                </>
-                            }
-                        </div>
-                        <br />
-                        <div className='grid gap-2 grid-cols-1 md:grid-cols-3'>
-
-                            {
-                                hasProposalFound &&
-                                <>
-                                    <h1> <span className='font-bold'>Total Premium:</span> {paymentInput.proposal.total_premium}</h1>
-
-                                    <h1> <span className='font-bold'>Status: </span><StatusBadge status={paymentInput.proposal.status} /></h1>
-                                    <h1> <span className='font-bold'>Proposar Name: </span>{paymentInput.proposal.proposal_personal_information.full_name ??'N/A'}</h1>
-                                </>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </PageContent>
 
             <PageContent>
                 <form method="post" autoComplete="off" encType="multipart/form-data">
@@ -169,7 +137,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     placeholder='Attachment'
                                                     // value={medicalInput.attachment}
                                                     required
-                                                    onChange={(e: any) => handleChangeTextInput('attachement',e.target.files[0],e)}
+                                                    onChange={(e: any) => handleChangeTextInput('attachement', e.target.files[0], e)}
                                                 />
                                             </>
                                         }
@@ -191,6 +159,42 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                     }
                 </form>
             </PageContent>
+
+            {
+                hasProposalFound &&
+                <PageContent>
+                    <div className="grid gap-2 grid-cols-1 md:grid-cols-6">
+                        <div className='md:ml-4 col-span-4'>
+                            <div className='grid gap-2 grid-cols-1 md:grid-cols-3'>
+
+                                {
+                                    hasProposalFound &&
+                                    <>
+                                        <h1> <span className='font-bold'>Proposal No:</span> {paymentInput.proposal_no}</h1>
+
+                                        <h1> <span className='font-bold'>Agent Name: </span>{paymentInput.proposal.agent_name}</h1>
+                                        <h1> <span className='font-bold'>Current Date: </span>{getCurrentDate()}</h1>
+
+                                    </>
+                                }
+                            </div>
+                            <br />
+                            <div className='grid gap-2 grid-cols-1 md:grid-cols-3'>
+
+                                {
+                                    hasProposalFound &&
+                                    <>
+                                        <h1> <span className='font-bold'>Total Premium:</span> {paymentInput.proposal.total_premium}</h1>
+
+                                        <h1> <span className='font-bold'>Status: </span><StatusBadge status={paymentInput.proposal.status} /></h1>
+                                        <h1> <span className='font-bold'>Proposar Name: </span>{paymentInput.proposal.proposal_personal_information.full_name ?? 'N/A'}</h1>
+                                    </>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </PageContent>
+            }
         </>
     )
 }
