@@ -14,6 +14,7 @@ import Select from "@/components/select";
 import { changeMedicalFileInputValue, changeMedicalInputValue, getMedicalDetailsAction, getMedicalTestByAgeListAction, updateMedicalAction } from "@/redux/actions/medical-action";
 import Table from "@/components/table";
 import NoTableDataFound from "@/components/table/NoDataFound";
+import Link from "next/link";
 
 export default function EnlistmentPage() {
     const dispatch = useDispatch();
@@ -199,13 +200,13 @@ export default function EnlistmentPage() {
                                                 />
                                             </td>
                                             <td className="px-2 py-3 flex gap-1">
-                                                {/* <img
-                                                    src={
-                                                        `http://127.0.0.1:8000`+medicalTest.file_url
-                                                    }
-                                                    alt=""
-                                                    className="transition-all scale-100 group-hover:scale-110 cursor-pointer rounded rounded-b-none w-full h-60"
-                                                /> */}
+                                            {medicalTest.file &&
+                                                <td className="px-2 py-3 flex gap-1">
+                                                    <Link href={`${process.env.REACT_APP_PUBLIC_URL}/storage/medical-files/`+medicalTest.file} target="_blank" className='text-blue-500'>
+                                                        <i className='bi bi-download'></i> Download test file
+                                                    </Link>
+                                                </td>
+                                            }
                                             </td>
                                         </tr>
                                     ))
