@@ -319,25 +319,40 @@ export default function PolicySpecificationSchedule() {
                                         </tr>
                                     </Table>
 
-                                 <div className="mt-5">
-                                    <h4 className="text-center font-semibold text-slate-900 mb-5"> Endorsments (To be made by company only )</h4>
-                                 <Table
-                                        column={[]}
-                                    >
-                                        <tr className="flex">
-                                            <th className="basis-1/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
-                                                Guardian Probriddhi Provision assured event
-                                            </th>
-                                            <td className="basis-4/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                                <p> a) in the event of the issured's survival the fulll sum assured will be paid on the maturity date. </p>
-                                                <p> b) in the event of the issured's death at any time before the maturity date, the full sum assured will be paid. </p>
-                                                <p> c) accured bonus will be payable on maturity date or earlier death of insured as per the policy provisions. </p>
-                                            </td>
-                                        </tr>
-                                    </Table>
+                                    <div className="mt-5">
+                                        <h4 className="text-center font-semibold text-slate-900 mb-5"> Endorsments (To be made by company only )</h4>
+                                        <Table
+                                            column={[]}
+                                        >
+                                            <tr className="flex">
+                                                <th className="basis-1/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300" >
+                                                    Guardian Probriddhi Provision assured event
+                                                </th>
+                                                <td className="basis-4/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
+                                                    <p> a) in the event of the issured's survival the fulll sum assured will be paid on the maturity date. </p>
+                                                    <p> b) in the event of the issured's death at any time before the maturity date, the full sum assured will be paid. </p>
+                                                    <p> c) accured bonus will be payable on maturity date or earlier death of insured as per the policy provisions. </p>
+                                                </td>
+                                            </tr>
+                                        </Table>
 
-                                    <p className="text-slate-900 mt-3 capitalize"> Date of Issue: 4 June, 2023</p>
-                                 </div>
+                                        <p className="text-slate-900 mt-3 capitalize ml-2"> Date of Issue: 4 June, 2023</p>
+                                    </div>
+
+                                    <div className="mt-5">
+                                        <h4 className="text-center font-semibold text-slate-900 mb-5"> First Premium Receipt </h4>
+
+                                        <p className="text-slate-900 mt-3 normal-case mx-2 text-justify"> We hereby acknowledge receipt of BDT <span className="font-bold">12,745</span> from the policy owner as First Premium of this policy and any Supplementary Contract (s) under the condition that this receipt shall not be binding upon the Company for any part of said payment covered by cheque or other form of remittance unless such remittance is promptly honored on presentation for payment. Suspense (if any) BDT <span className="font-bold">55</span> deposited into your policy account </p>
+                                        <p className="text-slate-900 mt-3 normal-case mx-2">On Behalf of Guardian Life Insurance Limited Authorized Officer's Signature for PSS, Endorsements (if any) and First Premium Receipt. </p>
+
+                                        <div className="flex justify-end my-10 mx-4">
+                                         <div className="relative">
+                                         <p className="text-slate-900 mt-3">admin (20200005)</p>
+                                            <span className="absolute top-0 left-0 w-full h-px bg-gray-300"></span>
+                                         </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             }
 
