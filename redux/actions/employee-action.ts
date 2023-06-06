@@ -3,8 +3,7 @@ import * as Types from "../types/employee-type";
 import { Toaster } from "@/components/toaster";
 import { Dispatch } from "@reduxjs/toolkit";
 
-export const changeInputValue = (name: string, value: any,e:any) => (dispatch: Dispatch) => {
-    console.log('value', value)
+export const changeInputValue = (name: string, value: any, e: any) => (dispatch: Dispatch) => {
     let data = {
         name: name,
         value: value,

@@ -15,6 +15,7 @@ import { PageContentList } from '@/components/layouts/PageContentList';
 import { getEmployeeListAction } from '@/redux/actions/employee-action';
 import { IEmployeeView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
+import { getEmployeeAvatar } from '@/utils/file-helper';
 
 interface IEmployeeList {
     isAgent?: boolean;
@@ -144,7 +145,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {
                                                 (typeof employee.avatar !== 'undefined' && employee.avatar !== null) ?
-                                                    <img src={`${process.env.REACT_APP_PUBLIC_URL}/storage/employees/avatars/`+employee.avatar} alt={employee.first_name} className="h-8 w-8" /> : "N / A"
+                                                    <img src={getEmployeeAvatar(employee.avatar)} alt={employee.first_name} className="h-8 w-8" /> : "N/A"
                                             }
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
