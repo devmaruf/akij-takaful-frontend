@@ -331,7 +331,7 @@ export default function PolicySpecificationSchedule() {
                                                 <td className="basis-4/5 px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
                                                     <p> a) in the event of the issured's survival the fulll sum assured will be paid on the maturity date. </p>
                                                     <p> b) in the event of the issured's death at any time before the maturity date, the full sum assured will be paid. </p>
-                                                    <p> c) accured bonus will be payable on maturity date or earlier death of insured as per the policy provisions. </p>
+                                                    <p> c) accrued bonus will be payable on maturity date or earlier death of insured as per the policy provisions. </p>
                                                 </td>
                                             </tr>
                                         </Table>
@@ -346,10 +346,10 @@ export default function PolicySpecificationSchedule() {
                                         <p className="text-slate-900 mt-3 normal-case mx-2">On Behalf of Guardian Life Insurance Limited Authorized Officer's Signature for PSS, Endorsements (if any) and First Premium Receipt. </p>
 
                                         <div className="flex justify-end my-10 mx-4">
-                                         <div className="relative">
-                                         <p className="text-slate-900 mt-3">admin (20200005)</p>
-                                            <span className="absolute top-0 left-0 w-full h-px bg-gray-300"></span>
-                                         </div>
+                                            <div className="basis-1/5 relative text-center">
+                                                <p className="text-slate-900 mt-3">admin (20200005)</p>
+                                                <span className="absolute top-0 left-0 w-full h-px bg-gray-300"></span>
+                                            </div>
                                         </div>
                                     </div>
 
