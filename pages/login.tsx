@@ -6,6 +6,7 @@ import { RootState } from '@/redux/store';
 import Button from '@/components/button';
 import Link from 'next/link';
 import { changeInputValue, changeOtpInputValue, handleLogin, handleOtpLogin } from '@/redux/actions/auth-action';
+import { convertDateTimeToSeconds, formatTime } from "@/utils/remainingTime";
 
 export default function Login() {
     const dispatch = useDispatch();
@@ -29,34 +30,24 @@ export default function Login() {
 
     useEffect(() => {
         if (otpExpireTime) {
-            const remainingSeconds = convertDatetimeToSeconds(otpExpireTime);
+            const remainingSeconds = convertDateTimeToSeconds(otpExpireTime);
             setRemainingTime(remainingSeconds);
         }
     }, [otpExpireTime]);
 
-
-    function convertDatetimeToSeconds(datetimeString) {
-        const expirationDateFromDatabase = new Date(datetimeString);
-        const currentDateTime = new Date();
-        const remainingSeconds = Math.floor(
-            (expirationDateFromDatabase.getTime() - currentDateTime.getTime()) / 1000
-        );
-        return remainingSeconds;
-    }
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
 
         if (remainingTime > 0) {
             timer = setInterval(() => {
-                setRemainingTime((prevTime) => prevTime - 1);
+                setRemainingTime((prevTime: any) => prevTime - 1);
             }, 1000);
         }
 
         return () => {
             clearInterval(timer);
         };
-
     }, [remainingTime]);
 
 
@@ -64,18 +55,6 @@ export default function Login() {
         e.preventDefault();
         dispatch(handleOtpLogin(loginInput, otpInput));
     }
-
-
-    const formatTime = (time: number): string => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(seconds).padStart(2, '0');
-
-        return `${formattedMinutes}:${formattedSeconds}`;
-    };
-
 
     return (
         <section className="md:h-screen py-4 px-6 md:px-10 bg-white text-gray-900 block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
@@ -170,14 +149,17 @@ export default function Login() {
                                     type="otp"
                                     inputChange={changeOtpTextInput}
                                 />
-                                <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
+                                {
+                                    remainingTime > 0 &&
+                                    <div className="text-black text-right mt-2">OTP will be expire after {formatTime(remainingTime)} minutes</div>
+                                }
                                 <div className="text-center lg:text-left flex gap-2">
                                     <Button
                                         title="Submit OTP"
                                         onClick={(e: React.FormEvent) => onOtpSubmit(e)}
                                         position="text-left"
                                         loadingTitle="Submitting"
-                                        loading={((isSubmitting && remainingTime > 0) ? true : false)}
+                                        loading={(isSubmitting && remainingTime > 0) ? true : false}
                                     />
                                     <div>
                                         <Button
@@ -185,7 +167,7 @@ export default function Login() {
                                             onClick={(e: React.FormEvent) => onSubmit(e)}
                                             position="text-left"
                                             loadingTitle="Resending..."
-                                            loading={isSubmitting}
+                                            loading={(isSubmitting && remainingTime === 0) ? true : false}
                                             disabled={remainingTime > 0}
                                             variant="default"
                                         />

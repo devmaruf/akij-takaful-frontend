@@ -121,8 +121,6 @@ export const sendOtp = async (phone: string, id: number) => {
 }
 
 
-
-
 export const getAuthData = () => {
     const getToken = localStorage.getItem(KEY_ACCESS_TOKEN);
     const getUserData = localStorage.getItem(KEY_USER_DATA);
@@ -137,4 +135,84 @@ export const getAuthData = () => {
         authData.userData = JSON.parse(getUserData);
     }
     return authData;
+}
+
+
+export const handleChangeResentPasswordInput = (name: string, value: any) => (dispatch: any) => {
+    let data = {
+        name: name,
+        value: value,
+    }
+
+    dispatch({ type: Types.CHANGE_RESET_PASSWORD_INPUT_VALUE, payload: data });
+};
+
+
+export const checkUser = (user_address: any) => (dispatch: any) => {
+    if (user_address === "") {
+        Toaster("error", "Email or Phone can't be blank!");
+        return false;
+    }
+
+    let responseData = {
+        message: "",
+        isLoading: true,
+        otpStatus: false,
+        otpExpireTime: null
+    };
+    dispatch({ type: Types.CHECK_VALID_USER, payload: responseData });
+
+    axios.post(`/user-check`, { user_address })
+        .then((res: any) => {
+            responseData.message = res.data.original.message;
+            responseData.otpStatus = res.data.original.status;
+            responseData.otpExpireTime = res.data.original.expire_date;
+            responseData.isLoading = false;
+            Toaster('success', responseData.message);
+            dispatch({ type: Types.CHECK_VALID_USER, payload: responseData });
+        }).catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.CHECK_VALID_USER, payload: responseData });
+        });
+}
+
+
+export const changePassword = (resetPasswordInput: any) => (dispatch: any) => {
+
+    if (resetPasswordInput.password !== resetPasswordInput.confirmPassword) {
+        Toaster("error", "Passwords do not match!");
+        return false;
+    }
+
+    let responseData = {
+        status: false,
+        message: "",
+        isLoading: true,
+        userData: null,
+        accessToken: "",
+    };
+    dispatch({ type: Types.SUBMIT_CHANGE_PASSWORD, payload: responseData });
+
+    axios.post(`/reset-password`, resetPasswordInput)
+        .then((res: any) => {
+            if (res.data === false) {
+                Toaster('error', 'Invalid OTP');
+                responseData.isLoading = false;
+                dispatch({ type: Types.SUBMIT_CHANGE_PASSWORD, payload: responseData })
+            } else {
+                responseData.status = true;
+                responseData.isLoading = false;
+                responseData.message = res.message;
+                responseData.accessToken = res.data.access_token;
+                responseData.userData = res.data.user;
+                Toaster('success', responseData.message);
+                localStorage.setItem(KEY_ACCESS_TOKEN, JSON.stringify(responseData.accessToken));
+                localStorage.setItem(KEY_USER_DATA, JSON.stringify(responseData.userData));
+                dispatch({ type: Types.SUBMIT_CHANGE_PASSWORD, payload: responseData });
+                window.location.href = '/';
+            }
+        }).catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.SUBMIT_CHANGE_PASSWORD, payload: responseData });
+        });
 }

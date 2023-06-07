@@ -14,6 +14,12 @@ const initialState: IAuthReducer = {
         email: "admin@example.com",
         password: "12345678",
     },
+    resetPasswordInput: {
+        email: "admin@example.com",
+        password: "",
+        confirmPassword: "",
+        otp: ""
+    }
 };
 
 function AuthReducer(state = initialState, action: any) {
@@ -77,6 +83,44 @@ function AuthReducer(state = initialState, action: any) {
                     isSubmitting: action.payload.isLoading,
                 };
             }
+
+        case Types.CHANGE_RESET_PASSWORD_INPUT_VALUE:
+            const resetPasswordInput = { ...state.resetPasswordInput };
+            resetPasswordInput[action.payload.name] = action.payload.value;
+            return {
+                ...state,
+                resetPasswordInput,
+            };
+
+        case Types.CHECK_VALID_USER:
+            if (action.payload.otpStatus === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    otpStatus: action.payload.otpStatus,
+                    otpExpireTime: action.payload.otpExpireTime
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+
+        case Types.SUBMIT_CHANGE_PASSWORD:
+            if (action.payload.otpStatus === true) {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                    otp: action.payload.otp
+                };
+            } else {
+                return {
+                    ...state,
+                    isSubmitting: action.payload.isLoading,
+                };
+            }
+
 
         default:
             break;
