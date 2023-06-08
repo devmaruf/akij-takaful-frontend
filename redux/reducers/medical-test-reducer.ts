@@ -75,7 +75,7 @@ export default function MedicalTestReducer(state = initialState, action: any) {
                 isDeleting: action.payload.isLoading,
             };
 
-            case Types.GET_MEDICAL_DETAILS:
+            case Types.GET_MEDICAL_TEST_DETAILS:
             return {
                 ...state,
                 medicalDetails: action.payload.data,
