@@ -16,6 +16,12 @@ export interface IAuthReducer {
     otpInput: {
         otp: string;
     }
+    resetPasswordInput:{
+        email: string;
+        password: string;
+        confirmPassword: string;
+        otp: string;
+    }
 }
 
 export interface ISelect2Item {
