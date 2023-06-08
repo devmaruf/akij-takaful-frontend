@@ -123,7 +123,7 @@ export const deleteMedicalTestAction = (id: any, setShowDeleteModal: any) => (di
         message: "",
         isLoading: true,
     };
-    dispatch({ type: Types.DELETE_MEDICAL, payload: responseData });
+    dispatch({ type: Types.DELETE_MEDICAL_TEST, payload: responseData });
 
     axios.delete(`/products/${id}`)
         .then(res => {
@@ -133,18 +133,17 @@ export const deleteMedicalTestAction = (id: any, setShowDeleteModal: any) => (di
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
             dispatch(getMedicalTestListAction());
-            dispatch({ type: Types.DELETE_MEDICAL, payload: responseData });
+            dispatch({ type: Types.DELETE_MEDICAL_TEST, payload: responseData });
         })
         .catch(error => {
             responseData.isLoading = false;
-            dispatch({ type: Types.DELETE_MEDICAL, payload: responseData })
+            dispatch({ type: Types.DELETE_MEDICAL_TEST, payload: responseData })
         });
 }
 
-
-export const getMedicalTestDropdownListAction = () => (dispatch: Dispatch) => {
-    axios.get(`/products/dropdown/list`)
-        .then((res) => {
-            dispatch({ type: Types.GET_MEDICAL_DROPDOWN_LIST, payload: res.data });
-        })
-}
+// export const getMedicalTestDropdownListAction = () => (dispatch: Dispatch) => {
+//     axios.get(`/products/dropdown/list`)
+//         .then((res) => {
+//             dispatch({ type: Types.GET_MEDICAL_DROPDOWN_LIST, payload: res.data });
+//         })
+// }

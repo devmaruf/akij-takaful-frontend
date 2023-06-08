@@ -1,10 +1,9 @@
 import { useSelector } from "react-redux";
-import ReactHtmlParser from 'react-html-parser';
-
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
 import Button from "@/components/button";
 import Input from "@/components/input";
+const parse = require('html-react-parser');
 
 export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
@@ -44,7 +43,7 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
                 || questionnaire.gender === 'both') &&
               <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
                 <p className="basis-4/5">
-                  {ReactHtmlParser(questionnaire.requirement_name_en)}
+                  {parse(questionnaire.requirement_name_en)}
                 </p>
                 <div>
                   <div className="flex">
