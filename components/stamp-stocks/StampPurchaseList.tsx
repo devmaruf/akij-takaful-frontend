@@ -48,29 +48,29 @@ export default function StampPurchaseList() {
   const getActionItems = (stampStock) => {
     const actions = [];
 
-    // if (hasPermission('stamp_purchase.view')) {
-    //   actions.push({
-    //     element: 'View',
-    //     onClick: () => showStampDetails(stampStock),
-    //     iconClass: 'eye'
-    //   });
-    // }
+    if (hasPermission('stamp_purchase.view')) {
+      actions.push({
+        element: 'View',
+        onClick: () => showStampDetails(stampStock),
+        iconClass: 'eye'
+      });
+    }
 
-    // if (hasPermission('stamp_purchase.edit')) {
-    //   actions.push({
-    //     element: 'Edit',
-    //     onClick: () => router.push(`/stamp-stock/edit?id=${stampStock.id}`),
-    //     iconClass: 'pencil'
-    //   });
-    // }
+    if (hasPermission('stamp_purchase.edit')) {
+      actions.push({
+        element: 'Edit',
+        onClick: () => router.push(`/stamp-stock/edit?id=${stampStock.id}`),
+        iconClass: 'pencil'
+      });
+    }
 
-    // if (hasPermission('stamp_purchase.delete')) {
-    //   actions.push({
-    //     element: 'Delete',
-    //     onClick: () => { },
-    //     iconClass: 'trash'
-    //   });
-    // }
+    if (hasPermission('stamp_purchase.delete')) {
+      actions.push({
+        element: 'Delete',
+        onClick: () => { },
+        iconClass: 'trash'
+      });
+    }
 
     return actions;
   }
