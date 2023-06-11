@@ -11,7 +11,7 @@ export const changeInputValue = (name: string, value: any,e:any) => (dispatch: D
   }
   dispatch({ type: Types.CHANGE_INPUT_VALUE, payload: data });
 
-  if (name === "avatar") {
+  if (name === "attachment") {
     let reader = new FileReader();
     const file = e.target.files[0];
     reader.onloadend = () => {
@@ -30,7 +30,7 @@ export const submitPaymentAction = (paymentForm: any, router: any) => (dispatch:
     isLoading: true,
   };
   dispatch({ type: Types.SUBMIT_PAYMENT, payload: response });
-
+  
   axios.post(`/payment`, paymentForm)
     .then((res) => {
       response.status = true;

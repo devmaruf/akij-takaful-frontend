@@ -136,7 +136,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     placeholder='Attachment'
                                                     // value={medicalInput.attachment}
                                                     required
-                                                    onChange={(e: any) => handleChangeTextInput('attachement', e.target.files[0], e)}
+                                                    onChange={(e: any) => handleChangeTextInput('attachment', e.target.files[0], e)}
                                                 />
                                             </>
                                         }
