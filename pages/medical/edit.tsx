@@ -145,7 +145,7 @@ export default function EnlistmentPage() {
                                                         value=""
                                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                         inputChange={handleChangeTextInput}
-                                                        checked={parseInt(medicalDetails.further_requirement) === 1?1:0}
+                                                        checked={parseInt(medicalDetails?.further_requirement) === 1?1:0}
                                                     />
                                                     <label className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                         Futher Requirement
@@ -172,7 +172,7 @@ export default function EnlistmentPage() {
                                 totalData={10}
                             >
                                 {
-                                    medicalTestList && medicalTestList.length > 0 && medicalTestList.map((medicalTest: any, index: any) => (
+                                    medicalTestList && medicalTestList?.length > 0 && medicalTestList?.map((medicalTest: any, index: any) => (
                                         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={medicalTest.id}>
                                             <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                                 {index + 1}

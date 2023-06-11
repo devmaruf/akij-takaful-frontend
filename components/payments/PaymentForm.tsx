@@ -30,6 +30,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     }
 
     const onSubmit = (e: any) => {
+        alert('hello')
         e.preventDefault();
         // Hit API and send data and get redirect URL
         dispatch(submitPaymentAction(paymentInput, router));
@@ -153,7 +154,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                             loadingTitle="Payment processing..."
                             onClick={(e: any) => onSubmit(e)}
                             loading={isSubmitting}
-                            disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
+                            // disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
                         />
                     }
                 </form>
