@@ -30,7 +30,6 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     }
 
     const onSubmit = (e: any) => {
-        alert('hello')
         e.preventDefault();
         // Hit API and send data and get redirect URL
         dispatch(submitPaymentAction(paymentInput, router));
@@ -137,7 +136,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     placeholder='Attachment'
                                                     // value={medicalInput.attachment}
                                                     required
-                                                    onChange={(e: any) => handleChangeTextInput('attachement', e.target.files[0], e)}
+                                                    onChange={(e: any) => handleChangeTextInput('attachment', e.target.files[0], e)}
                                                 />
                                             </>
                                         }
