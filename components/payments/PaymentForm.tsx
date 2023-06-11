@@ -30,7 +30,6 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     }
 
     const onSubmit = (e: any) => {
-        alert('hello')
         e.preventDefault();
         // Hit API and send data and get redirect URL
         dispatch(submitPaymentAction(paymentInput, router));
