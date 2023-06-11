@@ -14,5 +14,5 @@ export function getEmployeeAvatar(fileName: string) {
     return '';
   }
 
-  return process.env?.REACT_APP_PUBLIC_API_URL + '/storage/employees/avatars/' + fileName;
+  return process.env?.REACT_APP_PUBLIC_URL + '/storage/employees/avatars/' + fileName;
 }

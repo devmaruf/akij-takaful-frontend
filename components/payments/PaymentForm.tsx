@@ -24,7 +24,6 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     const paymentCompleted = router.query?.payment_completed ?? false;
     const dispatch = useDispatch();
     const { paymentInput, isSubmitting, isSearching } = useSelector((state: RootState) => state.payment);
-    console.log('paymentInput', paymentInput)
 
     const handleChangeTextInput = (name: string, value: any, e: any) => {
         dispatch(changeInputValue(name, value, e));
