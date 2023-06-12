@@ -68,7 +68,7 @@ export default function EnlistmentPage() {
 
 
     useEffect(() => {
-        if (parseInt(medicalDetails.further_requirement) === 1) {
+        if (medicalDetails && parseInt(medicalDetails.further_requirement) === 1) {
             setShowMedicalList(true);
         } else {
             setShowMedicalList(false);
@@ -168,16 +168,17 @@ export default function EnlistmentPage() {
                                             </label>
                                         </div>
                                     }
+                                    <div></div>
 
                                     {/* Health Questionnaires  */}
                                     <div>
                                         {
                                             isLoading ?
                                                 <div className="text-center">
-                                                    <Loading loadingTitle="Health questionnaires..." />
+                                                    <Loading loadingTitle="Health questionnaires" />
                                                 </div> :
                                                 <div className="w-full mt-4">
-                                                    <button type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full  bg-gray-100`} onClick={()=> setCollapseQuestionnaires(!collapseQuestionnaires)} >
+                                                    <button type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full  bg-gray-100`} onClick={() => setCollapseQuestionnaires(!collapseQuestionnaires)} >
                                                         <span className="text-left ml-3 whitespace-nowrap w-full text-sm"> Health questionnaires </span>
                                                         {
                                                             !collapseQuestionnaires ? <i className="bi bi-chevron-down text-sm ml-2" /> :
@@ -185,21 +186,21 @@ export default function EnlistmentPage() {
                                                         }
                                                     </button>
 
-                                                  {
-                                                    collapseQuestionnaires && 
-                                                    <div>
-                                                         {
-                                                        underwritingForm !== undefined && underwritingForm.length !== 0 &&
-                                                        underwritingForm.types.map((code: any, index: any) => (
-                                                            code.code === "health_questionnaires" &&
-                                                            code.requirements.map((requirment: any, requirmentIndex: any) => (
-                                                                <p className="my-3 text-sm font-normal text-gray-600 bg-slate-100 rounded-md p-2" key={requirmentIndex}>{requirment.requirement_name_en}</p>
-                                                            ))
+                                                    {
+                                                        collapseQuestionnaires &&
+                                                        <div>
+                                                            {
+                                                                underwritingForm !== undefined && underwritingForm.length !== 0 &&
+                                                                underwritingForm.types.map((code: any, index: any) => (
+                                                                    code.code === "health_questionnaires" &&
+                                                                    code.requirements.map((requirment: any, requirmentIndex: any) => (
+                                                                        <p className="my-3 text-sm font-normal text-gray-600 bg-slate-100 rounded-md p-2" key={requirmentIndex}>{requirment.requirement_name_en}</p>
+                                                                    ))
 
-                                                        ))
+                                                                ))
+                                                            }
+                                                        </div>
                                                     }
-                                                    </div>
-                                                  }
 
                                                 </div>
                                         }
