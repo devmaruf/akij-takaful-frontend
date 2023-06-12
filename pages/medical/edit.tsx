@@ -15,15 +15,18 @@ import { changeMedicalFileInputValue, changeMedicalInputValue, getMedicalDetails
 import Table from "@/components/table";
 import NoTableDataFound from "@/components/table/NoDataFound";
 import Link from "next/link";
+import { getUnderwritingByProposalAction } from "@/redux/actions/underwriting-action";
 
 export default function EnlistmentPage() {
     const dispatch = useDispatch();
     const router = useRouter();
     const { id } = router.query;
     const [errors, setErrors] = useState();
-    const [isChecked, setIsChecked] = useState({});
     const [showMedicalList, setShowMedicalList] = useState<boolean>(false);
+    const [collapseQuestionnaires, setCollapseQuestionnaires] = useState<boolean>(false);
     const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, medicalFileInput } = useSelector((state: RootState) => state.medical);
+    const { isLoading, underwritingForm } = useSelector((state: RootState) => state.underwriting);
+
 
     const columnData: any[] = [
         { title: "SL", id: 1 },
@@ -45,6 +48,7 @@ export default function EnlistmentPage() {
         debounce(() => {
             dispatch(getMedicalDetailsAction(id));
             dispatch(getMedicalTestByAgeListAction(medicalDetails.proposal_id));
+            dispatch(getUnderwritingByProposalAction(id));
         }, 500),
         [id]
     );
@@ -85,8 +89,6 @@ export default function EnlistmentPage() {
         }
     };
 
-    console.log('medicalDetails :>> ', medicalDetails);
-
     return (
         <div>
             <PageHeader
@@ -110,76 +112,111 @@ export default function EnlistmentPage() {
                                 noValidate
                             >
 
-                                <div className="grid gap-2 grid-cols-1 md:grid-cols-2 shadow-lg p-4 bg-white rounded-lg">
-                                    <div className='md:ml-4 col-span-4'>
-                                        <div className='grid gap-2 md:grid-cols-2'>
-                                            <Input
-                                                label="Proposal No"
-                                                name="proposal_no"
-                                                placeholder='Proposal No'
-                                                value={medicalInput?.proposal_no}
-                                                isRequired={true}
-                                                inputChange={handleChangeTextInput}
-                                            />
-                                            <Select
-                                                options={medicalStatus}
-                                                isSearchable={true}
-                                                name="status"
-                                                label="Status"
-                                                defaultValue={medicalInput?.status}
-                                                placeholder='Select Status...'
-                                                handleChangeValue={handleChangeTextInput}
-                                            />
+                                <div className="shadow-lg p-4 bg-white rounded-lg">
+                                    <div className='grid gap-2 md:grid-cols-2 '>
+                                        <Input
+                                            label="Proposal No"
+                                            name="proposal_no"
+                                            placeholder='Proposal No'
+                                            value={medicalInput?.proposal_no}
+                                            isRequired={true}
+                                            inputChange={handleChangeTextInput}
+                                        />
+                                        <Select
+                                            options={medicalStatus}
+                                            isSearchable={true}
+                                            name="status"
+                                            label="Status"
+                                            defaultValue={medicalInput?.status}
+                                            placeholder='Select Status...'
+                                            handleChangeValue={handleChangeTextInput}
+                                        />
 
-                                            <Select
-                                                options={approveStatus}
-                                                isSearchable={true}
-                                                name="is_approve"
-                                                label="Approve Status"
-                                                defaultValue={medicalInput?.is_approve == 0 ? '0' : '1'}
-                                                placeholder='Select Status...'
-                                                handleChangeValue={handleChangeTextInput}
-                                            />
-                                            <Input
-                                                label="Extra Info Requirement"
-                                                name="extra_info_requirement"
-                                                placeholder='Extra Info Requirement'
-                                                type='text'
-                                                value={medicalInput?.extra_info_requirement}
-                                                isRequired={true}
-                                                inputChange={handleChangeTextInput}
-                                            />
-                                            {
-                                                <div className="flex items-center mt-6">
-                                                    <input
-                                                        id={`default-checkbox-${medicalDetails.id}`}
-                                                        type="checkbox"
-                                                        // value=""
-                                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                        // inputChange={handleChangeTextInput}
-                                                        checked={showMedicalList}
-                                                        onChange={() => setShowMedicalList(!showMedicalList)}
-                                                    // checked={parseInt(medicalDetails.further_requirement) !== 1 ? true : false}
-                                                    />
-                                                    <label htmlFor={`default-checkbox-${medicalDetails.id}`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
-                                                        Futher Requirement
-                                                    </label>
-                                                </div>
-                                            }
-                                        </div>
+                                        <Select
+                                            options={approveStatus}
+                                            isSearchable={true}
+                                            name="is_approve"
+                                            label="Approve Status"
+                                            defaultValue={medicalInput?.is_approve == 0 ? '0' : '1'}
+                                            placeholder='Select Status...'
+                                            handleChangeValue={handleChangeTextInput}
+                                        />
+                                        <Input
+                                            label="Extra Info Requirement"
+                                            name="extra_info_requirement"
+                                            placeholder='Extra Info Requirement'
+                                            type='text'
+                                            value={medicalInput?.extra_info_requirement}
+                                            isRequired={true}
+                                            inputChange={handleChangeTextInput}
+                                        />
+
                                     </div>
 
+                                    {
+                                        <div className="flex items-center mt-6">
+                                            <input
+                                                id={`default-checkbox-${medicalDetails.id}`}
+                                                type="checkbox"
+                                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                checked={showMedicalList}
+                                                onChange={() => setShowMedicalList(!showMedicalList)}
+                                            // checked={parseInt(medicalDetails.further_requirement) !== 1 ? true : false}
+                                            />
+                                            <label htmlFor={`default-checkbox-${medicalDetails.id}`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
+                                                Futher Requirement
+                                            </label>
+                                        </div>
+                                    }
+
+                                    {/* Health Questionnaires  */}
+                                    <div>
+                                        {
+                                            isLoading ?
+                                                <div className="text-center">
+                                                    <Loading loadingTitle="Health questionnaires..." />
+                                                </div> :
+                                                <div className="w-full mt-4">
+                                                    <button type="button" className={`text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group w-full  bg-gray-100`} onClick={()=> setCollapseQuestionnaires(!collapseQuestionnaires)} >
+                                                        <span className="text-left ml-3 whitespace-nowrap w-full text-sm"> Health questionnaires </span>
+                                                        {
+                                                            !collapseQuestionnaires ? <i className="bi bi-chevron-down text-sm ml-2" /> :
+                                                                <i className="bi bi-chevron-up text-sm ml-2" />
+                                                        }
+                                                    </button>
+
+                                                  {
+                                                    collapseQuestionnaires && 
+                                                    <div>
+                                                         {
+                                                        underwritingForm !== undefined && underwritingForm.length !== 0 &&
+                                                        underwritingForm.types.map((code: any, index: any) => (
+                                                            code.code === "health_questionnaires" &&
+                                                            code.requirements.map((requirment: any, requirmentIndex: any) => (
+                                                                <p className="my-3 text-sm font-normal text-gray-600 bg-slate-100 rounded-md p-2" key={requirmentIndex}>{requirment.requirement_name_en}</p>
+                                                            ))
+
+                                                        ))
+                                                    }
+                                                    </div>
+                                                  }
+
+                                                </div>
+                                        }
+
+                                    </div>
+
+                                    <Button
+                                        name="submitProposal"
+                                        title="Save"
+                                        loadingTitle="Saving..."
+                                        loading={isSubmitting}
+                                        customClass="mt-4"
+                                    />
                                 </div>
 
-                                <Button
-                                    name="submitProposal"
-                                    title="Save"
-                                    loadingTitle="Saving..."
-                                    loading={isSubmitting}
-                                    customClass="mt-4"
-                                />
                             </form>
-                            
+
                             <div>
                                 {
                                     showMedicalList &&
