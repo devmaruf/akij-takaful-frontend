@@ -84,7 +84,6 @@ export const createEmployee = (employeeInput, router, isAgent: boolean = false) 
 
     axios.post(`/${isAgent ? 'agents' : 'employees'}`, employeeInput)
         .then((res) => {
-            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
@@ -235,7 +234,6 @@ export const updateEmployee = (employeeInput, router: any, pageType: string = 'e
 
     axios.put(`/${isAgent ? 'agents' : 'employees'}/${employeeInput.id}`, employeeInput)
         .then((res) => {
-            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;

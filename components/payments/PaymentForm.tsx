@@ -24,7 +24,6 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
     const paymentCompleted = router.query?.payment_completed ?? false;
     const dispatch = useDispatch();
     const { paymentInput, isSubmitting, isSearching } = useSelector((state: RootState) => state.payment);
-    console.log('paymentInput', paymentInput)
 
     const handleChangeTextInput = (name: string, value: any, e: any) => {
         dispatch(changeInputValue(name, value, e));
@@ -137,7 +136,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     placeholder='Attachment'
                                                     // value={medicalInput.attachment}
                                                     required
-                                                    onChange={(e: any) => handleChangeTextInput('attachement', e.target.files[0], e)}
+                                                    onChange={(e: any) => handleChangeTextInput('attachment', e.target.files[0], e)}
                                                 />
                                             </>
                                         }
@@ -154,7 +153,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                             loadingTitle="Payment processing..."
                             onClick={(e: any) => onSubmit(e)}
                             loading={isSubmitting}
-                            disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
+                            // disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
                         />
                     }
                 </form>
