@@ -42,6 +42,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
         { title: "Status", id: 8 },
         { title: "Action", id: 9 },
     ];
+
     const debouncedDispatch = useCallback(
         debounce(() => {
             dispatch(getEmployeeListAction(currentPage, dataLimit, searchText, isAgent))

@@ -34,6 +34,7 @@ export const changeMedicalFileInputValue = (name: string, value: any, e: any, me
             response.test_id = medicalTestId;
             axios.post(`/medical-test-results`, response)
                 .then((res) => {
+                    console.log('res', res)
                     response.isLoading = false;
                     response.status = true;
                     response.message = res.message;
@@ -87,6 +88,7 @@ export const getMedicalListAction = (currentPage: number = 1, dataLimit: number 
 
     axios.get(`medical?perPage=${dataLimit}&page=${currentPage}&search=${searchText}`)
         .then((res) => {
+            console.log('medical', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;

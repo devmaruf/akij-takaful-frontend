@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
@@ -16,7 +16,6 @@ import { ExistingPolicy } from "@/components/proposals/ExistingPolicy";
 import { ProposerPersonalInformation } from "@/components/proposals/ProposerPersonalInformation";
 import { OtherInformation } from "@/components/proposals/OtherInformation";
 import { UnderwritingDecision } from "@/components/proposals/UnderwritingDecision";
-import Button from "@/components/button";
 
 export default function WorksheetSummary() {
   const dispatch = useDispatch();
@@ -33,17 +32,6 @@ export default function WorksheetSummary() {
     [id]
   );
 
-  const divRef = useRef(null);
-
-  const handlePrint = () => {
-    const printContents = divRef.current.innerHTML;
-    const originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-  };
-
 
   useEffect(() => {
     debouncedDispatch();
@@ -56,11 +44,7 @@ export default function WorksheetSummary() {
         title="Worksheet Summary"
         hasSearch={false}
       />
-      <div className="mt-4 mr-4 p-0">
-        <Button variant="success" onClick={handlePrint}>
-          <i className="bi bi-printer"></i> Print
-        </Button>
-      </div>
+
       <PageContentList>
         {
           loadingDetails ?
@@ -68,18 +52,16 @@ export default function WorksheetSummary() {
               <Loading loadingTitle="Worksheet summary" />
             </div>
             :
-            <div className="printDiv" ref={divRef}>
-              <div>
-                <OfficeInformation data={proposalDetails} />
-                <PolicyInformation data={proposalDetails} />
-                <SupplementaryRider data={proposalDetails} />
-                <ExtraLoading data={proposalDetails} />
-                <ExistingPolicy data={proposalDetails} />
-                <ProposerPersonalInformation data={proposalDetails} />
-                <OtherInformation data={proposalDetails} />
-                <UnderwritingDecision data={proposalDetails} />
-                <p className="text-left text-slate-800 text-xl font-semibold mt-8">Worksheet Done By Admin & 2020000000005</p>
-              </div>
+            <div>
+              <OfficeInformation data={proposalDetails} />
+              <PolicyInformation data={proposalDetails} />
+              <SupplementaryRider data={proposalDetails} />
+              <ExtraLoading data={proposalDetails} />
+              <ExistingPolicy data={proposalDetails} />
+              <ProposerPersonalInformation data={proposalDetails} />
+              <OtherInformation data={proposalDetails} />
+              <UnderwritingDecision data={proposalDetails} />
+              <p className="text-left text-slate-800 text-xl font-semibold mt-8">Worksheet Done By Admin & 2020000000005</p>
             </div>
         }
       </PageContentList>

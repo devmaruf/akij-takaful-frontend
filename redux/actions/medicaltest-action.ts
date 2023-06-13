@@ -79,6 +79,7 @@ export const getMedicalTestDetailsAction = (id: number | string) => (dispatch: D
 
     axios.get(`/medical-tests/${parseInt(id + '')}`)
         .then(res => {
+            console.log('res', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
@@ -99,8 +100,10 @@ export const updateMedicalTestAction = (medicalTestInput: any, id: number, route
         data: {},
     };
     dispatch({ type: Types.UPDATE_MEDICAL_TEST, payload: response });
+console.log('id', id)
     axios.put(`/medical-tests/${parseInt(id + '')}`, medicalTestInput)
         .then((res) => {
+            console.log('MedicalTest', res)
             response.isLoading = false;
             response.status = true;
             response.message = res.message;
