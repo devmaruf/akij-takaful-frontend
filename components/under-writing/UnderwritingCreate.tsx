@@ -15,16 +15,22 @@ import { PageContent } from '@/components/layouts/PageContent';
 import { IUnderwritingRequirement, IUnderwritingType } from '@/redux/interfaces';
 import { CustomUnderwritingMessage } from './CustomMessage';
 import { formatCurrency } from '@/utils/currency';
+import StatusBadge from '../badge/StatusBadge';
+import { getMedicalDetailsAction } from '@/redux/actions/medical-action';
 
 export function UnderwritingCreate({ id }: { id: number }) {
     const router = useRouter();
     const dispatch: Dispatch = useDispatch();
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [showMedicalDetails, setShowMedicalDetails] = useState<boolean>(false);
+
     const { isLoading, underwritingForm, isApproving } = useSelector((state: RootState) => state.underwriting);
+    const { medicalDetails } = useSelector((state: RootState) => state.medical);
 
     const debouncedDispatch = useCallback(
         debounce(() => {
             dispatch(getUnderwritingByProposalAction(id));
+            dispatch(getMedicalDetailsAction(id));
         }, 500),
         [id]
     );
@@ -105,6 +111,53 @@ export function UnderwritingCreate({ id }: { id: number }) {
                         </div>
                         :
                         <form method="post" autoComplete="off">
+                            <div className="bg-green-100 text-slate-800 rounded-lg">
+                                <div className="flex items-center justify-between px-4 py-2">
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-base font-bold">Plan - {underwritingForm?.plan_name} </p>
+                                        {
+                                            underwritingForm.plan_id !== null && underwritingForm.plan_id === 2 &&
+                                            <StatusBadge status={underwritingForm.status} />
+                                        }
+                                    </div>
+                                    {
+                                        underwritingForm.plan_id !== null && underwritingForm.plan_id === 2 && <button type="button" className="bg-emerald-300 text-slate-800 py-1 px-3 rounded-md flex items-center justify-center" onClick={() => setShowMedicalDetails(!showMedicalDetails)}>
+                                            {
+                                                !showMedicalDetails ? <i className="bi bi-chevron-down text-sm" /> :
+                                                    <i className="bi bi-chevron-up text-sm" />
+                                            }
+                                        </button>
+                                    }
+                                </div>
+                                {underwritingForm.plan_id == 2 && showMedicalDetails && (
+                                    <div className="mt-4 bg-slate-100 border-t border-slate-200">
+                                        {
+                                            typeof medicalDetails !== null &&
+                                            <table className="border-collapse">
+                                                <tbody>
+                                                    <tr className="">
+                                                        <td className="py-2 px-4 font-semibold"> Proposal NO </td>
+                                                        <td className="py-2 px-4">: {medicalDetails?.proposal_no ?? "N/A"}</td>
+                                                    </tr>
+                                                    <tr className="">
+                                                        <td className="py-2 px-4 font-semibold"> Extra Info Requirement </td>
+                                                        <td className="py-2 px-4">: {medicalDetails?.extra_info_requirement ?? "N/A"}</td>
+                                                    </tr>
+                                                    <tr className="">
+                                                        <td className="py-2 px-4 font-semibold"> Further Requirement </td>
+                                                        <td className="py-2 px-4">: {medicalDetails?.further_requirement ?? "N/A"}</td>
+                                                    </tr>
+                                                    <tr className="">
+                                                        <td className="py-2 px-4 font-semibold"> Status </td>
+                                                        <td className="py-2 px-4">: {medicalDetails?.status ?? "N/A"}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        }
+                                    </div>
+                                )}
+                            </div>
+
                             {
                                 underwritingForm !== undefined && underwritingForm.length !== 0 &&
                                 underwritingForm.types.map((type: IUnderwritingType) => (
