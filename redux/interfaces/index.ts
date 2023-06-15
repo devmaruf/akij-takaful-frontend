@@ -536,6 +536,18 @@ export interface IOccupation {
 export interface IOccupationReducer {
     occupations: Array<IOccupation>
     occupationDropdownList: Array<ISelect2Item>
+    isLoading: boolean;
+    isDeleting: boolean;
+    isLoadingDetails: boolean;
+    isSubmitting: boolean;
+    occupationList: any [];
+    occupationPaginationData: any;
+    occupationDetails: any;
+    occupationInput: {
+        name: string;
+        group: string;
+        class: string;
+    }
 }
 
 export interface IDivisionReducer {
