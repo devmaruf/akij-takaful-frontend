@@ -137,7 +137,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                                                     placeholder='Attachment'
                                                     // value={medicalInput.attachment}
                                                     required
-                                                    onChange={(e: any) => handleChangeTextInput('attachement', e.target.files[0], e)}
+                                                    onChange={(e: any) => handleChangeTextInput('attachment', e.target.files[0], e)}
                                                 />
                                             </>
                                         }
@@ -154,7 +154,7 @@ export default function PaymentForm({ id, pageType }: IPaymentForm) {
                             loadingTitle="Payment processing..."
                             onClick={(e: any) => onSubmit(e)}
                             loading={isSubmitting}
-                            disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
+                            // disabled={paymentInput.payment_media?.length > 0 && paymentInput.amount > 0}
                         />
                     }
                 </form>
