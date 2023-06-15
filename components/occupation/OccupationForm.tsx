@@ -59,18 +59,6 @@ export default function OccupationForm({ pageType, onSubmit }: IOccupationForm) 
                 errors={``}
             />
 
-{/* <Select
-          options={religionList}
-          isSearchable={true}
-          isRequired={true}
-          name="religion"
-          label="Religion"
-          defaultValue={personalInformation.religion ?? ''}
-          placeholder="Select Religion"
-          handleChangeValue={onChangeText}
-          errors={errors}
-        /> */}
-
             <div className="mt-4">
                 <Button
                     title="Save"
