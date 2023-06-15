@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "lodash";
@@ -9,6 +9,7 @@ import Loading from '@/components/loading';
 import Table from '@/components/table';
 import { RootState } from '@/redux/store';
 import { getProposalDetails } from '@/redux/actions/proposal-action';
+import Button from "../button";
 
 export default function PolicySpecificationSchedule() {
     const dispatch = useDispatch();
@@ -24,6 +25,17 @@ export default function PolicySpecificationSchedule() {
         [id]
     );
 
+    const divRef = useRef(null);
+
+    const handlePrint = () => {
+        const printContents = divRef.current.innerHTML;
+        const originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    };
+
 
     useEffect(() => {
         debouncedDispatch();
@@ -32,12 +44,17 @@ export default function PolicySpecificationSchedule() {
 
     return (
         <div>
+
             <PageHeader
                 title="Policy Specification Schedule"
                 hasSearch={false}
             />
-
-
+            <div className="mt-2 mr-4">
+                <Button variant="success" onClick={handlePrint}>
+                    <i className="bi bi-printer"></i> Print
+                </Button>
+            </div>
+            <div className="printDiv" ref={divRef}>
             <PageContentList>
                 {
                     loadingDetails ?
@@ -359,6 +376,7 @@ export default function PolicySpecificationSchedule() {
                         </div>
                 }
             </PageContentList>
+            </div>
         </div >
     )
 }
