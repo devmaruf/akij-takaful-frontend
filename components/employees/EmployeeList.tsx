@@ -12,10 +12,11 @@ import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { RootState } from '@/redux/store';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { getEmployeeListAction } from '@/redux/actions/employee-action';
+import { getEmployeeListAction, deleteEmployee } from '@/redux/actions/employee-action';
 import { IEmployeeView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getEmployeeAvatar } from '@/utils/file-helper';
+import PermissionModal from '../permissionModal';
 
 interface IEmployeeList {
     isAgent?: boolean;
@@ -28,7 +29,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     const [employeeID, setEmployeeID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
-    const { employeeList, employeePaginationData, isLoading, } = useSelector((state: RootState) => state.employee);
+    const { employeeList, employeePaginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.employee);
     const [searchText, setSearchText] = useState<string>('');
     
     const columnData: any[] = [
@@ -168,6 +169,15 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                         </Table>
                 }
             </PageContentList>
+
+            <PermissionModal
+                show={showDeleteModal}
+                status={"warning"}
+                isLoading={isDeleting}
+                loadingText={`Deleting ${isAgent ? 'Agent' : "Employee"}...`}
+                handleClose={() => setShowDeleteModal(false)}
+                handleAction={() => dispatch(deleteEmployee(employeeID, setShowDeleteModal, isAgent))}
+            />
         </div >
     )
 }

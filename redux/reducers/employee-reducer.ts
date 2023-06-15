@@ -83,11 +83,11 @@ function employeeReducer(state = initialState, action: any) {
                 employeeDetails: action.payload.data,
                 employeeInput: action.payload.data,
             };
-        // case Types.DELETE_BRANCH:
-        //     return {
-        //         ...state,
-        //         isDeleting: action.payload.isLoading,
-        //     };
+        case Types.DELETE_EMPLOYEE:
+            return {
+                ...state,
+                isDeleting: action.payload.isLoading,
+            };
         case Types.GET_EMPLOYEE_ROLES:
             return {
                 ...state,
