@@ -84,7 +84,6 @@ export const createEmployee = (employeeInput, router, isAgent: boolean = false) 
 
     axios.post(`/${isAgent ? 'agents' : 'employees'}`, employeeInput)
         .then((res) => {
-            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
@@ -161,63 +160,30 @@ export const getEmployeeDetails = (id: number | string, isAgent: boolean = false
         });
 }
 
-// export const handleUpdateProject = (projectInput, setShowUpdateModal) => (dispatch: Dispatch) => {
-//     if (projectInput.name === "") {
-//         Toaster("error", "Project name can't be blank!");
-//         return false;
-//     }
-//     if (projectInput.code === "") {
-//         Toaster("error", "Project code can't be blank!");
-//         return false;
-//     }
 
-//     let responseData = {
-//         status: false,
-//         message: "",
-//         isLoading: true,
-//     };
-//     dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
+export const deleteEmployee = (id: number | string, setShowDeleteModal: any, isAgent: boolean = false) => (dispatch: Dispatch) => {
+    let responseData = {
+        status: false,
+        message: "",
+        isLoading: true,
+    };
+    dispatch({ type: Types.DELETE_EMPLOYEE, payload: responseData });
 
-//     axios.put(`/projects/${projectInput.id}`, {
-//         id: projectInput.id,
-//         name: projectInput.name,
-//         code: projectInput.code
-//     })
-//         .then(res => {
-//             responseData.status = true;
-//             responseData.isLoading = false;
-//             responseData.message = res.data.message;
-//             Toaster('success', responseData.message);
-//             setShowUpdateModal(false);
-//             dispatch(getProjectList(1, 5));
-//             dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData });
-//         }).catch((error) => {
-//             responseData.isLoading = false;
-//             dispatch({ type: Types.SUBMIT_PROJECT, payload: responseData })
-//         })
-// }
-
-// export const deleteProject = (id: number, setShowDeleteModal) => (dispatch: Dispatch) => {
-//     let responseData = {
-//         status: false,
-//         message: "",
-//         isLoading: true,
-//     };
-//     dispatch({ type: Types.DELETE_PROJECT, payload: responseData });
-//     axios.delete(`/projects/${id}`)
-//         .then((res) => {
-//             responseData.isLoading = false;
-//             responseData.status = true;
-//             responseData.message = res.data.message;
-//             Toaster('success', responseData.message);
-//             setShowDeleteModal(false);
-//             dispatch(getProjectList(1, 5));
-//             dispatch({ type: Types.DELETE_PROJECT, payload: responseData });
-//         }).catch((error) => {
-//             responseData.isLoading = false;
-//             dispatch({ type: Types.DELETE_PROJECT, payload: responseData })
-//         })
-// }
+    axios.delete(`/${isAgent ? 'agents' : 'employees'}/${id}`)
+        .then((res) => {
+            responseData.isLoading = false;
+            responseData.status = true;
+            responseData.message = res.message;
+            Toaster('success', responseData.message);
+            setShowDeleteModal(false);
+            dispatch(getEmployeeListAction(1, 10, "", isAgent));
+            dispatch({ type: Types.DELETE_EMPLOYEE, payload: responseData });
+        })
+        .catch((error) => {
+            responseData.isLoading = false;
+            dispatch({ type: Types.DELETE_EMPLOYEE, payload: responseData });
+        });
+}
 
 
 export const updateEmployee = (employeeInput, router: any, pageType: string = 'edit', isAgent: boolean = false) => (dispatch: Dispatch) => {
@@ -235,7 +201,6 @@ export const updateEmployee = (employeeInput, router: any, pageType: string = 'e
 
     axios.put(`/${isAgent ? 'agents' : 'employees'}/${employeeInput.id}`, employeeInput)
         .then((res) => {
-            console.log('employeeResponse', res)
             response.status = true;
             response.isLoading = false;
             response.message = res.message;
