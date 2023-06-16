@@ -5,6 +5,7 @@ import { IProposalFormSection } from "@/redux/interfaces";
 import Input from "@/components/input";
 import Select from "@/components/select";
 import BankSelect from "@/components/banks/BankSelect";
+import SectionTitle from "../sectionTitle";
 
 export default function BankBranchInformation({ onChangeText, errors }: IProposalFormSection) {
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
@@ -13,9 +14,7 @@ export default function BankBranchInformation({ onChangeText, errors }: IProposa
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Bank & Branch Information
-      </h3>
+      <SectionTitle title="Bank & Branch Information"/>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           label="Proposal No"

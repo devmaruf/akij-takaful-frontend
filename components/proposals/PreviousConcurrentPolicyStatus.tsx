@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import ConcurrentProposal from "./ConcurrentProposal";
 import PreviousPolicies from "./PreviousPolicies";
+import SectionTitle from "../sectionTitle";
 
 export function PreviousConcurrentPolicyStatus() {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
@@ -10,10 +11,7 @@ export function PreviousConcurrentPolicyStatus() {
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Previous Policy & Concurrent Policy Status
-      </h3>
-
+      <SectionTitle title="Previous Policy & Concurrent Policy Status" />
       <ConcurrentProposal
         phoneNo={personalInformation?.mobile_no}
         idType={personalInformation?.identity_type}

@@ -9,6 +9,7 @@ import { calculateAge } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
 import { subYears } from "date-fns";
 import OccupationDropdown from "@/components/occupations/OccupationDropdown";
+import SectionTitle from "../sectionTitle";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
@@ -31,9 +32,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Personal Information
-      </h3>
+      <SectionTitle title="Personal Information" />
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           label="Full Name"

@@ -13,6 +13,7 @@ import { getProductDetailsAction } from "@/redux/actions/product-action";
 import { changeInputValue } from "@/redux/actions/proposal-action";
 import { isHeadOfficeUser } from "@/utils/auth";
 import { ChildEducation } from "./ChildEducation";
+import SectionTitle from "../sectionTitle";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
@@ -62,9 +63,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Products, Plan & Premium Information
-      </h3>
+      <SectionTitle title="Products, Plan & Premium Information" />
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           type="date"
@@ -109,9 +108,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       </div>
 
       <div>
-        <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-          Product Information
-        </h3>
+        <SectionTitle title="Product Information" />
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           <Select
             options={productDropdownList}
@@ -170,9 +167,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       }
 
       <div>
-        <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-          Premium Information
-        </h3>
+        <SectionTitle title="Premium Information" />
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           <Input
             type="number"
@@ -269,9 +264,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
       </div>
 
       <div>
-        <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-          Rider Information
-        </h3>
+        <SectionTitle title="Rider Information" />
         <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
           {
             parseInt(productDetails?.is_adb_enabled) == 1 ?

@@ -5,6 +5,7 @@ import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import { IBMI, calculateBMI } from "@/utils/calculation";
 import { IProposalFormSection } from "@/redux/interfaces";
+import SectionTitle from "../sectionTitle";
 
 export default function ProposerBMICalculation({ onChangeText, errors }: IProposalFormSection) {
     const { proposalInput } = useSelector((state: RootState) => state.proposal);
@@ -25,9 +26,7 @@ export default function ProposerBMICalculation({ onChangeText, errors }: IPropos
 
     return (
         <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
-            <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-                BMI Calculation
-            </h3>
+            <SectionTitle title="BMI Calculation" />
             <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
                 <div className="flex flex-1 w-full">
                     <Input
