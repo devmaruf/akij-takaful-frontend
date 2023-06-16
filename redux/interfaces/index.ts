@@ -88,6 +88,17 @@ export interface IEmployeeView extends IEmployee {
     bank_name:string;
 }
 
+export interface ISellerReportView extends IEmployee {
+    id: number;
+    code: string;
+    proposal: string;
+    proposal_count: string;
+    total_amount: string;
+    status: string;
+    role_name:string;
+    bank_name:string;
+}
+
 export interface IMedicalTestView extends IMedicalTestForm {
     id: number;
     name1: string;
@@ -130,6 +141,16 @@ export interface IEmployeeReducer {
     rolesDropdownList: Array<ISelect2Item>
     agentsDropdownList: Array<ISelect2Item>
     employeeInput: IEmployee
+}
+
+export interface IReportReducer {
+    isLoading: boolean;
+    isDeleting: boolean;
+    isLoadingDetails: boolean;
+    isSubmitting: boolean;
+    reportList: any[];
+    reportPaginationData:any[];
+    reportDetails:any;
 }
 
 export interface IDesignation {

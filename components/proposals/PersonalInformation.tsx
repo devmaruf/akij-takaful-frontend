@@ -170,6 +170,17 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           }
         />
 
+        <Input
+          label="Annual Income"
+          name="annual_income"
+          type="number"
+          placeholder="Annual Income"
+          value={personalInformation.annual_income ?? ''}
+          isRequired={true}
+          inputChange={onChangeText}
+          errors={errors}
+        />
+
         <OccupationDropdown
           occupation={personalInformation.occupation ?? ''}
           onChange={onChangeText}
@@ -189,6 +200,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           errors={errors}
         />
       </div>
+
     </div>
   );
 }
