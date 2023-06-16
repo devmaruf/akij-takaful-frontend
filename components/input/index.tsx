@@ -151,6 +151,10 @@ export default function Input({
           minDate={minValue && new Date(minValue)}
           disabled={isDisabled}
           required={isRequired}
+          showMonthDropdown
+          showYearDropdown
+          yearDropdownItemNumber={100}
+          scrollableYearDropdown
         />
       }
 
