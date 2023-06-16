@@ -42,10 +42,10 @@ export const validateEmployeeForm = (employeeInput) => {
         Toaster("error", "Please give first name.");
         return false;
     }
-    if (employeeInput.last_name === "") {
-        Toaster("error", "Please give last name.");
-        return false;
-    }
+    // if (employeeInput.last_name === "") {
+    //     Toaster("error", "Please give last name.");
+    //     return false;
+    // }
     if (employeeInput.email === "") {
         Toaster("error", "Please give employee email.");
         return false;

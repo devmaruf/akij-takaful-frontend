@@ -153,7 +153,7 @@ export default function EmployeeForm({ id, pageType, isAgent = false }: IEmploye
                                         name="last_name"
                                         placeholder='Last Name'
                                         value={employeeInput.last_name}
-                                        isRequired={true}
+                                        isRequired={false}
                                         inputChange={handleChangeTextInput}
                                     />
                                     <Input
