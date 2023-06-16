@@ -129,7 +129,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
         <Select
           options={identityTypeList}
-          isSearchable={false}
+          isSearchable={true}
           isRequired={true}
           name="identity_type"
           defaultValue={personalInformation.identity_type ?? ''}
