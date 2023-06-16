@@ -18,20 +18,22 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={bankInformation.bank_name ?? ''}
+          value={bankInformation?.bank_name || proposalInput?.project_name || ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
+          isDisabled={true}
         />
 
         <Input
           label="Branch Name"
           name="bank_branch_name"
           placeholder="Branch Name"
-          value={bankInformation.bank_branch_name ?? ''}
+          value={bankInformation?.bank_branch_name || proposalInput?.proposer_name || ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
+          isDisabled={true}
         />
 
         <Input

@@ -237,6 +237,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             isRequired={false}
             inputChange={onChangeText}
             errors={errors}
+            isDisabled={true}
             minValue={0}
           />
 
@@ -304,7 +305,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                     areaClassNames="flex-1"
                   />
 
-                  <Input
+                  {/* <Input
                     type="checkbox"
                     label="AD&D"
                     name="rider_selection_adnd"
@@ -314,7 +315,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                     inputChange={onChangeText}
                     errors={errors}
                     areaClassNames="flex-1"
-                  />
+                  /> */}
 
                   <Input
                     type="checkbox"
