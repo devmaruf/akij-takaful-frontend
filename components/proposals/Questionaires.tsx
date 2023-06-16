@@ -3,6 +3,7 @@ import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
 import Button from "@/components/button";
 import Input from "@/components/input";
+import SectionTitle from "../sectionTitle";
 const parse = require('html-react-parser');
 
 export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
@@ -30,11 +31,9 @@ export function Questionaires({ onChangeText, errors }: IProposalFormSection) {
   }
 
   return (
-    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Questionaires
-      </h3>
-
+    <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3 text-slate-900">
+      <SectionTitle title="Questionnaires" />
+      
       {
         underwriting_questionnaires.map((questionnaire: any, index: number) => (
           <div key={questionnaire.id}>

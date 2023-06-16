@@ -10,6 +10,7 @@ import { useDebounced } from "@/hooks/use-debounce";
 import { getDivisionsDropdownListAction } from "@/redux/actions/division-action";
 import { getCitiesByDivision, getCitiesDropdownListAction, setNomineeDefaultCityListAction } from "@/redux/actions/city-action";
 import { getAreasByCity, getAreasDropdownListAction, setNomineeDefaultAreaListAction } from "@/redux/actions/area-action";
+import SectionTitle from "../sectionTitle";
 
 export interface IAddressInformation extends IProposalFormSection {
   onChangePermanentAddress: (name: string, value: any) => void;
@@ -108,10 +109,7 @@ export function AddressInformation({ onChangeText, onChangePresentAddress, onCha
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        Address Information
-      </h3>
-
+      <SectionTitle title="Address Information" />
       <h4 className="my-2 text-black text-xl">Permanent Address</h4>
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4 border-b pb-5">
         <Select

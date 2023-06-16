@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
+import SectionTitle from "../sectionTitle";
 
 export default function ClientBankInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
@@ -10,28 +11,28 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
-      <h3 className="bg-slate-100 p-2 text-cyan-600 mb-3 text-md">
-        {"Client's Bank Information"}
-      </h3>
+      <SectionTitle title="Client's Bank Information" />
       <div className="grid gap-2 grid-cols-1 md:grid-cols-4">
         <Input
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={bankInformation.bank_name ?? ''}
+          value={bankInformation?.bank_name || proposalInput?.project_name || ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
+          isDisabled={true}
         />
 
         <Input
           label="Branch Name"
           name="bank_branch_name"
           placeholder="Branch Name"
-          value={bankInformation.bank_branch_name ?? ''}
+          value={bankInformation?.bank_branch_name || proposalInput?.proposer_name || ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
+          isDisabled={true}
         />
 
         <Input

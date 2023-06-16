@@ -40,7 +40,8 @@ export default function Home() {
               </div>
             </div>
           </Card>
-          <Card>
+
+          {/* <Card>
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <span className="text-2xl sm:text-3xl leading-none font-bold text-blue-900">
@@ -54,7 +55,8 @@ export default function Home() {
                 {formatCurrency(proposalDashboardCount.total_amount_of_pending_proposal)}
               </div>
             </div>
-          </Card>
+          </Card> */}
+
           <Card>
             <div className="flex items-center">
               <div className="flex-shrink-0">

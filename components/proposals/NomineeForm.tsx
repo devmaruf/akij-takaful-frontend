@@ -8,6 +8,7 @@ import { NomineePersonalInformation } from "./NomineePersonalInformation";
 import { NomineeAddressInformation } from "./NomineeAddressInformation";
 import { NomineeGuardianInformation } from "./NomineeGuardianInformation";
 import { addMultipleNomineeForm, changeNomineeInputValue, removeMultipleNomineeForm } from "@/redux/actions/proposal-action";
+import SectionTitle from "../sectionTitle";
 
 export interface IPersonalInformation {
     errors?: any;
@@ -30,12 +31,10 @@ export function NomineeForm({ errors }: IPersonalInformation) {
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
-            <div className="flex items-baseline justify-between bg-slate-100 p-2">
-                <h3 className="text-cyan-600 mb-3 text-2xl">
-                    Nominee Information
-                </h3>
+            <div className="flex items-baseline justify-between bg-cyan-700 p-2">
+                <SectionTitle title="Nominee Information" />
                 <Button
-                    variant='primary'
+                    variant='default'
                     customClass="p-1 rounded-md inline mr-1"
                     onClick={() => dispatch(addMultipleNomineeForm())}
                 >
