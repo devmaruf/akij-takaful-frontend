@@ -35,7 +35,6 @@ export default function Roles() {
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
     const { isLoading, roleList, rolesListPaginated } = useSelector((state: RootState) => state.role);
-    const [isAccordionOpen, setIsAccordionOpen] = useState<number>(0);
     const [rollID, setRollID] = useState<any>(0);
 
     const onDelete = () => {
