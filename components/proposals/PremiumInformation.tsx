@@ -21,7 +21,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   const { productDropdownList, productDetails } = useSelector((state: RootState) => state.product);
   const isDisabledBasicPremium = !productDetails?.is_dps;
   const isDisabledSumAssured = productDetails?.is_dps;
-
   const debouncedDispatch = useCallback(
     debounce(() => {
       if (proposalInput.product_id > 0) {
@@ -241,7 +240,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Sum at risk"
             name="sum_at_risk"
             placeholder="Sum at risk"
-            value={proposalInput.sum_at_risk ?? proposalInput.sum_assured}
+            value={productDropdownList[6]?proposalInput.sum_at_risk : proposalInput.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
