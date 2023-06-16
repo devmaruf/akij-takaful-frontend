@@ -22,7 +22,7 @@ interface IEmployeeList {
     isAgent?: boolean;
 }
 
-export default function EmployeeList({ isAgent = false }: IEmployeeList) {
+export default function SellerIntroducerPolicyReport({ isAgent = false }: IEmployeeList) {
     const dispatch = useDispatch();
     const router = useRouter();
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);

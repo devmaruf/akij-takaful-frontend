@@ -84,6 +84,8 @@ export interface IEmployeeView extends IEmployee {
     code: string;
     designation_name: string;
     status: string;
+    role_name:string;
+    bank_name:string;
 }
 
 export interface IMedicalTestView extends IMedicalTestForm {
