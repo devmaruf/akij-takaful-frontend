@@ -35,6 +35,8 @@ export default function Roles() {
     const [dataLimit, setDataLimit] = useState<number>(10);
     const [searchText, setSearchText] = useState<string>('');
     const { isLoading, roleList, rolesListPaginated } = useSelector((state: RootState) => state.role);
+    const [isAccordionOpen, setIsAccordionOpen] = useState<number>(0);
+    const [rollID, setRollID] = useState<any>(0);
 
     const onDelete = () => {
         dispatch(deleteRoleAction(deleteId));
@@ -52,6 +54,11 @@ export default function Roles() {
         debouncedDispatch(); // call debounced dispatch function
         return debouncedDispatch.cancel; // cleanup the debounced function
     }, [debouncedDispatch]);
+
+
+    const toggleAccordion = (id: number) => {
+        setRollID(prevRollID => (prevRollID === id ? null : id));
+    };
 
     return (
         <div>
@@ -95,18 +102,25 @@ export default function Roles() {
                                             <div className='max-w-[500px]'>
                                                 {
                                                     data.permissions && data.permissions.length > 0 &&
-                                                    <Accordion collapseAll={true}>
-                                                        <Accordion.Panel>
-                                                            <Accordion.Title className='py-0 my-0'>
+                                                    <Accordion
+                                                        collapseAll={rollID !== data.id ? false : true}
+                                                    >
+                                                        <Accordion.Panel isOpen={rollID === data.id ? true : false}>
+                                                            <Accordion.Title className='py-0 my-0' onClick={() => toggleAccordion(data.id)}>
                                                                 {data.permissions.length ?? 0} Permissions
                                                             </Accordion.Title>
-                                                            <Accordion.Content className='py-1 my-1'>
-                                                                {
-                                                                    data.permissions.map((permission, permissionIndex) => (
-                                                                        <span key={permissionIndex + 1} className="bg-blue-500 text-[10px] text-white py-0 m-0.5 px-0.5 rounded-md inline-flex">{permission.name}</span>
-                                                                    ))
-                                                                }
-                                                            </Accordion.Content>
+                                                            {rollID === data.id && (
+                                                                <Accordion.Content className="py-1 my-1">
+                                                                    {data.permissions.map((permission, permissionIndex) => (
+                                                                        <span
+                                                                            key={permissionIndex + 1}
+                                                                            className="bg-blue-500 text-[10px] text-white py-0 m-0.5 px-0.5 rounded-md inline-flex"
+                                                                        >
+                                                                            {permission.name}
+                                                                        </span>
+                                                                    ))}
+                                                                </Accordion.Content>
+                                                            )}
                                                         </Accordion.Panel>
                                                     </Accordion>
                                                 }
