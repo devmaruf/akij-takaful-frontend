@@ -138,7 +138,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                 />
                 <Select
                     options={identityTypeList}
-                    isSearchable={false}
+                    isSearchable={true}
                     isRequired={true}
                     name={`nominee_${index}_identity_type`}
                     defaultValue={data.identity_type}

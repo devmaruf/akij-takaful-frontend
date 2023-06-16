@@ -31,7 +31,7 @@ export default function BankBranchInformation({ onChangeText, errors }: IProposa
           />
         <Select
           options={branchDropdownList}
-          isSearchable={false}
+          isSearchable={true}
           name="branch_id"
           label="Branch"
           defaultValue={proposalInput?.branch_id}
