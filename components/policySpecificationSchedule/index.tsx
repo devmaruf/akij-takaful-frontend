@@ -268,7 +268,7 @@ export default function PolicySpecificationSchedule() {
                                                     When Payable
                                                 </td>
                                                 <td className="basis-[42.87%] px-2 py-3 font-normal text-gray-900 break-words border border-slate-300">
-                                                    'N/A'
+                                                    N/A
                                                 </td>
                                             </tr>
                                             <tr className="flex text-left">
