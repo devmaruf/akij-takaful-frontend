@@ -12,7 +12,7 @@ import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { RootState } from '@/redux/store';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { getEmployeeListAction, deleteEmployee } from '@/redux/actions/employee-action';
+import { getEmployeeListAction, deleteEmployee, emptyEmployeeInputAction } from '@/redux/actions/employee-action';
 import { IEmployeeView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getEmployeeAvatar } from '@/utils/file-helper';
@@ -31,7 +31,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     const [dataLimit, setDataLimit] = useState<number>(10);
     const { employeeList, employeePaginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.employee);
     const [searchText, setSearchText] = useState<string>('');
-    
+
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Name', id: 2 },
@@ -103,6 +103,7 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                 onSearchText={setSearchText}
                 headerRightSide={
                     <NewButton
+                        onClick={() => dispatch(emptyEmployeeInputAction())}
                         href={isAgent ? '/banca/agent/create' : '/employee/create'}
                         element={isAgent ? 'New Officer/Manager' : 'New Employee'}
                     />

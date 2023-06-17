@@ -36,6 +36,10 @@ export const changeInputValue = (name: string, value: any, e: any) => (dispatch:
     //     reader.readAsDataURL(file)
     // }
 };
+			
+export const emptyEmployeeInputAction = () => (dispatch: Dispatch) => {
+    dispatch({ type: Types.EMPTY_EMPLOYEE_INPUT, payload: {} });
+};
 
 export const validateEmployeeForm = (employeeInput) => {
     if (employeeInput.first_name === "") {
