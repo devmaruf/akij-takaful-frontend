@@ -38,6 +38,11 @@ export default function ProductReducer(state = initialState, action: any) {
                 ...state,
                 productInput,
             };
+        case Types.EMPTY_PRODUCT_INPUT:
+            return {
+                ...state,
+                productInput: initialState.productInput
+            }
         case Types.SUBMIT_PRODUCT:
             return {
                 ...state,
@@ -58,12 +63,12 @@ export default function ProductReducer(state = initialState, action: any) {
                 productInput: action.payload.data,
                 loadingDetails: action.payload.isLoading,
             };
-            case Types.UPDATE_PRODUCT:
-                return {
-                    ...state,
-                    isSubmitting: action.payload.isLoading,
-                    productInput: action.payload.status ? initialState.productInput : state.productInput
-                };
+        case Types.UPDATE_PRODUCT:
+            return {
+                ...state,
+                isSubmitting: action.payload.isLoading,
+                productInput: action.payload.status ? initialState.productInput : state.productInput
+            };
         case Types.DELETE_PRODUCT:
             return {
                 ...state,

@@ -12,7 +12,7 @@ import NewButton from '@/components/button/button-new';
 import { PageContentList } from '@/components/layouts/PageContentList';
 import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
-import { deleteProductAction, getProductDetailsAction, getProductListAction } from '@/redux/actions/product-action';
+import { deleteProductAction, emptyProductInputAction, getProductDetailsAction, getProductListAction } from '@/redux/actions/product-action';
 import ProductForm from './ProductForm';
 import ProductDetails from './ProductDetails';
 import StatusBadge from '../badge/StatusBadge';
@@ -75,7 +75,14 @@ export default function ProductList() {
         searchText={searchText}
         onSearchText={setSearchText}
         searchPlaceholder='Search products by name...'
-        headerRightSide={<NewButton onClick={() => setShowModal(true)} element='New Product' />}
+        headerRightSide={
+          <NewButton
+              onClick={() => {
+                  dispatch(emptyProductInputAction());
+                  setShowModal(true);
+              }}
+              element='New Product'
+          />}
       />
 
       <PageContentList>
