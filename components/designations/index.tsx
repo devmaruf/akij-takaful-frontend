@@ -14,7 +14,7 @@ import ActionButtons from '@/components/button/button-actions';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import DesignationForm from './DesignationForm';
 import DesignationDetails from './DesignationDetails';
-import { getDesignationListAction, getDesignationDetailsAction, deleteDesignationAction } from '@/redux/actions/designation-action';
+import { getDesignationListAction, getDesignationDetailsAction, deleteDesignationAction, emptyDesignationInputAction } from '@/redux/actions/designation-action';
 
 export default function DesignationList() {
   const dispatch = useDispatch();
@@ -69,7 +69,12 @@ export default function DesignationList() {
         searchText={searchText}
         onSearchText={setSearchText}
         searchPlaceholder='Search designation...'
-        headerRightSide={<NewButton onClick={() => setShowModal(true)} element='New Designation' />}
+        headerRightSide={<NewButton
+          onClick={() => {
+            dispatch(emptyDesignationInputAction());
+            setShowModal(true);
+          }}
+          element='New Designation' />}
       />
 
       <PageContentList>
