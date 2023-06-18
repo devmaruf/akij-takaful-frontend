@@ -28,8 +28,9 @@ const Option = styled.div`
     background: #0891b27a;
   }
 
-  background: ${(props) => (props.isSelected ? "#0891b2" : "#eee")};
-  color: ${(props) => (props.isSelected ? "#fff" : "#000")};
+  background: ${(props) =>
+    props.isSelected ? "#0891b2" : props.isFocused ? "#6ebecc" : "#eee"};
+  color: ${(props) => (props.isSelected || props.isFocused ? "#fff" : "#000")};
 `;
 
 export default function Select({
