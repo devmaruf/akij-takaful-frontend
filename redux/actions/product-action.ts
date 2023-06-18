@@ -11,6 +11,11 @@ export const changeProductInputValue = (name: string, value: any) => (dispatch: 
     dispatch({ type: Types.CHANGE_PRODUCT_INPUT, payload: data });
 };
 
+
+export const emptyProductInputAction = () => (dispatch: Dispatch) => {
+    dispatch({ type: Types.EMPTY_PRODUCT_INPUT, payload: {} });
+};
+
 export const submitProductAction = (productInput: any, closeModal: any) => (dispatch: Dispatch) => {
 
     let response = {

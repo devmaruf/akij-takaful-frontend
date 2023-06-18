@@ -27,6 +27,11 @@ function designationReducer(state = initialState, action: any) {
                 ...state,
                 designationInput,
             };
+        case Types.EMPTY_DESIGNATION_INPUT:
+            return {
+                ...state,
+                designationInput: initialState.designationInput
+            }
         case Types.SUBMIT_DESIGNATION:
             return {
                 ...state,

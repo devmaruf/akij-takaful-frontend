@@ -37,7 +37,11 @@ function employeeReducer(state = initialState, action: any) {
                 ...state,
                 employeeInput,
             };
-
+        case Types.EMPTY_EMPLOYEE_INPUT:
+            return {
+                ...state,
+                employeeInput: initialState.employeeInput
+            }
         case Types.CREATE_EMPLOYEE:
             if (action.payload.status === true) {
                 return {
