@@ -28,6 +28,7 @@ import { getProductDropdownListAction } from "@/redux/actions/product-action";
 import { PreviousConcurrentPolicyStatus } from "@/components/proposals/PreviousConcurrentPolicyStatus";
 import PremiumInformation from "@/components/proposals/PremiumInformation";
 import ProposerBMICalculation from "@/components/proposals/ProposerBMICalculation";
+import { getOccupationDropdownListAction } from "@/redux/actions/occupation-action";
 
 export default function EnlistmentPage() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ export default function EnlistmentPage() {
     dispatch(getBranchDropdownList());
     dispatch(getAgentsDropdownList());
     dispatch(getProductDropdownListAction());
+    dispatch(getOccupationDropdownListAction());
   });
 
   const debouncedDispatch = useCallback(

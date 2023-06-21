@@ -171,6 +171,8 @@ export default function EmployeeForm({ id, pageType, isAgent = false }: IEmploye
                                         placeholder='Phone'
                                         type='number'
                                         value={employeeInput.phone}
+                                        minLength={11}
+                                        maxLength={11}
                                         isRequired={true}
                                         inputChange={handleChangeTextInput}
                                     />
