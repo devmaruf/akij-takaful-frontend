@@ -33,6 +33,8 @@ export function GuardianInformation({ onChangeText, errors }: IProposalFormSecti
           placeholder="Mobile No"
           value={guardianInformation.phone_no}
           isRequired={true}
+          minLength={11}
+          maxLength={11}
           inputChange={onChangeText}
           errors={errors}
         />

@@ -26,7 +26,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
 
     const { isLoading, underwritingForm, isApproving } = useSelector((state: RootState) => state.underwriting);
     const { medicalDetails } = useSelector((state: RootState) => state.medical);
-
+    console.log('medicalDetails', medicalDetails)
     const debouncedDispatch = useCallback(
         debounce(() => {
             dispatch(getUnderwritingByProposalAction(id));
@@ -145,7 +145,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                     </tr>
                                                     <tr className="">
                                                         <td className="py-2 px-4 font-semibold"> Further Requirement </td>
-                                                        <td className="py-2 px-4">: {medicalDetails?.further_requirement ?? "N/A"}</td>
+                                                        <td className="py-2 px-4">: {medicalDetails?.further_requirement == 0 ? "No":"Yes"}</td>
                                                     </tr>
                                                     <tr className="">
                                                         <td className="py-2 px-4 font-semibold"> Status </td>

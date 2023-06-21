@@ -101,6 +101,8 @@ export default function ProposalBasicEditPage() {
                   name="phone_no"
                   placeholder='Proposer Phone no'
                   value={proposalInput?.phone_no ?? ''}
+                  maxLength={11}
+                  minLength={11}
                   isRequired={true}
                   inputChange={handleChangeTextInput}
                 />
