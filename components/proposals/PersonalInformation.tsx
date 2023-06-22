@@ -30,7 +30,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
     }
   }, [dob]);
 
-  console.log('identity_type :>> ', identity_type);
+
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
       <SectionTitle title="Personal Information" />
