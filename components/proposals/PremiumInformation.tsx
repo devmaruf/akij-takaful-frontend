@@ -14,6 +14,7 @@ import { changeInputValue } from "@/redux/actions/proposal-action";
 import { isHeadOfficeUser } from "@/utils/auth";
 import { ChildEducation } from "./ChildEducation";
 import SectionTitle from "../sectionTitle";
+import { getRiderPremium } from "@/redux/reducers/proposal-reducer";
 
 export default function PremiumInformation({ onChangeText, errors }: IProposalFormSection) {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   const onChangeFormSectionInput = (name: string, value: any, sectionName: string) => {
     dispatch(changeInputValue(name, value, sectionName));
   };
+
 
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-1">
@@ -403,7 +405,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Rider Sum Assured"
             name="rider_sum_assured"
             placeholder="Rider Sum Assured"
-            value={proposalInput.sum_assured}
+            value={proposalInput?.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
