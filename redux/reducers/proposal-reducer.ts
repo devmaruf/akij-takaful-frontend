@@ -160,6 +160,9 @@ function ProposalsReducer(state = initialState, action: any) {
             }
 
             if (action.payload.key === '') {
+                if(action.payload.data.name == 'sum_assured'){
+                    updatedProposalInput.rider_sum_assured = updatedProposalInput.sum_assured;
+                }
                 updatedProposalInput[action.payload.data.name] = action.payload.data.value;
                 // Handle premium information changes
                 updatedProposalInput = handleProposalPremiumInformationChanges(
@@ -473,7 +476,7 @@ const getRiderSelectionValues = (value: string) => {
    * quarterly=(sum assured * rider  rate)/1000*.275 [Rate comes based on Rider Class]
    * monthly=(sum assured * rider  rate)/1000*.0925 [Rate comes based on Rider Class]
    */
-const getRiderPremium = (riderSelection, mode, riderClass, riderSumAssured, proposalInput) => {
+export const getRiderPremium = (riderSelection, mode, riderClass, riderSumAssured, proposalInput) => {
     let riderPremimum = 0;
     const riderRate = proposalInput?.[riderSelection];
 
