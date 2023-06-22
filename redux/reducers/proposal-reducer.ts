@@ -28,6 +28,7 @@ const defaultProposerNominee = {
         weight: 0,
         weight_unit: 'kg',
         allocation: '',
+        annual_income:0
     },
     proposer_permanent_address: {
         proposal_nominee_id: 1,

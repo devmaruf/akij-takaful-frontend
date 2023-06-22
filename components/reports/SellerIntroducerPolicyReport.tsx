@@ -12,26 +12,28 @@ import StatusBadge from '@/components/badge/StatusBadge';
 import NoTableDataFound from '@/components/table/NoDataFound';
 import { RootState } from '@/redux/store';
 import { PageContentList } from '@/components/layouts/PageContentList';
-import { getEmployeeListAction, deleteEmployee, emptyEmployeeInputAction } from '@/redux/actions/employee-action';
-import { IEmployeeView } from '@/redux/interfaces';
+import { getEmployeeListAction, deleteEmployee } from '@/redux/actions/employee-action';
+import { IEmployeeView, ISellerReportView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getEmployeeAvatar } from '@/utils/file-helper';
 import PermissionModal from '../permissionModal';
+import { getSellerPolicyReportListAction } from '@/redux/actions/report-action';
+import { formatCurrency } from '@/utils/currency';
 
 interface IEmployeeList {
     isAgent?: boolean;
 }
 
-export default function EmployeeList({ isAgent = false }: IEmployeeList) {
+export default function SellerIntroducerPolicyReport({ isAgent = false }: IEmployeeList) {
     const dispatch = useDispatch();
     const router = useRouter();
     const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
     const [employeeID, setEmployeeID] = useState<number | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [dataLimit, setDataLimit] = useState<number>(10);
-    const { employeeList, employeePaginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.employee);
+    const { reportList, reportPaginationData, isLoading, isDeleting } = useSelector((state: RootState) => state.report);
     const [searchText, setSearchText] = useState<string>('');
-
+    console.log('reportList', reportList)
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Name', id: 2 },
@@ -39,15 +41,16 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
         { title: 'Role', id: 4 },
         { title: "Email", id: 5 },
         { title: "Phone", id: 6 },
-        { title: "Designation", id: 7 },
-        { title: "Bank", id: 8 },
-        { title: "Status", id: 9 },
-        { title: "Action", id: 10 },
+        { title: "Proposal", id: 7 },
+        { title: "Proposal Count", id: 8 },
+        { title: "Total Amount", id: 9 },
+        { title: "Bank", id: 10 },
+        { title: "Status", id: 11 }
     ];
 
     const debouncedDispatch = useCallback(
         debounce(() => {
-            dispatch(getEmployeeListAction(currentPage, dataLimit, searchText, isAgent))
+            dispatch(getSellerPolicyReportListAction(currentPage, dataLimit, searchText, isAgent))
         }, 500),
         [currentPage, dataLimit, searchText]
     );
@@ -98,17 +101,16 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
     return (
         <div>
             <PageHeader
-                title={isAgent ? 'Manage Banca Officer/Manager' : 'Employees'}
-                searchPlaceholder={`Search ${isAgent ? 'agents' : 'employees'}...`}
+                title={'Seller Policy Report'}
+                searchPlaceholder={`Search Report...`}
                 searchText={searchText}
                 onSearchText={setSearchText}
-                headerRightSide={
-                    <NewButton
-                        onClick={() => dispatch(emptyEmployeeInputAction())}
-                        href={isAgent ? '/banca/agent/create' : '/employee/create'}
-                        element={isAgent ? 'New Officer/Manager' : 'New Employee'}
-                    />
-                }
+                // headerRightSide={
+                //     <NewButton
+                //         href={isAgent ? '/banca/agent/create' : '/employee/create'}
+                //         element={isAgent ? 'New Officer/Manager' : 'New Employee'}
+                //     />
+                // }
             />
 
             <PageContentList>
@@ -122,57 +124,51 @@ export default function EmployeeList({ isAgent = false }: IEmployeeList) {
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                             dataLimit={dataLimit}
-                            totalData={employeePaginationData.total}
+                            totalData={reportPaginationData.total}
                         >
                             {
-                                employeeList && employeeList.length > 0 && employeeList.map((employee: IEmployeeView, index: index) => (
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={employee.id}>
+                                reportList && reportList.length > 0 && reportList.map((report: ISellerReportView, index: index) => (
+                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-left" key={report.id}>
                                         <th scope="row" className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {index + 1}
                                         </th>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {employee.first_name + ' ' + employee.last_name}
+                                            {report.first_name + ' ' + report.last_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {employee.code}
+                                            {report?.code}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {employee.role_name}
+                                            {report?.role_name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {employee.email}
+                                            {report?.email??'N/A'}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {employee.phone}
+                                            {report?.phone??'N/A'}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {employee.designation_name}
-                                        </td>
-                                        {/* <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {
-                                                (typeof employee.avatar !== 'undefined' && employee.avatar !== null) ?
-                                                    <img src={getEmployeeAvatar(employee.avatar)} alt={employee.first_name} className="h-8 w-8" /> : "N/A"
-                                            }
-                                        </td> */}
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        {employee.bank_name}
+                                            {report?.proposal??'N/A'}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            <StatusBadge status={employee.status} />
+                                            {report?.proposal_count}
                                         </td>
-
-                                        <td className="px-2 py-3 flex gap-1">
-                                            <ActionButtons
-                                                items={getActionButtons(employee)}
-                                            />
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                            { formatCurrency(report.total_amount)}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                        {report.bank_name}
+                                        </td>
+                                        <td className="px-2 py-3 font-normal text-gray-900 break-words" >
+                                            <StatusBadge status={report.status} />
                                         </td>
                                     </tr>
                                 ))
                             }
 
                             {
-                                employeeList && employeeList.length === 0 &&
-                                <NoTableDataFound colSpan={9}>No {isAgent ? 'officer/manager' : 'employee'} found ! Please create one.</NoTableDataFound>
+                                reportList && reportList.length === 0 &&
+                                <NoTableDataFound colSpan={9}>No Report found ! Please create one.</NoTableDataFound>
                             }
                         </Table>
                 }

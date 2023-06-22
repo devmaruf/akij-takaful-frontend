@@ -92,7 +92,7 @@ export default function OccupationReducer(state = initialState, action: any) {
         case Types.GET_OCCUPATION_DROPDOWN_LIST:
             return {
                 ...state,
-                productDropdownList: generateDropdownList(action.payload),
+                occupationDropdownList: generateDropdownList(action.payload),
             };
 
         default:

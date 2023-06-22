@@ -11,7 +11,6 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
   const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
 
   const { proposer_bank_information: bankInformation } = proposalInput;
-
   return (
     <div className="border border-gray-200 p-2.5 rounded-md shadow-md mt-3">
       <SectionTitle title="Client's Bank Information" />
@@ -20,7 +19,7 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
           label="Bank Name"
           name="bank_name"
           placeholder="Bank Name"
-          value={bankInformation?.bank_name || proposalInput?.project_name || ''}
+          value={proposalInput?.project_name || ''}
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}

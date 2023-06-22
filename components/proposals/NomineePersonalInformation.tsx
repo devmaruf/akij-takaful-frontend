@@ -11,6 +11,8 @@ import {
 import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
 import OccupationDropdown from "@/components/occupations/OccupationDropdown";
+import { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -27,7 +29,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
-
+    const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
     const onChange = (nameAppendedNominee: string, value: any) => {
         const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
 
@@ -180,12 +182,24 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     }
                 />
 
-                <OccupationDropdown
+                {/* <OccupationDropdown
                     name={`nominee_${index + 1}_occupation`}
                     occupation={data.occupation ?? ''}
                     onChange={(name, value) => {
                         changeNomineeInputVal('occupation', value);
                     }}
+                    errors={errors}
+                /> */}
+
+                <Select
+                    options={occupationDropdownList}
+                    isSearchable={true}
+                    isRequired={true}
+                    name={`nominee_${index}_occupation`}
+                    label="Occupation"
+                    defaultValue={data.occupation ?? ''}
+                    placeholder="Select Occupation"
+                    handleChangeValue={onChange}
                     errors={errors}
                 />
 

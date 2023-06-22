@@ -21,7 +21,6 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
   const { productDropdownList, productDetails } = useSelector((state: RootState) => state.product);
   const isDisabledBasicPremium = !productDetails?.is_dps;
   const isDisabledSumAssured = productDetails?.is_dps;
-
   const debouncedDispatch = useCallback(
     debounce(() => {
       if (proposalInput.product_id > 0) {
@@ -241,7 +240,8 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Sum at risk"
             name="sum_at_risk"
             placeholder="Sum at risk"
-            value={proposalInput.sum_at_risk ?? proposalInput.sum_assured}
+            // value={productDropdownList[6]?proposalInput.sum_at_risk : proposalInput.sum_assured}
+            value={proposalInput?.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
@@ -253,7 +253,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Total Sum at risk"
             name="total_sum_at_risk"
             placeholder="Total Sum at risk"
-            value={proposalInput.total_sum_at_risk}
+            value={proposalInput.total_sum_at_risk}//previous sum_assured+current_sum_assured 
             isRequired={true}
             inputChange={onChangeText}
             isDisabled={true}
@@ -298,7 +298,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                     areaClassNames="flex-1"
                   />
 
-                  {/* <Input
+                  <Input
                     type="checkbox"
                     label="AD&D"
                     name="rider_selection_adnd"
@@ -308,7 +308,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
                     inputChange={onChangeText}
                     errors={errors}
                     areaClassNames="flex-1"
-                  /> */}
+                  />
 
                   <Input
                     type="checkbox"
@@ -403,7 +403,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Rider Sum Assured"
             name="rider_sum_assured"
             placeholder="Rider Sum Assured"
-            value={proposalInput?.rider_sum_assured ?? proposalInput.sum_assured}
+            value={proposalInput.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}

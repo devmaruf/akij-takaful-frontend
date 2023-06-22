@@ -21,6 +21,7 @@ import paymentReducer from "@/redux/reducers/payment-reducer";
 import UnderwritingRequirementReducer from "@/redux/reducers/underwriting-requirement-reducer";
 import MedicalTestReducer from "../reducers/medical-test-reducer";
 import MedicalReducer from "../reducers/medical-reducer";
+import reportReducer from "../reducers/report-reducer";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ export const store = configureStore({
     Project: ProjectReducer,
     Branch: BranchReducer,
     employee: employeeReducer,
+    report: reportReducer,
     designation: designationReducer,
     underwriting: UnderwritingReducer,
     global: globalReducer,

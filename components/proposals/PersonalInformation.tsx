@@ -13,9 +13,9 @@ import SectionTitle from "../sectionTitle";
 
 export function PersonalInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput, identity_type } = useSelector((state: RootState) => state.proposal);
+  const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
   const personalInformation = proposalInput.proposal_personal_information;
   const { age, dob } = personalInformation;
-
   const onChangeDob = (name: string, value: string) => {
     onChangeText(name, value);
 
@@ -173,10 +173,32 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           }
         />
 
-        <OccupationDropdown
+        <Input
+          label="Annual Income"
+          name="annual_income"
+          type="number"
+          placeholder="Annual Income"
+          value={personalInformation.annual_income ?? ''}
+          isRequired={true}
+          inputChange={onChangeText}
+          errors={errors}
+        />
+
+        {/* <OccupationDropdown
           occupation={personalInformation.occupation ?? ''}
           onChange={onChangeText}
           onChangeOccupationId={(occupationId) => onChangeText('occupation_id', occupationId)}
+          errors={errors}
+        /> */}
+         <Select
+          options={occupationDropdownList}
+          isSearchable={true}
+          isRequired={true}
+          name="occupation"
+          label="Occupation"
+          defaultValue={personalInformation.occupation ?? ''}
+          placeholder="Select Occupation"
+          handleChangeValue={onChangeText}
           errors={errors}
         />
 
@@ -192,6 +214,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           errors={errors}
         />
       </div>
+
     </div>
   );
 }
