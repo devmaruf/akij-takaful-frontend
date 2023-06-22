@@ -4,9 +4,12 @@ import Input from "@/components/input";
 import { RootState } from "@/redux/store";
 import { IProposalFormSection } from "@/redux/interfaces";
 import SectionTitle from "../sectionTitle";
+import Select from '@/components/select';
 
 export default function ClientBankInformation({ onChangeText, errors }: IProposalFormSection) {
   const { proposalInput } = useSelector((state: RootState) => state.proposal);
+  const { branchDropdownList } = useSelector((state: RootState) => state.Branch);
+
   const { proposer_bank_information: bankInformation } = proposalInput;
 
   return (
@@ -24,7 +27,7 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
           isDisabled={true}
         />
 
-        <Input
+        {/* <Input
           label="Branch Name"
           name="bank_branch_name"
           placeholder="Branch Name"
@@ -32,6 +35,17 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
+        /> */}
+        <Select
+          options={branchDropdownList}
+          isSearchable={true}
+          name="branch_id"
+          label="Branch"
+          defaultValue={bankInformation?.branch_id}
+          placeholder="Select Branch..."
+          isRequired={true}
+          errors={errors}
+          handleChangeValue={onChangeText}
         />
 
         <Input
