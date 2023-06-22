@@ -30,6 +30,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
     }
   }, [dob]);
 
+  console.log('identity_type :>> ', identity_type);
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
       <SectionTitle title="Personal Information" />
@@ -146,6 +147,8 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
             isDisabled={identity_type.isDisabledField}
             value={personalInformation.id_no ?? ''}
             isRequired={true}
+            minLength={identity_type.minLength}
+            maxLength={identity_type.maxLength}
             minValue={identity_type.minLength}
             maxValue={identity_type.maxLength}
             inputChange={onChangeText}
