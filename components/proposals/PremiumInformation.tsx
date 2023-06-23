@@ -243,11 +243,12 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             name="sum_at_risk"
             placeholder="Sum at risk"
             // value={productDropdownList[6]?proposalInput.sum_at_risk : proposalInput.sum_assured}
-            value={proposalInput?.sum_assured}
+            value={proposalInput?.sum_at_risk}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
             minValue={0}
+            maxValue={proposalInput?.sum_assured}
           />
 
           <Input
@@ -405,11 +406,12 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             label="Rider Sum Assured"
             name="rider_sum_assured"
             placeholder="Rider Sum Assured"
-            value={proposalInput?.sum_assured}
+            value={proposalInput?.rider_sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
-            minValue={0}
+            // minValue={0}
+            maxValue={proposalInput?.sum_assured}
           />
           <Input
             type="number"
