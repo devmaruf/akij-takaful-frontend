@@ -30,6 +30,8 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
     }
   }, [dob]);
 
+  console.log("personalInformation", personalInformation)
+
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -190,7 +192,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           onChangeOccupationId={(occupationId) => onChangeText('occupation_id', occupationId)}
           errors={errors}
         /> */}
-         <Select
+        <Select
           options={occupationDropdownList}
           isSearchable={true}
           isRequired={true}
@@ -201,6 +203,20 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           handleChangeValue={onChangeText}
           errors={errors}
         />
+
+        {
+          personalInformation?.occupation && personalInformation.occupation === 79 &&
+          <Input
+            label="Other Occupation"
+            name="other_occupation"
+            type="text"
+            placeholder="Other Occupation"
+            value={personalInformation?.other_occupation ?? ''}
+            isRequired={personalInformation.occupation === 79 ? true : false}
+            inputChange={onChangeText}
+            errors={errors}
+          />
+        }
 
         <Select
           options={religionList}

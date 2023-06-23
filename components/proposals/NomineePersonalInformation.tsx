@@ -199,6 +199,20 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     errors={errors}
                 />
 
+                {
+                    data?.occupation && data.occupation === 79 &&
+                    <Input
+                        label="Other Occupation"
+                        name="other_occupation"
+                        type="text"
+                        placeholder="Other Occupation"
+                        value={data?.other_occupation ?? ''}
+                        isRequired={data.occupation === 79 ? true : false}
+                        inputChange={onChange}
+                        errors={errors}
+                    />
+                }
+
                 <Select
                     options={religionList}
                     isSearchable={true}
