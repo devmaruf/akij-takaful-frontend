@@ -1,17 +1,21 @@
 export const generateDropdownList = (data: any[]) => {
     let options: any[] = [];
     if (data) {
-        data.forEach((item) => {
-            let itemData = {
-                ...item,
-                value: item.id,
-                label: item.name,
-            };
-            options.push(itemData);
-        });
+      data.forEach((item) => {
+        let itemData = {
+          ...item,
+          value: item.id,
+          label: item.name,
+        };
+        options.push(itemData);
+      });
+
+      // Sort options alphabetically by label
+      options.sort((a, b) => a.label.localeCompare(b.label)); 
     }
     return options;
-};
+  };
+  
 
 export const productModesDropdown = [
     {
