@@ -8,9 +8,7 @@ import {
     religionList,
     getIdendityValidationMessage
 } from "@/utils/proposal-dropdowns";
-import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
-import OccupationDropdown from "@/components/occupations/OccupationDropdown";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 
@@ -26,18 +24,16 @@ export interface IPersonalInformation {
 }
 
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
+
+    const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
+
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
-    const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
+
     const onChange = (nameAppendedNominee: string, value: any) => {
         const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
-
         changeNomineeInputVal(name, value);
-
-        if (name === 'dob') {
-            changeNomineeInputVal('age', calculateAge(value));
-        }
     }
 
     return (
