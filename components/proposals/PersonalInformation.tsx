@@ -74,7 +74,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
         <Select
           options={GenderList}
-          isSearchable={true}
+          isSearchable={false}
           isRequired={true}
           name="gender"
           label="Gender"
@@ -137,7 +137,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
         <Select
           options={identityTypeList}
-          isSearchable={true}
+          isSearchable={false}
           isRequired={true}
           name="identity_type"
           defaultValue={personalInformation.identity_type ?? ''}

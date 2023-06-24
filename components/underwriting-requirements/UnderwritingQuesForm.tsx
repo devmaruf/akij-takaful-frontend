@@ -104,7 +104,7 @@ function UnderWritingQuesForm({
             />
             <Select
                 options={GenderList}
-                isSearchable={true}
+                isSearchable={false}
                 isRequired={true}
                 name="gender"
                 label="Gender"

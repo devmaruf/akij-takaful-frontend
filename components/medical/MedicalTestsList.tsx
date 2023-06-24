@@ -15,6 +15,7 @@ import { PageContentList } from '@/components/layouts/PageContentList';
 import { IMedicalTestView } from '@/redux/interfaces';
 import { hasPermission } from '@/utils/permission';
 import { getMedicalTestListAction } from '@/redux/actions/medicaltest-action';
+import { formatCurrency } from '@/utils/currency';
 
 
 
@@ -126,12 +127,11 @@ export default function MedicalTestsList() {
                                             {medicalTest.max_age}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                        <StatusBadge status={medicalTest.min_amount} />
+                                        <StatusBadge status={formatCurrency(medicalTest.min_amount)} />
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
-                                            {medicalTest.max_amount}
+                                            {formatCurrency(medicalTest.max_amount)}
                                         </td>
-
                                         <td className="px-2 py-3 flex gap-1">
                                             <ActionButtons
                                                 items={getActionButtons(medicalTest)}
