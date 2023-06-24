@@ -32,7 +32,6 @@ export default function MedicalList() {
         { title: "SL", id: 1 },
         { title: 'Proposal No', id: 2 },
         { title: 'Medical Status', id: 3 },
-        { title: "Plan Name", id: 4 },
         { title: "Extra Info Requirement", id: 5 },
         { title: "Further Reuqirement", id: 6 },
         { title: "Action", id: 7 }
@@ -62,7 +61,7 @@ export default function MedicalList() {
             actions.push({
                 element: 'Edit',
                 onClick: () => router.push(
-                    `/medical/edit?id=${medical.id}`
+                    `/medical/edit?id=${medical.proposal_id}`
                 ),
                 iconClass: 'pencil'
             });
@@ -120,9 +119,6 @@ export default function MedicalList() {
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                             {medical.status}
-                                        </td>
-                                        <td className="px-2 py-3 font-normal text-gray-900 break-words">
-                                            {medical.name}
                                         </td>
                                         <td className="px-2 py-3 font-normal text-gray-900 break-words" >
                                         <StatusBadge status={medical.status} />

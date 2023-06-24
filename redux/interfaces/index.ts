@@ -129,6 +129,7 @@ export interface IMedicalView extends IMedicalForm {
     status: string;
     extra_info_requirement: string;
     further_requirement: number;
+    proposal_id: number;
 }
 export interface IEmployeeReducer {
     isLoading: boolean;
