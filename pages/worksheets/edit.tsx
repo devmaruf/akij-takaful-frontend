@@ -61,6 +61,7 @@ export default function EnlistmentPage() {
   };
 
   const onChangeFormSectionInput = (name: string, value: any, sectionName: string) => {
+
     dispatch(changeInputValue(name, value, sectionName));
 
     if (sectionName === 'proposal_personal_information' && name == 'identity_type') {

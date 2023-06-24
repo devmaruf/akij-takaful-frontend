@@ -11,6 +11,7 @@ import {
 import { getCurrentDate } from "@/utils/date-helper";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -26,6 +27,7 @@ export interface IPersonalInformation {
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
     const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
+    const [selectedOccupation, setSelectedOccupation] = useState<number>(0);
 
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
@@ -34,6 +36,11 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     const onChange = (nameAppendedNominee: string, value: any) => {
         const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
         changeNomineeInputVal(name, value);
+    }
+
+    const onchangeOccupationDropdown = (name: string, value: number) => {
+        setSelectedOccupation(value);
+        onChange(name, value);
     }
 
     return (
@@ -193,21 +200,22 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     name={`nominee_${index}_occupation`}
                     label="Occupation"
-                    defaultValue={data.occupation ?? ''}
+                    defaultValue={typeof data.occupation === 'string' ? selectedOccupation : data.occupation}
+                    // defaultValue={data.occupation ?? ''}
                     placeholder="Select Occupation"
-                    handleChangeValue={onChange}
+                    handleChangeValue={onchangeOccupationDropdown}
                     errors={errors}
                 />
 
                 {
-                    data?.occupation && data.occupation === 79 &&
+                    (typeof selectedOccupation === 'number' && selectedOccupation === 79) &&
                     <Input
                         label="Other Occupation"
-                        name="other_occupation"
+                        name={`nominee_${index}_occupation`}
                         type="text"
                         placeholder="Other Occupation"
-                        value={data?.other_occupation ?? ''}
-                        isRequired={data.occupation === 79 ? true : false}
+                        value={data?.occupation ?? ''}
+                        isRequired={selectedOccupation === 79 ? true : false}
                         inputChange={onChange}
                         errors={errors}
                     />
