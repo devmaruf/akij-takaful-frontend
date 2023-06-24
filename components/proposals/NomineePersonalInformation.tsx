@@ -78,7 +78,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
 
                 <Select
                     options={GenderList}
-                    isSearchable={true}
+                    isSearchable={false}
                     isRequired={true}
                     name={`nominee_${index}_gender`}
                     label="Gender"
@@ -140,7 +140,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                 />
                 <Select
                     options={identityTypeList}
-                    isSearchable={true}
+                    isSearchable={false}
                     isRequired={true}
                     name={`nominee_${index}_identity_type`}
                     defaultValue={data.identity_type}

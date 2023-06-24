@@ -55,7 +55,7 @@ export default function ClientBankInformation({ onChangeText, errors }: IProposa
           isRequired={true}
           inputChange={onChangeText}
           errors={errors}
-          isDisabled={true}
+          isDisabled={bankInformation.bank_account_holder_name || proposalInput?.proposer_name || false}
         />
 
         <Input
