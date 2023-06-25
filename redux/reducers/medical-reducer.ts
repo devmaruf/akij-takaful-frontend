@@ -6,6 +6,7 @@ const initialState: IMedicalReducer = {
     isDeleting: false,
     isSubmitting: false,
     loadingDetails: false,
+    showMedicalTestList:false,
     medicalList: [],
     medicalTestList: [],
     medicalPaginationData: [],
@@ -38,6 +39,7 @@ export default function MedicalReducer(state = initialState, action: any) {
             return {
                 ...state,
                 medicalInput,
+                showMedicalTestList:getFurtherRequirement(action.payload.name,action.payload.value)
             };
         case Types.CHANGE_MEDICAL_FILE_INPUT:
             const medicalFileInput = { ...state.medicalFileInput };
@@ -96,4 +98,13 @@ export default function MedicalReducer(state = initialState, action: any) {
             break;
     }
     return state;
+}
+
+
+const getFurtherRequirement=(name:string,value:any)=>{
+if(name=='further_requirement' && value==1){
+    return true;
+}else if(name=='further_requirement' && value==0){
+    return false;
+}
 }
