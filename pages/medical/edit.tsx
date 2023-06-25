@@ -173,6 +173,7 @@ export default function EnlistmentPage() {
                                                     <label htmlFor={`default-checkbox-${medicalDetails.id}`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                         Futher Requirement
                                                     </label> */}
+                                                    
                                                     <Input
                                                         type='checkbox'
                                                         label="Further Requirement"
