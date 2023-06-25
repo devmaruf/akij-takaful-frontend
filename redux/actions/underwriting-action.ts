@@ -153,7 +153,7 @@ export const submitUnderwritingAction = (underwriting: IUnderwriting, router: an
             response.data = res.data;
             Toaster('success', res.message);
             dispatch({ type: Types.SAVE_UNDERWRITING, payload: response });
-            router.push('/proposals');
+            // router.push('/proposals');
         }).catch((error) => {
             response.isLoading = false;
             dispatch({ type: Types.SAVE_UNDERWRITING, payload: response })

@@ -17,6 +17,7 @@ import { CustomUnderwritingMessage } from './CustomMessage';
 import { formatCurrency } from '@/utils/currency';
 import StatusBadge from '../badge/StatusBadge';
 import { getMedicalDetailsAction } from '@/redux/actions/medical-action';
+const parse = require('html-react-parser');
 
 export function UnderwritingCreate({ id }: { id: number }) {
     const router = useRouter();
@@ -196,7 +197,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                                 <Label>
                                                                     <div className="flex flex-row px-4 border-b border-slate-200 pb-3 mb-2">
                                                                         <p className="basis-4/5">
-                                                                            {requirement.requirement_name_en}
+                                                                            {parse(requirement.requirement_name_en)}
                                                                         </p>
                                                                         <div>
                                                                             <ToggleSwitch
