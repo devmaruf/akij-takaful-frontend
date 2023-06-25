@@ -213,7 +213,7 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           name="occupation"
           label="Occupation"
-          defaultValue={typeof personalInformation?.occupation !== 'number' ? selectedOccupation : personalInformation?.occupation}
+          defaultValue={isNaN(personalInformation.occupation) ? selectedOccupation : personalInformation.occupation}
           placeholder="Select Occupation"
           handleChangeValue={onchangeOccupationDropdown}
           errors={errors}

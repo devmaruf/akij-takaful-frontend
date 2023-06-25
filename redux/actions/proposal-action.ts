@@ -241,10 +241,10 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         id
     })
         .then(res => {
-            console.log('res', res.data.med_id)
+            // console.log('res', res.data.med_id)
             responseData.status = true;
             responseData.isLoading = false;
-            responseData.message = res.data.message;
+            responseData.message = res.message;
             Toaster('success', responseData.message);
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
             router.push('/proposals');
@@ -266,7 +266,7 @@ export const deleteProposal = (id, setShowDeleteModal) => (dispatch: Dispatch) =
         .then(res => {
             responseData.isLoading = false;
             responseData.status = true;
-            responseData.message = res.data.message;
+            responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
             dispatch(getProposalList());
