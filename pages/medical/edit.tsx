@@ -22,7 +22,6 @@ export default function EnlistmentPage() {
     const router = useRouter();
     const { id } = router.query;
     const [errors, setErrors] = useState();
-    const [showMedicalList, setShowMedicalList] = useState<boolean>(false);
     const [collapseQuestionnaires, setCollapseQuestionnaires] = useState<boolean>(false);
     const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, showMedicalTestList } = useSelector((state: RootState) => state.medical);
     const { isLoading, underwritingForm } = useSelector((state: RootState) => state.underwriting);
@@ -44,6 +43,7 @@ export default function EnlistmentPage() {
         { id: 1, label: 'Approve', name: 'approve', value: '1' },
         { id: 2, label: 'Cancel', name: 'cancel', value: '0' },
     ];
+
     const debouncedDispatch = useCallback(
         debounce(() => {
             dispatch(getMedicalDetailsAction(id));
@@ -59,27 +59,12 @@ export default function EnlistmentPage() {
     }, [debouncedDispatch]);
 
     const handleChangeTextInput = (name: string, value: any) => {
-        // if(name==='further_requirement' && value===1){
-        //     setShowMedicalList(true);  
-        // }else if(name==='further_requirement' && value===0){
-        //     setShowMedicalList(false);
-        // }
-
         dispatch(changeMedicalInputValue(name, value, ""));
     };
 
     const handleChangeFileInput = (name: string, value: any, event: any, medicalId: number, medicalTestId: number) => {
         dispatch(changeMedicalFileInputValue(name, value, event, medicalId, medicalTestId));
     };
-
-
-    // useEffect(() => {
-    //     if (medicalDetails && parseInt(medicalDetails.further_requirement) === 1) {
-    //         setShowMedicalList(true);
-    //     } else {
-    //         setShowMedicalList(false);
-    //     }
-    // }, [id]);
 
     const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -240,7 +225,7 @@ export default function EnlistmentPage() {
 
                                     <div className="basis-full md:basis-2/5 overflow-auto h-screen">
                                         {
-                                            showMedicalTestList ?
+                                          (medicalInput.further_requirement ||  showMedicalTestList) ?
                                                 <Table
                                                     column={columnData}
                                                     currentPage={10}
