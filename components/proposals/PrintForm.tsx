@@ -98,7 +98,7 @@ export function PrintForm({ isAssign = true }: { isAssign: boolean }) {
             <div className="flex-1">
               <Select
                 options={branchDropdownList}
-                isSearchable={false}
+                isSearchable={true}
                 name="branch_id"
                 label="Branch"
                 placeholder="Select Branch..."
