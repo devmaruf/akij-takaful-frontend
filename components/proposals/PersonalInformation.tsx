@@ -16,7 +16,8 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
   const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
   const personalInformation = proposalInput.proposal_personal_information;
   const { age, dob } = personalInformation;
-  const [selectedOccupation, setSelectedOccupation] = useState<number>(0);
+  const [selectedOccupation, setSelectedOccupation] = useState(null);
+  const [isOtherOccupation, setIsOtherOccupation] = useState<boolean>(false);
 
   const onChangeDob = (name: string, value: string) => {
 
@@ -27,16 +28,25 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
     }
   }
 
-  const onchangeOccupationDropdown = (name: string, value: number) => {
-    setSelectedOccupation(value);
-    onChangeText(name, value);
-  }
-
   useEffect(() => {
     if (typeof dob !== "undefined") {
       onChangeText('age', calculateAge(dob));
     }
   }, [dob]);
+
+  const onchangeOccupationDropdown = (name: string, value: number) => {
+    const defaultVal = occupationDropdownList.find(option => option.value.toString() == value.toString());
+    setSelectedOccupation(defaultVal);
+    onChangeText(name, value);
+  }
+
+  useEffect(() => {
+    if (selectedOccupation !== null && (selectedOccupation.label.trim().toLowerCase() === 'others' || selectedOccupation.label.trim().toLowerCase() === 'other')) {
+      setIsOtherOccupation(true);
+    } else {
+      setIsOtherOccupation(false);
+    }
+  }, [selectedOccupation]);
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -203,26 +213,24 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           isRequired={true}
           name="occupation"
           label="Occupation"
-          defaultValue={typeof personalInformation.occupation === 'string' ? selectedOccupation : personalInformation.occupation}
-          // defaultValue={personalInformation.occupation ?? ''}
+          defaultValue={typeof personalInformation?.occupation !== 'number' ? selectedOccupation : personalInformation?.occupation}
           placeholder="Select Occupation"
           handleChangeValue={onchangeOccupationDropdown}
           errors={errors}
         />
 
-        {
-          (typeof selectedOccupation === 'number' && selectedOccupation === 79) &&
+        {isOtherOccupation && (
           <Input
-            label="Other Occupation"
+            label="Custom Occupation"
             name="occupation"
             type="text"
-            placeholder="Other Occupation"
-            value={personalInformation?.occupation ?? ''}
-            isRequired={selectedOccupation === 79 ? true : false}
+            placeholder="Custom Occupation"
+            value={isNaN(personalInformation.occupation) ? personalInformation.occupation : ''}
+            isRequired={isOtherOccupation}
             inputChange={onChangeText}
             errors={errors}
           />
-        }
+        )}
 
         <Select
           options={religionList}
