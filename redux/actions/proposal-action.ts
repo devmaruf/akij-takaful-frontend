@@ -188,8 +188,6 @@ export const getProposalDetails = (id: number | string) => (dispatch: Dispatch) 
 
     axios.get(`/proposals/${parseInt(id + '')}`)
         .then(res => {
-
-            console.log("res", res)
             response.isLoading = false;
             response.status = true;
             response.message = res.data.message;
@@ -268,7 +266,7 @@ export const deleteProposal = (id, setShowDeleteModal) => (dispatch: Dispatch) =
         .then(res => {
             responseData.isLoading = false;
             responseData.status = true;
-            responseData.message = res.data.message;
+            responseData.message = res.message;
             Toaster('success', responseData.message);
             setShowDeleteModal(false);
             dispatch(getProposalList());
