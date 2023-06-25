@@ -11,7 +11,7 @@ import {
 import { getCurrentDate } from "@/utils/date-helper";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -27,7 +27,8 @@ export interface IPersonalInformation {
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
 
     const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
-    const [selectedOccupation, setSelectedOccupation] = useState<number>(0);
+    const [selectedOccupation, setSelectedOccupation] = useState(null);
+    const [isOtherOccupation, setIsOtherOccupation] = useState<boolean>(false);
 
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
@@ -39,9 +40,18 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
     }
 
     const onchangeOccupationDropdown = (name: string, value: number) => {
-        setSelectedOccupation(value);
+        const defaultVal = occupationDropdownList.find(option => option.value.toString() == value.toString());
+        setSelectedOccupation(defaultVal);
         onChange(name, value);
     }
+
+    useEffect(() => {
+        if (selectedOccupation !== null && (selectedOccupation.label.trim().toLowerCase() === 'others' || selectedOccupation.label.trim().toLowerCase() === 'other')) {
+            setIsOtherOccupation(true);
+        } else {
+            setIsOtherOccupation(false);
+        }
+    }, [selectedOccupation]);
 
     return (
         <div className="border border-gray-200 mt-3 rounded-md shadow-md">
@@ -200,26 +210,25 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     name={`nominee_${index}_occupation`}
                     label="Occupation"
-                    defaultValue={typeof data.occupation === 'string' ? selectedOccupation : data.occupation}
+                    defaultValue={typeof data?.occupation !== 'number' ? selectedOccupation : data?.occupation}
                     // defaultValue={data.occupation ?? ''}
                     placeholder="Select Occupation"
                     handleChangeValue={onchangeOccupationDropdown}
                     errors={errors}
                 />
 
-                {
-                    (typeof selectedOccupation === 'number' && selectedOccupation === 79) &&
+                {isOtherOccupation && (
                     <Input
-                        label="Other Occupation"
+                        label="Add Occupation"
                         name={`nominee_${index}_occupation`}
                         type="text"
-                        placeholder="Other Occupation"
+                        placeholder="Add Occupation"
                         value={data?.occupation ?? ''}
-                        isRequired={selectedOccupation === 79 ? true : false}
+                        isRequired={isOtherOccupation ? true : false}
                         inputChange={onChange}
                         errors={errors}
                     />
-                }
+                )}
 
                 <Select
                     options={religionList}
