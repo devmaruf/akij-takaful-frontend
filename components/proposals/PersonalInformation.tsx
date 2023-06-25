@@ -221,17 +221,16 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
 
         {isOtherOccupation && (
           <Input
-            label="Add Occupation"
+            label="Custom Occupation"
             name="occupation"
             type="text"
-            placeholder="Add Occupation"
-            value={personalInformation?.occupation ?? ''}
-            isRequired={isOtherOccupation ? true : false}
+            placeholder="Custom Occupation"
+            value={isNaN(personalInformation.occupation) ? personalInformation.occupation : ''}
+            isRequired={isOtherOccupation}
             inputChange={onChangeText}
             errors={errors}
           />
         )}
-
 
         <Select
           options={religionList}

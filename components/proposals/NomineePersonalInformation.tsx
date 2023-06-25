@@ -219,12 +219,12 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
 
                 {isOtherOccupation && (
                     <Input
-                        label="Add Occupation"
+                        label="Custom Occupation"
                         name={`nominee_${index}_occupation`}
                         type="text"
-                        placeholder="Add Occupation"
-                        value={data?.occupation ?? ''}
-                        isRequired={isOtherOccupation ? true : false}
+                        placeholder="Custom Occupation"
+                        value={isNaN(data?.occupation) ? data?.occupation : ''}
+                        isRequired={isOtherOccupation}
                         inputChange={onChange}
                         errors={errors}
                     />
