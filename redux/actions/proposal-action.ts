@@ -6,6 +6,7 @@ import { Toaster } from "@/components/toaster";
 import { IProposal } from "@/redux/interfaces";
 import { getDefaultSelectValue } from '@/utils/defaultSelectValue';
 import { areaList, districtList, divisionList, getIdentityValidationMessageList } from "@/utils/proposal-dropdowns";
+import { calculateAge } from "@/utils/calculation";
 
 export const changeInputValue = (name: string, value: any, key: string) => (dispatch: any) => {
     dispatch({
@@ -19,17 +20,58 @@ export const changeInputValue = (name: string, value: any, key: string) => (disp
     });
 };
 
+// export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
+//     const nominees = proposalInput.proposer_nominees;
+//     const nomineeToUpdate = nominees[index];
+
+//     const updatedNominee = {
+//         ...nomineeToUpdate,
+//         [key]: {
+//             ...nomineeToUpdate[key],
+//             [name]: value, 
+//         },
+//     };
+
+//     const updatedNominees = [
+//         ...nominees.slice(0, index),
+//         updatedNominee,
+//         ...nominees.slice(index + 1),
+//     ];
+
+//     const proposalInputUpdated = {
+//         ...proposalInput,
+//         proposer_nominees: updatedNominees,
+//     };
+
+//     dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
+// };
+
 export const changeNomineeInputValue = (name: string, value: any, key: string, index: number, proposalInput: any) => (dispatch: void | any) => {
     const nominees = proposalInput.proposer_nominees;
     const nomineeToUpdate = nominees[index];
 
-    const updatedNominee = {
-        ...nomineeToUpdate,
-        [key]: {
-            ...nomineeToUpdate[key],
-            [name]: value,
-        },
-    };
+    let updatedNominee;
+
+    if (name === 'dob') {
+        const dob = value; // Set dob with the selected value
+        const age = calculateAge(dob); // Calculate age using the calculateAge function
+        updatedNominee = {
+            ...nomineeToUpdate,
+            [key]: {
+                ...nomineeToUpdate[key],
+                dob: dob,
+                age: age,
+            },
+        };
+    } else {
+        updatedNominee = {
+            ...nomineeToUpdate,
+            [key]: {
+                ...nomineeToUpdate[key],
+                [name]: value,
+            },
+        };
+    }
 
     const updatedNominees = [
         ...nominees.slice(0, index),
@@ -44,6 +86,8 @@ export const changeNomineeInputValue = (name: string, value: any, key: string, i
 
     dispatch({ type: Types.CHANGE_NOMINEE_INPUT, payload: proposalInputUpdated });
 };
+
+
 
 
 export const submitProposal = (proposalInput: IProposal, router: any) => (dispatch: any) => {
@@ -197,13 +241,13 @@ export const updateProposal = (proposalInput: proposalInputType, id: number, rou
         id
     })
         .then(res => {
-            // console.log('res', res.data.med_id)
+            console.log('res', res.data.med_id)
             responseData.status = true;
             responseData.isLoading = false;
             responseData.message = res.data.message;
             Toaster('success', responseData.message);
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData });
-                router.push('/proposals');
+            router.push('/proposals');
         }).catch((error) => {
             responseData.isLoading = false;
             dispatch({ type: Types.UPDATE_PROPOSAL, payload: responseData })

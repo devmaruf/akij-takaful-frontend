@@ -8,11 +8,10 @@ import {
     religionList,
     getIdendityValidationMessage
 } from "@/utils/proposal-dropdowns";
-import { calculateAge } from "@/utils/calculation";
 import { getCurrentDate } from "@/utils/date-helper";
-import OccupationDropdown from "@/components/occupations/OccupationDropdown";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 export interface IPersonalInformation {
     handleChangeTextInput: (name: string, value: any, id: string, index: number) => void;
@@ -26,18 +25,22 @@ export interface IPersonalInformation {
 }
 
 export function NomineePersonalInformation({ handleChangeTextInput, errors, id, index, data }: IPersonalInformation) {
+
+    const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
+    const [selectedOccupation, setSelectedOccupation] = useState<number>(0);
+
     const changeNomineeInputVal = (name: string, value: any) => {
         handleChangeTextInput(name, value, id, index)
     }
-    const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
+
     const onChange = (nameAppendedNominee: string, value: any) => {
         const name = nameAppendedNominee.substr(nameAppendedNominee.indexOf("_") + 3);
-
         changeNomineeInputVal(name, value);
+    }
 
-        if (name === 'dob') {
-            changeNomineeInputVal('age', calculateAge(value));
-        }
+    const onchangeOccupationDropdown = (name: string, value: number) => {
+        setSelectedOccupation(value);
+        onChange(name, value);
     }
 
     return (
@@ -197,11 +200,26 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     name={`nominee_${index}_occupation`}
                     label="Occupation"
-                    defaultValue={data.occupation ?? ''}
+                    defaultValue={typeof data.occupation === 'string' ? selectedOccupation : data.occupation}
+                    // defaultValue={data.occupation ?? ''}
                     placeholder="Select Occupation"
-                    handleChangeValue={onChange}
+                    handleChangeValue={onchangeOccupationDropdown}
                     errors={errors}
                 />
+
+                {
+                    (typeof selectedOccupation === 'number' && selectedOccupation === 79) &&
+                    <Input
+                        label="Other Occupation"
+                        name={`nominee_${index}_occupation`}
+                        type="text"
+                        placeholder="Other Occupation"
+                        value={data?.occupation ?? ''}
+                        isRequired={selectedOccupation === 79 ? true : false}
+                        inputChange={onChange}
+                        errors={errors}
+                    />
+                }
 
                 <Select
                     options={religionList}

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import Input from "@/components/input";
@@ -16,7 +16,10 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
   const { occupationDropdownList } = useSelector((state: RootState) => state.occupation);
   const personalInformation = proposalInput.proposal_personal_information;
   const { age, dob } = personalInformation;
+  const [selectedOccupation, setSelectedOccupation] = useState<number>(0);
+
   const onChangeDob = (name: string, value: string) => {
+
     onChangeText(name, value);
 
     if (typeof value !== "undefined") {
@@ -24,12 +27,16 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
     }
   }
 
+  const onchangeOccupationDropdown = (name: string, value: number) => {
+    setSelectedOccupation(value);
+    onChangeText(name, value);
+  }
+
   useEffect(() => {
     if (typeof dob !== "undefined") {
       onChangeText('age', calculateAge(dob));
     }
   }, [dob]);
-
 
   return (
     <div className="border border-gray-200 mt-3 p-2.5 rounded-md shadow-md">
@@ -190,17 +197,32 @@ export function PersonalInformation({ onChangeText, errors }: IProposalFormSecti
           onChangeOccupationId={(occupationId) => onChangeText('occupation_id', occupationId)}
           errors={errors}
         /> */}
-         <Select
+        <Select
           options={occupationDropdownList}
           isSearchable={true}
           isRequired={true}
           name="occupation"
           label="Occupation"
-          defaultValue={personalInformation.occupation ?? ''}
+          defaultValue={typeof personalInformation.occupation === 'string' ? selectedOccupation : personalInformation.occupation}
+          // defaultValue={personalInformation.occupation ?? ''}
           placeholder="Select Occupation"
-          handleChangeValue={onChangeText}
+          handleChangeValue={onchangeOccupationDropdown}
           errors={errors}
         />
+
+        {
+          (typeof selectedOccupation === 'number' && selectedOccupation === 79) &&
+          <Input
+            label="Other Occupation"
+            name="occupation"
+            type="text"
+            placeholder="Other Occupation"
+            value={personalInformation?.occupation ?? ''}
+            isRequired={selectedOccupation === 79 ? true : false}
+            inputChange={onChangeText}
+            errors={errors}
+          />
+        }
 
         <Select
           options={religionList}
