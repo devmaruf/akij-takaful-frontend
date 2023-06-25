@@ -40,7 +40,7 @@ function ConcurrentProposal({
 
     useEffect(() => {
         // let totalSumAtRisk = parseFloat(proposalInput?.sum_at_risk ?? 0);
-        let totalSumAtRisk = parseFloat(proposalInput?.sum_at_risk ?? 0);
+        let totalSumAtRisk = parseFloat(proposalInput?.sum_assured ?? 0);
         if (concurrentProposalsList.length > 0) {
             totalSumAtRisk += parseFloat(concurrentProposalsList[0]?.total_sum_at_risk ?? '0');
         }
@@ -53,7 +53,7 @@ function ConcurrentProposal({
     }, [
         concurrentProposalsList,
         previousPoliciesList,
-        proposalInput?.sum_at_risk
+        proposalInput?.sum_assured
     ]);
 
     return (

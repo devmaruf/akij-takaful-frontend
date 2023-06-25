@@ -27,7 +27,6 @@ export default function MedicalList() {
     const { medicalList,medicalPaginationData, isLoading, } = useSelector((state: RootState) => state.medical);
     const [searchText, setSearchText] = useState<string>('');
 
-
     const columnData: any[] = [
         { title: "SL", id: 1 },
         { title: 'Proposal No', id: 2 },
@@ -61,7 +60,7 @@ export default function MedicalList() {
             actions.push({
                 element: 'Edit',
                 onClick: () => router.push(
-                    `/medical/edit?id=${medical.proposal_id}`
+                    `/medical/edit?id=${medical.id}`
                 ),
                 iconClass: 'pencil'
             });

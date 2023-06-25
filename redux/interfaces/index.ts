@@ -493,6 +493,7 @@ export interface IMedicalTestReducer {
 
 export interface IMedicalReducer {
     isLoading: boolean;
+    showMedicalTestList:boolean;
     isSubmitting: boolean;
     loadingDetails: boolean;
     isDeleting: boolean;

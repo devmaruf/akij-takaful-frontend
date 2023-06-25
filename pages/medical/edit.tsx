@@ -24,7 +24,7 @@ export default function EnlistmentPage() {
     const [errors, setErrors] = useState();
     const [showMedicalList, setShowMedicalList] = useState<boolean>(false);
     const [collapseQuestionnaires, setCollapseQuestionnaires] = useState<boolean>(false);
-    const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, medicalFileInput } = useSelector((state: RootState) => state.medical);
+    const { medicalDetails, isSubmitting, loadingDetails, medicalInput, medicalTestList, showMedicalTestList } = useSelector((state: RootState) => state.medical);
     const { isLoading, underwritingForm } = useSelector((state: RootState) => state.underwriting);
 
 
@@ -59,6 +59,12 @@ export default function EnlistmentPage() {
     }, [debouncedDispatch]);
 
     const handleChangeTextInput = (name: string, value: any) => {
+        // if(name==='further_requirement' && value===1){
+        //     setShowMedicalList(true);  
+        // }else if(name==='further_requirement' && value===0){
+        //     setShowMedicalList(false);
+        // }
+
         dispatch(changeMedicalInputValue(name, value, ""));
     };
 
@@ -67,13 +73,13 @@ export default function EnlistmentPage() {
     };
 
 
-    useEffect(() => {
-        if (medicalDetails && parseInt(medicalDetails.further_requirement) === 1) {
-            setShowMedicalList(true);
-        } else {
-            setShowMedicalList(false);
-        }
-    }, [id]);
+    // useEffect(() => {
+    //     if (medicalDetails && parseInt(medicalDetails.further_requirement) === 1) {
+    //         setShowMedicalList(true);
+    //     } else {
+    //         setShowMedicalList(false);
+    //     }
+    // }, [id]);
 
     const handleSubmitProposal = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -156,17 +162,26 @@ export default function EnlistmentPage() {
 
                                             {
                                                 <div className="flex items-center mt-6">
-                                                    <input
+                                                    {/* <input
                                                         id={`default-checkbox-${medicalDetails.id}`}
                                                         type="checkbox"
                                                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                         checked={showMedicalList}
-                                                        onChange={() => setShowMedicalList(!showMedicalList)}
+                                                        onChange={(e) => handleChangeTextInput('further_requirement',e.target.checked)}
                                                     // checked={parseInt(medicalDetails.further_requirement) !== 1 ? true : false}
                                                     />
                                                     <label htmlFor={`default-checkbox-${medicalDetails.id}`} className="ml-2 text-sm font-normal text-gray-600 dark:text-gray-300">
                                                         Futher Requirement
-                                                    </label>
+                                                    </label> */}
+                                                    <Input
+                                                        type='checkbox'
+                                                        label="Further Requirement"
+                                                        name="further_requirement"
+                                                        value={medicalInput.further_requirement}
+                                                        checked={medicalInput.further_requirement ? true : false}
+                                                        inputChange={handleChangeTextInput}
+                                                        areaClassNames='flex-1 ml-5'
+                                                    />
                                                 </div>
                                             }
                                             <div></div>
@@ -221,7 +236,7 @@ export default function EnlistmentPage() {
 
                                     <div>
                                         {
-                                            showMedicalList &&
+                                            showMedicalTestList &&
                                             <Table
                                                 column={columnData}
                                                 currentPage={10}
