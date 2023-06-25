@@ -210,7 +210,7 @@ export function NomineePersonalInformation({ handleChangeTextInput, errors, id, 
                     isRequired={true}
                     name={`nominee_${index}_occupation`}
                     label="Occupation"
-                    defaultValue={typeof data?.occupation !== 'number' ? selectedOccupation : data?.occupation}
+                    defaultValue={isNaN(data.occupation) ? selectedOccupation : data.occupation}
                     // defaultValue={data.occupation ?? ''}
                     placeholder="Select Occupation"
                     handleChangeValue={onchangeOccupationDropdown}
