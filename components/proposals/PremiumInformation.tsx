@@ -243,7 +243,7 @@ export default function PremiumInformation({ onChangeText, errors }: IProposalFo
             name="sum_at_risk"
             placeholder="Sum at risk"
             // value={productDropdownList[6]?proposalInput.sum_at_risk : proposalInput.sum_assured}
-            value={proposalInput?.sum_at_risk}
+            value={proposalInput?.sum_assured}
             isRequired={true}
             inputChange={onChangeText}
             errors={errors}
