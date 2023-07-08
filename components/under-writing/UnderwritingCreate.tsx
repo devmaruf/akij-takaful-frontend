@@ -343,7 +343,6 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                                 }
                                             </div>
                                         }
-
                                     </div>
                                 ))
                             }
@@ -354,7 +353,7 @@ export function UnderwritingCreate({ id }: { id: number }) {
                                         position='text-right'
                                         customClass='mr-2'
                                         loadingTitle="Approving..."
-                                        onClick={(e: any) => onSubmit(e, 'approve')}
+                                        onClick={(e: any) => onSubmit(e, 'approved')}
                                         loading={isApproving}
                                     />
                                     <Button title='Reject' position='text-right' customClass='bg-red-500 mr-2' loadingTitle="Rejecting..." onClick={(e: any) => onSubmit(e, 'reject')} loading={false} />
